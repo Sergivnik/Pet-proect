@@ -20,6 +20,12 @@ module.exports = {
     hot: true,
     port: 8080,
   },
+  devtool: "source-map",
+  plugins: {
+    "postcss-preset-env": {
+      browsers: "last 2 versions",
+    },
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "webpack Boilerplate",
@@ -30,6 +36,11 @@ module.exports = {
   ],
   module: {
     rules: [
+      // CSS, PostCSS, Sass
+      {
+        test: /\.s[ac]ss|css$/i,
+        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+      },
       {
         test: /\.(js|jsx)$/,
         include: path.resolve(__dirname, "src"),
@@ -37,6 +48,14 @@ module.exports = {
         exclude: /node_modules/,
         options: {
           presets: ["@babel/env", "@babel/react"],
+          plugins: [
+            [
+              "@babel/plugin-proposal-class-properties",
+              {
+                loose: true,
+              },
+            ],
+          ],
         },
       },
     ],
