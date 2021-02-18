@@ -34,7 +34,7 @@ export const ChoiseList = (props) => {
   return (
     <div className="divList">
       <input
-        type="text"
+        type="search"
         onChange={getText}
         onKeyUp={handleKeyUp}
         value={text}
