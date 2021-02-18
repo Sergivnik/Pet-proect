@@ -16,8 +16,18 @@ export const ChoiseList = (props) => {
   };
   const handleKeyUp = (event) => {
     if (event.keyCode == 40) {
-      console.log("down");
+      console.log(elSelect.firstChild);
       elSelect.focus();
+      elSelect.firstChild.selected = true;
+    }
+  };
+  const handleChoiseEnter = (event) => {
+    if (event.keyCode == 13) {
+      let id = elSelect.value;
+      list.forEach((elem) => {
+        if (elem.id == id) setText(elem.driver);
+      });
+      console.log(elSelect.value);
     }
   };
 
@@ -34,12 +44,17 @@ export const ChoiseList = (props) => {
         ref={(select) => {
           elSelect = select;
         }}
-        size="10"
+        size="5"
+        onKeyUp={handleChoiseEnter}
         className="selectList"
       >
-        {list.map((elem) => (
-          <option key={elem.id}>{elem.driver}</option>
-        ))}
+        {list.map((elem) => {
+          return (
+            <option key={elem.id} value={elem.id}>
+              {elem.driver}
+            </option>
+          );
+        })}
       </select>
     </div>
   );
