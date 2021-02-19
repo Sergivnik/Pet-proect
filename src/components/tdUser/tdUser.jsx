@@ -18,7 +18,7 @@ export const TdUser = () => {
   const [text, setText] = useState("");
 
   const handleClick = () => {
-    setShowSearchField(true);
+    setShowSearchField(!showSearchField);
   };
 
   const setValue = (value) => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChoiseList } from "./components/choiseList/choiseList.jsx";
+import { Oders } from "./components/oders/oders.jsx";
 import "./app.sass";
 import { TdUser } from "./components/tdUser/tdUser.jsx";
 
@@ -14,17 +14,13 @@ export const App = () => {
       <table className="appTable">
         <tbody>
           <tr>
-            <TdUser />
-            <TdUser />
-            <TdUser />
-            <TdUser />
+            <td>Дата</td>
+            <td>Водитель</td>
+            <td>Заказчик</td>
+            <td>Загрузка</td>
+            <td>Выгрузка</td>
           </tr>
-          <tr>
-            <TdUser />
-            <TdUser />
-            <TdUser />
-            <TdUser />
-          </tr>
+          <Oders />
         </tbody>
       </table>
     </div>
