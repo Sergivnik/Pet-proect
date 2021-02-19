@@ -11,7 +11,7 @@ export const ChoiseList = (props) => {
     let test = event.currentTarget.value;
     setText(event.currentTarget.value);
     let regtext = new RegExp(test, "i");
-    let arr = originList.filter((elem) => regtext.test(elem.driver));
+    let arr = originList.filter((elem) => regtext.test(elem.name));
     setList(arr);
   };
   const handleKeyUp = (event) => {
@@ -21,12 +21,26 @@ export const ChoiseList = (props) => {
       elSelect.firstChild.selected = true;
     }
   };
+  const handleClick = (event) => {
+    event.stopPropagation();
+    let id = elSelect.value;
+    list.forEach((elem) => {
+      if (elem.id == id) {
+        setText(elem.name);
+        props.setValue(elem.name);
+      }
+    });
+  };
   const handleChoiseEnter = (event) => {
     if (event.keyCode == 13) {
       let id = elSelect.value;
       list.forEach((elem) => {
-        if (elem.id == id) setText(elem.driver);
+        if (elem.id == id) {
+          setText(elem.name);
+          props.setValue(elem.name);
+        }
       });
+
       console.log(elSelect.value);
     }
   };
@@ -34,7 +48,7 @@ export const ChoiseList = (props) => {
   return (
     <div className="divList">
       <input
-        type="search"
+        type="text"
         onChange={getText}
         onKeyUp={handleKeyUp}
         value={text}
@@ -46,12 +60,13 @@ export const ChoiseList = (props) => {
         }}
         size="5"
         onKeyUp={handleChoiseEnter}
+        onClick={handleClick}
         className="selectList"
       >
         {list.map((elem) => {
           return (
             <option key={elem.id} value={elem.id}>
-              {elem.driver}
+              {elem.name}
             </option>
           );
         })}
