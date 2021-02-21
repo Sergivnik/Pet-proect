@@ -26,13 +26,11 @@ export const TdUser = () => {
     setShowSearchField(false);
   };
   return (
-    <React.Fragment>
-      <td onClick={handleClick} width="100px" height="20px" className="apptd">
+      <div onClick={handleClick} className="odersTd">
         {text}
         {showSearchField && (
           <ChoiseList arrlist={normDriverList} setValue={setValue} />
         )}
-      </td>
-    </React.Fragment>
+      </div>
   );
 };

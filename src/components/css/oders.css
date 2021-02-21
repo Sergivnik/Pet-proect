@@ -1,0 +1,31 @@
+.odersDiv {
+  border: 1px solid #000;
+  height: 100%;
+  width: 100%;
+}
+
+.odersTable {
+  border: 1px solid #000;
+  margin: 3%;
+  width: 94%;
+}
+
+.odersTr {
+  width: 100%;
+}
+
+.odersTRheader {
+  background-color: #ccc;
+}
+
+.odersTd {
+  border: 1px solid #000;
+  width: auto;
+  text-align: center;
+}
+
+.odersTdBtn {
+  width: 96%;
+  margin: 2%;
+}
+/*# sourceMappingURL=oders.css.map */

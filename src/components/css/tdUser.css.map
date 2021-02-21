@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,QAAQ,CAAC;EACL,MAAM,EAAE,cAAc;EACtB,MAAM,EAAE,EAAE;CAAG",
+    "sources": [
+        "../tdUser/tdUser.sass"
+    ],
+    "names": [],
+    "file": "tdUser.css"
+}
