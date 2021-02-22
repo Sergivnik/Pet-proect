@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Oders } from "./components/oders/oders.jsx";
 
 export const App = () => {
@@ -9,6 +10,7 @@ export const App = () => {
   return (
     <div>
       {text}
+      <Link to="/something">Something</Link>
       <Oders />
     </div>
   );

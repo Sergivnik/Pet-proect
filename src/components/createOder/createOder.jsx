@@ -26,10 +26,24 @@ let citieslist = [
   { id: 5, value: "Краснодар" },
 ];
 
-export const CreateOder = () => {
+export const CreateOder = (props) => {
   const setValue = () => {};
+  const onSubmit = (event) => {
+    event.preventDefault();
+    let data = {
+      id: 3,
+      date: event.target[0].value,
+      driver: event.target[1].value,
+      oder: event.target[2].value,
+      loadingPoint: event.target[3].value,
+      unloadingPoint: event.target[4].value,
+      oderPrice: event.target[5].value,
+      driverPrice: event.target[6].value,
+    };
+    props.addOder(data);
+  };
   return (
-    <form className="createOderForm">
+    <form className="createOderForm" onSubmit={onSubmit}>
       <label htmlFor="date" className="createOderLabel">
         Дата
         <input name="date" type="date" />
@@ -66,6 +80,7 @@ export const CreateOder = () => {
         Цена водителя
         <input name="driverPrice" type="number" />
       </label>
+      <input type="submit" value="Send" />
     </form>
   );
 };
