@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CreateOder } from "../createOder/createOder.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import "./oders.sass";
-import { getData } from "../../actions/initialState.js";
+import { getData } from "../../middlewares/initialState.js";
 
 export const Oders = () => {
   const odersList = useSelector((state) => state.oderReducer.odersList);
