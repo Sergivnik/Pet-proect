@@ -1,5 +1,10 @@
 import update from "react-addons-update";
 import { ADD_ODER } from "../actions/oderActions.js";
+import {
+  GET_DATA_SUCCESS,
+  GET_DATA_REQUEST,
+  GET_DATA_FAILURE,
+} from "../actions/initialState.js";
 
 const initialStore = {
   odersList: [
@@ -38,13 +43,11 @@ const initialStore = {
     { id: 4, value: "Норма" },
     { id: 5, value: "Сталь-инвест" },
   ],
-  citieslist: [
-    { id: 1, value: "Таганрог" },
-    { id: 2, value: "Ростов" },
-    { id: 3, value: "Новошахтинск" },
-    { id: 4, value: "Батайск" },
-    { id: 5, value: "Краснодар" },
-  ],
+  citieslist: [],
+  request: {
+    status: "IDLE",
+    error: null,
+  },
 };
 
 export const oderReducer = (store = initialStore, action) => {
@@ -67,6 +70,34 @@ export const oderReducer = (store = initialStore, action) => {
           },
         },
       });
+    }
+    case GET_DATA_SUCCESS: {
+      return {
+        ...store,
+        citieslist: action.dataServer.citieslist,
+        request: {
+          status: "SUCCESS",
+          error: null,
+        },
+      };
+    }
+    case GET_DATA_FAILURE: {
+      return {
+        ...store,
+        request: {
+          status: "FAILURE",
+          error: true,
+        },
+      };
+    }
+    case GET_DATA_REQUEST: {
+      return {
+        ...store,
+        request: {
+          status: "LOADING",
+          error: null,
+        },
+      };
     }
     default:
       return store;

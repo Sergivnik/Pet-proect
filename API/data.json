@@ -1,0 +1,13 @@
+{
+  "citieslist": [
+    { "id": 1, "value": "Таганрог" },
+    { "id": 2, "value": "Ростов" },
+    { "id": 3, "value": "Новошахтинск" },
+    { "id": 4, "value": "Батайск" },
+    { "id": 5, "value": "КраснодарРРРР" }
+  ],
+  "messages": [
+    { "name": "Robot", "content": "Привеет", "id": 1, "chatNumber": 1 },
+    { "name": "Robot", "content": "Как поживаешь?", "id": 2, "chatNumber": 1 }
+  ]
+}

@@ -11,7 +11,7 @@ export const App = () => {
     <div>
       {text}
       <Link to="/something">Something</Link>
-      <Oders />
+      <Link to="/oders">Заказы</Link>
     </div>
   );
 };

@@ -12,7 +12,6 @@ export const CreateOder = (props) => {
   const setValue = () => {};
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log(event.target.elements);
     let data = {
       id: 3,
       date: event.target.elements.date.value,
