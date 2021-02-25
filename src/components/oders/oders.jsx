@@ -7,7 +7,10 @@ import { getData } from "../../middlewares/initialState.js";
 export const Oders = () => {
   const odersList = useSelector((state) => state.oderReducer.odersList);
   const dispatch = useDispatch();
-  dispatch(getData());
+  useEffect(() => {
+    dispatch(getData());
+  }, [dispatch]);
+
   const [showCreateOder, setShowCreateOder] = useState(false);
   const [oders, setOders] = useState(odersList);
 
@@ -16,10 +19,7 @@ export const Oders = () => {
     setShowCreateOder(false);
   };
   useEffect(() => {
-    let cleanupFunction = false;
-    console.log(cleanupFunction);
-    if (!cleanupFunction) setOders(odersList);
-    return () => (cleanupFunction = true);
+    setOders(odersList);
   }, [odersList]);
 
   return (
