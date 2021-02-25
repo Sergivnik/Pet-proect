@@ -16,7 +16,10 @@ export const Oders = () => {
     setShowCreateOder(false);
   };
   useEffect(() => {
-    setOders(odersList);
+    let cleanupFunction = false;
+    console.log(cleanupFunction);
+    if (!cleanupFunction) setOders(odersList);
+    return () => (cleanupFunction = true);
   }, [odersList]);
 
   return (
