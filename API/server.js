@@ -1,18 +1,22 @@
 const express = require("express");
-var data = require("./data.json");
+const path = require("path");
+const tasks = require("./models/tasks");
+
 const app = express();
+app.use(express.static(path.join(__dirname, "../dist")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
+app.get("/API/data", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  tasks.list((data) => {
+    if (data.error) {
+      console.log(data.error.errno);
+      res.send("errorPage.hbs", { err: data.error.errno });
+    } else {
+      res.send(data);
+    }
+  });
 });
 
-app.get("/API/data", function (req, res, next) {
-  res.send(data);
-});
-
-app.listen(3000, () => console.log("Example app listening on port 5000!"));
+app.listen(3000, () => console.log("Example app listening on port 3000!"));

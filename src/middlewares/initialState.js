@@ -23,7 +23,13 @@ export const getData = () => {
     dispatch(getDataRequest());
     axios
       .get("http://localhost:3000/API/data")
-      .then((res) => dispatch(getDataSuccess(res.data)))
-      .catch(() => dispatch(getDataFailure()));
+      .then((res) => {
+        console.log(res);
+        return dispatch(getDataSuccess(res.data));
+      })
+      .catch((e) => {
+        console.log(e);
+        return dispatch(getDataFailure());
+      });
   };
 };

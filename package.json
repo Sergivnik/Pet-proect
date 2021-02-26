@@ -40,6 +40,7 @@
     "@babel/cli": "^7.12.8",
     "@babel/preset-react": "^7.12.7",
     "axios": "^0.21.1",
+    "mysql2": "^2.2.5",
     "react": "^17.0.1",
     "react-addons-update": "^15.6.3",
     "react-dom": "^17.0.1",
