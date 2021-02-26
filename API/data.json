@@ -6,18 +6,8 @@
     { "id": 4, "value": "Батайск" },
     { "id": 5, "value": "КраснодарРРРР" }
   ],
-  "driverlist": [
-    { "id": 1, "value": "Вася" },
-    { "id": 2, "value": "Коля" },
-    { "id": 3, "value": "Паша" },
-    { "id": 4, "value": "Володя" },
-    { "id": 5, "value": "Рома" }
-  ],
-  "oderlist": [
-    { "id": 1, "value": "Айрон" },
-    { "id": 2, "value": "Алипаша" },
-    { "id": 3, "value": "ДМК" },
-    { "id": 4, "value": "Норма" },
-    { "id": 5, "value": "Сталь-инвест" }
+  "messages": [
+    { "name": "Robot", "content": "Привеет", "id": 1, "chatNumber": 1 },
+    { "name": "Robot", "content": "Как поживаешь?", "id": 2, "chatNumber": 1 }
   ]
 }

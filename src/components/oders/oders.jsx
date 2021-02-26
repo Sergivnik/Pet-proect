@@ -5,7 +5,7 @@ import "./oders.sass";
 import { getData } from "../../middlewares/initialState.js";
 
 export const Oders = () => {
-  const odersList = useSelector((state) => state.addOderReducer.odersList);
+  const odersList = useSelector((state) => state.oderReducer.odersList);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getData());
