@@ -1,6 +1,6 @@
 export const initialStore = {
   driverlist: [],
-  oderlist: [],
+  clientList: [],
   citieslist: [],
   request: {
     status: "IDLE",

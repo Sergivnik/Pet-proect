@@ -6,7 +6,7 @@ import "./createOder.sass";
 
 export const CreateOder = (props) => {
   const driverlist = useSelector((state) => state.oderReducer.driverlist);
-  const oderslist = useSelector((state) => state.oderReducer.oderlist);
+  const oderslist = useSelector((state) => state.oderReducer.clientList);
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
   const dispatch = useDispatch();
   const setValue = () => {};

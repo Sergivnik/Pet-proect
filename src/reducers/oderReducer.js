@@ -12,7 +12,7 @@ export const oderReducer = (store = initialStore, action) => {
         ...store,
         citieslist: action.dataServer.citieslist,
         driverlist: action.dataServer.driverlist,
-        oderlist: action.dataServer.oderlist,
+        clientList: action.dataServer.clientList,
         request: {
           status: "SUCCESS",
           error: null,
