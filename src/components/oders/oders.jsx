@@ -5,11 +5,14 @@ import "./oders.sass";
 import { getData } from "../../middlewares/initialState.js";
 
 export const Oders = () => {
-  const odersList = useSelector((state) => state.addOderReducer.odersList);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
+  const odersList = useSelector((state) => state.oderReducer.odersList);
+  const driversList = useSelector((state) => state.oderReducer.driverlist);
+  const clientList = useSelector((state) => state.oderReducer.clientList);
+  const citieslist = useSelector((state) => state.oderReducer.citieslist);
 
   const [showCreateOder, setShowCreateOder] = useState(false);
   const [oders, setOders] = useState(odersList);
@@ -43,14 +46,33 @@ export const Oders = () => {
             </td>
           </tr>
           {oders.map((elem) => {
+            let driver, oder, loadingPoint, unloadingPoint;
+            elem.idDriver
+              ? (driver = driversList.find((item) => item.id === elem.idDriver)
+                  .value)
+              : (driver = "");
+            elem.idOder
+              ? (oder = clientList.find((item) => item.id === elem.idOder)
+                  .value)
+              : (oder = "");
+            elem.idLoadingPoint
+              ? (loadingPoint = citieslist.find(
+                  (item) => item.id === elem.idLoadingPoint
+                ).value)
+              : (loadingPoint = "");
+            elem.idUnloadingPoint
+              ? (unloadingPoint = citieslist.find(
+                  (item) => item.id === elem.idUnloadingPoint
+                ).value)
+              : (unloadingPoint = "");
             return (
               <tr key={elem.id}>
                 <td>{elem.date}</td>
-                <td>{elem.driver}</td>
-                <td>{elem.oder}</td>
-                <td>{elem.loadingPoint}</td>
-                <td>{elem.unloadingPoint}</td>
-                <td>{elem.oderPrice}</td>
+                <td>{driver}</td>
+                <td>{oder}</td>
+                <td>{loadingPoint}</td>
+                <td>{unloadingPoint}</td>
+                <td>{elem.customerPrice}</td>
                 <td>{elem.driverPrice}</td>
               </tr>
             );

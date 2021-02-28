@@ -24,7 +24,6 @@ export const getData = () => {
     axios
       .get("http://localhost:3000/API/data")
       .then((res) => {
-        console.log(res.data);
         return dispatch(getDataSuccess(res.data));
       })
       .catch((e) => {

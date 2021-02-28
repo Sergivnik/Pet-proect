@@ -8,17 +8,24 @@ export const CreateOder = (props) => {
   const driverlist = useSelector((state) => state.oderReducer.driverlist);
   const oderslist = useSelector((state) => state.oderReducer.clientList);
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
+  const customerlist = useSelector((state) => state.oderReducer.odersList);
   const dispatch = useDispatch();
-  const setValue = () => {};
+  const tempData = { id: customerlist.length + 1 };
+  const setValue = (value) => {
+    if (value.field === "driver") tempData.driverID = value.id;
+    if (value.field === "oders") tempData.odersID = value.id;
+    if (value.field === "loadingPoint") tempData.loadingPointID = value.id;
+    if (value.field === "unloadingPoint") tempData.unloadingPointID = value.id;
+  };
   const onSubmit = (event) => {
     event.preventDefault();
     let data = {
-      id: 3,
+      id: tempData.id,
       date: event.target.elements.date.value,
-      driver: event.target.elements.driver.value,
-      oder: event.target.elements.oders.value,
-      loadingPoint: event.target.elements.loadingPoint.value,
-      unloadingPoint: event.target.elements.unloadingPoint.value,
+      driver: tempData.driverID,
+      oder: tempData.odersID,
+      loadingPoint: tempData.loadingPointID,
+      unloadingPoint: tempData.unloadingPointID,
       oderPrice: event.target.elements.oderPrice.value,
       driverPrice: event.target.elements.driverPrice.value,
     };

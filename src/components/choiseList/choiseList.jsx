@@ -17,7 +17,6 @@ export const ChoiseList = (props) => {
   };
   const handleKeyUp = (event) => {
     if (event.keyCode == 40) {
-      console.log(elSelect.firstChild);
       elSelect.focus();
       elSelect.firstChild.selected = true;
     }
@@ -28,7 +27,7 @@ export const ChoiseList = (props) => {
     list.forEach((elem) => {
       if (elem.id == id) {
         setText(elem.value);
-        props.setValue(elem.value);
+        props.setValue({ id: elem.id, field: props.name });
       }
     });
     setShowSelect(false);
@@ -39,11 +38,10 @@ export const ChoiseList = (props) => {
       list.forEach((elem) => {
         if (elem.id == id) {
           setText(elem.value);
-          props.setValue(elem.value);
+          props.setValue({ id: elem.id, field: props.name });
         }
       });
       setShowSelect(false);
-      console.log(elSelect.value);
     }
   };
 

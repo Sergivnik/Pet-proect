@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Oders } from "./components/oders/oders.jsx";
 
 export const App = () => {
   const [text, setText] = useState("Стартовая страница");
