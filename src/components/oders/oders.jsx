@@ -28,7 +28,7 @@ export const Oders = () => {
   return (
     <div className="odersDiv">
       <table className="odersTable">
-        <tbody>
+        <thead>
           <tr className="odersTr">
             <td className="odersTd odersTRheader">Дата</td>
             <td className="odersTd odersTRheader">Водитель</td>
@@ -45,6 +45,8 @@ export const Oders = () => {
               </button>
             </td>
           </tr>
+        </thead>
+        <tbody className="odersTbody">
           {oders.map((elem) => {
             let driver, oder, loadingPoint, unloadingPoint;
             elem.idDriver
@@ -67,13 +69,13 @@ export const Oders = () => {
               : (unloadingPoint = "");
             return (
               <tr key={elem.id}>
-                <td>{elem.date}</td>
-                <td>{driver}</td>
-                <td>{oder}</td>
-                <td>{loadingPoint}</td>
-                <td>{unloadingPoint}</td>
-                <td>{elem.customerPrice}</td>
-                <td>{elem.driverPrice}</td>
+                <td className="odersTd">{elem.date}</td>
+                <td className="odersTd">{driver}</td>
+                <td className="odersTd">{oder}</td>
+                <td className="odersTd">{loadingPoint}</td>
+                <td className="odersTd">{unloadingPoint}</td>
+                <td className="odersTd">{elem.customerPrice}</td>
+                <td className="odersTd">{elem.driverPrice}</td>
               </tr>
             );
           })}
