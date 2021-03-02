@@ -16,6 +16,10 @@ export const ChoiseList = (props) => {
     setList(arr);
   };
   const handleKeyUp = (event) => {
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     if (event.keyCode == 40) {
       elSelect.focus();
       elSelect.firstChild.selected = true;
@@ -34,6 +38,8 @@ export const ChoiseList = (props) => {
   };
   const handleChoiseEnter = (event) => {
     if (event.keyCode == 13) {
+      event.preventDefault();
+      event.stopPropagation();
       let id = elSelect.value;
       list.forEach((elem) => {
         if (elem.id == id) {
@@ -55,6 +61,10 @@ export const ChoiseList = (props) => {
         type="text"
         id={props.name}
         onChange={getText}
+        onKeyDown={(event) => {
+          if (event.keyCode == 13) event.preventDefault();
+          return false;
+        }}
         onKeyUp={handleKeyUp}
         value={text}
         className="inputList"
@@ -64,6 +74,10 @@ export const ChoiseList = (props) => {
           ref={(select) => {
             elSelect = select;
           }}
+          onKeyDown={(event) => {
+            if (event.keyCode == 13) event.preventDefault();
+            return false;
+          }}
           size="5"
           onKeyUp={handleChoiseEnter}
           onClick={handleClick}
@@ -71,7 +85,14 @@ export const ChoiseList = (props) => {
         >
           {list.map((elem) => {
             return (
-              <option key={elem.id} value={elem.id}>
+              <option
+                key={elem.id}
+                value={elem.id}
+                onKeyDown={(event) => {
+                  if (event.key == Enter) event.preventDefault();
+                  return false;
+                }}
+              >
                 {elem.value}
               </option>
             );
