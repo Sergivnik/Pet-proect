@@ -10,7 +10,7 @@ export const CreateOder = (props) => {
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
   const customerlist = useSelector((state) => state.oderReducer.odersList);
   const dispatch = useDispatch();
-  const tempData = { id: customerlist.length + 1 };
+  const tempData = { id: customerlist[customerlist.length - 1].id + 1 };
   const setValue = (value) => {
     if (value.field === "driver") tempData.driverID = value.id;
     if (value.field === "oders") tempData.odersID = value.id;
