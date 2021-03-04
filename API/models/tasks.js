@@ -43,5 +43,13 @@ var Tasks = {
     }
     db.end();
   },
+  del: async function (id, callback) {
+    const db = mysql.createPool(options).promise();
+    try {
+      let [data] = await db.query(`DELETE FROM oderslist WHERE id=${id}`);
+    } catch (err) {
+      callback({ error: err });
+    }
+  },
 };
 module.exports = Tasks;

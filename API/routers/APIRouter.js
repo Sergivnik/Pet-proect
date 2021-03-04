@@ -4,5 +4,6 @@ const API = require("../controlers/API.js");
 
 router.get("/data", API.taskGet);
 router.post("/addOder",API.taskAdd)
+router.delete("/:id", API.taskDel);
 
 module.exports = router;

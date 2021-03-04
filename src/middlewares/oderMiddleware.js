@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ADD_ODER } from "../actions/oderActions.js";
+import { DEL_ODER } from "../actions/delOder.js";
 
 export default (store) => (next) => (action) => {
   switch (action.type) {
@@ -11,8 +12,19 @@ export default (store) => (next) => (action) => {
           },
           body: JSON.stringify(action.data),
         })
-        .then((res) => {
+        .then((res) => {})
+        .catch((e) => {
+          console.log(e.message);
+        });
+    case DEL_ODER:
+      axios
+        .delete(`http://localhost:3000/API/${action.id}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(action.id),
         })
+        .then((res) => {})
         .catch((e) => {
           console.log(e.message);
         });

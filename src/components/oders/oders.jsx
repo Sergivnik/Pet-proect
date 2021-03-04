@@ -3,6 +3,7 @@ import { CreateOder } from "../createOder/createOder.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import "./oders.sass";
 import { getData } from "../../middlewares/initialState.js";
+import { delOder } from "../../actions/delOder.js";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,8 @@ export const Oders = () => {
 
   const [showCreateOder, setShowCreateOder] = useState(false);
   const [oders, setOders] = useState(odersList);
+  const [showDelete, setShowDelete] = useState(false);
+  const [trId, setTrId] = useState(null);
 
   const handleClick = () => setShowCreateOder(!showCreateOder);
   const addOder = () => {
@@ -26,15 +29,20 @@ export const Oders = () => {
   }, [odersList]);
 
   const handleClickTR = (event) => {
-    console.log(event.currentTarget.id);
+    setTrId(event.currentTarget.id);
     event.currentTarget.style.backgroundColor = "#ccc";
+    setShowDelete(true);
   };
 
   const handleDBLClick = (event) => {
-    console.log(event.target);
     event.stopPropagation();
     event.target.parentElement.style.backgroundColor = "#fff";
     event.target.style.backgroundColor = "#ccc";
+    setShowDelete(false);
+  };
+
+  const handleClickDelete = () => {
+    dispatch(delOder(trId));
   };
 
   return (
@@ -104,6 +112,11 @@ export const Oders = () => {
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {elem.driverPrice}
                   </td>
+                  {showDelete && elem.id == trId && (
+                    <td>
+                      <button onClick={handleClickDelete}>Delete</button>
+                    </td>
+                  )}
                 </tr>
               );
             })}
