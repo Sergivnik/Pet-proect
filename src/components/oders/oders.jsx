@@ -25,6 +25,18 @@ export const Oders = () => {
     setOders(odersList);
   }, [odersList]);
 
+  const handleClickTR = (event) => {
+    console.log(event.currentTarget.id);
+    event.currentTarget.style.backgroundColor = "#ccc";
+  };
+
+  const handleDBLClick = (event) => {
+    console.log(event.target);
+    event.stopPropagation();
+    event.target.parentElement.style.backgroundColor = "#fff";
+    event.target.style.backgroundColor = "#ccc";
+  };
+
   return (
     <React.Fragment>
       <div className="odersDiv">
@@ -70,14 +82,28 @@ export const Oders = () => {
                   ).value)
                 : (unloadingPoint = "");
               return (
-                <tr key={elem.id}>
-                  <td className="odersTd">{elem.date}</td>
-                  <td className="odersTd">{driver}</td>
-                  <td className="odersTd">{oder}</td>
-                  <td className="odersTd">{loadingPoint}</td>
-                  <td className="odersTd">{unloadingPoint}</td>
-                  <td className="odersTd">{elem.customerPrice}</td>
-                  <td className="odersTd">{elem.driverPrice}</td>
+                <tr key={elem.id} id={elem.id} onClick={handleClickTR}>
+                  <td className="odersTd" onDoubleClick={handleDBLClick}>
+                    {elem.date}
+                  </td>
+                  <td className="odersTd" onDoubleClick={handleDBLClick}>
+                    {driver}
+                  </td>
+                  <td className="odersTd" onDoubleClick={handleDBLClick}>
+                    {oder}
+                  </td>
+                  <td className="odersTd" onDoubleClick={handleDBLClick}>
+                    {loadingPoint}
+                  </td>
+                  <td className="odersTd" onDoubleClick={handleDBLClick}>
+                    {unloadingPoint}
+                  </td>
+                  <td className="odersTd" onDoubleClick={handleDBLClick}>
+                    {elem.customerPrice}
+                  </td>
+                  <td className="odersTd" onDoubleClick={handleDBLClick}>
+                    {elem.driverPrice}
+                  </td>
                 </tr>
               );
             })}
