@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { CreateOder } from "../createOder/createOder.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import "./oders.sass";
 import { getData } from "../../middlewares/initialState.js";
-import { delOder } from "../../actions/delOder.js";
+import { delOder } from "../../actions/oderActions.js";
+import "./oders.sass";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -112,9 +112,16 @@ export const Oders = () => {
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {elem.driverPrice}
                   </td>
+                  <td className="odersTd" onDoubleClick={handleDBLClick}></td>
+                  <td className="odersTd" onDoubleClick={handleDBLClick}></td>
                   {showDelete && elem.id == trId && (
                     <td>
-                      <button onClick={handleClickDelete}>Delete</button>
+                      <button
+                        className="odersTdBtn"
+                        onClick={handleClickDelete}
+                      >
+                        Delete
+                      </button>
                     </td>
                   )}
                 </tr>

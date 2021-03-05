@@ -1,7 +1,6 @@
 import update from "react-addons-update";
 import { initialStore } from "./dataStore.js";
-import { ADD_ODER } from "../actions/oderActions.js";
-import { DEL_ODER } from "../actions/delOder.js";
+import { ADD_ODER, DEL_ODER } from "../actions/oderActions.js";
 import {
   GET_DATA_SUCCESS,
   GET_DATA_REQUEST,

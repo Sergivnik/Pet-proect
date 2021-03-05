@@ -1,6 +1,5 @@
 import axios from "axios";
-import { ADD_ODER } from "../actions/oderActions.js";
-import { DEL_ODER } from "../actions/delOder.js";
+import { ADD_ODER, DEL_ODER } from "../actions/oderActions.js";
 
 export default (store) => (next) => (action) => {
   switch (action.type) {
@@ -16,6 +15,7 @@ export default (store) => (next) => (action) => {
         .catch((e) => {
           console.log(e.message);
         });
+      break;
     case DEL_ODER:
       axios
         .delete(`http://localhost:3000/API/${action.id}`, {
@@ -28,6 +28,7 @@ export default (store) => (next) => (action) => {
         .catch((e) => {
           console.log(e.message);
         });
+      break;
   }
   return next(action);
 };
