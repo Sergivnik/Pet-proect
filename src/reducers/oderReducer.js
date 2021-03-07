@@ -1,6 +1,6 @@
 import update from "react-addons-update";
 import { initialStore } from "./dataStore.js";
-import { ADD_ODER, DEL_ODER } from "../actions/oderActions.js";
+import { ADD_ODER, DEL_ODER, EDIT_ODER } from "../actions/oderActions.js";
 import {
   GET_DATA_SUCCESS,
   GET_DATA_REQUEST,
@@ -24,6 +24,43 @@ export const oderReducer = (store = initialStore, action) => {
               customerPrice: action.data.oderPrice,
               driverPrice: action.data.driverPrice,
             },
+          },
+        },
+      });
+    }
+    case EDIT_ODER: {
+      let index=store.odersList.findIndex(item=>item.id==action.id)
+      let newOder = store.odersList[index];
+      switch (action.field) {
+        case "date":
+          newOder.date = action.newValue;
+          break;
+        case "driver":
+          newOder.idDriver = action.newValue;
+          break;
+        case "oders":
+          newOder.idOder = action.newValue;
+          break;
+        case "loadingPoint":
+          newOder.idLoadingPoint = action.newValue;
+          break;
+        case "unloadingPoint":
+          newOder.idUnloadingPoint = action.newValue;
+          break;
+        case "oderPrice":
+          newOder.customerPrice = action.newValue;
+          break;
+        case "driverPrice":
+          newOder.driverPrice = action.newValue;
+          break;
+
+        default:
+          break;
+      }
+      return update(store, {
+        odersList: {
+          $merge: {
+            [index]: newOder,
           },
         },
       });

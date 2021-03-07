@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { CreateOder } from "../createOder/createOder.jsx";
+import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../../middlewares/initialState.js";
-import { delOder } from "../../actions/oderActions.js";
+import { editOder, delOder } from "../../actions/oderActions.js";
 import "./oders.sass";
 
 export const Oders = () => {
@@ -19,6 +20,8 @@ export const Oders = () => {
   const [oders, setOders] = useState(odersList);
   const [showDelete, setShowDelete] = useState(false);
   const [trId, setTrId] = useState(null);
+  const [showEdit, setShowEdit] = useState(false);
+  const [colNumber, setColNumber] = useState(null);
 
   const handleClick = () => setShowCreateOder(!showCreateOder);
   const addOder = () => {
@@ -29,20 +32,40 @@ export const Oders = () => {
   }, [odersList]);
 
   const handleClickTR = (event) => {
-    setTrId(event.currentTarget.id);
-    event.currentTarget.style.backgroundColor = "#ccc";
-    setShowDelete(true);
+    if (event.target.tagName == "TD") {
+      setTrId(event.currentTarget.id);
+      event.currentTarget.style.backgroundColor = "#ccc";
+      setShowDelete(true);
+    }
   };
 
   const handleDBLClick = (event) => {
     event.stopPropagation();
+    setColNumber(event.target.cellIndex);
     event.target.parentElement.style.backgroundColor = "#fff";
-    event.target.style.backgroundColor = "#ccc";
     setShowDelete(false);
+    setShowEdit(true);
   };
 
   const handleClickDelete = () => {
     dispatch(delOder(trId));
+  };
+
+  const handleChange = (event) => {
+    setShowEdit(false);
+    dispatch(editOder(trId, event.target.name, event.target.value));
+  };
+
+  const handleEnter = (event) => {
+    if (event.keyCode == 13) {
+      setShowEdit(false);
+      dispatch(editOder(trId, event.target.name, event.target.value));
+    }
+  };
+
+  const setValue = (value) => {
+    dispatch(editOder(trId, value.field, value.id));
+    setShowEdit(false);
   };
 
   return (
@@ -69,16 +92,16 @@ export const Oders = () => {
           </thead>
           <tbody className="odersTbody">
             {oders.map((elem) => {
-              let driver, oder, loadingPoint, unloadingPoint;
+              let driver, customer, loadingPoint, unloadingPoint;
               elem.idDriver
                 ? (driver = driversList.find(
                     (item) => item.id === elem.idDriver
                   ).value)
                 : (driver = "");
               elem.idOder
-                ? (oder = clientList.find((item) => item.id === elem.idOder)
+                ? (customer = clientList.find((item) => item.id === elem.idOder)
                     .value)
-                : (oder = "");
+                : (customer = "");
               elem.idLoadingPoint
                 ? (loadingPoint = citieslist.find(
                     (item) => item.id === elem.idLoadingPoint
@@ -92,25 +115,83 @@ export const Oders = () => {
               return (
                 <tr key={elem.id} id={elem.id} onClick={handleClickTR}>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {elem.date}
+                    {showEdit && elem.id == trId && colNumber == 0 ? (
+                      <input
+                        name="date"
+                        type="date"
+                        value={elem.date}
+                        onChange={handleChange}
+                        onKeyDown={handleEnter}
+                      />
+                    ) : (
+                      elem.date
+                    )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {driver}
+                    {showEdit && elem.id == trId && colNumber == 1 ? (
+                      <ChoiseList
+                        name="driver"
+                        arrlist={driversList}
+                        setValue={setValue}
+                      />
+                    ) : (
+                      driver
+                    )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {oder}
+                    {showEdit && elem.id == trId && colNumber == 2 ? (
+                      <ChoiseList
+                        name="oders"
+                        arrlist={clientList}
+                        setValue={setValue}
+                      />
+                    ) : (
+                      customer
+                    )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {loadingPoint}
+                    {showEdit && elem.id == trId && colNumber == 3 ? (
+                      <ChoiseList
+                        name="loadingPoint"
+                        arrlist={citieslist}
+                        setValue={setValue}
+                      />
+                    ) : (
+                      loadingPoint
+                    )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {unloadingPoint}
+                    {showEdit && elem.id == trId && colNumber == 4 ? (
+                      <ChoiseList
+                        name="unloadingPoint"
+                        arrlist={citieslist}
+                        setValue={setValue}
+                      />
+                    ) : (
+                      unloadingPoint
+                    )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {elem.customerPrice}
+                    {showEdit && elem.id == trId && colNumber == 5 ? (
+                      <input
+                        name="oderPrice"
+                        type="number"
+                        onKeyDown={handleEnter}
+                      />
+                    ) : (
+                      elem.customerPrice
+                    )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {elem.driverPrice}
+                    {showEdit && elem.id == trId && colNumber == 6 ? (
+                      <input
+                        name="driverPrice"
+                        type="number"
+                        onKeyDown={handleEnter}
+                      />
+                    ) : (
+                      elem.driverPrice
+                    )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}></td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}></td>

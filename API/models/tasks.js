@@ -43,6 +43,44 @@ var Tasks = {
     }
     db.end();
   },
+  edit: async function (newdata, callback) {
+    switch (newdata.field) {
+      case "date":
+        change = { date: newdata.newValue };
+        break;
+      case "driver":
+        change = { idDriver: newdata.newValue };
+        break;
+      case "oders":
+        change = { idOder: newdata.newValue };
+        break;
+      case "loadingPoint":
+        change = { idLoadingPoint: newdata.newValue };
+        break;
+      case "unloadingPoint":
+        change = { idUnloadingPoint: newdata.newValue };
+        break;
+      case "oderPrice":
+        change = { customerPrice: newdata.body.newValue };
+        break;
+      case "driverPrice":
+        change = { driverPrice: newdata.newValue };
+        break;
+      default:
+        break;
+    }
+    const db = mysql.createPool(options).promise();
+    try {
+      let [data] = await db.query(
+        `UPDATE oderslist SET ? WHERE id=?`,[change,newdata.id]
+      );
+      callback(data);
+    } catch (err) {
+      console.log(err);
+      callback({ error: err });
+    }
+    db.end();
+  },
   del: async function (id, callback) {
     const db = mysql.createPool(options).promise();
     try {
@@ -50,6 +88,7 @@ var Tasks = {
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
 };
 module.exports = Tasks;
