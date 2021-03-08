@@ -25,13 +25,12 @@ export const Oders = () => {
   const [addData, setAddData] = useState(0);
 
   const onScroll = (event) => {
-    console.log(event.target.scrollTop);
-    if (event.target.scrollTop < 400) {
-      setAddData(addData + 20);
-      event.target.scrollTop = 500;
+    if (event.target.scrollTop < 200) {
+      setAddData(addData + 10);
+      event.target.scrollTop = 300;
     }
     if (event.target.scrollTop > 2100) {
-      setAddData(addData - 20);
+      setAddData(addData - 10);
       event.target.scrollTop = 2000;
     }
   };
