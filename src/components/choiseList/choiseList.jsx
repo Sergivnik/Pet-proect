@@ -56,7 +56,7 @@ export const ChoiseList = (props) => {
   }, [text]);
 
   return (
-    <React.Fragment>
+    <React.Fragment className="divList">
       <input
         type="text"
         id={props.name}

@@ -17,19 +17,33 @@ export const Oders = () => {
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
 
   const [showCreateOder, setShowCreateOder] = useState(false);
-  const [oders, setOders] = useState(odersList);
+  const [oders, setOders] = useState(odersList.slice(-100));
   const [showDelete, setShowDelete] = useState(false);
   const [trId, setTrId] = useState(null);
   const [showEdit, setShowEdit] = useState(false);
   const [colNumber, setColNumber] = useState(null);
+  const [addData, setAddData] = useState(0);
+
+  const onScroll = (event) => {
+    console.log(event.target.scrollTop);
+    if (event.target.scrollTop < 400) {
+      setAddData(addData + 20);
+      event.target.scrollTop = 500;
+    }
+    if (event.target.scrollTop > 2100) {
+      setAddData(addData - 20);
+      event.target.scrollTop = 2000;
+    }
+  };
 
   const handleClick = () => setShowCreateOder(!showCreateOder);
   const addOder = () => {
     setShowCreateOder(false);
   };
   useEffect(() => {
-    setOders(odersList);
-  }, [odersList]);
+    let length = odersList.length;
+    setOders(odersList.slice(length - 100 - addData, length - addData));
+  }, [odersList, addData]);
 
   const handleClickTR = (event) => {
     if (event.target.tagName == "TD") {
@@ -70,7 +84,7 @@ export const Oders = () => {
 
   return (
     <React.Fragment>
-      <div className="odersDiv">
+      <div className="odersDiv" onScroll={onScroll}>
         <table className="odersTable">
           <thead>
             <tr className="odersTr">
@@ -129,44 +143,52 @@ export const Oders = () => {
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 1 ? (
-                      <ChoiseList
-                        name="driver"
-                        arrlist={driversList}
-                        setValue={setValue}
-                      />
+                      <div className="divChoise">
+                        <ChoiseList
+                          name="driver"
+                          arrlist={driversList}
+                          setValue={setValue}
+                        />
+                      </div>
                     ) : (
                       driver
                     )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 2 ? (
-                      <ChoiseList
-                        name="oders"
-                        arrlist={clientList}
-                        setValue={setValue}
-                      />
+                      <div className="divChoise">
+                        <ChoiseList
+                          name="oders"
+                          arrlist={clientList}
+                          setValue={setValue}
+                        />
+                      </div>
                     ) : (
                       customer
                     )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 3 ? (
-                      <ChoiseList
-                        name="loadingPoint"
-                        arrlist={citieslist}
-                        setValue={setValue}
-                      />
+                      <div className="divChoise">
+                        <ChoiseList
+                          name="loadingPoint"
+                          arrlist={citieslist}
+                          setValue={setValue}
+                        />
+                      </div>
                     ) : (
                       loadingPoint
                     )}
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 4 ? (
-                      <ChoiseList
-                        name="unloadingPoint"
-                        arrlist={citieslist}
-                        setValue={setValue}
-                      />
+                      <div className="divChoise">
+                        <ChoiseList
+                          name="unloadingPoint"
+                          arrlist={citieslist}
+                          setValue={setValue}
+                        />
+                      </div>
                     ) : (
                       unloadingPoint
                     )}
@@ -184,11 +206,13 @@ export const Oders = () => {
                   </td>
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 6 ? (
-                      <input
-                        name="driverPrice"
-                        type="number"
-                        onKeyDown={handleEnter}
-                      />
+                      <div className="divChoise">
+                        <input
+                          name="driverPrice"
+                          type="number"
+                          onKeyDown={handleEnter}
+                        />
+                      </div>
                     ) : (
                       elem.driverPrice
                     )}
