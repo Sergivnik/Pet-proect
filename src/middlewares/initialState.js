@@ -22,7 +22,7 @@ export const getData = () => {
   return (dispatch) => {
     dispatch(getDataRequest());
     axios
-      .get("http://localhost:3000/API/data")
+      .get("http://192.168.1.103:3000/API/data")
       .then((res) => {
         return dispatch(getDataSuccess(res.data));
       })

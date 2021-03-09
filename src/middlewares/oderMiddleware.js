@@ -5,7 +5,7 @@ export default (store) => (next) => (action) => {
   switch (action.type) {
     case ADD_ODER:
       axios
-        .post("http://localhost:3000/API/addOder", {
+        .post("http://192.168.1.103:3000/API/addOder", {
           headers: {
             "Content-Type": "application/json",
           },
@@ -18,7 +18,7 @@ export default (store) => (next) => (action) => {
       break;
     case EDIT_ODER:
       axios
-        .patch("http://localhost:3000/API/edit", {
+        .patch("http://192.168.1.103:3000/API/edit", {
           headers: {
             "Content-Type": "application/json",
           },
@@ -31,7 +31,7 @@ export default (store) => (next) => (action) => {
       break;
     case DEL_ODER:
       axios
-        .delete(`http://localhost:3000/API/${action.id}`, {
+        .delete(`http://192.168.1.103:3000/API/${action.id}`, {
           headers: {
             "Content-Type": "application/json",
           },
