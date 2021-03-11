@@ -24,6 +24,10 @@ export const Oders = () => {
   const [colNumber, setColNumber] = useState(null);
   const [addData, setAddData] = useState(0);
 
+  const handleClickPrint = (e) => {
+    console.log(e.target.parentElement.parentElement.id);
+  };
+
   const onScroll = (event) => {
     console.log(event.target.scrollTop);
     if (event.target.scrollTop < 200) {
@@ -217,7 +221,13 @@ export const Oders = () => {
                       elem.driverPrice
                     )}
                   </td>
-                  <td className="odersTd" onDoubleClick={handleDBLClick}></td>
+                  {showDelete && elem.id == trId && (
+                    <td>
+                      <button className="odersTdBtn" onClick={handleClickPrint}>
+                        Печать
+                      </button>
+                    </td>
+                  )}
                   <td className="odersTd" onDoubleClick={handleDBLClick}></td>
                   {showDelete && elem.id == trId && (
                     <td>
