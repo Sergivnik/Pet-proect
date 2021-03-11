@@ -66,6 +66,9 @@ var Tasks = {
       case "driverPrice":
         change = { driverPrice: newdata.newValue };
         break;
+      case "proxy":
+        change = { proxy: newdata.newValue };
+        break;
       default:
         break;
     }

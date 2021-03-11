@@ -1,6 +1,11 @@
 import update from "react-addons-update";
 import { initialStore } from "./dataStore.js";
-import { ADD_ODER, DEL_ODER, EDIT_ODER } from "../actions/oderActions.js";
+import {
+  ADD_ODER,
+  DEL_ODER,
+  EDIT_ODER,
+  SET_PROXY,
+} from "../actions/oderActions.js";
 import {
   GET_DATA_SUCCESS,
   GET_DATA_REQUEST,
@@ -53,6 +58,9 @@ export const oderReducer = (store = initialStore, action) => {
         case "driverPrice":
           newOder.driverPrice = action.newValue;
           break;
+        case "proxy":
+          newOder.proxy = action.newValue;
+          break;
 
         default:
           break;
@@ -64,6 +72,10 @@ export const oderReducer = (store = initialStore, action) => {
           },
         },
       });
+    }
+
+    case SET_PROXY:{
+
     }
     case DEL_ODER: {
       let arrOders = store.odersList.filter((item) => item.id != action.id);

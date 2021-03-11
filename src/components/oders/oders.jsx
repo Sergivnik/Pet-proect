@@ -3,7 +3,7 @@ import { CreateOder } from "../createOder/createOder.jsx";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../../middlewares/initialState.js";
-import { editOder, delOder } from "../../actions/oderActions.js";
+import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
 import "./oders.sass";
 
 export const Oders = () => {
@@ -24,8 +24,16 @@ export const Oders = () => {
   const [colNumber, setColNumber] = useState(null);
   const [addData, setAddData] = useState(0);
 
-  const handleClickPrint = (e) => {
+  const handleClickProxy = (e) => {
     console.log(e.target.parentElement.parentElement.id);
+    setShowEdit(false);
+    dispatch(editOder(e.target.parentElement.parentElement.id, "proxy", true));
+  };
+  const handleClickRadio = (e) => {
+    setShowEdit(false);
+    dispatch(
+      editOder(trId, e.target.name, e.target.value == "yes" ? true : false)
+    );
   };
 
   const onScroll = (event) => {
@@ -110,7 +118,7 @@ export const Oders = () => {
           </thead>
           <tbody className="odersTbody">
             {oders.map((elem) => {
-              let driver, customer, loadingPoint, unloadingPoint;
+              let driver, customer, loadingPoint, unloadingPoint, proxyValue;
               elem.idDriver
                 ? (driver = driversList.find(
                     (item) => item.id === elem.idDriver
@@ -132,6 +140,7 @@ export const Oders = () => {
                 : (unloadingPoint = "");
               return (
                 <tr key={elem.id} id={elem.id} onClick={handleClickTR}>
+                  {/* Column Data */}
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 0 ? (
                       <input
@@ -145,6 +154,7 @@ export const Oders = () => {
                       elem.date
                     )}
                   </td>
+                  {/* Column Driver */}
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 1 ? (
                       <div className="divChoise">
@@ -158,6 +168,7 @@ export const Oders = () => {
                       driver
                     )}
                   </td>
+                  {/* Column Customer */}
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 2 ? (
                       <div className="divChoise">
@@ -171,6 +182,7 @@ export const Oders = () => {
                       customer
                     )}
                   </td>
+                  {/* Column LoadingPoint */}
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 3 ? (
                       <div className="divChoise">
@@ -184,6 +196,7 @@ export const Oders = () => {
                       loadingPoint
                     )}
                   </td>
+                  {/* Column UnloadingPoint */}
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 4 ? (
                       <div className="divChoise">
@@ -197,6 +210,7 @@ export const Oders = () => {
                       unloadingPoint
                     )}
                   </td>
+                  {/* Column Customer Price */}
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 5 ? (
                       <input
@@ -208,6 +222,7 @@ export const Oders = () => {
                       elem.customerPrice
                     )}
                   </td>
+                  {/* Column Driver Price */}
                   <td className="odersTd" onDoubleClick={handleDBLClick}>
                     {showEdit && elem.id == trId && colNumber == 6 ? (
                       <div className="divChoise">
@@ -221,14 +236,45 @@ export const Oders = () => {
                       elem.driverPrice
                     )}
                   </td>
-                  {showDelete && elem.id == trId && (
-                    <td>
-                      <button className="odersTdBtn" onClick={handleClickPrint}>
-                        Печать
-                      </button>
-                    </td>
-                  )}
-                  <td className="odersTd" onDoubleClick={handleDBLClick}></td>
+                  {/* Column Check Proxy */}
+                  <td className="odersTd" onDoubleClick={handleDBLClick}>
+                    {showEdit && colNumber == 7 && elem.id == trId ? (
+                      !elem.proxy ? (
+                        <button
+                          className="odersTdBtn"
+                          onClick={handleClickProxy}
+                        >
+                          Печать
+                        </button>
+                      ) : (
+                        <div>
+                          <span>
+                            <input
+                              type="radio"
+                              name="proxy"
+                              value="yes"
+                              onChange={handleClickRadio}
+                            />
+                            Ок
+                          </span>
+                          <span>
+                            <input
+                              type="radio"
+                              name="proxy"
+                              value="no"
+                              onChange={handleClickRadio}
+                            />
+                            Нет
+                          </span>
+                        </div>
+                      )
+                    ) : elem.proxy ? (
+                      "Ок"
+                    ) : (
+                      "Нет"
+                    )}
+                  </td>
+                  {/* Button Delete */}
                   {showDelete && elem.id == trId && (
                     <td>
                       <button
