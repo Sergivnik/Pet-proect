@@ -1,5 +1,5 @@
 import axios from "axios";
-
+export const URL = "http://localhost";
 export const GET_DATA = "DATA::GET_DATA";
 export const GET_DATA_REQUEST = "DATA::GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = "DATA::GET_DATA_SUCCESS";
@@ -22,7 +22,7 @@ export const getData = () => {
   return (dispatch) => {
     dispatch(getDataRequest());
     axios
-      .get("http://192.168.0.106:3000/API/data")
+      .get(URL + ":3000/API/data")
       .then((res) => {
         return dispatch(getDataSuccess(res.data));
       })

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { UserThead } from "./userThead.jsx";
+import { UserTr } from "./userTr.jsx";
 import { CreateOder } from "../createOder/createOder.jsx";
-import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../../middlewares/initialState.js";
 import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
@@ -11,6 +12,7 @@ export const Oders = () => {
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
+
   const odersList = useSelector((state) => state.oderReducer.odersList);
   const driversList = useSelector((state) => state.oderReducer.driverlist);
   const clientList = useSelector((state) => state.oderReducer.clientList);
@@ -28,6 +30,7 @@ export const Oders = () => {
     console.log(e.target.parentElement.parentElement.id);
     setShowEdit(false);
     dispatch(editOder(e.target.parentElement.parentElement.id, "proxy", true));
+    dispatch(setProxy(e.target.parentElement.parentElement.id));
   };
   const handleClickRadio = (e) => {
     setShowEdit(false);
@@ -98,24 +101,7 @@ export const Oders = () => {
     <React.Fragment>
       <div className="odersDiv" onScroll={onScroll}>
         <table className="odersTable">
-          <thead>
-            <tr className="odersTr">
-              <td className="odersTd odersTRheader">Дата</td>
-              <td className="odersTd odersTRheader">Водитель</td>
-              <td className="odersTd odersTRheader">Заказчик</td>
-              <td className="odersTd odersTRheader">Загрузка</td>
-              <td className="odersTd odersTRheader">Выгрузка</td>
-              <td className="odersTd odersTRheader">Цена клиента</td>
-              <td className="odersTd odersTRheader">Цена водителя</td>
-              <td className="odersTd odersTRheader">Доверенность</td>
-              <td className="odersTd odersTRheader">Выполнен</td>
-              <td className="odersTd odersTRheader">
-                <button className="odersTdBtn" onClick={handleClick}>
-                  Саздать
-                </button>
-              </td>
-            </tr>
-          </thead>
+          <UserThead handleClick={handleClick} />
           <tbody className="odersTbody">
             {oders.map((elem) => {
               let driver, customer, loadingPoint, unloadingPoint, proxyValue;
@@ -139,153 +125,29 @@ export const Oders = () => {
                   ).value)
                 : (unloadingPoint = "");
               return (
-                <tr key={elem.id} id={elem.id} onClick={handleClickTR}>
-                  {/* Column Data */}
-                  <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {showEdit && elem.id == trId && colNumber == 0 ? (
-                      <input
-                        name="date"
-                        type="date"
-                        value={elem.date}
-                        onChange={handleChange}
-                        onKeyDown={handleEnter}
-                      />
-                    ) : (
-                      elem.date
-                    )}
-                  </td>
-                  {/* Column Driver */}
-                  <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {showEdit && elem.id == trId && colNumber == 1 ? (
-                      <div className="divChoise">
-                        <ChoiseList
-                          name="driver"
-                          arrlist={driversList}
-                          setValue={setValue}
-                        />
-                      </div>
-                    ) : (
-                      driver
-                    )}
-                  </td>
-                  {/* Column Customer */}
-                  <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {showEdit && elem.id == trId && colNumber == 2 ? (
-                      <div className="divChoise">
-                        <ChoiseList
-                          name="oders"
-                          arrlist={clientList}
-                          setValue={setValue}
-                        />
-                      </div>
-                    ) : (
-                      customer
-                    )}
-                  </td>
-                  {/* Column LoadingPoint */}
-                  <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {showEdit && elem.id == trId && colNumber == 3 ? (
-                      <div className="divChoise">
-                        <ChoiseList
-                          name="loadingPoint"
-                          arrlist={citieslist}
-                          setValue={setValue}
-                        />
-                      </div>
-                    ) : (
-                      loadingPoint
-                    )}
-                  </td>
-                  {/* Column UnloadingPoint */}
-                  <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {showEdit && elem.id == trId && colNumber == 4 ? (
-                      <div className="divChoise">
-                        <ChoiseList
-                          name="unloadingPoint"
-                          arrlist={citieslist}
-                          setValue={setValue}
-                        />
-                      </div>
-                    ) : (
-                      unloadingPoint
-                    )}
-                  </td>
-                  {/* Column Customer Price */}
-                  <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {showEdit && elem.id == trId && colNumber == 5 ? (
-                      <input
-                        name="oderPrice"
-                        type="number"
-                        onKeyDown={handleEnter}
-                      />
-                    ) : (
-                      elem.customerPrice
-                    )}
-                  </td>
-                  {/* Column Driver Price */}
-                  <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {showEdit && elem.id == trId && colNumber == 6 ? (
-                      <div className="divChoise">
-                        <input
-                          name="driverPrice"
-                          type="number"
-                          onKeyDown={handleEnter}
-                        />
-                      </div>
-                    ) : (
-                      elem.driverPrice
-                    )}
-                  </td>
-                  {/* Column Check Proxy */}
-                  <td className="odersTd" onDoubleClick={handleDBLClick}>
-                    {showEdit && colNumber == 7 && elem.id == trId ? (
-                      !elem.proxy ? (
-                        <button
-                          className="odersTdBtn"
-                          onClick={handleClickProxy}
-                        >
-                          Печать
-                        </button>
-                      ) : (
-                        <div>
-                          <span>
-                            <input
-                              type="radio"
-                              name="proxy"
-                              value="yes"
-                              onChange={handleClickRadio}
-                            />
-                            Ок
-                          </span>
-                          <span>
-                            <input
-                              type="radio"
-                              name="proxy"
-                              value="no"
-                              onChange={handleClickRadio}
-                            />
-                            Нет
-                          </span>
-                        </div>
-                      )
-                    ) : elem.proxy ? (
-                      "Ок"
-                    ) : (
-                      "Нет"
-                    )}
-                  </td>
-                  {/* Button Delete */}
-                  {showDelete && elem.id == trId && (
-                    <td>
-                      <button
-                        className="odersTdBtn"
-                        onClick={handleClickDelete}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  )}
-                </tr>
+                <UserTr
+                  key={elem.id}
+                  elem={elem}
+                  handleClickTR={handleClickTR}
+                  handleDBLClick={handleDBLClick}
+                  showEdit={showEdit}
+                  driver={driver}
+                  customer={customer}
+                  loadingPoint={loadingPoint}
+                  unloadingPoint={unloadingPoint}
+                  showDelete={showDelete}
+                  handleClickDelete={handleClickDelete}
+                  handleClickProxy={handleClickProxy}
+                  colNumber={colNumber}
+                  trId={trId}
+                  handleClickRadio={handleClickRadio}
+                  handleChange={handleChange}
+                  handleEnter={handleEnter}
+                  setValue={setValue}
+                  clientList={clientList}
+                  driversList={driversList}
+                  citieslist={citieslist}
+                />
               );
             })}
           </tbody>

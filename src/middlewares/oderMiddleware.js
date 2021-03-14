@@ -1,11 +1,17 @@
 import axios from "axios";
-import { ADD_ODER, EDIT_ODER, DEL_ODER } from "../actions/oderActions.js";
+import {
+  ADD_ODER,
+  EDIT_ODER,
+  DEL_ODER,
+  SET_PROXY,
+} from "../actions/oderActions.js";
+import { URL } from "./initialState";
 
 export default (store) => (next) => (action) => {
   switch (action.type) {
     case ADD_ODER:
       axios
-        .post("http://192.168.0.106:3000/API/addOder", {
+        .post(URL + ":3000/API/addOder", {
           headers: {
             "Content-Type": "application/json",
           },
@@ -18,7 +24,7 @@ export default (store) => (next) => (action) => {
       break;
     case EDIT_ODER:
       axios
-        .patch("http://192.168.0.106:3000/API/edit", {
+        .patch(URL + ":3000/API/edit", {
           headers: {
             "Content-Type": "application/json",
           },
@@ -31,7 +37,7 @@ export default (store) => (next) => (action) => {
       break;
     case DEL_ODER:
       axios
-        .delete(`http://192.168.0.106:3000/API/${action.id}`, {
+        .delete(`${URL}:3000/API/${action.id}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -42,6 +48,10 @@ export default (store) => (next) => (action) => {
           console.log(e.message);
         });
       break;
+    case SET_PROXY:
+      axios.post(`${URL}:3000/API/proxy/${action.id}`);
+      break;
   }
+
   return next(action);
 };

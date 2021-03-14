@@ -53,3 +53,15 @@ module.exports.taskDel = (req, res) => {
     }
   });
 };
+
+const pdfTemplate = require("../documents/powerOfAttorney.js");
+const pdf = require("html-pdf");
+module.exports.taskProxy = (req, res) => {
+  console.log(req.params.id);
+  pdf.create(pdfTemplate(req.params.id), {}).toFile("result.pdf", (err) => {
+    if (err) {
+      res.send(Promise.reject());
+    }
+    res.send(Promise.resolve());
+  });
+};

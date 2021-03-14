@@ -4,6 +4,7 @@ const API = require("../controlers/API.js");
 
 router.get("/data", API.taskGet);
 router.post("/addOder",API.taskAdd)
+router.post("/proxy/:id", API.taskProxy);
 router.patch("/edit",API.taskEdit)
 router.delete("/:id", API.taskDel);
 
