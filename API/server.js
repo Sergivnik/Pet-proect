@@ -1,10 +1,10 @@
 const express = require("express");
 const path = require("path");
 const router = require("./routers");
-var tasks = require("./models/tasks.js");
 
 const app = express();
 app.use(express.static(path.join(__dirname, "../dist")));
+app.use(express.static(path.join(__dirname, "documents")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

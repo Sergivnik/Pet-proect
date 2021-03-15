@@ -63,5 +63,6 @@ module.exports.taskProxy = (req, res) => {
       res.send(Promise.reject());
     }
     res.send(Promise.resolve());
+    //res.render(pdfTemplate(req.params.id));
   });
 };
