@@ -1,4 +1,5 @@
 import axios from "axios";
+// export const URL = "http://31.31.203.25";
 export const URL = "http://localhost";
 export const GET_DATA = "DATA::GET_DATA";
 export const GET_DATA_REQUEST = "DATA::GET_DATA_REQUEST";
