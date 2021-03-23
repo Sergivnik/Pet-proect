@@ -74,12 +74,30 @@ var Tasks = {
     }
     const db = mysql.createPool(options).promise();
     try {
-      let [data] = await db.query(
-        `UPDATE oderslist SET ? WHERE id=?`,[change,newdata.id]
-      );
+      let [data] = await db.query(`UPDATE oderslist SET ? WHERE id=?`, [
+        change,
+        newdata.id,
+      ]);
       callback(data);
     } catch (err) {
       console.log(err);
+      callback({ error: err });
+    }
+    db.end();
+  },
+  getDataById: async function (id, table, callback) {
+    const db = mysql.createPool(options).promise();
+    let dataById = {};
+    try {
+      let [data] = await db.query(`select * FROM ${table} WHERE id=${id}`);
+      [dataById.driver] = await db.query(
+        `select * FROM drivers WHERE id=${data[0].idDriver}`
+      );
+      [dataById.customer] = await db.query(
+        `select * FROM oders WHERE id=${data[0].idOder}`
+      );
+      callback(dataById);
+    } catch (err) {
       callback({ error: err });
     }
     db.end();

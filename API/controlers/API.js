@@ -55,14 +55,31 @@ module.exports.taskDel = (req, res) => {
 };
 
 const pdfTemplate = require("../documents/powerOfAttorney.js");
+
 const pdf = require("html-pdf");
 module.exports.taskProxy = (req, res) => {
-  console.log(req.params.id);
-  pdf.create(pdfTemplate(req.params.id), {}).toFile("result.pdf", (err) => {
-    if (err) {
-      res.send(Promise.reject());
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  const dataById = {};
+  tasks.getDataById(req.params.id, "oderslist", (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      dataById.id = req.params.id;
+      dataById.driver = data.driver[0].value;
+      dataById.customer = data.customer[0].value;
+      console.log(data.driver[0].value);
+      console.log(data.customer[0].value);
+      pdf.create(pdfTemplate(dataById), {}).toFile("result.pdf", (err) => {
+        if (err) {
+          res.send(Promise.reject());
+        }
+        res.send(Promise.resolve());
+        //res.render(pdfTemplate(req.params.id));
+      });
     }
-    res.send(Promise.resolve());
-    //res.render(pdfTemplate(req.params.id));
   });
 };
