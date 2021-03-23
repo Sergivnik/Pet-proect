@@ -54,28 +54,15 @@ module.exports.taskDel = (req, res) => {
   });
 };
 
-//const pdfTemplate = require("../documents/powerOfAttorney.js");
-//const pdf = require("html-pdf");
+const pdfTemplate = require("../documents/powerOfAttorney.js");
+const pdf = require("html-pdf");
 module.exports.taskProxy = (req, res) => {
   console.log(req.params.id);
-  let pdf = require("handlebars-pdf");
-  let document = {
-    template:
-      "<h1>{{msg}}</h1>" +
-      '<p style="color:red">Red text</p>' +
-      '<img src="http://localhost:3000/img/photo.jpg"/>',
-    context: {
-      msg: req.params.id,
-    },
-    path: "./test-" + ".pdf",
-  };
-
-  pdf
-    .create(document)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  pdf.create(pdfTemplate(req.params.id), {}).toFile("result.pdf", (err) => {
+    if (err) {
+      res.send(Promise.reject());
+    }
+    res.send(Promise.resolve());
+    //res.render(pdfTemplate(req.params.id));
+  });
 };
