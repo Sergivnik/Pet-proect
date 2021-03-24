@@ -19,7 +19,7 @@ export const oderReducer = (store = initialStore, action) => {
       return update(store, {
         odersList: {
           $merge: {
-            [oderId - 1]: {
+            [store.odersList.length]: {
               id: oderId,
               date: action.data.date,
               idDriver: action.data.driver,
@@ -75,7 +75,7 @@ export const oderReducer = (store = initialStore, action) => {
     }
 
     case SET_PROXY: {
-      break;
+      return store;
     }
     case DEL_ODER: {
       let arrOders = store.odersList.filter((item) => item.id != action.id);
