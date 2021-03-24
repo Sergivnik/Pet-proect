@@ -67,7 +67,7 @@ module.exports.taskProxy = (req, res) => {
     context: {
       msg: req.params.id,
     },
-    path: "./test-" + ".pdf",
+    path: "./test" + ".pdf",
   };
 
   pdf
