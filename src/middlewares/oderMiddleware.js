@@ -11,7 +11,7 @@ export default (store) => (next) => (action) => {
   switch (action.type) {
     case ADD_ODER:
       axios
-        .post(URL + ":3000/API/addOder", {
+        .post(URL + "/addOder", {
           headers: {
             "Content-Type": "application/json",
           },
@@ -24,7 +24,7 @@ export default (store) => (next) => (action) => {
       break;
     case EDIT_ODER:
       axios
-        .patch(URL + ":3000/API/edit", {
+        .patch(URL + "/edit", {
           headers: {
             "Content-Type": "application/json",
           },
@@ -37,7 +37,7 @@ export default (store) => (next) => (action) => {
       break;
     case DEL_ODER:
       axios
-        .delete(`${URL}:3000/API/${action.id}`, {
+        .delete(`${URL}/${action.id}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -49,7 +49,7 @@ export default (store) => (next) => (action) => {
         });
       break;
     case SET_PROXY:
-      axios.post(`${URL}:3000/API/proxy/${action.id}`);
+      axios.post(`${URL}/proxy/${action.id}`);
       break;
   }
 

@@ -43,6 +43,7 @@
     "cors": "^2.8.5",
     "file-saver": "^2.0.5",
     "html-pdf": "^2.2.0",
+    "mongoose": "^5.12.2",
     "mysql2": "^2.2.5",
     "react": "^17.0.1",
     "react-addons-update": "^15.6.3",
