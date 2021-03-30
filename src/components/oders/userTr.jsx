@@ -3,11 +3,11 @@ import { ChoiseList } from "../choiseList/choiseList.jsx";
 
 export const UserTr = (props) => {
   return (
-    <tr id={props.elem.id} onClick={props.handleClickTR}>
+    <tr id={props.elem._id} onClick={props.handleClickTR}>
       {/* Column Data */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-        props.elem.id == props.trId &&
+        props.elem._id == props.trId &&
         props.colNumber == 0 ? (
           <input
             name="date"
@@ -23,7 +23,7 @@ export const UserTr = (props) => {
       {/* Column Driver */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-        props.elem.id == props.trId &&
+        props.elem._id == props.trId &&
         props.colNumber == 1 ? (
           <div className="divChoise">
             <ChoiseList
@@ -39,7 +39,7 @@ export const UserTr = (props) => {
       {/* Column Customer */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-        props.elem.id == props.trId &&
+        props.elem._id == props.trId &&
         props.colNumber == 2 ? (
           <div className="divChoise">
             <ChoiseList
@@ -55,7 +55,7 @@ export const UserTr = (props) => {
       {/* Column LoadingPoint */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-        props.elem.id == props.trId &&
+        props.elem._id == props.trId &&
         props.colNumber == 3 ? (
           <div className="divChoise">
             <ChoiseList
@@ -71,7 +71,7 @@ export const UserTr = (props) => {
       {/* Column UnloadingPoint */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-        props.elem.id == props.trId &&
+        props.elem._id == props.trId &&
         props.colNumber == 4 ? (
           <div className="divChoise">
             <ChoiseList
@@ -87,7 +87,7 @@ export const UserTr = (props) => {
       {/* Column Customer Price */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-        props.elem.id == props.trId &&
+        props.elem._id == props.trId &&
         props.colNumber == 5 ? (
           <input name="oderPrice" type="number" onKeyDown={props.handleEnter} />
         ) : (
@@ -97,7 +97,7 @@ export const UserTr = (props) => {
       {/* Column Driver Price */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-        props.elem.id == props.trId &&
+        props.elem._id == props.trId &&
         props.colNumber == 6 ? (
           <div className="divChoise">
             <input
@@ -114,7 +114,7 @@ export const UserTr = (props) => {
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
         props.colNumber == 7 &&
-        props.elem.id == props.trId ? (
+        props.elem._id == props.trId ? (
           !props.elem.proxy ? (
             <button className="odersTdBtn" onClick={props.handleClickProxy}>
               Доверенность
@@ -148,7 +148,7 @@ export const UserTr = (props) => {
         )}
       </td>
       {/* Button Delete */}
-      {props.showDelete && props.elem.id == props.trId && (
+      {props.showDelete && props.elem._id == props.trId && (
         <td>
           <button className="odersTdBtn" onClick={props.handleClickDelete}>
             Delete

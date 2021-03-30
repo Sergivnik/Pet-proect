@@ -45,6 +45,8 @@ module.exports.taskGet = (req, res) => {
     data.citieslist = docs;
   });
   const Oder = mongoose.model("Oder", OderSchema);
+  let a = Oder.countDocuments();
+  console.log(a);
   Oder.find({}, function (err, docs) {
     mongoose.disconnect();
 
@@ -52,5 +54,5 @@ module.exports.taskGet = (req, res) => {
 
     data.odersList = docs;
     res.json(data);
-  });
+  }).limit(500);
 };

@@ -41,14 +41,16 @@ export const Oders = () => {
 
   const onScroll = (event) => {
     console.log(event.target.scrollTop);
+    let length = odersList.length;
     if (event.target.scrollTop < 200) {
-      setAddData(addData + 10);
+      if (addData < length - 100) setAddData(addData + 10);
       event.target.scrollTop = 300;
     }
     if (event.target.scrollTop > 1900) {
       setAddData(addData - 10);
       event.target.scrollTop = 1800;
     }
+    console.log(addData);
   };
 
   const handleClick = () => setShowCreateOder(!showCreateOder);
@@ -93,7 +95,7 @@ export const Oders = () => {
   };
 
   const setValue = (value) => {
-    dispatch(editOder(trId, value.field, value.id));
+    dispatch(editOder(trId, value.field, value._id));
     setShowEdit(false);
   };
 

@@ -34,7 +34,7 @@ export const oderReducer = (store = initialStore, action) => {
       });
     }
     case EDIT_ODER: {
-      let index = store.odersList.findIndex((item) => item.id == action.id);
+      let index = store.odersList.findIndex((item) => item._id == action.id);
       let newOder = store.odersList[index];
       switch (action.field) {
         case "date":
@@ -44,7 +44,7 @@ export const oderReducer = (store = initialStore, action) => {
           newOder.idDriver = action.newValue;
           break;
         case "oders":
-          newOder.idOder = action.newValue;
+          newOder.idCustomer = action.newValue;
           break;
         case "loadingPoint":
           newOder.idLoadingPoint = action.newValue;
@@ -78,7 +78,7 @@ export const oderReducer = (store = initialStore, action) => {
       return store;
     }
     case DEL_ODER: {
-      let arrOders = store.odersList.filter((item) => item.id != action.id);
+      let arrOders = store.odersList.filter((item) => item._id != action.id);
       return { ...store, odersList: [...arrOders] };
     }
 

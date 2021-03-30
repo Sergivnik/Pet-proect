@@ -52,7 +52,7 @@ var Tasks = {
         change = { idDriver: newdata.newValue };
         break;
       case "oders":
-        change = { idOder: newdata.newValue };
+        change = { idCustomer: newdata.newValue };
         break;
       case "loadingPoint":
         change = { idLoadingPoint: newdata.newValue };
@@ -61,7 +61,7 @@ var Tasks = {
         change = { idUnloadingPoint: newdata.newValue };
         break;
       case "oderPrice":
-        change = { customerPrice: newdata.body.newValue };
+        change = { customerPrice: newdata.newValue };
         break;
       case "driverPrice":
         change = { driverPrice: newdata.newValue };
@@ -74,7 +74,7 @@ var Tasks = {
     }
     const db = mysql.createPool(options).promise();
     try {
-      let [data] = await db.query(`UPDATE oderslist SET ? WHERE id=?`, [
+      let [data] = await db.query(`UPDATE oderslist SET ? WHERE _id=?`, [
         change,
         newdata.id,
       ]);
@@ -89,13 +89,14 @@ var Tasks = {
     const db = mysql.createPool(options).promise();
     let dataById = {};
     try {
-      let [data] = await db.query(`select * FROM ${table} WHERE id=${id}`);
-      [dataById.driver] = await db.query(
-        `select * FROM drivers WHERE id=${data[0].idDriver}`
-      );
+      let [data] = await db.query(`select * FROM ${table} WHERE _id=${id}`);
       [dataById.customer] = await db.query(
-        `select * FROM oders WHERE id=${data[0].idOder}`
+        `select * FROM oders WHERE _id=${data[0].idCustomer}`
       );
+      [dataById.driver] = await db.query(
+        `select * FROM drivers WHERE _id=${data[0].idDriver}`
+      );
+
       callback(dataById);
     } catch (err) {
       callback({ error: err });
@@ -105,7 +106,7 @@ var Tasks = {
   del: async function (id, callback) {
     const db = mysql.createPool(options).promise();
     try {
-      let [data] = await db.query(`DELETE FROM oderslist WHERE id=${id}`);
+      let [data] = await db.query(`DELETE FROM oderslist WHERE _id=${id}`);
     } catch (err) {
       callback({ error: err });
     }
