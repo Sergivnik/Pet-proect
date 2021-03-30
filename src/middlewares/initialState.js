@@ -1,5 +1,5 @@
 import axios from "axios";
-export const URL = "http://localhost:3000/API";
+export const URL = "http://localhost:3000/API_MONGODB";
 export const GET_DATA = "DATA::GET_DATA";
 export const GET_DATA_REQUEST = "DATA::GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = "DATA::GET_DATA_SUCCESS";

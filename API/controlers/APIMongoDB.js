@@ -2,14 +2,28 @@ const mongoose = require("mongoose");
 const { FALSE } = require("node-sass");
 const Schema = mongoose.Schema;
 const OderSchema = new Schema({
-    _id: Number,
-    date: Date,
-    driverId: Number,
-    customerId: Number,
-    customerPrice: Number,
-    driverPrice: Number,
-    proxy: Boolean,
-  });
+  _id: Number,
+  date: String,
+  driverId: Number,
+  customerId: Number,
+  idLoadingPoint: Number,
+  idUnloadingPoint: Number,
+  customerPrice: Number,
+  driverPrice: Number,
+  proxy: Boolean,
+});
+const DriverSchema = new Schema({
+  _id: Number,
+  value: String,
+});
+const CustomerSchema = new Schema({
+  _id: Number,
+  value: String,
+});
+const CitiesSchema = new Schema({
+  _id: Number,
+  value: String,
+});
 
 module.exports.taskGet = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -17,26 +31,28 @@ module.exports.taskGet = (req, res) => {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
-  
+  let data = {};
+  const Driver = mongoose.model("Driver", DriverSchema);
+  Driver.find({}, function (err, docs) {
+    console.log(docs);
+    data.driverlist = docs;
+  });
+  const Customer = mongoose.model("Customer", CustomerSchema);
+  Customer.find({}, function (err, docs) {
+    console.log(docs);
+    data.clientList = docs;
+  });
+  const City = mongoose.model("Citie", CitiesSchema);
+  City.find({}, function (err, docs) {
+    console.log(docs);
+    data.citieslist = docs;
+  });
   const Oder = mongoose.model("Oder", OderSchema);
-  //   const oder = new Oder({
-  //     _id: 1,
-  //     date: "2021-03-20",
-  //     driverId: 35,
-  //     customerId: 47,
-  //     customerPrice: 9000,
-  //     driverPrice: 8500,
-  //     proxy: false,
-  //   });
-  //   oder.save(function (err) {
-  //     if (err) return console.log(err);
-  //     console.log("Сохранен объект", user);
-  //   });
   Oder.find({}, function (err, docs) {
     mongoose.disconnect();
 
     if (err) return console.log(err);
-    let data={};
+
     data.odersList = docs;
     res.json(data);
     console.log(docs);
