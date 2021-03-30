@@ -34,17 +34,14 @@ module.exports.taskGet = (req, res) => {
   let data = {};
   const Driver = mongoose.model("Driver", DriverSchema);
   Driver.find({}, function (err, docs) {
-    console.log(docs);
     data.driverlist = docs;
   });
   const Customer = mongoose.model("Customer", CustomerSchema);
   Customer.find({}, function (err, docs) {
-    console.log(docs);
     data.clientList = docs;
   });
   const City = mongoose.model("Citie", CitiesSchema);
   City.find({}, function (err, docs) {
-    console.log(docs);
     data.citieslist = docs;
   });
   const Oder = mongoose.model("Oder", OderSchema);
@@ -55,6 +52,5 @@ module.exports.taskGet = (req, res) => {
 
     data.odersList = docs;
     res.json(data);
-    console.log(docs);
   });
 };

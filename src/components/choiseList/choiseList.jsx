@@ -29,9 +29,9 @@ export const ChoiseList = (props) => {
     event.stopPropagation();
     let id = elSelect.value;
     list.forEach((elem) => {
-      if (elem.id == id) {
+      if (elem._id == id) {
         setText(elem.value);
-        props.setValue({ id: elem.id, field: props.name });
+        props.setValue({ _id: elem._id, field: props.name });
       }
     });
     setShowSelect(false);
@@ -42,9 +42,9 @@ export const ChoiseList = (props) => {
       event.stopPropagation();
       let id = elSelect.value;
       list.forEach((elem) => {
-        if (elem.id == id) {
+        if (elem._id == id) {
           setText(elem.value);
-          props.setValue({ id: elem.id, field: props.name });
+          props.setValue({ _id: elem._id, field: props.name });
         }
       });
       setShowSelect(false);
@@ -86,8 +86,8 @@ export const ChoiseList = (props) => {
           {list.map((elem) => {
             return (
               <option
-                key={elem.id}
-                value={elem.id}
+                key={elem._id}
+                value={elem._id}
                 onKeyDown={(event) => {
                   if (event.key == Enter) event.preventDefault();
                   return false;

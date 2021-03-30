@@ -23,10 +23,10 @@ var Tasks = {
   add: async function (data, callback) {
     data = JSON.parse(data);
     let oder = {
-      id: data.id,
+      _id: data._id,
       date: data.date,
       idDriver: data.driver,
-      idOder: data.oder,
+      idCustomer: data.oder,
       idLoadingPoint: data.loadingPoint,
       idUnloadingPoint: data.unloadingPoint,
       customerPrice: data.oderPrice,

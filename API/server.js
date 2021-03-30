@@ -16,8 +16,8 @@ app.use(router);
 // const OderSchema = new Schema({
 //   _id: Number,
 //   date: String,
-//   driverId: Number,
-//   customerId: Number,
+//   idDriver: Number,
+//   idCustomer: Number,
 //   idLoadingPoint: Number,
 //   idUnloadingPoint: Number,
 //   customerPrice: Number,
@@ -107,8 +107,8 @@ app.use(router);
 //       const oder = await new Oder({
 //         _id: i,
 //         date: dateOd,
-//         driverId: idDr,
-//         customerId: idOd,
+//         idDriver: idDr,
+//         idCustomer: idOd,
 //         idLoadingPoint: idLP,
 //         idUnloadingPoint: idUP,
 //         customerPrice: CuPr,

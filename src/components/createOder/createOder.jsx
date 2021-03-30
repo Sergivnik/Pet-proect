@@ -10,17 +10,17 @@ export const CreateOder = (props) => {
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
   const customerlist = useSelector((state) => state.oderReducer.odersList);
   const dispatch = useDispatch();
-  const tempData = { id: customerlist[customerlist.length - 1].id + 1 };
+  const tempData = { _id: customerlist[customerlist.length - 1]._id + 1 };
   const setValue = (value) => {
-    if (value.field === "driver") tempData.driverID = value.id;
-    if (value.field === "oders") tempData.odersID = value.id;
-    if (value.field === "loadingPoint") tempData.loadingPointID = value.id;
-    if (value.field === "unloadingPoint") tempData.unloadingPointID = value.id;
+    if (value.field === "driver") tempData.driverID = value._id;
+    if (value.field === "oders") tempData.odersID = value._id;
+    if (value.field === "loadingPoint") tempData.loadingPointID = value._id;
+    if (value.field === "unloadingPoint") tempData.unloadingPointID = value._id;
   };
   const onSubmit = (event) => {
     event.preventDefault();
     let data = {
-      id: tempData.id,
+      _id: tempData._id,
       date: event.target.elements.date.value,
       driver: tempData.driverID,
       oder: tempData.odersID,

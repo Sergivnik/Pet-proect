@@ -110,9 +110,10 @@ export const Oders = () => {
                     (item) => item._id === elem.idDriver
                   ).value)
                 : (driver = "");
-              elem.idOder
-                ? (customer = clientList.find((item) => item._id === elem.idOder)
-                    .value)
+              elem.idCustomer
+                ? (customer = clientList.find(
+                    (item) => item._id === elem.idCustomer
+                  ).value)
                 : (customer = "");
               elem.idLoadingPoint
                 ? (loadingPoint = citieslist.find(

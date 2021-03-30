@@ -15,15 +15,15 @@ import {
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
     case ADD_ODER: {
-      const oderId = store.odersList[store.odersList.length - 1].id + 1;
+      const oderId = store.odersList[store.odersList.length - 1]._id + 1;
       return update(store, {
         odersList: {
           $merge: {
             [store.odersList.length]: {
-              id: oderId,
+              _id: oderId,
               date: action.data.date,
               idDriver: action.data.driver,
-              idOder: action.data.oder,
+              idCustomer: action.data.oder,
               idLoadingPoint: action.data.loadingPoint,
               idUnloadingPoint: action.data.unloadingPoint,
               customerPrice: action.data.oderPrice,
