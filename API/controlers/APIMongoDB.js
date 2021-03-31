@@ -45,14 +45,15 @@ module.exports.taskGet = (req, res) => {
     data.citieslist = docs;
   });
   const Oder = mongoose.model("Oder", OderSchema);
-  let a = Oder.countDocuments();
-  console.log(a);
-  Oder.find({}, function (err, docs) {
-    mongoose.disconnect();
-
-    if (err) return console.log(err);
-
-    data.odersList = docs;
-    res.json(data);
-  }).limit(500);
+  Oder.find({}).countDocuments(function (err, count) {
+    console.log(count);
+    Oder.find({}, function (err, docs) {
+      mongoose.disconnect();
+      if (err) return console.log(err);
+      data.odersList = docs;
+      res.json(data);
+    })
+      .skip(count - 5000)
+      .limit(5000);
+  });
 };
