@@ -119,12 +119,12 @@ export const Oders = () => {
                 : (customer = "");
               elem.idLoadingPoint
                 ? (loadingPoint = citieslist.find(
-                    (item) => item._id === elem.idLoadingPoint
+                    (item) => item._id == elem.idLoadingPoint[0]
                   ).value)
                 : (loadingPoint = "");
               elem.idUnloadingPoint
                 ? (unloadingPoint = citieslist.find(
-                    (item) => item._id === elem.idUnloadingPoint
+                    (item) => item._id == elem.idUnloadingPoint[0]
                   ).value)
                 : (unloadingPoint = "");
               return (

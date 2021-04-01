@@ -6,8 +6,8 @@ const OderSchema = new Schema({
   date: String,
   driverId: Number,
   customerId: Number,
-  idLoadingPoint: Number,
-  idUnloadingPoint: Number,
+  idLoadingPoint: [],
+  idUnloadingPoint: [],
   customerPrice: Number,
   driverPrice: Number,
   proxy: Boolean,
@@ -53,7 +53,7 @@ module.exports.taskGet = (req, res) => {
       data.odersList = docs;
       res.json(data);
     })
-      .skip(count - 5000)
-      .limit(5000);
+      .skip(count - 1000)
+      .limit(1000);
   });
 };
