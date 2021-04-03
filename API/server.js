@@ -125,7 +125,7 @@ app.use(router);
 // var XLSX = require("xlsx");
 // var workbook = XLSX.readFile("./DB/Колдовство.xlsb");
 // var sheet_name_list = workbook.SheetNames;
-// var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[3]]);
+// var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 // console.log(xlData);
 // let i = 0;
 // const getDATA = async function (callback) {
@@ -153,39 +153,39 @@ app.use(router);
 //     for (const elem of xlData) {
 //       i = elem.id;
 //       dateOd = new Date(1900, 0, 1);
-//       dateOd.setDate(dateOd.getDate() + elem.Дата);
+//       dateOd.setDate(dateOd.getDate() + elem.Дата - 2);
 //       dateOd = dateOd.toLocaleDateString();
 //       res = datalists.driverlist.find((item) => item.value == elem.Колдун);
 //       if (res) {
-//         idDr = res.id;
+//         idDr = res._id;
 //       } else {
 //         idDr = null;
 //       }
 //       res = datalists.clientList.find((item) => item.value == elem.Заказчик);
 //       if (res) {
-//         idOd = res.id;
+//         idOd = res._id;
 //       } else {
 //         idOd = null;
 //       }
 //       res = datalists.citieslist.find((item) => item.value == elem.погрузка);
 //       if (res) {
-//         idLP = res.id;
+//         idLP = JSON.stringify([res._id]);
 //       } else {
 //         idLP = null;
 //       }
 //       res = datalists.citieslist.find((item) => item.value == elem.выгрузки);
 //       if (res) {
-//         idUP = res.id;
+//         idUP = JSON.stringify([res._id]);//!!!!!
 //       } else {
 //         idUP = null;
 //       }
 //       CuPr = elem.Ставказаказчика;
 //       DrPr = elem.Ставкаколдуна;
 //       oder = {
-//         id: i,
+//         _id: i,
 //         date: dateOd,
 //         idDriver: idDr,
-//         idOder: idOd,
+//         idCustomer: idOd,
 //         idLoadingPoint: idLP,
 //         idUnloadingPoint: idUP,
 //         customerPrice: CuPr,

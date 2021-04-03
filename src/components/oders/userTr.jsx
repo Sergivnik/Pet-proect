@@ -65,7 +65,11 @@ export const UserTr = (props) => {
             />
           </div>
         ) : (
-          props.loadingPoint
+          props.loadingPoint.map((item, index) => (
+            <p className="odersP" key={`${props.elem._id}-${index}`}>
+              {item}
+            </p>
+          ))
         )}
       </td>
       {/* Column UnloadingPoint */}
@@ -81,7 +85,11 @@ export const UserTr = (props) => {
             />
           </div>
         ) : (
-          props.unloadingPoint
+          props.unloadingPoint.map((item, index) => (
+            <p className="odersP" key={`${props.elem._id}-${index}`}>
+              {item}
+            </p>
+          ))
         )}
       </td>
       {/* Column Customer Price */}

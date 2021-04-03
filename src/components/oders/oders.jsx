@@ -106,7 +106,9 @@ export const Oders = () => {
           <UserThead handleClick={handleClick} />
           <tbody className="odersTbody">
             {oders.map((elem) => {
-              let driver, customer, loadingPoint, unloadingPoint, proxyValue;
+              let driver, customer, proxyValue;
+              let loadingPoint,
+                unloadingPoint = [];
               elem.idDriver
                 ? (driver = driversList.find(
                     (item) => item._id === elem.idDriver
@@ -117,16 +119,20 @@ export const Oders = () => {
                     (item) => item._id === elem.idCustomer
                   ).value)
                 : (customer = "");
-              elem.idLoadingPoint
-                ? (loadingPoint = citieslist.find(
-                    (item) => item._id == elem.idLoadingPoint[0]
-                  ).value)
-                : (loadingPoint = "");
-              elem.idUnloadingPoint
-                ? (unloadingPoint = citieslist.find(
-                    (item) => item._id == elem.idUnloadingPoint[0]
-                  ).value)
-                : (unloadingPoint = "");
+              if (elem.idLoadingPoint) {
+                loadingPoint = elem.idLoadingPoint.map((itemLP) => {
+                  return citieslist.find((item) => item._id == itemLP).value;
+                });
+              } else {
+                loadingPoint = [""];
+              }
+              if (elem.idUnloadingPoint) {
+                unloadingPoint = elem.idUnloadingPoint.map((itemLP) => {
+                  return citieslist.find((item) => item._id == itemLP).value;
+                });
+              } else {
+                unloadingPoint = [""];
+              }
               return (
                 <UserTr
                   key={elem._id}
