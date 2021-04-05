@@ -47,10 +47,10 @@ export const oderReducer = (store = initialStore, action) => {
           newOder.idCustomer = action.newValue;
           break;
         case "loadingPoint":
-          newOder.idLoadingPoint = action.newValue;
+          newOder.idLoadingPoint = [action.newValue];
           break;
         case "unloadingPoint":
-          newOder.idUnloadingPoint = action.newValue;
+          newOder.idUnloadingPoint = [action.newValue];
           break;
         case "oderPrice":
           newOder.customerPrice = action.newValue;

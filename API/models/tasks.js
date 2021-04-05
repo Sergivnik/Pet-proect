@@ -27,8 +27,8 @@ var Tasks = {
       date: data.date,
       idDriver: data.driver,
       idCustomer: data.oder,
-      idLoadingPoint: data.loadingPoint,
-      idUnloadingPoint: data.unloadingPoint,
+      idLoadingPoint: JSON.stringify(data.loadingPoint),
+      idUnloadingPoint: JSON.stringify(data.unloadingPoint),
       customerPrice: data.oderPrice,
       driverPrice: data.driverPrice,
     };
@@ -55,10 +55,10 @@ var Tasks = {
         change = { idCustomer: newdata.newValue };
         break;
       case "loadingPoint":
-        change = { idLoadingPoint: newdata.newValue };
+        change = { idLoadingPoint: JSON.stringify([newdata.newValue]) };
         break;
       case "unloadingPoint":
-        change = { idUnloadingPoint: newdata.newValue };
+        change = { idUnloadingPoint: JSON.stringify([newdata.newValue]) };
         break;
       case "oderPrice":
         change = { customerPrice: newdata.newValue };

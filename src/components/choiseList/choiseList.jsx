@@ -16,11 +16,11 @@ export const ChoiseList = (props) => {
     setList(arr);
   };
   const handleKeyUp = (event) => {
-    if (event.keyCode == 13) {
+    if (event.key == "Enter") {
       event.preventDefault();
       event.stopPropagation();
     }
-    if (event.keyCode == 40) {
+    if (event.key == "ArrowDown") {
       elSelect.focus();
       elSelect.firstChild.selected = true;
     }
@@ -37,7 +37,7 @@ export const ChoiseList = (props) => {
     setShowSelect(false);
   };
   const handleChoiseEnter = (event) => {
-    if (event.keyCode == 13) {
+    if (event.key == "Enter") {
       event.preventDefault();
       event.stopPropagation();
       let id = elSelect.value;
@@ -62,7 +62,7 @@ export const ChoiseList = (props) => {
         id={props.name}
         onChange={getText}
         onKeyDown={(event) => {
-          if (event.keyCode == 13) event.preventDefault();
+          if (event.key == "Enter") event.preventDefault();
           return false;
         }}
         onKeyUp={handleKeyUp}
@@ -75,7 +75,7 @@ export const ChoiseList = (props) => {
             elSelect = select;
           }}
           onKeyDown={(event) => {
-            if (event.keyCode == 13) event.preventDefault();
+            if (event.key == "Enter") event.preventDefault();
             return false;
           }}
           size="5"

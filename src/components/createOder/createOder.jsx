@@ -14,11 +14,13 @@ export const CreateOder = (props) => {
   const setValue = (value) => {
     if (value.field === "driver") tempData.driverID = value._id;
     if (value.field === "oders") tempData.odersID = value._id;
-    if (value.field === "loadingPoint") tempData.loadingPointID = value._id;
-    if (value.field === "unloadingPoint") tempData.unloadingPointID = value._id;
+    if (value.field === "loadingPoint") tempData.loadingPointID = [value._id];
+    if (value.field === "unloadingPoint") tempData.unloadingPointID = [value._id];
   };
   const onSubmit = (event) => {
     event.preventDefault();
+    if (!tempData.loadingPointID) tempData.loadingPointID = null;
+    if (!tempData.unloadingPointID) tempData.unloadingPointID = null;
     let data = {
       _id: tempData._id,
       date: event.target.elements.date.value,

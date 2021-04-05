@@ -106,7 +106,7 @@ export const Oders = () => {
           <UserThead handleClick={handleClick} />
           <tbody className="odersTbody">
             {oders.map((elem) => {
-              let driver, customer, proxyValue;
+              let driver, customer;
               let loadingPoint,
                 unloadingPoint = [];
               elem.idDriver
