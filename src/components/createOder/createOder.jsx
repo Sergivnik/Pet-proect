@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { addOder } from "../../actions/oderActions.js";
@@ -10,17 +10,51 @@ export const CreateOder = (props) => {
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
   const customerlist = useSelector((state) => state.oderReducer.odersList);
   const dispatch = useDispatch();
-  const tempData = { _id: customerlist[customerlist.length - 1]._id + 1 };
+  const [clearLoadingPoint, setClearLoadingPoint] = useState(true);
+  const [tempData, setTempData] = useState({
+    _id: customerlist[customerlist.length - 1]._id + 1,
+  });
+
+  const [tempLoadingPoint, setTempLoadingPoint] = useState([]);
+  const [tempUnloadingPoint, setTempUnloadingPoint] = useState([]);
+
+  //const tempData = { _id: customerlist[customerlist.length - 1]._id + 1 };
   const setValue = (value) => {
-    if (value.field === "driver") tempData.driverID = value._id;
-    if (value.field === "oders") tempData.odersID = value._id;
-    if (value.field === "loadingPoint") tempData.loadingPointID = [value._id];
-    if (value.field === "unloadingPoint") tempData.unloadingPointID = [value._id];
+    if (value.field === "driver") {
+      let { ...obj } = tempData;
+      obj.driverID = value._id;
+      setTempData(obj);
+    }
+    if (value.field === "oders") {
+      let { ...obj } = tempData;
+      obj.odersID = value._id;
+      setTempData(obj);
+    }
+    if (value.field === "loadingPoint") {
+      let { ...obj } = tempData;
+      if (obj.loadingPointID) obj.loadingPointID.push(value._id);
+      else obj.loadingPointID = [value._id];
+      setTempData(obj);
+      setClearLoadingPoint(false);
+      let [...arr] = tempLoadingPoint;
+      arr.push(value.value);
+      setTempLoadingPoint(arr);
+    }
+    if (value.field === "unloadingPoint") {
+      let { ...obj } = tempData;
+      obj.unloadingPointID = [value._id];
+      setTempData(obj);
+    }
   };
+
+  const onAddLoadingPoint = () => {
+    setClearLoadingPoint(true);
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
-    if (!tempData.loadingPointID) tempData.loadingPointID = null;
-    if (!tempData.unloadingPointID) tempData.unloadingPointID = null;
+    if (!tempData.loadingPointID.length) tempData.loadingPointID = null;
+    if (!tempData.unloadingPointID.length) tempData.unloadingPointID = null;
     let data = {
       _id: tempData._id,
       date: event.target.elements.date.value,
@@ -50,11 +84,24 @@ export const CreateOder = (props) => {
       </label>
       <label htmlFor="loadingPoint" className="createOderLabel">
         Пункт загрузки
-        <ChoiseList
-          name="loadingPoint"
-          arrlist={citieslist}
-          setValue={setValue}
-        />
+        {clearLoadingPoint ? (
+          <ChoiseList
+            name="loadingPoint"
+            arrlist={citieslist}
+            setValue={setValue}
+          />
+        ) : (
+          <>
+            <p className="createOderAddP">{tempLoadingPoint}</p>
+
+            <input
+              type="button"
+              className="createOderAddBtn"
+              onClick={onAddLoadingPoint}
+              value="Добавить"
+            />
+          </>
+        )}
       </label>
       <label htmlFor="unloadingPoint" className="createOderLabel">
         Пункт разгрузки

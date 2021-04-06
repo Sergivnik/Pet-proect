@@ -8,6 +8,8 @@ export const ChoiseList = (props) => {
   const originList = props.arrlist;
   let elSelect = null;
 
+  if (props.clear) setText("")
+
   const getText = (event) => {
     let test = event.currentTarget.value;
     setText(event.currentTarget.value);
@@ -31,7 +33,7 @@ export const ChoiseList = (props) => {
     list.forEach((elem) => {
       if (elem._id == id) {
         setText(elem.value);
-        props.setValue({ _id: elem._id, field: props.name });
+        props.setValue({ _id: elem._id, field: props.name, value: elem.value });
       }
     });
     setShowSelect(false);
@@ -44,7 +46,11 @@ export const ChoiseList = (props) => {
       list.forEach((elem) => {
         if (elem._id == id) {
           setText(elem.value);
-          props.setValue({ _id: elem._id, field: props.name });
+          props.setValue({
+            _id: elem._id,
+            field: props.name,
+            value: elem.value,
+          });
         }
       });
       setShowSelect(false);
