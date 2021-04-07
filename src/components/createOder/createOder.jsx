@@ -11,6 +11,7 @@ export const CreateOder = (props) => {
   const customerlist = useSelector((state) => state.oderReducer.odersList);
   const dispatch = useDispatch();
   const [clearLoadingPoint, setClearLoadingPoint] = useState(true);
+  const [clearUnloadingPoint, setClearUnloadingPoint] = useState(true);
   const [tempData, setTempData] = useState({
     _id: customerlist[customerlist.length - 1]._id + 1,
   });
@@ -42,13 +43,21 @@ export const CreateOder = (props) => {
     }
     if (value.field === "unloadingPoint") {
       let { ...obj } = tempData;
-      obj.unloadingPointID = [value._id];
+      if (obj.unloadingPointID) obj.unloadingPointID.push(value._id);
+      else obj.unloadingPointID = [value._id];
       setTempData(obj);
+      setClearUnloadingPoint(false);
+      let [...arr] = tempUnloadingPoint;
+      arr.push(value.value);
+      setTempUnloadingPoint(arr);
     }
   };
 
   const onAddLoadingPoint = () => {
     setClearLoadingPoint(true);
+  };
+  const onAddUnloadingPoint = () => {
+    setClearUnloadingPoint(true);
   };
 
   const onSubmit = (event) => {
@@ -93,7 +102,6 @@ export const CreateOder = (props) => {
         ) : (
           <>
             <p className="createOderAddP">{tempLoadingPoint}</p>
-
             <input
               type="button"
               className="createOderAddBtn"
@@ -105,11 +113,23 @@ export const CreateOder = (props) => {
       </label>
       <label htmlFor="unloadingPoint" className="createOderLabel">
         Пункт разгрузки
-        <ChoiseList
-          name="unloadingPoint"
-          arrlist={citieslist}
-          setValue={setValue}
-        />
+        {clearUnloadingPoint ? (
+          <ChoiseList
+            name="unloadingPoint"
+            arrlist={citieslist}
+            setValue={setValue}
+          />
+        ) : (
+          <>
+            <p className="createOderAddP">{tempUnloadingPoint}</p>
+            <input
+              type="button"
+              className="createOderAddBtn"
+              onClick={onAddUnloadingPoint}
+              value="Добавить"
+            />
+          </>
+        )}
       </label>
       <label htmlFor="oderPrice" className="createOderLabel">
         Цена клиента
