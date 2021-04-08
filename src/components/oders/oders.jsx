@@ -24,6 +24,7 @@ export const Oders = () => {
   const [trId, setTrId] = useState(null);
   const [showEdit, setShowEdit] = useState(false);
   const [colNumber, setColNumber] = useState(null);
+  const [indexCity, setIndexCity] = useState(null);
   const [addData, setAddData] = useState(0);
 
   const handleClickProxy = (e) => {
@@ -68,12 +69,24 @@ export const Oders = () => {
       event.currentTarget.style.backgroundColor = "#ccc";
       setShowDelete(true);
     }
+    if (event.target.tagName == "P") {
+      setTrId(event.currentTarget.id);
+      event.currentTarget.style.backgroundColor = "#ccc";
+      setShowDelete(true);
+    }
   };
 
   const handleDBLClick = (event) => {
     event.stopPropagation();
-    setColNumber(event.target.cellIndex);
-    event.target.parentElement.style.backgroundColor = "#fff";
+    if (event.target.localName === "td") {
+      setColNumber(event.target.cellIndex);
+      event.target.parentElement.style.backgroundColor = "#fff";
+    }
+    if (event.target.localName === "p") {
+      setColNumber(event.target.parentElement.cellIndex);
+      setIndexCity(event.target.id);
+      event.target.parentElement.parentElement.style.backgroundColor = "#fff";
+    }
     setShowDelete(false);
     setShowEdit(true);
   };
@@ -95,7 +108,21 @@ export const Oders = () => {
   };
 
   const setValue = (value) => {
-    dispatch(editOder(trId, value.field, value._id));
+    let data=[]
+    switch (value.field) {
+      case "loadingPoint":
+        data = oders.find((item) => item._id == trId).idLoadingPoint;
+        data[value.index] = value._id;
+        dispatch(editOder(trId, value.field, data));
+        break;
+      case "unloadingPoint":
+        data = oders.find((item) => item._id == trId).idUnloadingPoint;
+        data[value.index] = value._id;
+        dispatch(editOder(trId, value.field, data));
+        break;
+      default:
+        dispatch(editOder(trId, value.field, value._id));
+    }
     setShowEdit(false);
   };
 
@@ -156,6 +183,7 @@ export const Oders = () => {
                   clientList={clientList}
                   driversList={driversList}
                   citieslist={citieslist}
+                  indexCity={indexCity}
                 />
               );
             })}

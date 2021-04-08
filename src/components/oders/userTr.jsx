@@ -53,43 +53,64 @@ export const UserTr = (props) => {
         )}
       </td>
       {/* Column LoadingPoint */}
-      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
-        {props.showEdit &&
-        props.elem._id == props.trId &&
-        props.colNumber == 3 ? (
-          <div className="divChoise">
-            <ChoiseList
-              name="loadingPoint"
-              arrlist={props.citieslist}
-              setValue={props.setValue}
-            />
-          </div>
-        ) : (
-          props.loadingPoint.map((item, index) => (
-            <p className="odersP" key={`${props.elem._id}-${index}`}>
+      <td className="odersTd">
+        {props.loadingPoint.map((item, index) =>
+          props.showEdit &&
+          props.elem._id == props.trId &&
+          props.colNumber == 3 &&
+          props.indexCity == index ? (
+            <div
+              className="divChoise"
+              key={`ChoiseList-${props.elem._id}-${index}`}
+            >
+              <ChoiseList
+                name="loadingPoint"
+                arrlist={props.citieslist}
+                setValue={props.setValue}
+                index={index}
+              />
+            </div>
+          ) : (
+            <p
+              className="odersP"
+              id={index}
+              key={`p-${props.elem._id}-${index}`}
+              onDoubleClick={props.handleDBLClick}
+            >
               {item}
             </p>
-          ))
+          )
         )}
       </td>
+
       {/* Column UnloadingPoint */}
-      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
-        {props.showEdit &&
-        props.elem._id == props.trId &&
-        props.colNumber == 4 ? (
-          <div className="divChoise">
-            <ChoiseList
-              name="unloadingPoint"
-              arrlist={props.citieslist}
-              setValue={props.setValue}
-            />
-          </div>
-        ) : (
-          props.unloadingPoint.map((item, index) => (
-            <p className="odersP" key={`${props.elem._id}-${index}`}>
+      <td className="odersTd">
+        {props.unloadingPoint.map((item, index) =>
+          props.showEdit &&
+          props.elem._id == props.trId &&
+          props.colNumber == 4 &&
+          props.indexCity == index ? (
+            <div
+              className="divChoise"
+              key={`ChoiseList-${props.elem._id}-${index}`}
+            >
+              <ChoiseList
+                name="unloadingPoint"
+                arrlist={props.citieslist}
+                setValue={props.setValue}
+                index={index}
+              />
+            </div>
+          ) : (
+            <p
+              className="odersP"
+              id={index}
+              key={`p-${props.elem._id}-${index}`}
+              onDoubleClick={props.handleDBLClick}
+            >
               {item}
             </p>
-          ))
+          )
         )}
       </td>
       {/* Column Customer Price */}

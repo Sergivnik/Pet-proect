@@ -55,10 +55,10 @@ var Tasks = {
         change = { idCustomer: newdata.newValue };
         break;
       case "loadingPoint":
-        change = { idLoadingPoint: JSON.stringify([newdata.newValue]) };
+        change = { idLoadingPoint: JSON.stringify(newdata.newValue) };
         break;
       case "unloadingPoint":
-        change = { idUnloadingPoint: JSON.stringify([newdata.newValue]) };
+        change = { idUnloadingPoint: JSON.stringify(newdata.newValue) };
         break;
       case "oderPrice":
         change = { customerPrice: newdata.newValue };
