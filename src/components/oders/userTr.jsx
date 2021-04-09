@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 
 export const UserTr = (props) => {
+  
   return (
     <tr id={props.elem._id} onClick={props.handleClickTR}>
       {/* Column Data */}
@@ -71,14 +72,32 @@ export const UserTr = (props) => {
               />
             </div>
           ) : (
-            <p
-              className="odersP"
-              id={index}
-              key={`p-${props.elem._id}-${index}`}
-              onDoubleClick={props.handleDBLClick}
-            >
-              {item}
-            </p>
+            <div className="odersDivP" key={`p-${props.elem._id}-${index}`}>
+              <p
+                className="odersP"
+                id={index}
+                onDoubleClick={props.handleDBLClick}
+                onContextMenu={props.handleContext}
+              >
+                {item}
+              </p>
+              {props.showContextMenu &&
+                props.elem._id == props.trId &&
+                props.pId == index && (
+                  <div className="pContextMenu" style={props.coord}>
+                    <h4 className="odersContextH4">Выбрать</h4>
+                    <hr />
+                    <p className="odersContextP">Добавить</p>
+                    <hr />
+                    <p className="odersContextP">Поднять</p>
+                    <hr />
+                    <p className="odersContextP">Опустить</p>
+                    <hr />
+                    <p className="odersContextP">Удалить</p>
+                    <hr />
+                  </div>
+                )}
+            </div>
           )
         )}
       </td>
@@ -107,6 +126,7 @@ export const UserTr = (props) => {
               id={index}
               key={`p-${props.elem._id}-${index}`}
               onDoubleClick={props.handleDBLClick}
+              onContextMenu={props.handleContext}
             >
               {item}
             </p>

@@ -26,6 +26,18 @@ export const Oders = () => {
   const [colNumber, setColNumber] = useState(null);
   const [indexCity, setIndexCity] = useState(null);
   const [addData, setAddData] = useState(0);
+  const [showContextMenu, setShowContextMenu] = useState(false);
+  const [pId, setPId] = useState(null);
+  const [coord, setCoord] = useState({ x: 0, y: 0 });
+
+  const handleContext = (e) => {
+    e.preventDefault();
+    setShowContextMenu(true);
+    handleContextCity(e);
+    setPId(e.target.id);
+    let coordelem = e.target.parentElement.getBoundingClientRect();
+    setCoord({ left: e.clientX - coordelem.x, top: e.clientY - coordelem.y });
+  };
 
   const handleClickProxy = (e) => {
     console.log(e.target.parentElement.parentElement.id);
@@ -63,6 +75,11 @@ export const Oders = () => {
     setOders(odersList.slice(length - 100 - addData, length - addData));
   }, [odersList, addData]);
 
+  const handleContextCity=(e)=>{
+    if (e.target.tagName == "P") {
+      setTrId(e.target.parentElement.parentElement.parentElement.id);
+    }
+  }
   const handleClickTR = (event) => {
     if (event.target.tagName == "TD") {
       setTrId(event.currentTarget.id);
@@ -184,6 +201,11 @@ export const Oders = () => {
                   driversList={driversList}
                   citieslist={citieslist}
                   indexCity={indexCity}
+                  handleContextCity={handleContextCity}
+                  showContextMenu={showContextMenu}
+                  pId={pId}
+                  coord={coord}
+                  handleContext={handleContext}
                 />
               );
             })}
