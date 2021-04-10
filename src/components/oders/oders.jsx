@@ -28,13 +28,14 @@ export const Oders = () => {
   const [addData, setAddData] = useState(0);
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [pId, setPId] = useState(null);
-  const [coord, setCoord] = useState({ x: 0, y: 0 });
+  const [coord, setCoord] = useState({ left: 0, top: 0 });
 
   const handleContext = (e) => {
     e.preventDefault();
     setShowContextMenu(true);
     handleContextCity(e);
     setPId(e.target.id);
+    setColNumber(e.target.parentElement.parentElement.cellIndex);
     let coordelem = e.target.parentElement.getBoundingClientRect();
     setCoord({ left: e.clientX - coordelem.x, top: e.clientY - coordelem.y });
   };
@@ -75,11 +76,11 @@ export const Oders = () => {
     setOders(odersList.slice(length - 100 - addData, length - addData));
   }, [odersList, addData]);
 
-  const handleContextCity=(e)=>{
+  const handleContextCity = (e) => {
     if (e.target.tagName == "P") {
       setTrId(e.target.parentElement.parentElement.parentElement.id);
     }
-  }
+  };
   const handleClickTR = (event) => {
     if (event.target.tagName == "TD") {
       setTrId(event.currentTarget.id);
@@ -125,7 +126,7 @@ export const Oders = () => {
   };
 
   const setValue = (value) => {
-    let data=[]
+    let data = [];
     switch (value.field) {
       case "loadingPoint":
         data = oders.find((item) => item._id == trId).idLoadingPoint;

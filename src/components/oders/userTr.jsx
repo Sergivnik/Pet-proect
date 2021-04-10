@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { UserTdCityContext } from "./userTdCityContext/userTdCityContext.jsx";
 
 export const UserTr = (props) => {
-  
   return (
     <tr id={props.elem._id} onClick={props.handleClickTR}>
       {/* Column Data */}
@@ -72,7 +72,7 @@ export const UserTr = (props) => {
               />
             </div>
           ) : (
-            <div className="odersDivP" key={`p-${props.elem._id}-${index}`}>
+            <div className="odersDivP" key={`divLP-${props.elem._id}-${index}`}>
               <p
                 className="odersP"
                 id={index}
@@ -83,19 +83,15 @@ export const UserTr = (props) => {
               </p>
               {props.showContextMenu &&
                 props.elem._id == props.trId &&
-                props.pId == index && (
-                  <div className="pContextMenu" style={props.coord}>
-                    <h4 className="odersContextH4">Выбрать</h4>
-                    <hr />
-                    <p className="odersContextP">Добавить</p>
-                    <hr />
-                    <p className="odersContextP">Поднять</p>
-                    <hr />
-                    <p className="odersContextP">Опустить</p>
-                    <hr />
-                    <p className="odersContextP">Удалить</p>
-                    <hr />
-                  </div>
+                props.pId == index &&
+                props.colNumber == 3 && (
+                  <UserTdCityContext
+                    coord={props.coord}
+                    trId={props.trId}
+                    pId={props.pId}
+                    colNumber={props.colNumber}
+                    loadingPointList={props.elem.idLoadingPoint}
+                  />
                 )}
             </div>
           )
@@ -121,15 +117,22 @@ export const UserTr = (props) => {
               />
             </div>
           ) : (
-            <p
-              className="odersP"
-              id={index}
-              key={`p-${props.elem._id}-${index}`}
-              onDoubleClick={props.handleDBLClick}
-              onContextMenu={props.handleContext}
-            >
-              {item}
-            </p>
+            <div className="odersDivP" key={`divUP-${props.elem._id}-${index}`}>
+              <p
+                className="odersP"
+                id={index}
+                onDoubleClick={props.handleDBLClick}
+                onContextMenu={props.handleContext}
+              >
+                {item}
+              </p>
+              {props.showContextMenu &&
+                props.elem._id == props.trId &&
+                props.pId == index &&
+                props.colNumber == 4 && (
+                  <UserTdCityContext coord={props.coord} />
+                )}
+            </div>
           )
         )}
       </td>
