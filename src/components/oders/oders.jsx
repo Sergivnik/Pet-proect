@@ -9,6 +9,7 @@ import "./oders.sass";
 
 export const Oders = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
@@ -18,17 +19,26 @@ export const Oders = () => {
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
 
-  const [showCreateOder, setShowCreateOder] = useState(false);
   const [oders, setOders] = useState(odersList.slice(-100));
+
+  const [showCreateOder, setShowCreateOder] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
-  const [trId, setTrId] = useState(null);
   const [showEdit, setShowEdit] = useState(false);
+  const [showContextMenu, setShowContextMenu] = useState(false);
+  const [showAddCity, setShowAddCity] = useState(false);
+
+  const [trId, setTrId] = useState(null);
   const [colNumber, setColNumber] = useState(null);
   const [indexCity, setIndexCity] = useState(null);
   const [addData, setAddData] = useState(0);
-  const [showContextMenu, setShowContextMenu] = useState(false);
   const [pId, setPId] = useState(null);
+
   const [coord, setCoord] = useState({ left: 0, top: 0 });
+
+  useEffect(() => {
+    let length = odersList.length;
+    setOders(odersList.slice(length - 100 - addData, length - addData));
+  }, [odersList, addData]);
 
   const handleContext = (e) => {
     e.preventDefault();
@@ -68,29 +78,29 @@ export const Oders = () => {
   };
 
   const handleClick = () => setShowCreateOder(!showCreateOder);
+
   const addOder = () => {
     setShowCreateOder(false);
   };
-  useEffect(() => {
-    let length = odersList.length;
-    setOders(odersList.slice(length - 100 - addData, length - addData));
-  }, [odersList, addData]);
 
   const handleContextCity = (e) => {
     if (e.target.tagName == "P") {
       setTrId(e.target.parentElement.parentElement.parentElement.id);
     }
   };
+
   const handleClickTR = (event) => {
     if (event.target.tagName == "TD") {
       setTrId(event.currentTarget.id);
       event.currentTarget.style.backgroundColor = "#ccc";
       setShowDelete(true);
+      setShowAddCity(false);
     }
     if (event.target.tagName == "P") {
       setTrId(event.currentTarget.id);
       event.currentTarget.style.backgroundColor = "#ccc";
       setShowDelete(true);
+      setShowAddCity(false);
     }
   };
 
@@ -101,9 +111,10 @@ export const Oders = () => {
       event.target.parentElement.style.backgroundColor = "#fff";
     }
     if (event.target.localName === "p") {
-      setColNumber(event.target.parentElement.cellIndex);
+      setColNumber(event.target.parentElement.parentElement.cellIndex);
       setIndexCity(event.target.id);
-      event.target.parentElement.parentElement.style.backgroundColor = "#fff";
+      event.target.parentElement.parentElement.parentElement.style.backgroundColor =
+        "#fff";
     }
     setShowDelete(false);
     setShowEdit(true);
@@ -130,18 +141,34 @@ export const Oders = () => {
     switch (value.field) {
       case "loadingPoint":
         data = oders.find((item) => item._id == trId).idLoadingPoint;
-        data[value.index] = value._id;
+        if (showAddCity) {
+          data.push(value._id);
+          setShowAddCity(false);
+        } else {
+          data[value.index] = value._id;
+        }
         dispatch(editOder(trId, value.field, data));
         break;
       case "unloadingPoint":
         data = oders.find((item) => item._id == trId).idUnloadingPoint;
-        data[value.index] = value._id;
+        if (showAddCity) {
+          data.push(value._id);
+          setShowAddCity(false);
+        } else {
+          data[value.index] = value._id;
+        }
         dispatch(editOder(trId, value.field, data));
         break;
       default:
         dispatch(editOder(trId, value.field, value._id));
     }
     setShowEdit(false);
+  };
+
+  const handleClickAddCity = (e) => {
+    e.stopPropagation();
+    setShowContextMenu(false);
+    setShowAddCity(true);
   };
 
   return (
@@ -207,6 +234,8 @@ export const Oders = () => {
                   pId={pId}
                   coord={coord}
                   handleContext={handleContext}
+                  handleClickAddCity={handleClickAddCity}
+                  showAddCity={showAddCity}
                 />
               );
             })}

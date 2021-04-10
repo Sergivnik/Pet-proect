@@ -91,11 +91,27 @@ export const UserTr = (props) => {
                     pId={props.pId}
                     colNumber={props.colNumber}
                     loadingPointList={props.elem.idLoadingPoint}
+                    handleClickAddCity={props.handleClickAddCity}
                   />
                 )}
             </div>
           )
         )}
+        {props.showAddCity &&
+          props.elem._id == props.trId &&
+          props.colNumber == 3 && (
+            <div
+              className="divChoise"
+              key={`ChoiseList-${props.elem._id}-${props.loadingPoint.lenght}`}
+            >
+              <ChoiseList
+                name="loadingPoint"
+                arrlist={props.citieslist}
+                setValue={props.setValue}
+                index={props.loadingPoint.lenght}
+              />
+            </div>
+          )}
       </td>
 
       {/* Column UnloadingPoint */}
@@ -130,11 +146,33 @@ export const UserTr = (props) => {
                 props.elem._id == props.trId &&
                 props.pId == index &&
                 props.colNumber == 4 && (
-                  <UserTdCityContext coord={props.coord} />
+                  <UserTdCityContext
+                    coord={props.coord}
+                    trId={props.trId}
+                    pId={props.pId}
+                    colNumber={props.colNumber}
+                    loadingPointList={props.elem.idLoadingPoint}
+                    handleClickAddCity={props.handleClickAddCity}
+                  />
                 )}
             </div>
           )
         )}
+        {props.showAddCity &&
+          props.elem._id == props.trId &&
+          props.colNumber == 4 && (
+            <div
+              className="divChoise"
+              key={`ChoiseList-${props.elem._id}-${props.unloadingPoint.lenght}`}
+            >
+              <ChoiseList
+                name="unloadingPoint"
+                arrlist={props.citieslist}
+                setValue={props.setValue}
+                index={props.unloadingPoint.lenght}
+              />
+            </div>
+          )}
       </td>
       {/* Column Customer Price */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
