@@ -92,6 +92,7 @@ export const UserTr = (props) => {
                     colNumber={props.colNumber}
                     loadingPointList={props.elem.idLoadingPoint}
                     handleClickAddCity={props.handleClickAddCity}
+                    hideContextMenu={props.hideContextMenu}
                   />
                 )}
             </div>
@@ -151,8 +152,9 @@ export const UserTr = (props) => {
                     trId={props.trId}
                     pId={props.pId}
                     colNumber={props.colNumber}
-                    loadingPointList={props.elem.idLoadingPoint}
+                    loadingPointList={props.elem.idUnloadingPoint}
                     handleClickAddCity={props.handleClickAddCity}
+                    hideContextMenu={props.hideContextMenu}
                   />
                 )}
             </div>

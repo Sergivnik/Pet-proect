@@ -171,6 +171,10 @@ export const Oders = () => {
     setShowAddCity(true);
   };
 
+  const hideContextMenu = () => {
+    setShowContextMenu(false);
+  };
+
   return (
     <React.Fragment>
       <div className="odersDiv" onScroll={onScroll}>
@@ -236,6 +240,7 @@ export const Oders = () => {
                   handleContext={handleContext}
                   handleClickAddCity={handleClickAddCity}
                   showAddCity={showAddCity}
+                  hideContextMenu={hideContextMenu}
                 />
               );
             })}

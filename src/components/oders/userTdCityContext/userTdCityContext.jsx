@@ -5,14 +5,14 @@ import { useDispatch } from "react-redux";
 export const UserTdCityContext = (props) => {
   const [stylePUp, setStylePUp] = useState({ color: "#000000" });
   const [stylePDown, setStylePDown] = useState({ color: "#000000" });
+  const [stylePDelete, setStylePDelete] = useState({ color: "#000000" });
   const dispatch = useDispatch();
-
-  //dispatch(editOder(37103, "loadingPoint", [1]));
 
   useEffect(() => {
     if (props.loadingPointList.length === 1) {
       setStylePUp({ color: "#bbbbbb" });
       setStylePDown({ color: "#bbbbbb" });
+      setStylePDelete({ color: "#bbbbbb" });
     }
     if (props.pId == 0) {
       setStylePUp({ color: "#bbbbbb" });
@@ -22,10 +22,47 @@ export const UserTdCityContext = (props) => {
     }
   }, [props.pId]);
 
-  const handleClickDeleteCity = () => {
+  const handleClickUpCity = (e) => {
+    e.stopPropagation();
     let [...arr] = props.loadingPointList;
-    arr.splice(props.pId, 1);
-    dispatch(editOder(props.trId, "loadingPoint", arr));
+    let pId = Number(props.pId);
+    if (pId > 0) {
+      arr[pId - 1] = props.loadingPointList[pId];
+      arr[pId] = props.loadingPointList[pId - 1];
+      if (props.colNumber == 3)
+        dispatch(editOder(props.trId, "loadingPoint", arr));
+      if (props.colNumber == 4)
+        dispatch(editOder(props.trId, "unloadingPoint", arr));
+      props.hideContextMenu();
+    }
+  };
+
+  const handleClickDownCity = (e) => {
+    e.stopPropagation();
+    let [...arr] = props.loadingPointList;
+    let pId = Number(props.pId);
+    if (pId < props.loadingPointList.length - 1) {
+      arr[pId] = props.loadingPointList[pId + 1];
+      arr[pId + 1] = props.loadingPointList[pId];
+      if (props.colNumber == 3)
+        dispatch(editOder(props.trId, "loadingPoint", arr));
+      if (props.colNumber == 4)
+        dispatch(editOder(props.trId, "unloadingPoint", arr));
+      props.hideContextMenu();
+    }
+  };
+
+  const handleClickDeleteCity = (e) => {
+    e.stopPropagation();
+    if (props.loadingPointList.length > 1) {
+      let [...arr] = props.loadingPointList;
+      arr.splice(props.pId, 1);
+      if (props.colNumber == 3)
+        dispatch(editOder(props.trId, "loadingPoint", arr));
+      if (props.colNumber == 4)
+        dispatch(editOder(props.trId, "unloadingPoint", arr));
+      props.hideContextMenu();
+    }
   };
 
   return (
@@ -36,15 +73,23 @@ export const UserTdCityContext = (props) => {
         Добавить место
       </p>
       <hr />
-      <p className="odersContextP" style={stylePUp}>
+      <p className="odersContextP" style={stylePUp} onClick={handleClickUpCity}>
         Поднять место
       </p>
       <hr />
-      <p className="odersContextP" style={stylePDown}>
+      <p
+        className="odersContextP"
+        style={stylePDown}
+        onClick={handleClickDownCity}
+      >
         Опустить место
       </p>
       <hr />
-      <p className="odersContextP" onClick={handleClickDeleteCity}>
+      <p
+        className="odersContextP"
+        style={stylePDelete}
+        onClick={handleClickDeleteCity}
+      >
         Удалить место
       </p>
       <hr />
