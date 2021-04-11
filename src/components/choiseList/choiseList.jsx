@@ -5,7 +5,6 @@ export const ChoiseList = (props) => {
   const [text, setText] = useState("");
   const [list, setList] = useState(props.arrlist);
   const [showSelect, setShowSelect] = useState(true);
-  const originList = props.arrlist;
   let elSelect = null;
 
   if (props.clear) setText("");
@@ -14,7 +13,7 @@ export const ChoiseList = (props) => {
     let test = event.currentTarget.value;
     setText(event.currentTarget.value);
     let regtext = new RegExp(test, "i");
-    let arr = originList.filter((elem) => regtext.test(elem.value));
+    let arr = props.arrlist.filter((elem) => regtext.test(elem.value));
     setList(arr);
   };
   const handleKeyUp = (event) => {
