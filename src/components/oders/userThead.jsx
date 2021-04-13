@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { FilterList } from "../filterList/filterList.jsx";
+import "./oders.sass";
 
 export const UserThead = (props) => {
   const [showFilter, setShowFilter] = useState(false);
@@ -17,8 +18,15 @@ export const UserThead = (props) => {
       <tr className="odersTr">
         <td className="odersTd odersTRheader">Дата</td>
         <td className="odersTd odersTRheader">
-          Водитель
-          <button onClick={handleClickFilter}>+</button>
+          <span>Водитель</span>
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <img
+              height="20"
+              weight="20"
+              src="http://localhost:3000/img/down-arrow.png"
+              alt=""
+            />
+          </button>
           {showFilter && <FilterList name="Driver" arrlist={driversList} />}
         </td>
         <td className="odersTd odersTRheader">Заказчик</td>

@@ -37,7 +37,11 @@ export const Oders = () => {
 
   useEffect(() => {
     let length = odersList.length;
-    setOders(odersList.slice(length - 100 - addData, length - addData));
+    if (length > 100) {
+      setOders(odersList.slice(length - 100 - addData, length - addData));
+    }else {
+      setOders(odersList);
+    }
   }, [odersList, addData]);
 
   const handleContext = (e) => {
