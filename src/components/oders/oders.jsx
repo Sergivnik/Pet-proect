@@ -32,6 +32,12 @@ export const Oders = () => {
   const [indexCity, setIndexCity] = useState(null);
   const [addData, setAddData] = useState(0);
   const [pId, setPId] = useState(null);
+  const [filterList, setFilterList] = useState({
+    driver: [],
+    oder: [],
+    cityLoading: [],
+    cityUnloading: [],
+  });
 
   const [coord, setCoord] = useState({ left: 0, top: 0 });
 
@@ -39,10 +45,35 @@ export const Oders = () => {
     let length = odersList.length;
     if (length > 100) {
       setOders(odersList.slice(length - 100 - addData, length - addData));
-    }else {
+    } else {
       setOders(odersList);
     }
   }, [odersList, addData]);
+
+  const writeFilterList = (chosenList, name) => {
+    let {...arr} = filterList;
+    switch (name) {
+      case "Driver":
+        arr.driver = chosenList;
+        setFilterList(arr);
+        break;
+      case "Customer":
+        arr.oder = chosenList;
+        setFilterList(arr);
+        break;
+      case "LoadingCity":
+        arr.cityLoading = chosenList;
+        setFilterList(arr);
+        break;
+      case "UnloadingCity":
+        arr.cityUnloading = chosenList;
+        setFilterList(arr);
+        break;
+      default:
+        break;
+    }
+    console.log(arr);
+  };
 
   const handleContext = (e) => {
     e.preventDefault();
@@ -183,7 +214,11 @@ export const Oders = () => {
     <React.Fragment>
       <div className="odersDiv" onScroll={onScroll}>
         <table className="odersTable">
-          <UserThead handleClick={handleClick} />
+          <UserThead
+            handleClick={handleClick}
+            filterList={filterList}
+            writeFilterList={writeFilterList}
+          />
           <tbody className="odersTbody">
             {oders.map((elem) => {
               let driver, customer;

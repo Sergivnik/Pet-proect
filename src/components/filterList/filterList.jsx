@@ -4,7 +4,15 @@ import "./filterList.sass";
 export const FilterList = (props) => {
   const [text, setText] = useState("");
   const [list, setList] = useState(props.arrlist);
-  const [chosenList, setChosenList] = useState([]);
+  const [chosenList, setChosenList] = useState(props.filterList);
+
+  useEffect(() => {
+    let arr = props.filterList.map((elem) => {
+      let value = list.find((item) => item._id == elem);
+      return { id: elem, value: value.value };
+    });
+    setChosenList(arr);
+  }, [props.filterList]);
 
   const changeList = (e) => {
     let test = e.currentTarget.value;
@@ -17,7 +25,7 @@ export const FilterList = (props) => {
   const choiseValue = (e) => {
     let [...arr] = chosenList;
     console.log(e.target.checked);
-    let check = arr.findIndex((elem) => elem.id === e.target.value);
+    let check = arr.findIndex((elem) => elem.id == e.target.value);
     if (check >= 0) {
       arr.splice(check, 1);
     } else {
@@ -42,6 +50,12 @@ export const FilterList = (props) => {
       }
       setChosenList(arr);
     }
+  };
+
+  const handleClickOk = () => {
+    let arr = chosenList.map((elem) => Number(elem.id));
+    props.writeFilterList(arr, props.name);
+    props.closeFilter();
   };
 
   return (
@@ -79,7 +93,7 @@ export const FilterList = (props) => {
         })}
       </div>
       <div className="filterDivBtn">
-        <button>Ok</button>
+        <button onClick={handleClickOk}>Ok</button>
         <button>Clear</button>
       </div>
     </div>

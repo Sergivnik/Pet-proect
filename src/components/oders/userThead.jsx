@@ -15,6 +15,8 @@ export const UserThead = (props) => {
     setShowFilter(true);
     setColNumber(e.target.parentElement.parentElement.cellIndex);
   };
+
+  const closeFilter = () => setShowFilter(false);
   return (
     <thead>
       <tr className="odersTr">
@@ -30,7 +32,13 @@ export const UserThead = (props) => {
             />
           </button>
           {showFilter && colNumber === 1 && (
-            <FilterList name="Driver" arrlist={driversList} />
+            <FilterList
+              name="Driver"
+              arrlist={driversList}
+              filterList={props.filterList.driver}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
           )}
         </td>
         <td className="odersTd odersTRheader">
@@ -44,7 +52,13 @@ export const UserThead = (props) => {
             />
           </button>
           {showFilter && colNumber === 2 && (
-            <FilterList name="Driver" arrlist={clientList} />
+            <FilterList
+              name="Customer"
+              arrlist={clientList}
+              filterList={props.filterList.oder}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
           )}
         </td>
         <td className="odersTd odersTRheader">
@@ -58,7 +72,13 @@ export const UserThead = (props) => {
             />
           </button>
           {showFilter && colNumber === 3 && (
-            <FilterList name="Driver" arrlist={citieslist} />
+            <FilterList
+              name="LoadingCity"
+              arrlist={citieslist}
+              filterList={props.filterList.cityLoading}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
           )}
         </td>
         <td className="odersTd odersTRheader">
@@ -72,7 +92,13 @@ export const UserThead = (props) => {
             />
           </button>
           {showFilter && colNumber === 4 && (
-            <FilterList name="Driver" arrlist={citieslist} />
+            <FilterList
+              name="UnloadingCity"
+              arrlist={citieslist}
+              filterList={props.filterList.cityUnloading}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
           )}
         </td>
         <td className="odersTd odersTRheader">Цена клиента</td>
