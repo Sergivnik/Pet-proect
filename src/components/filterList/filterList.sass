@@ -1,16 +1,27 @@
 .filterDiv
     position: absolute
+    right: 0
     border: 1px solid #000
     width: 200px
-    height: 300px
+    max-height: 320px
     display: flex
     flex-direction: column
-    overflow: scroll
     z-index: 5
-    background-color: #fff
+    background-color: #eee
+    opacity: 0.95
+.filterDivChosenP
+    max-height: 100px
+    overflow-y: auto
 .filterP
     margin: 1px
     text-align: left
 .filterPChosen
     margin: 1px
     text-align: left
+.filterDivList
+    overflow-y: auto
+    overflow-x: hidden
+    max-height: 200px
+.filterDivBtn
+    display: flex
+    justify-content: flex-end
