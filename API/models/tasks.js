@@ -13,7 +13,7 @@ var Tasks = {
       [data] = await db.query("SELECT * FROM oders");
       allData.clientList = data;
       [data] = await db.query(
-        "(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 10000) ORDER BY _id"
+        "(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 50000) ORDER BY _id"
       );
       allData.odersList = data;
       callback(allData);

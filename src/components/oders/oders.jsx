@@ -51,7 +51,7 @@ export const Oders = () => {
   }, [odersList, addData]);
 
   const writeFilterList = (chosenList, name) => {
-    let {...arr} = filterList;
+    let { ...arr } = filterList;
     switch (name) {
       case "Driver":
         arr.driver = chosenList;
@@ -102,8 +102,10 @@ export const Oders = () => {
     console.log(event.target.scrollTop);
     let length = odersList.length;
     if (event.target.scrollTop < 200) {
-      if (addData < length - 100) setAddData(addData + 10);
-      event.target.scrollTop = 300;
+      if (addData < length - 100) {
+        setAddData(addData + 10);
+        event.target.scrollTop = 300;
+      }
     }
     if (event.target.scrollTop > 1900) {
       setAddData(addData - 10);
