@@ -13,7 +13,7 @@ export const UserThead = (props) => {
 
   const handleClickFilter = (e) => {
     setShowFilter(true);
-    setColNumber(e.target.parentElement.parentElement.cellIndex);
+    setColNumber(e.currentTarget.parentElement.cellIndex);
   };
 
   const closeFilter = () => setShowFilter(false);
@@ -24,12 +24,12 @@ export const UserThead = (props) => {
         <td className="odersTd odersTRheader">
           <span>Водитель</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <img
-              height="20"
-              weight="20"
-              src="http://localhost:3000/img/down-arrow.png"
-              alt=""
-            />
+            <svg width="30" height="20">
+              <polygon
+                points="5 5, 25 5, 15 15, 5 5 "
+                fill={props.filterList.driver.length > 0 ? "blue" : "black"}
+              />
+            </svg>
           </button>
           {showFilter && colNumber === 1 && (
             <FilterList
@@ -44,12 +44,12 @@ export const UserThead = (props) => {
         <td className="odersTd odersTRheader">
           Заказчик
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <img
-              height="20"
-              weight="20"
-              src="http://localhost:3000/img/down-arrow.png"
-              alt=""
-            />
+            <svg width="30" height="20">
+              <polygon
+                points="5,5 25,5 15,15 5,5"
+                fill={props.filterList.oder.length > 0 ? "blue" : "black"}
+              />
+            </svg>
           </button>
           {showFilter && colNumber === 2 && (
             <FilterList
@@ -64,12 +64,14 @@ export const UserThead = (props) => {
         <td className="odersTd odersTRheader">
           Загрузка
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <img
-              height="20"
-              weight="20"
-              src="http://localhost:3000/img/down-arrow.png"
-              alt=""
-            />
+            <svg width="30" height="20">
+              <polygon
+                points="5,5 25,5 15,15 5,5"
+                fill={
+                  props.filterList.cityLoading.length > 0 ? "blue" : "black"
+                }
+              />
+            </svg>
           </button>
           {showFilter && colNumber === 3 && (
             <FilterList
@@ -84,12 +86,14 @@ export const UserThead = (props) => {
         <td className="odersTd odersTRheader">
           Выгрузка
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <img
-              height="20"
-              weight="20"
-              src="http://localhost:3000/img/down-arrow.png"
-              alt=""
-            />
+            <svg width="30" height="20">
+              <polygon
+                points="5,5 25,5 15,15 5,5"
+                fill={
+                  props.filterList.cityUnloading.length > 0 ? "blue" : "black"
+                }
+              />
+            </svg>
           </button>
           {showFilter && colNumber === 4 && (
             <FilterList

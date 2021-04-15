@@ -58,6 +58,11 @@ export const FilterList = (props) => {
     props.closeFilter();
   };
 
+  const handleClickClear=()=>{
+    props.writeFilterList([], props.name);
+    props.closeFilter();
+  }
+
   return (
     <div className="filterDiv">
       <div className="filterDivChosenP">
@@ -94,7 +99,7 @@ export const FilterList = (props) => {
       </div>
       <div className="filterDivBtn">
         <button onClick={handleClickOk}>Ok</button>
-        <button>Clear</button>
+        <button onClick={handleClickClear}>Clear</button>
       </div>
     </div>
   );
