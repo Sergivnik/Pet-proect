@@ -3,7 +3,7 @@ import { UserThead } from "./userThead.jsx";
 import { UserTr } from "./userTr.jsx";
 import { CreateOder } from "../createOder/createOder.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { getData } from "../../middlewares/initialState.js";
+import { getData, filterData } from "../../middlewares/initialState.js";
 import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
 import "./oders.sass";
 
@@ -50,6 +50,10 @@ export const Oders = () => {
     }
   }, [odersList, addData]);
 
+  useEffect(() => {
+    setAddData(0);
+  }, [odersList]);
+
   const writeFilterList = (chosenList, name) => {
     let { ...arr } = filterList;
     switch (name) {
@@ -72,7 +76,7 @@ export const Oders = () => {
       default:
         break;
     }
-    console.log(arr);
+    dispatch(filterData(arr));
   };
 
   const handleContext = (e) => {
@@ -102,7 +106,7 @@ export const Oders = () => {
     console.log(event.target.scrollTop);
     let length = odersList.length;
     if (event.target.scrollTop < 200) {
-      if (addData < length - 100) {
+      if (addData < length - 110) {
         setAddData(addData + 10);
         event.target.scrollTop = 300;
       }

@@ -4,6 +4,32 @@ export const GET_DATA = "DATA::GET_DATA";
 export const GET_DATA_REQUEST = "DATA::GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = "DATA::GET_DATA_SUCCESS";
 export const GET_DATA_FAILURE = "DATA::GET_DATA_FAILURE";
+export const GET_FILTER_SUCCESS = "DATA::GET_FILTER_FAILURE";
+export const GET_FILTER_FAILURE = "DATA::GET_FILTER_FAILURE";
+export const FILTER_DATA = "FILTER_DATA";
+
+export const filterData = (filterObj) => {
+  return (dispatch) => {
+    axios
+      .get(URL + "/filter", { params: filterObj })
+      .then((res) => {
+        dispatch(getFilterSuccess(res.data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(getFilterFailure());
+      });
+  };
+};
+
+export const getFilterSuccess = (dataServer) => ({
+  type: GET_FILTER_SUCCESS,
+  dataServer,
+});
+
+export const getFilterFailure = () => ({
+  type: GET_FILTER_FAILURE,
+});
 
 export const getDataRequest = () => ({
   type: GET_DATA_REQUEST,

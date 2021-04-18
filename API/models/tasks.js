@@ -1,9 +1,11 @@
 const mysql = require("mysql2");
+const { NULL } = require("node-sass");
 const options = require("./config.js");
 
 var Tasks = {
   list: async function (callback) {
     let allData = {};
+    //`(SELECT * FROM oderslist where idDriver in (${arr}) and JSON_CONTAINS(idLoadingPoint, '25') ORDER BY _id DESC LIMIT 50000) ORDER BY _id`;
     const db = mysql.createPool(options).promise();
     try {
       let [data] = await db.query("SELECT * FROM cities");
@@ -13,7 +15,7 @@ var Tasks = {
       [data] = await db.query("SELECT * FROM oders");
       allData.clientList = data;
       [data] = await db.query(
-        "(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 50000) ORDER BY _id"
+        `(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 50000) ORDER BY _id`
       );
       allData.odersList = data;
       callback(allData);
@@ -21,6 +23,28 @@ var Tasks = {
     } catch (err) {
       callback({ error: err });
     }
+  },
+  filter: async function (datafilter, callback) {
+    console.log(datafilter);
+    let filterStr = null;
+    if (datafilter.driver)
+      filterStr
+        ? (filterStr = filterStr + `idDriver in (${datafilter.driver})`)
+        : (filterStr = `idDriver in (${datafilter.driver})`);
+    if (datafilter.oder)
+      filterStr
+        ? (filterStr = filterStr + ` and idCustomer in(${datafilter.oder})`)
+        : (filterStr = `idCustomer in(${datafilter.oder})`);
+    const db = mysql.createPool(options).promise();
+    try {
+      [data] = await db.query(
+        `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 5000) ORDER BY _id`
+      );
+      callback(data);
+    } catch (err) {
+      callback({ error: err });
+    }
+    //`(SELECT * FROM oderslist where idDriver in (${arr}) and JSON_CONTAINS(idLoadingPoint, '25') ORDER BY _id DESC LIMIT 50000) ORDER BY _id`;
   },
   add: async function (data, callback) {
     data = JSON.parse(data);

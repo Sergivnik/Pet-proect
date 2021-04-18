@@ -10,6 +10,8 @@ import {
   GET_DATA_SUCCESS,
   GET_DATA_REQUEST,
   GET_DATA_FAILURE,
+  GET_FILTER_SUCCESS,
+  GET_FILTER_FAILURE,
 } from "../middlewares/initialState.js";
 
 export const oderReducer = (store = initialStore, action) => {
@@ -80,6 +82,26 @@ export const oderReducer = (store = initialStore, action) => {
     case DEL_ODER: {
       let arrOders = store.odersList.filter((item) => item._id != action.id);
       return { ...store, odersList: [...arrOders] };
+    }
+
+    case GET_FILTER_SUCCESS: {
+      return {
+        ...store,
+        odersList: action.dataServer,
+        request: {
+          status: "SUCCESS",
+          error: null,
+        },
+      };
+    }
+    case GET_FILTER_FAILURE: {
+      return {
+        ...store,
+        request: {
+          status: "FAILURE",
+          error: true,
+        },
+      };
     }
 
     case GET_DATA_SUCCESS: {

@@ -3,6 +3,7 @@ const router = express.Router();
 const API = require("../controlers/API.js");
 
 router.get("/data", API.taskGet);
+router.get("/filter", API.taskGetFilter);
 router.post("/addOder",API.taskAdd)
 router.post("/proxy/:id", API.taskProxy);
 router.patch("/edit",API.taskEdit)

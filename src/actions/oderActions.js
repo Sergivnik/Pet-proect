@@ -24,3 +24,4 @@ export const delOder = (id) => ({
   type: DEL_ODER,
   id,
 });
+
