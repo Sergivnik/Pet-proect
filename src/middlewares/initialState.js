@@ -9,17 +9,36 @@ export const GET_FILTER_FAILURE = "DATA::GET_FILTER_FAILURE";
 export const FILTER_DATA = "FILTER_DATA";
 
 export const filterData = (filterObj) => {
-  return (dispatch) => {
-    axios
-      .get(URL + "/filter", { params: filterObj })
-      .then((res) => {
-        dispatch(getFilterSuccess(res.data));
-      })
-      .catch((e) => {
-        console.log(e.message);
-        dispatch(getFilterFailure());
-      });
-  };
+  if (
+    filterObj.driver.length == 0 &&
+    filterObj.oder.length == 0 &&
+    filterObj.cityLoading.length == 0 &&
+    filterObj.cityUnloading.length == 0
+  ) {
+    return (dispatch) => {
+      dispatch(getDataRequest());
+      axios
+        .get(URL + "/data")
+        .then((res) => {
+          return dispatch(getDataSuccess(res.data));
+        })
+        .catch((e) => {
+          console.log(e.message);
+          return dispatch(getDataFailure());
+        });
+    };
+  } else
+    return (dispatch) => {
+      axios
+        .get(URL + "/filter", { params: filterObj })
+        .then((res) => {
+          dispatch(getFilterSuccess(res.data));
+        })
+        .catch((e) => {
+          console.log(e.message);
+          dispatch(getFilterFailure());
+        });
+    };
 };
 
 export const getFilterSuccess = (dataServer) => ({
