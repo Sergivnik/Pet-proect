@@ -66,22 +66,18 @@ var Tasks = {
       [data] = await db.query(
         `SELECT DISTINCT idDriver FROM oderslist where ${filterStr}`
       );
-      console.log(data);
       setData.driver = data;
       [data] = await db.query(
         `SELECT DISTINCT idCustomer FROM oderslist where ${filterStr}`
       );
-      console.log(data);
       setData.customer = data;
       [data] = await db.query(
         `SELECT DISTINCT idLoadingPoint FROM oderslist where ${filterStr}`
       );
-      console.log(data);
       setData.loadingPoint = data;
       [data] = await db.query(
         `SELECT DISTINCT idUnloadingPoint FROM oderslist where ${filterStr}`
       );
-      console.log(data);
       setData.unloadingPoint = data;
       [data] = await db.query(
         `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 5000) ORDER BY _id`

@@ -25,7 +25,6 @@ export const FilterList = (props) => {
 
   const choiseValue = (e) => {
     let [...arr] = chosenList;
-    console.log(e.target.checked);
     let check = arr.findIndex((elem) => elem.id == e.target.value);
     if (check >= 0) {
       arr.splice(check, 1);
@@ -82,7 +81,6 @@ export const FilterList = (props) => {
           let chosenElem = chosenList.find((item) => item.id == elem._id);
           let checked = "";
           if (chosenElem) checked = "checked";
-          console.log(elem);
           return (
             <div key={elem._id}>
               <p className="filterP" onClick={handleClickP}>
