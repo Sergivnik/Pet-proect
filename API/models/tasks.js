@@ -64,19 +64,19 @@ var Tasks = {
     const db = mysql.createPool(options).promise();
     try {
       [data] = await db.query(
-        `SELECT DISTINCT idDriver FROM oderslist where ${filterStr}`
+        `SELECT DISTINCT idDriver FROM oderslist where ${filterStr} ORDER BY idDriver`
       );
       setData.driver = data;
       [data] = await db.query(
-        `SELECT DISTINCT idCustomer FROM oderslist where ${filterStr}`
+        `SELECT DISTINCT idCustomer FROM oderslist where ${filterStr} ORDER BY idCustomer`
       );
       setData.customer = data;
       [data] = await db.query(
-        `SELECT DISTINCT idLoadingPoint FROM oderslist where ${filterStr}`
+        `SELECT DISTINCT idLoadingPoint FROM oderslist where ${filterStr} ORDER BY idLoadingPoint`
       );
       setData.loadingPoint = data;
       [data] = await db.query(
-        `SELECT DISTINCT idUnloadingPoint FROM oderslist where ${filterStr}`
+        `SELECT DISTINCT idUnloadingPoint FROM oderslist where ${filterStr} ORDER BY idUnloadingPoint`
       );
       setData.unloadingPoint = data;
       [data] = await db.query(
