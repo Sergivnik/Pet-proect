@@ -7,9 +7,10 @@ export const FilterList = (props) => {
   const [chosenList, setChosenList] = useState(props.filterList);
 
   useEffect(() => {
-    let arr = props.filterList.map((elem) => {
+    let arr = [];
+    props.filterList.forEach((elem) => {
       let value = list.find((item) => item._id == elem);
-      return { id: elem, value: value.value };
+      if (value) arr.push({ id: elem, value: value.value });
     });
     setChosenList(arr);
   }, [props.filterList]);
@@ -58,10 +59,10 @@ export const FilterList = (props) => {
     props.closeFilter();
   };
 
-  const handleClickClear=()=>{
+  const handleClickClear = () => {
     props.writeFilterList([], props.name);
     props.closeFilter();
-  }
+  };
 
   return (
     <div className="filterDiv">
@@ -81,6 +82,7 @@ export const FilterList = (props) => {
           let chosenElem = chosenList.find((item) => item.id == elem._id);
           let checked = "";
           if (chosenElem) checked = "checked";
+          console.log(elem);
           return (
             <div key={elem._id}>
               <p className="filterP" onClick={handleClickP}>

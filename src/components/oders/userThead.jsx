@@ -7,9 +7,14 @@ export const UserThead = (props) => {
   const [showFilter, setShowFilter] = useState(false);
   const [colNumber, setColNumber] = useState(null);
 
-  const driversList = useSelector((state) => state.oderReducer.driverlist);
-  const clientList = useSelector((state) => state.oderReducer.clientList);
-  const citieslist = useSelector((state) => state.oderReducer.citieslist);
+  const driversList = useSelector((state) => state.oderReducer.filteredDrivers);
+  const clientList = useSelector((state) => state.oderReducer.filteredClients);
+  const citiesLoading = useSelector(
+    (state) => state.oderReducer.filteredLoading
+  );
+  const citiesUnloading = useSelector(
+    (state) => state.oderReducer.filteredUnloading
+  );
 
   const handleClickFilter = (e) => {
     setShowFilter(true);
@@ -76,7 +81,7 @@ export const UserThead = (props) => {
           {showFilter && colNumber === 3 && (
             <FilterList
               name="LoadingCity"
-              arrlist={citieslist}
+              arrlist={citiesLoading}
               filterList={props.filterList.cityLoading}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}
@@ -98,7 +103,7 @@ export const UserThead = (props) => {
           {showFilter && colNumber === 4 && (
             <FilterList
               name="UnloadingCity"
-              arrlist={citieslist}
+              arrlist={citiesUnloading}
               filterList={props.filterList.cityUnloading}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}

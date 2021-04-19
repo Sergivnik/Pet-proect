@@ -5,7 +5,6 @@ const options = require("./config.js");
 var Tasks = {
   list: async function (callback) {
     let allData = {};
-    //`(SELECT * FROM oderslist where idDriver in (${arr}) and JSON_CONTAINS(idLoadingPoint, '25') ORDER BY _id DESC LIMIT 50000) ORDER BY _id`;
     const db = mysql.createPool(options).promise();
     try {
       let [data] = await db.query("SELECT * FROM cities");
@@ -25,8 +24,8 @@ var Tasks = {
     }
   },
   filter: async function (datafilter, callback) {
-    console.log(datafilter);
     let filterStr = null;
+    let setData = {};
     if (datafilter.driver)
       filterStr
         ? (filterStr = filterStr + `idDriver in (${datafilter.driver})`)
@@ -35,16 +34,63 @@ var Tasks = {
       filterStr
         ? (filterStr = filterStr + ` and idCustomer in(${datafilter.oder})`)
         : (filterStr = `idCustomer in(${datafilter.oder})`);
+    if (datafilter.cityLoading) {
+      let str = "";
+      let cityLoadingStr = null;
+      datafilter.cityLoading.forEach((elem) => {
+        str = `JSON_CONTAINS(idLoadingPoint, '${elem}')`;
+        cityLoadingStr
+          ? (cityLoadingStr = cityLoadingStr + " or " + str)
+          : (cityLoadingStr = str);
+      });
+      filterStr
+        ? (filterStr = filterStr + " and " + "(" + cityLoadingStr + ")")
+        : (filterStr = "(" + cityLoadingStr + ")");
+    }
+    if (datafilter.cityUnloading) {
+      let str = "";
+      let cityUnloadingStr = null;
+      datafilter.cityUnloading.forEach((elem) => {
+        str = `JSON_CONTAINS(idUnloadingPoint, '${elem}')`;
+        cityUnloadingStr
+          ? (cityUnloadingStr = cityUnloadingStr + " or " + str)
+          : (cityUnloadingStr = str);
+      });
+      filterStr
+        ? (filterStr = filterStr + " and " + "(" + cityUnloadingStr + ")")
+        : (filterStr = "(" + cityUnloadingStr + ")");
+    }
+
     const db = mysql.createPool(options).promise();
     try {
       [data] = await db.query(
+        `SELECT DISTINCT idDriver FROM oderslist where ${filterStr}`
+      );
+      console.log(data);
+      setData.driver = data;
+      [data] = await db.query(
+        `SELECT DISTINCT idCustomer FROM oderslist where ${filterStr}`
+      );
+      console.log(data);
+      setData.customer = data;
+      [data] = await db.query(
+        `SELECT DISTINCT idLoadingPoint FROM oderslist where ${filterStr}`
+      );
+      console.log(data);
+      setData.loadingPoint = data;
+      [data] = await db.query(
+        `SELECT DISTINCT idUnloadingPoint FROM oderslist where ${filterStr}`
+      );
+      console.log(data);
+      setData.unloadingPoint = data;
+      [data] = await db.query(
         `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 5000) ORDER BY _id`
       );
-      callback(data);
+      setData.odersList = data;
+      callback(setData);
     } catch (err) {
       callback({ error: err });
     }
-    //`(SELECT * FROM oderslist where idDriver in (${arr}) and JSON_CONTAINS(idLoadingPoint, '25') ORDER BY _id DESC LIMIT 50000) ORDER BY _id`;
   },
   add: async function (data, callback) {
     data = JSON.parse(data);

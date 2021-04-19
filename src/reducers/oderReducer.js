@@ -85,9 +85,49 @@ export const oderReducer = (store = initialStore, action) => {
     }
 
     case GET_FILTER_SUCCESS: {
+      console.log(action.dataServer);
+      let filteredDriverlist = [];
+      action.dataServer.driver.forEach((item) => {
+        if (item.idDriver)
+          filteredDriverlist.push(
+            store.driverlist.find((elem) => elem._id == item.idDriver)
+          );
+      });
+      let filteredCustomerlist = [];
+      action.dataServer.customer.forEach((item) => {
+        if (item.idCustomer)
+          filteredCustomerlist.push(
+            store.clientList.find((elem) => elem._id == item.idCustomer)
+          );
+      });
+      let filteredLoadinglist = [];
+      action.dataServer.loadingPoint.forEach((item) => {
+        if (item.idLoadingPoint != null && item.idLoadingPoint.length === 1) {
+          filteredLoadinglist.push(
+            store.citieslist.find((elem) => elem._id == item.idLoadingPoint[0])
+          );
+        }
+      });
+      let filteredUnloadinglist = [];
+      action.dataServer.unloadingPoint.forEach((item) => {
+        if (
+          item.idUnloadingPoint != null &&
+          item.idUnloadingPoint.length === 1
+        ) {
+          filteredUnloadinglist.push(
+            store.citieslist.find(
+              (elem) => elem._id == item.idUnloadingPoint[0]
+            )
+          );
+        }
+      });
       return {
         ...store,
-        odersList: action.dataServer,
+        odersList: action.dataServer.odersList,
+        filteredLoading: filteredLoadinglist,
+        filteredUnloading: filteredUnloadinglist,
+        filteredDrivers: filteredDriverlist,
+        filteredClients: filteredCustomerlist,
         request: {
           status: "SUCCESS",
           error: null,
@@ -108,8 +148,12 @@ export const oderReducer = (store = initialStore, action) => {
       return {
         ...store,
         citieslist: action.dataServer.citieslist,
+        filteredLoading: action.dataServer.citieslist,
+        filteredUnloading: action.dataServer.citieslist,
         driverlist: action.dataServer.driverlist,
+        filteredDrivers: action.dataServer.driverlist,
         clientList: action.dataServer.clientList,
+        filteredClients: action.dataServer.clientList,
         odersList: action.dataServer.odersList,
         request: {
           status: "SUCCESS",
