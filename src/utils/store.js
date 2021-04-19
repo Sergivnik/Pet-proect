@@ -11,9 +11,9 @@ export const initStore = () => {
     innitialStore,
     compose(
       applyMiddleware(...middlewares, thunk),
-      window.__REDUX_DEVTOOLS_EXTENSION__
-        ? window.__REDUX_DEVTOOLS_EXTENSION__()
-        : () => {}
+      // window.__REDUX_DEVTOOLS_EXTENSION__
+      //   ? window.__REDUX_DEVTOOLS_EXTENSION__()
+      //   : () => {}
     )
   );
 };
