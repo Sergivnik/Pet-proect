@@ -1,5 +1,4 @@
 const mysql = require("mysql2");
-const { NULL } = require("node-sass");
 const options = require("./config.js");
 
 var Tasks = {
@@ -25,15 +24,41 @@ var Tasks = {
   },
   filter: async function (datafilter, callback) {
     let filterStr = null;
+    let filterDriver = null;
+    let filterOder = null;
+    let filterLoad = null;
+    let filterUnload = null;
     let setData = {};
-    if (datafilter.driver)
+    if (datafilter.driver) {
       filterStr
         ? (filterStr = filterStr + `idDriver in (${datafilter.driver})`)
         : (filterStr = `idDriver in (${datafilter.driver})`);
-    if (datafilter.oder)
+      filterOder
+        ? (filterOder = filterOder + `idDriver in (${datafilter.driver})`)
+        : (filterOder = `idDriver in (${datafilter.driver})`);
+      filterLoad
+        ? (filterLoad = filterLoad + `idDriver in (${datafilter.driver})`)
+        : (filterLoad = `idDriver in (${datafilter.driver})`);
+      filterUnload
+        ? (filterUnload = filterUnload + `idDriver in (${datafilter.driver})`)
+        : (filterUnload = `idDriver in (${datafilter.driver})`);
+    }
+    if (datafilter.oder) {
       filterStr
         ? (filterStr = filterStr + ` and idCustomer in(${datafilter.oder})`)
         : (filterStr = `idCustomer in(${datafilter.oder})`);
+      filterDriver
+        ? (filterDriver =
+            filterDriver + ` and idCustomer in(${datafilter.oder})`)
+        : (filterDriver = `idCustomer in(${datafilter.oder})`);
+      filterLoad
+        ? (filterLoad = filterLoad + ` and idCustomer in(${datafilter.oder})`)
+        : (filterLoad = `idCustomer in(${datafilter.oder})`);
+      filterUnload
+        ? (filterUnload =
+            filterUnload + ` and idCustomer in(${datafilter.oder})`)
+        : (filterUnload = `idCustomer in(${datafilter.oder})`);
+    }
     if (datafilter.cityLoading) {
       let str = "";
       let cityLoadingStr = null;
@@ -46,6 +71,15 @@ var Tasks = {
       filterStr
         ? (filterStr = filterStr + " and " + "(" + cityLoadingStr + ")")
         : (filterStr = "(" + cityLoadingStr + ")");
+      filterDriver
+        ? (filterDriver = filterDriver + " and " + "(" + cityLoadingStr + ")")
+        : (filterDriver = "(" + cityLoadingStr + ")");
+      filterOder
+        ? (filterOder = filterOder + " and " + "(" + cityLoadingStr + ")")
+        : (filterOder = "(" + cityLoadingStr + ")");
+      filterUnload
+        ? (filterUnload = filterUnload + " and " + "(" + cityLoadingStr + ")")
+        : (filterUnload = "(" + cityLoadingStr + ")");
     }
     if (datafilter.cityUnloading) {
       let str = "";
@@ -59,25 +93,54 @@ var Tasks = {
       filterStr
         ? (filterStr = filterStr + " and " + "(" + cityUnloadingStr + ")")
         : (filterStr = "(" + cityUnloadingStr + ")");
+      filterDriver
+        ? (filterDriver = filterDriver + " and " + "(" + cityUnloadingStr + ")")
+        : (filterDriver = "(" + cityUnloadingStr + ")");
+      filterOder
+        ? (filterOder = filterOder + " and " + "(" + cityUnloadingStr + ")")
+        : (filterOder = "(" + cityUnloadingStr + ")");
+      filterLoad
+        ? (filterLoad = filterLoad + " and " + "(" + cityUnloadingStr + ")")
+        : (filterLoad = "(" + cityUnloadingStr + ")");
     }
 
     const db = mysql.createPool(options).promise();
     try {
-      [data] = await db.query(
-        `SELECT DISTINCT idDriver FROM oderslist where ${filterStr} ORDER BY idDriver`
-      );
+      if (filterDriver) {
+        [data] = await db.query(
+          `SELECT DISTINCT idDriver FROM oderslist where ${filterDriver} ORDER BY idDriver`
+        );
+      } else
+        [data] = await db.query(
+          `SELECT DISTINCT idDriver FROM oderslist ORDER BY idDriver`
+        );
       setData.driver = data;
-      [data] = await db.query(
-        `SELECT DISTINCT idCustomer FROM oderslist where ${filterStr} ORDER BY idCustomer`
-      );
+      if (filterOder) {
+        [data] = await db.query(
+          `SELECT DISTINCT idCustomer FROM oderslist where ${filterOder} ORDER BY idCustomer`
+        );
+      } else
+        [data] = await db.query(
+          `SELECT DISTINCT idCustomer FROM oderslist ORDER BY idCustomer`
+        );
       setData.customer = data;
-      [data] = await db.query(
-        `SELECT DISTINCT idLoadingPoint FROM oderslist where ${filterStr} ORDER BY idLoadingPoint`
-      );
+      if (filterLoad) {
+        [data] = await db.query(
+          `SELECT DISTINCT idLoadingPoint FROM oderslist where ${filterLoad} ORDER BY idLoadingPoint`
+        );
+      } else
+        [data] = await db.query(
+          `SELECT DISTINCT idLoadingPoint FROM oderslist ORDER BY idLoadingPoint`
+        );
       setData.loadingPoint = data;
-      [data] = await db.query(
-        `SELECT DISTINCT idUnloadingPoint FROM oderslist where ${filterStr} ORDER BY idUnloadingPoint`
-      );
+      if (filterUnload) {
+        [data] = await db.query(
+          `SELECT DISTINCT idUnloadingPoint FROM oderslist where ${filterUnload} ORDER BY idUnloadingPoint`
+        );
+      } else
+        [data] = await db.query(
+          `SELECT DISTINCT idUnloadingPoint FROM oderslist ORDER BY idUnloadingPoint`
+        );
       setData.unloadingPoint = data;
       [data] = await db.query(
         `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 5000) ORDER BY _id`
