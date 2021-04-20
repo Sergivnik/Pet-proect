@@ -86,6 +86,11 @@ export const oderReducer = (store = initialStore, action) => {
 
     case GET_FILTER_SUCCESS: {
       console.log(action.dataServer);
+      function compareObj(a, b) {
+        if (a.value > b.value) return 1;
+        if (a.value == b.value) return 0;
+        if (a.value < b.value) return -1;
+      }
       let filteredDriverlist = [];
       action.dataServer.driver.forEach((item) => {
         if (item.idDriver)
@@ -93,6 +98,7 @@ export const oderReducer = (store = initialStore, action) => {
             store.driverlist.find((elem) => elem._id == item.idDriver)
           );
       });
+      filteredDriverlist.sort(compareObj);
       let filteredCustomerlist = [];
       action.dataServer.customer.forEach((item) => {
         if (item.idCustomer)
@@ -100,6 +106,7 @@ export const oderReducer = (store = initialStore, action) => {
             store.clientList.find((elem) => elem._id == item.idCustomer)
           );
       });
+      filteredCustomerlist.sort(compareObj);
       let filteredLoadinglist = [];
       action.dataServer.loadingPoint.forEach((item) => {
         if (item.idLoadingPoint != null && item.idLoadingPoint.length === 1) {
@@ -108,6 +115,7 @@ export const oderReducer = (store = initialStore, action) => {
           );
         }
       });
+      filteredLoadinglist.sort(compareObj);
       let filteredUnloadinglist = [];
       action.dataServer.unloadingPoint.forEach((item) => {
         if (
@@ -121,6 +129,7 @@ export const oderReducer = (store = initialStore, action) => {
           );
         }
       });
+      filteredUnloadinglist.sort(compareObj);
       return {
         ...store,
         odersList: action.dataServer.odersList,

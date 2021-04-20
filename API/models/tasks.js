@@ -108,42 +108,37 @@ var Tasks = {
     try {
       if (filterDriver) {
         [data] = await db.query(
-          `SELECT DISTINCT idDriver FROM oderslist where ${filterDriver} ORDER BY idDriver`
+          `SELECT DISTINCT idDriver FROM oderslist where ${filterDriver}`
         );
-      } else
-        [data] = await db.query(
-          `SELECT DISTINCT idDriver FROM oderslist ORDER BY idDriver`
-        );
+      } else [data] = await db.query(`SELECT DISTINCT idDriver FROM oderslist`);
       setData.driver = data;
       if (filterOder) {
         [data] = await db.query(
-          `SELECT DISTINCT idCustomer FROM oderslist where ${filterOder} ORDER BY idCustomer`
+          `SELECT DISTINCT idCustomer FROM oderslist where ${filterOder}`
         );
       } else
-        [data] = await db.query(
-          `SELECT DISTINCT idCustomer FROM oderslist ORDER BY idCustomer`
-        );
+        [data] = await db.query(`SELECT DISTINCT idCustomer FROM oderslist`);
       setData.customer = data;
       if (filterLoad) {
         [data] = await db.query(
-          `SELECT DISTINCT idLoadingPoint FROM oderslist where ${filterLoad} ORDER BY idLoadingPoint`
+          `SELECT DISTINCT idLoadingPoint FROM oderslist where ${filterLoad}`
         );
       } else
         [data] = await db.query(
-          `SELECT DISTINCT idLoadingPoint FROM oderslist ORDER BY idLoadingPoint`
+          `SELECT DISTINCT idLoadingPoint FROM oderslist`
         );
       setData.loadingPoint = data;
       if (filterUnload) {
         [data] = await db.query(
-          `SELECT DISTINCT idUnloadingPoint FROM oderslist where ${filterUnload} ORDER BY idUnloadingPoint`
+          `SELECT DISTINCT idUnloadingPoint FROM oderslist where ${filterUnload}`
         );
       } else
         [data] = await db.query(
-          `SELECT DISTINCT idUnloadingPoint FROM oderslist ORDER BY idUnloadingPoint`
+          `SELECT DISTINCT idUnloadingPoint FROM oderslist`
         );
       setData.unloadingPoint = data;
       [data] = await db.query(
-        `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 5000) ORDER BY _id`
+        `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 50000) ORDER BY _id`
       );
       setData.odersList = data;
       callback(setData);

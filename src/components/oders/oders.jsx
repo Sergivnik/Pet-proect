@@ -43,6 +43,7 @@ export const Oders = () => {
 
   useEffect(() => {
     let length = odersList.length;
+    console.log(length);
     if (length > 100) {
       setOders(odersList.slice(length - 100 - addData, length - addData));
     } else {
@@ -90,7 +91,6 @@ export const Oders = () => {
   };
 
   const handleClickProxy = (e) => {
-    console.log(e.target.parentElement.parentElement.id);
     setShowEdit(false);
     dispatch(editOder(e.target.parentElement.parentElement.id, "proxy", true));
     dispatch(setProxy(e.target.parentElement.parentElement.id));
@@ -103,7 +103,6 @@ export const Oders = () => {
   };
 
   const onScroll = (event) => {
-    console.log(event.target.scrollTop);
     let length = odersList.length;
     if (event.target.scrollTop < 200) {
       if (addData < length - 110) {
@@ -115,7 +114,6 @@ export const Oders = () => {
       setAddData(addData - 10);
       event.target.scrollTop = 1800;
     }
-    console.log(addData);
   };
 
   const handleClick = () => setShowCreateOder(!showCreateOder);
