@@ -1,5 +1,6 @@
 import axios from "axios";
 export const URL = "http://localhost:3000/API";
+//export const URL = "http://192.168.0.106:3000/API";
 export const GET_DATA = "DATA::GET_DATA";
 export const GET_DATA_REQUEST = "DATA::GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = "DATA::GET_DATA_SUCCESS";
