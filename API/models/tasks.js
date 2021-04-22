@@ -6,7 +6,9 @@ var Tasks = {
     let allData = {};
     const db = mysql.createPool(options).promise();
     try {
-      let [data] = await db.query("SELECT * FROM cities");
+      let [data] = await db.query("SELECT DISTINCT date FROM oderslist");
+      allData.date = data;
+      [data] = await db.query("SELECT * FROM cities");
       allData.citieslist = data;
       [data] = await db.query("SELECT * FROM drivers");
       allData.driverlist = data;

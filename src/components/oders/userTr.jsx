@@ -3,6 +3,10 @@ import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { UserTdCityContext } from "./userTdCityContext/userTdCityContext.jsx";
 
 export const UserTr = (props) => {
+  const DateStr = (date) => {
+    date = new Date(date);
+    return date.toLocaleDateString();
+  };
   return (
     <tr id={props.elem._id} onClick={props.handleClickTR}>
       {/* Column Data */}
@@ -18,7 +22,7 @@ export const UserTr = (props) => {
             onKeyDown={props.handleEnter}
           />
         ) : (
-          props.elem.date
+          DateStr(props.elem.date)
         )}
       </td>
       {/* Column Driver */}

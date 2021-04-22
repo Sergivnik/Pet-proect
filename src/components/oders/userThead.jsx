@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FilterList } from "../filterList/filterList.jsx";
+import { FilterDateList } from "../filterDate/filterDateList.jsx";
 import "./oders.sass";
 
 export const UserThead = (props) => {
   const [showFilter, setShowFilter] = useState(false);
   const [colNumber, setColNumber] = useState(null);
 
+  const dateList = useSelector((state) => state.oderReducer.dateList);
   const driversList = useSelector((state) => state.oderReducer.filteredDrivers);
   const clientList = useSelector((state) => state.oderReducer.filteredClients);
   const citiesLoading = useSelector(
@@ -22,10 +24,30 @@ export const UserThead = (props) => {
   };
 
   const closeFilter = () => setShowFilter(false);
+
   return (
     <thead>
       <tr className="odersTr">
-        <td className="odersTd odersTRheader">Дата</td>
+        <td className="odersTd odersTRheader">
+          <span>Дата</span>
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <svg width="30" height="20">
+              <polygon
+                points="5 5, 25 5, 15 15, 5 5 "
+                fill={props.filterList.driver.length > 0 ? "blue" : "black"}
+              />
+            </svg>
+          </button>
+          {showFilter && colNumber === 0 && (
+            <FilterDateList
+              name="Date"
+              arrlist={dateList}
+              filterList={props.filterList.driver}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
+          )}
+        </td>
         <td className="odersTd odersTRheader">
           <span>Водитель</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>

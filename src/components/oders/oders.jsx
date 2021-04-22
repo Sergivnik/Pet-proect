@@ -33,6 +33,7 @@ export const Oders = () => {
   const [addData, setAddData] = useState(0);
   const [pId, setPId] = useState(null);
   const [filterList, setFilterList] = useState({
+    date: [],
     driver: [],
     oder: [],
     cityLoading: [],
@@ -58,6 +59,9 @@ export const Oders = () => {
   const writeFilterList = (chosenList, name) => {
     let { ...arr } = filterList;
     switch (name) {
+      case "Date":
+        arr.date = chosenList;
+        setFilterList(arr);
       case "Driver":
         arr.driver = chosenList;
         setFilterList(arr);

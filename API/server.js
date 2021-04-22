@@ -154,7 +154,11 @@ app.use(router);
 //       i = elem.id;
 //       dateOd = new Date(1900, 0, 1);
 //       dateOd.setDate(dateOd.getDate() + elem.Дата - 2);
-//       dateOd = dateOd.toLocaleDateString();
+//       //dateOd = dateOd.toLocaleDateString();
+//       let Year = dateOd.getFullYear();
+//       let Month = dateOd.getMonth()+1;
+//       let Day = dateOd.getDate();
+//       dateOd = `${Year}-${Month}-${Day}`
 //       res = datalists.driverlist.find((item) => item.value == elem.Колдун);
 //       if (res) {
 //         idDr = res._id;
@@ -175,7 +179,7 @@ app.use(router);
 //       }
 //       res = datalists.citieslist.find((item) => item.value == elem.выгрузки);
 //       if (res) {
-//         idUP = JSON.stringify([res._id]);//!!!!!
+//         idUP = JSON.stringify([res._id]); //!!!!!
 //       } else {
 //         idUP = null;
 //       }

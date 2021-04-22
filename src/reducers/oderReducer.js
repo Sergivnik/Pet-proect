@@ -156,6 +156,7 @@ export const oderReducer = (store = initialStore, action) => {
     case GET_DATA_SUCCESS: {
       return {
         ...store,
+        dateList: action.dataServer.date,
         citieslist: action.dataServer.citieslist,
         filteredLoading: action.dataServer.citieslist,
         filteredUnloading: action.dataServer.citieslist,
