@@ -106,18 +106,20 @@ export const FilterDateList = (props) => {
           }
         });
         return (
-          <div key={`Year${elemYear}`} name={elemYear} className="felterStrDiv">
-            <button
-              onClick={handlePlusYearClick}
-              name={elemYear}
-              className="filterBtnPlus"
-            >
-              +
-            </button>
-            <p className="filterP">
-              <input type="checkbox" onChange={handleChangeYear} />
-              {elemYear}
-            </p>
+          <div key={`Year${elemYear}`} name={elemYear} className="filterStrDiv">
+            <div className="filterBtnP">
+              <button
+                onClick={handlePlusYearClick}
+                name={elemYear}
+                className="filterBtnPlus"
+              >
+                +
+              </button>
+              <p className="filterP">
+                <input type="checkbox" onChange={handleChangeYear} />
+                {elemYear}
+              </p>
+            </div>
             {shownYears.includes(elemYear) && (
               <div className="felterMonthDiv">
                 {months.map((elemMonth) => {
@@ -139,26 +141,31 @@ export const FilterDateList = (props) => {
                       key={`${elemYear}${elemMonth}`}
                       className="felterStrDiv"
                     >
-                      <button
-                        onClick={handlePlusMonthClick}
-                        name={`${elemYear}-${elemMonth}`}
-                        className="filterBtnPlus"
-                      >
-                        +
-                      </button>
-                      <p className="filterP">
-                        <input
-                          type="checkbox"
-                          checked="checked"
-                          onChange={handleChangeMonth}
-                        />
-                        {nameOfMonth(elemMonth)}
-                      </p>
+                      <div className="filterBtnP filterBtnMonth">
+                        <button
+                          onClick={handlePlusMonthClick}
+                          name={`${elemYear}-${elemMonth}`}
+                          className="filterBtnPlus"
+                        >
+                          +
+                        </button>
+                        <p className="filterP">
+                          <input
+                            type="checkbox"
+                            checked="checked"
+                            onChange={handleChangeMonth}
+                          />
+                          {nameOfMonth(elemMonth)}
+                        </p>
+                      </div>
                       {shownMonths.includes(`${elemYear}-${elemMonth}`) && (
                         <div className="filterDaysDiv">
                           {days.map((elemDay) => {
                             return (
-                              <div key={`${elemYear}-${elemMonth}-${elemDay}`}>
+                              <div
+                                key={`${elemYear}-${elemMonth}-${elemDay}`}
+                                className="filterBtnDay"
+                              >
                                 <p className="filterP">
                                   <input
                                     type="checkbox"
