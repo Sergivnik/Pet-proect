@@ -5,7 +5,8 @@ export const FilterDateList = (props) => {
   const [years, setYears] = useState([]);
   const [shownYears, setShownYears] = useState([]);
   const [shownMonths, setShownMonths] = useState([]);
-  const [chosenYear, setChosenYear] = useState(null);
+  const [chosenYears, setChosenYears] = useState([]);
+  const [chosenMonths, setChosenMonths] = useState([]);
 
   useEffect(() => {
     let arr = [];
@@ -84,27 +85,56 @@ export const FilterDateList = (props) => {
   };
 
   const handleChangeYear = (e) => {
+    let [...arrYear] = chosenYears;
+    let [...arrMpnths] = chosenMonths;
+    let Year = Number(e.currentTarget.name);
+    let Months = getMonthsInYear(Year);
+    if (e.currentTarget.checked) {
+      arrYear.push(Year);
+      Months.forEach((elem) => {
+        arrMpnths.push(`${Year}-${elem}`);
+      });
+    } else {
+      arrYear = chosenYears.filter((elem) => elem != Year);
+      arrMpnths = chosenMonths.filter((elem) => elem.indexOf(`${Year}`));
+    }
+    setChosenYears(arrYear);
+    setChosenMonths(arrMpnths);
     e.currentTarget.checked = !e.currentTarget.checked;
   };
   const handleChangeMonth = (e) => {
+    let [...arr] = chosenMonths;
+    let Month = e.currentTarget.name;
+    if (e.currentTarget.checked) {
+      arr.push(Month);
+    } else {
+      arr = chosenMonths.filter((elem) => elem != Month);
+    }
+    setChosenMonths(arr);
     e.currentTarget.checked = !e.currentTarget.checked;
   };
   const handleChangeDay = (e) => {
     e.currentTarget.checked = !e.currentTarget.checked;
   };
+
+  const getMonthsInYear = (Year) => {
+    let months = [];
+    props.arrlist.forEach((elem) => {
+      let date = new Date(elem.date);
+      if (date.getFullYear() == Year) {
+        let month = date.getMonth();
+        if (!months.includes(month)) {
+          months.push(month);
+        }
+      }
+    });
+    return months;
+  };
+
   return (
     <div className="filterDateDiv">
       {years.map((elemYear) => {
-        let months = [];
-        props.arrlist.forEach((elem) => {
-          let date = new Date(elem.date);
-          if (date.getFullYear() == elemYear) {
-            let month = date.getMonth();
-            if (!months.includes(month)) {
-              months.push(month);
-            }
-          }
-        });
+        let months = getMonthsInYear(elemYear);
         return (
           <div key={`Year${elemYear}`} name={elemYear} className="filterStrDiv">
             <div className="filterBtnP">
@@ -116,7 +146,12 @@ export const FilterDateList = (props) => {
                 +
               </button>
               <p className="filterP">
-                <input type="checkbox" onChange={handleChangeYear} />
+                <input
+                  type="checkbox"
+                  onChange={handleChangeYear}
+                  name={elemYear}
+                  checked={chosenYears.includes(elemYear)}
+                />
                 {elemYear}
               </p>
             </div>
@@ -152,7 +187,10 @@ export const FilterDateList = (props) => {
                         <p className="filterP">
                           <input
                             type="checkbox"
-                            checked="checked"
+                            checked={chosenMonths.includes(
+                              `${elemYear}-${elemMonth}`
+                            )}
+                            name={`${elemYear}-${elemMonth}`}
                             onChange={handleChangeMonth}
                           />
                           {nameOfMonth(elemMonth)}
