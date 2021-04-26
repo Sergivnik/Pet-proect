@@ -7,6 +7,7 @@ export const FilterDateList = (props) => {
   const [shownMonths, setShownMonths] = useState([]);
   const [chosenYears, setChosenYears] = useState([]);
   const [chosenMonths, setChosenMonths] = useState([]);
+  const [chosenDays, setChosenDays] = useState([]);
 
   useEffect(() => {
     let arr = [];
@@ -102,6 +103,7 @@ export const FilterDateList = (props) => {
     setChosenMonths(arrMpnths);
     e.currentTarget.checked = !e.currentTarget.checked;
   };
+
   const handleChangeMonth = (e) => {
     let [...arr] = chosenMonths;
     let Month = e.currentTarget.name;
@@ -113,7 +115,19 @@ export const FilterDateList = (props) => {
     setChosenMonths(arr);
     e.currentTarget.checked = !e.currentTarget.checked;
   };
+
   const handleChangeDay = (e) => {
+    let [...arr] = chosenDays;
+    let day = e.currentTarget.name;
+    if (e.currentTarget.checked) {
+      let date = new Date(day);
+      console.log(date);
+      arr.push(day);
+    } else {
+      arr = chosenDays.filter((elem) => elem != day);
+    }
+    setChosenDays(arr);
+    console.log(arr);
     e.currentTarget.checked = !e.currentTarget.checked;
   };
 
@@ -207,7 +221,10 @@ export const FilterDateList = (props) => {
                                 <p className="filterP">
                                   <input
                                     type="checkbox"
-                                    checked="checked"
+                                    checked={chosenDays.includes(
+                                      `${elemYear}-${elemMonth}-${elemDay}`
+                                    )}
+                                    name={`${elemYear}-${elemMonth}-${elemDay}`}
                                     onChange={handleChangeDay}
                                   />
                                   {elemDay}
