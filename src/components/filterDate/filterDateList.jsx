@@ -157,6 +157,14 @@ export const FilterDateList = (props) => {
     e.currentTarget.checked = !e.currentTarget.checked;
   };
 
+  const handleClickOk = () => {};
+
+  const handleClickClear = () => {
+    setChosenYears([]);
+    setChosenMonths([]);
+    setChosenDays([]);
+  };
+
   const getMonthsInYear = (Year) => {
     let months = [];
     props.arrlist.forEach((elem) => {
@@ -190,7 +198,13 @@ export const FilterDateList = (props) => {
                 >
                   +
                 </button>
-                <p className="filterP">
+                <p
+                  className={
+                    chosenYears.includes(elemYear)
+                      ? "filterP ColorP"
+                      : "filterP"
+                  }
+                >
                   <input
                     type="checkbox"
                     onChange={handleChangeYear}
@@ -229,7 +243,13 @@ export const FilterDateList = (props) => {
                           >
                             +
                           </button>
-                          <p className="filterP">
+                          <p
+                            className={
+                              chosenMonths.includes(`${elemYear}-${elemMonth}`)
+                                ? "filterP ColorP"
+                                : "filterP"
+                            }
+                          >
                             <input
                               type="checkbox"
                               checked={chosenMonths.includes(
@@ -249,7 +269,15 @@ export const FilterDateList = (props) => {
                                   key={`${elemYear}-${elemMonth}-${elemDay}`}
                                   className="filterBtnDay"
                                 >
-                                  <p className="filterP">
+                                  <p
+                                    className={
+                                      chosenDays.includes(
+                                        `${elemYear}-${elemMonth}-${elemDay}`
+                                      )
+                                        ? "filterP ColorP"
+                                        : "filterP"
+                                    }
+                                  >
                                     <input
                                       type="checkbox"
                                       checked={chosenDays.includes(
@@ -275,8 +303,8 @@ export const FilterDateList = (props) => {
         })}
       </div>
       <div className="filterBtnOkClear">
-        <button>Ok</button>
-        <button>Clear</button>
+        <button onClick={handleClickOk}>Ok</button>
+        <button onClick={handleClickClear}>Clear</button>
       </div>
     </div>
   );
