@@ -26,29 +26,62 @@ var Tasks = {
   },
   filter: async function (datafilter, callback) {
     let filterStr = null;
+    let filterDate = null;
     let filterDriver = null;
     let filterOder = null;
     let filterLoad = null;
     let filterUnload = null;
     let setData = {};
+    if (datafilter.date) {
+      let felterDateStr = "";
+      datafilter.date.forEach((element) => {
+        if (felterDateStr) {
+          felterDateStr = felterDateStr + "," + `'${element}'`;
+        } else {
+          felterDateStr = `'${element}'`;
+        }
+      });
+      filterStr
+        ? (filterStr = filterStr + `date in (${felterDateStr})`)
+        : (filterStr = `date in (${felterDateStr})`);
+      filterDriver
+        ? (filterDriver = filterDriver + `date in (${felterDateStr})`)
+        : (filterDriver = `date in (${felterDateStr})`);
+      filterOder
+        ? (filterOder = filterOder + `date in (${felterDateStr})`)
+        : (filterOder = `date in (${felterDateStr})`);
+      filterLoad
+        ? (filterLoad = filterLoad + `date in (${felterDateStr})`)
+        : (filterLoad = `date in (${felterDateStr})`);
+      filterUnload
+        ? (filterUnload = filterUnload + `date in (${felterDateStr})`)
+        : (filterUnload = `date in (${felterDateStr})`);
+    }
     if (datafilter.driver) {
       filterStr
-        ? (filterStr = filterStr + `idDriver in (${datafilter.driver})`)
+        ? (filterStr = filterStr + `and idDriver in (${datafilter.driver})`)
         : (filterStr = `idDriver in (${datafilter.driver})`);
+      filterDate
+        ? (filterDate = filterDate + `and idDriver in (${datafilter.driver})`)
+        : (filterDate = `idDriver in (${datafilter.driver})`);
       filterOder
-        ? (filterOder = filterOder + `idDriver in (${datafilter.driver})`)
+        ? (filterOder = filterOder + `and idDriver in (${datafilter.driver})`)
         : (filterOder = `idDriver in (${datafilter.driver})`);
       filterLoad
-        ? (filterLoad = filterLoad + `idDriver in (${datafilter.driver})`)
+        ? (filterLoad = filterLoad + `and idDriver in (${datafilter.driver})`)
         : (filterLoad = `idDriver in (${datafilter.driver})`);
       filterUnload
-        ? (filterUnload = filterUnload + `idDriver in (${datafilter.driver})`)
+        ? (filterUnload =
+            filterUnload + `and idDriver in (${datafilter.driver})`)
         : (filterUnload = `idDriver in (${datafilter.driver})`);
     }
     if (datafilter.oder) {
       filterStr
         ? (filterStr = filterStr + ` and idCustomer in(${datafilter.oder})`)
         : (filterStr = `idCustomer in(${datafilter.oder})`);
+      filterDate
+        ? (filterDate = filterDate + ` and idCustomer in(${datafilter.oder})`)
+        : (filterDate = `idCustomer in(${datafilter.oder})`);
       filterDriver
         ? (filterDriver =
             filterDriver + ` and idCustomer in(${datafilter.oder})`)
@@ -73,6 +106,9 @@ var Tasks = {
       filterStr
         ? (filterStr = filterStr + " and " + "(" + cityLoadingStr + ")")
         : (filterStr = "(" + cityLoadingStr + ")");
+      filterDate
+        ? (filterDate = filterDate + " and " + "(" + cityLoadingStr + ")")
+        : (filterDate = "(" + cityLoadingStr + ")");
       filterDriver
         ? (filterDriver = filterDriver + " and " + "(" + cityLoadingStr + ")")
         : (filterDriver = "(" + cityLoadingStr + ")");
@@ -95,6 +131,9 @@ var Tasks = {
       filterStr
         ? (filterStr = filterStr + " and " + "(" + cityUnloadingStr + ")")
         : (filterStr = "(" + cityUnloadingStr + ")");
+      filterDate
+        ? (filterDate = filterDate + " and " + "(" + cityUnloadingStr + ")")
+        : (filterDate = "(" + cityUnloadingStr + ")");
       filterDriver
         ? (filterDriver = filterDriver + " and " + "(" + cityUnloadingStr + ")")
         : (filterDriver = "(" + cityUnloadingStr + ")");
@@ -108,6 +147,18 @@ var Tasks = {
 
     const db = mysql.createPool(options).promise();
     try {
+      if (filterDate) {
+        [data] = await db.query(
+          `SELECT DISTINCT date FROM oderslist where ${filterDate}`
+        );
+      } else [data] = await db.query(`SELECT DISTINCT date FROM oderslist`);
+      setData.date = data;
+      if (filterDriver) {
+        [data] = await db.query(
+          `SELECT DISTINCT idDriver FROM oderslist where ${filterDriver}`
+        );
+      } else [data] = await db.query(`SELECT DISTINCT idDriver FROM oderslist`);
+      setData.driver = data;
       if (filterDriver) {
         [data] = await db.query(
           `SELECT DISTINCT idDriver FROM oderslist where ${filterDriver}`

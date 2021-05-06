@@ -1,5 +1,6 @@
 export const initialStore = {
   dateList: [],
+  filteredDateList: [],
   driverlist: [],
   filteredDrivers: [],
   clientList: [],

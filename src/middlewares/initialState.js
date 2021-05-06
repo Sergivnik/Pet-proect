@@ -11,6 +11,7 @@ export const FILTER_DATA = "FILTER_DATA";
 
 export const filterData = (filterObj) => {
   if (
+    filterObj.date.length == 0 &&
     filterObj.driver.length == 0 &&
     filterObj.oder.length == 0 &&
     filterObj.cityLoading.length == 0 &&

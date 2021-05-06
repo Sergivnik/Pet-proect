@@ -8,7 +8,7 @@ export const UserThead = (props) => {
   const [showFilter, setShowFilter] = useState(false);
   const [colNumber, setColNumber] = useState(null);
 
-  const dateList = useSelector((state) => state.oderReducer.dateList);
+  const dateList = useSelector((state) => state.oderReducer.filteredDateList);
   const driversList = useSelector((state) => state.oderReducer.filteredDrivers);
   const clientList = useSelector((state) => state.oderReducer.filteredClients);
   const citiesLoading = useSelector(
@@ -42,7 +42,7 @@ export const UserThead = (props) => {
             <FilterDateList
               name="Date"
               arrlist={dateList}
-              filterList={props.filterList.driver}
+              filterList={props.filterList.date}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}
             />

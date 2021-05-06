@@ -133,6 +133,7 @@ export const oderReducer = (store = initialStore, action) => {
       return {
         ...store,
         odersList: action.dataServer.odersList,
+        filteredDateList: action.dataServer.date,
         filteredLoading: filteredLoadinglist,
         filteredUnloading: filteredUnloadinglist,
         filteredDrivers: filteredDriverlist,
@@ -157,6 +158,7 @@ export const oderReducer = (store = initialStore, action) => {
       return {
         ...store,
         dateList: action.dataServer.date,
+        filteredDateList: action.dataServer.date,
         citieslist: action.dataServer.citieslist,
         filteredLoading: action.dataServer.citieslist,
         filteredUnloading: action.dataServer.citieslist,

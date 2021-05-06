@@ -62,6 +62,15 @@ export const Oders = () => {
       case "Date":
         arr.date = chosenList;
         setFilterList(arr);
+        let arrdate = [];
+        let localDate = "";
+        chosenList = chosenList.map((elem) => {
+          arrdate = elem.split("-");
+          localDate = `${arrdate[0]}-${Number(arrdate[1]) + 1}-${arrdate[2]}`;
+          return localDate;
+        });
+        arr.date = chosenList;
+        break;
       case "Driver":
         arr.driver = chosenList;
         setFilterList(arr);

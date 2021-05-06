@@ -11,6 +11,7 @@ export const FilterDateList = (props) => {
 
   useEffect(() => {
     let arr = [];
+    let arrLocalDate = [];
     for (let elem of props.arrlist) {
       let date = new Date(elem.date);
       let year = date.getFullYear();
@@ -19,7 +20,15 @@ export const FilterDateList = (props) => {
       }
     }
     setYears(arr.reverse());
-  }, [props.arrlist]);
+    let arrdate = [];
+    let localDate = "";
+    arrLocalDate = props.filterList.map((elem) => {
+      arrdate = elem.split("-");
+      localDate = `${arrdate[0]}-${Number(arrdate[1]) - 1}-${arrdate[2]}`;
+      return localDate;
+    });
+    setChosenDays(arrLocalDate);
+  }, [props.arrlist, props.filterList]);
 
   const handlePlusYearClick = (e) => {
     let [...arrYear] = shownYears;
@@ -98,7 +107,11 @@ export const FilterDateList = (props) => {
         props.arrlist.forEach((elem) => {
           let date = new Date(elem.date);
           if (date.getFullYear() == Year) {
-            if (!arrDays.includes(date)) {
+            if (
+              !arrDays.includes(
+                `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+              )
+            ) {
               arrDays.push(
                 `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
               );
@@ -126,7 +139,11 @@ export const FilterDateList = (props) => {
       props.arrlist.forEach((elem) => {
         let date = new Date(elem.date);
         if (`${date.getFullYear()}-${date.getMonth()}` == Month) {
-          if (!arrDays.includes(date)) {
+          if (
+            !arrDays.includes(
+              `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+            )
+          ) {
             arrDays.push(
               `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
             );
@@ -157,7 +174,11 @@ export const FilterDateList = (props) => {
     e.currentTarget.checked = !e.currentTarget.checked;
   };
 
-  const handleClickOk = () => {};
+  const handleClickOk = () => {
+    console.log(chosenDays);
+    props.writeFilterList(chosenDays, "Date");
+    props.closeFilter();
+  };
 
   const handleClickClear = () => {
     setChosenYears([]);
