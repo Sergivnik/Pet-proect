@@ -200,6 +200,16 @@ export const FilterDateList = (props) => {
     return months;
   };
 
+  const isIncludeYear = (CheckYear) => {
+    let check = false;
+    chosenDays.forEach((elem) => {
+      if (elem.indexOf(CheckYear) == 0) {
+        check = true;
+      }
+    });
+    return check;
+  };
+
   return (
     <div className="filterDateDiv">
       <div className="filterYearsDiv">
@@ -221,9 +231,7 @@ export const FilterDateList = (props) => {
                 </button>
                 <p
                   className={
-                    chosenYears.includes(elemYear)
-                      ? "filterP ColorP"
-                      : "filterP"
+                    isIncludeYear(elemYear) ? "filterP ColorP" : "filterP"
                   }
                 >
                   <input
@@ -266,7 +274,7 @@ export const FilterDateList = (props) => {
                           </button>
                           <p
                             className={
-                              chosenMonths.includes(`${elemYear}-${elemMonth}`)
+                              isIncludeYear(`${elemYear}-${elemMonth}`)
                                 ? "filterP ColorP"
                                 : "filterP"
                             }

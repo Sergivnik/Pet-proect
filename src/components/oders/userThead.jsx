@@ -34,7 +34,7 @@ export const UserThead = (props) => {
             <svg width="30" height="20">
               <polygon
                 points="5 5, 25 5, 15 15, 5 5 "
-                fill={props.filterList.driver.length > 0 ? "blue" : "black"}
+                fill={props.filterList.date.length > 0 ? "blue" : "black"}
               />
             </svg>
           </button>
