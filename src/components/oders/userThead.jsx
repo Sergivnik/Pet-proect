@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FilterList } from "../filterList/filterList.jsx";
 import { FilterDateList } from "../filterDate/filterDateList.jsx";
+import { FilterPrice } from "../filterPrice/filterPrice.jsx";
 import "./oders.sass";
 
 export const UserThead = (props) => {
@@ -132,8 +133,41 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">Цена клиента</td>
-        <td className="odersTd odersTRheader">Цена водителя</td>
+        <td className="odersTd odersTRheader">
+          Цена клиента
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <svg width="30" height="20">
+              <polygon
+                points="5,5 25,5 15,15 5,5"
+                fill={
+                  props.filterList.cityUnloading.length > 0 ? "blue" : "black"
+                }
+              />
+            </svg>
+          </button>
+          {showFilter && colNumber === 5 && (
+            <FilterPrice
+              name="CustomerPrice"
+              arrlist={citiesUnloading}
+              filterList={props.filterList.cityUnloading}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
+          )}
+        </td>
+        <td className="odersTd odersTRheader">
+          Цена водителя
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <svg width="30" height="20">
+              <polygon
+                points="5,5 25,5 15,15 5,5"
+                fill={
+                  props.filterList.cityUnloading.length > 0 ? "blue" : "black"
+                }
+              />
+            </svg>
+          </button>
+        </td>
         <td className="odersTd odersTRheader">Доверенность</td>
         <td className="odersTd odersTRheader">Выполнен</td>
         <td className="odersTd odersTRheader">

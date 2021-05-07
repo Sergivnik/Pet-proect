@@ -18,12 +18,22 @@ var Tasks = {
         `(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 5000) ORDER BY _id`
       );
       allData.odersList = data;
+      [data] = await db.query(
+        `select max(customerPrice) as 'maxCustomerPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
+      );
+      console.log(data[0].maxCustomerPrice);
+      allData.maxCustomerPrice = data;
+      [data] = await db.query(
+        `select max(driverPrice) FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
+      );
+      allData.maxDriverPrice = data;
       callback(allData);
       db.end();
     } catch (err) {
       callback({ error: err });
     }
   },
+
   filter: async function (datafilter, callback) {
     let filterStr = null;
     let filterDate = null;
