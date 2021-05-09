@@ -180,6 +180,16 @@ export const UserThead = (props) => {
               />
             </svg>
           </button>
+          {showFilter && colNumber === 6 && (
+            <FilterPrice
+              name="CustomerPrice"
+              maxPrice={maxDriverPrice}
+              minPrice={minDriverPrice}
+              filterList={props.filterList.cityUnloading}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
+          )}
         </td>
         <td className="odersTd odersTRheader">Доверенность</td>
         <td className="odersTd odersTRheader">Выполнен</td>

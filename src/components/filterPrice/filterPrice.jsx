@@ -6,23 +6,72 @@ export const FilterPrice = (props) => {
   const [valueMinPrice, setValueMinPrice] = useState(props.minPrice);
   const [valueMaxPrice, setValueMaxPrice] = useState(props.maxPrice);
   const [startX, setStartX] = useState(0);
+  const [endX, setEndX] = useState(0);
   const [mouseDown, setMouseDown] = useState(false);
 
   const handleChangeMinRange = (e) => {
-    setValueMinPrice(e.currentTarget.value);
+    if (e.currentTarget.value >= props.minPrice) {
+      setValueMinPrice(e.currentTarget.value);
+      let elemScale =
+        e.currentTarget.parentElement.parentElement.parentElement.children[0];
+      let width = elemScale.children[0].clientWidth;
+      let left = Math.floor(
+        (e.currentTarget.value / (props.maxPrice - props.minPrice)) * width
+      );
+      if (left < width * 0.94) {
+        elemScale.children[1].style.left = left + "px";
+      } else {
+        elemScale.children[1].style.left = width * 0.94 + "px";
+      }
+    }
   };
   const handleChangeMaxRange = (e) => {
     setValueMaxPrice(e.currentTarget.value);
+    let elemScale =
+      e.currentTarget.parentElement.parentElement.parentElement.children[0];
+    let width = elemScale.children[0].clientWidth;
+    elemScale.children[2].style.right =
+      Math.floor(
+        ((props.maxPrice - e.currentTarget.value) /
+          (props.maxPrice - props.minPrice)) *
+          width
+      ) + "px";
   };
 
   const handleMouseDpwn = (e) => {
     setMouseDown(true);
-    if (startX == 0) setStartX(e.clientX);
+    if (e.target.className == "filterPriceMinSlider") {
+      let left = e.target.style.left.slice(0, -2);
+      setStartX(e.clientX - Number(left));
+    }
+    if (e.target.className == "filterPriceMaxSlider") {
+      let right = e.target.style.right.slice(0, -2);
+      setEndX(e.clientX + Number(right));
+    }
   };
   const handleMouseMove = (e) => {
+    let width = e.target.parentElement.children[0].clientWidth;
     if (mouseDown) {
-      e.target.style.left = e.pageX - startX + "px";
-      console.log(e);
+      if (e.target.className == "filterPriceMinSlider") {
+        let left = e.pageX - startX;
+        if (left >= 0) {
+          setValueMinPrice(
+            Math.floor((left / width) * (props.maxPrice - props.minPrice))
+          );
+          e.target.style.left = left + "px";
+        }
+      }
+      if (e.target.className == "filterPriceMaxSlider") {
+        let right = endX - e.pageX;
+        if (right >= 0) {
+          e.target.style.right = right + "px";
+          setValueMaxPrice(
+            Math.floor(
+              ((width - right) / width) * (props.maxPrice - props.minPrice)
+            )
+          );
+        }
+      }
     }
   };
   const handleMouseUp = (e) => {
@@ -33,28 +82,19 @@ export const FilterPrice = (props) => {
     <div className="filterPriceMainDiv">
       <div>
         <div className="filterRangePrice">
+          <div className="filterPriceScale"></div>
           <div
-            className="test"
+            className="filterPriceMinSlider"
             onMouseDown={handleMouseDpwn}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
           ></div>
-          {/* <input
-            className="filterInputRangePrice"
-            type="range"
-            max={valueMaxPrice}
-            min={props.minPrice}
-            value={valueMinPrice}
-            onChange={handleChangeMinRange}
-          />
-          <input
-            className="filterInputRangePrice"
-            type="range"
-            max={props.maxPrice}
-            min={valueMinPrice}
-            value={valueMaxPrice}
-            onChange={handleChangeMaxRange}
-          /> */}
+          <div
+            className="filterPriceMaxSlider"
+            onMouseDown={handleMouseDpwn}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+          ></div>
         </div>
         <div className="filterDivInputPrice">
           <fieldset className="filterFieldset">
