@@ -21,12 +21,19 @@ var Tasks = {
       [data] = await db.query(
         `select max(customerPrice) as 'maxCustomerPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
       );
-      console.log(data[0].maxCustomerPrice);
-      allData.maxCustomerPrice = data;
+      allData.maxCustomerPrice = data[0].maxCustomerPrice;
       [data] = await db.query(
-        `select max(driverPrice) FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
+        `select min(customerPrice) as 'minCustomerPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
       );
-      allData.maxDriverPrice = data;
+      allData.minCustomerPrice = data[0].minCustomerPrice;
+      [data] = await db.query(
+        `select max(driverPrice) as 'maxDriverPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
+      );
+      allData.maxDriverPrice = data[0].maxDriverPrice;
+      [data] = await db.query(
+        `select min(driverPrice) as 'minDriverPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
+      );
+      allData.minDriverPrice = data[0].minDriverPrice;
       callback(allData);
       db.end();
     } catch (err) {

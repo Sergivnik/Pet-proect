@@ -9,6 +9,10 @@ export const initialStore = {
   filteredLoading: [],
   filteredUnloading: [],
   odersList: [],
+  maxCustomerPrice: 0,
+  minCustomerPrice: 0,
+  maxDriverPrice: 0,
+  minDriverPrice: 0,
   request: {
     status: "IDLE",
     error: null,

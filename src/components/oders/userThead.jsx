@@ -18,6 +18,18 @@ export const UserThead = (props) => {
   const citiesUnloading = useSelector(
     (state) => state.oderReducer.filteredUnloading
   );
+  const maxCustomerPrice = useSelector(
+    (state) => state.oderReducer.maxCustomerPrice
+  );
+  const minCustomerPrice = useSelector(
+    (state) => state.oderReducer.minCustomerPrice
+  );
+  const maxDriverPrice = useSelector(
+    (state) => state.oderReducer.maxDriverPrice
+  );
+  const minDriverPrice = useSelector(
+    (state) => state.oderReducer.minDriverPrice
+  );
 
   const handleClickFilter = (e) => {
     setShowFilter(true);
@@ -148,7 +160,8 @@ export const UserThead = (props) => {
           {showFilter && colNumber === 5 && (
             <FilterPrice
               name="CustomerPrice"
-              arrlist={citiesUnloading}
+              maxPrice={maxCustomerPrice}
+              minPrice={minCustomerPrice}
               filterList={props.filterList.cityUnloading}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}
