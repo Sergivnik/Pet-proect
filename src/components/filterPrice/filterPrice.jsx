@@ -26,16 +26,22 @@ export const FilterPrice = (props) => {
     }
   };
   const handleChangeMaxRange = (e) => {
-    setValueMaxPrice(e.currentTarget.value);
-    let elemScale =
-      e.currentTarget.parentElement.parentElement.parentElement.children[0];
-    let width = elemScale.children[0].clientWidth;
-    elemScale.children[2].style.right =
-      Math.floor(
+    if (e.currentTarget.value <= props.maxPrice) {
+      setValueMaxPrice(e.currentTarget.value);
+      let elemScale =
+        e.currentTarget.parentElement.parentElement.parentElement.children[0];
+      let width = elemScale.children[0].clientWidth;
+      let right = Math.floor(
         ((props.maxPrice - e.currentTarget.value) /
           (props.maxPrice - props.minPrice)) *
           width
-      ) + "px";
+      );
+      if (right < width * 0.94) {
+        elemScale.children[2].style.right = right + "px";
+      } else {
+        elemScale.children[2].style.right = width * 0.94 + "px";
+      }
+    }
   };
 
   const handleMouseDown = (e) => {
@@ -76,6 +82,10 @@ export const FilterPrice = (props) => {
   };
   const handleMouseUp = (e) => {
     setMouseDown(false);
+  };
+
+  const handleBtnClear = () => {
+    props.closeFilter();
   };
 
   return (
@@ -119,7 +129,7 @@ export const FilterPrice = (props) => {
       </div>
       <div>
         <button>Ok</button>
-        <button>Clear</button>
+        <button onClick={handleBtnClear}>Clear</button>
       </div>
     </div>
   );
