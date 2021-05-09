@@ -38,7 +38,7 @@ export const FilterPrice = (props) => {
       ) + "px";
   };
 
-  const handleMouseDpwn = (e) => {
+  const handleMouseDown = (e) => {
     setMouseDown(true);
     if (e.target.className == "filterPriceMinSlider") {
       let left = e.target.style.left.slice(0, -2);
@@ -85,13 +85,13 @@ export const FilterPrice = (props) => {
           <div className="filterPriceScale"></div>
           <div
             className="filterPriceMinSlider"
-            onMouseDown={handleMouseDpwn}
+            onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
           ></div>
           <div
             className="filterPriceMaxSlider"
-            onMouseDown={handleMouseDpwn}
+            onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
           ></div>
