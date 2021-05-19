@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import "./filterPrice.sass";
 
 export const FilterPrice = (props) => {
@@ -8,6 +7,11 @@ export const FilterPrice = (props) => {
   const [startX, setStartX] = useState(0);
   const [endX, setEndX] = useState(0);
   const [mouseDown, setMouseDown] = useState(false);
+
+  useEffect(() => {
+    if (props.filterList[0]) setValueMinPrice(props.filterList[0]);
+    if (props.filterList[1]) setValueMaxPrice(props.filterList[1]);
+  }, [props.filterList]);
 
   const handleChangeMinRange = (e) => {
     if (e.currentTarget.value >= props.minPrice) {
@@ -84,7 +88,13 @@ export const FilterPrice = (props) => {
     setMouseDown(false);
   };
 
+  const handleBtnOk = () => {
+    props.writeFilterList([valueMinPrice, valueMaxPrice], props.name);
+    props.closeFilter();
+  };
+
   const handleBtnClear = () => {
+    props.writeFilterList([], props.name);
     props.closeFilter();
   };
 
@@ -128,7 +138,7 @@ export const FilterPrice = (props) => {
         </div>
       </div>
       <div>
-        <button>Ok</button>
+        <button onClick={handleBtnOk}>Ok</button>
         <button onClick={handleBtnClear}>Clear</button>
       </div>
     </div>

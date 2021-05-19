@@ -15,7 +15,9 @@ export const filterData = (filterObj) => {
     filterObj.driver.length == 0 &&
     filterObj.oder.length == 0 &&
     filterObj.cityLoading.length == 0 &&
-    filterObj.cityUnloading.length == 0
+    filterObj.cityUnloading.length == 0 &&
+    filterObj.customerPrice.length == 0 &&
+    filterObj.driverPrice.length == 0
   ) {
     return (dispatch) => {
       dispatch(getDataRequest());

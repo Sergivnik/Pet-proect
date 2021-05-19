@@ -48,6 +48,8 @@ var Tasks = {
     let filterOder = null;
     let filterLoad = null;
     let filterUnload = null;
+    let filterCustomerPrice = null;
+    let filterDriverPrice = null;
     let setData = {};
     if (datafilter.date) {
       let felterDateStr = "";
@@ -73,6 +75,13 @@ var Tasks = {
       filterUnload
         ? (filterUnload = filterUnload + `date in (${felterDateStr})`)
         : (filterUnload = `date in (${felterDateStr})`);
+      filterCustomerPrice
+        ? (filterCustomerPrice =
+            filterCustomerPrice + `date in (${felterDateStr})`)
+        : (filterCustomerPrice = `date in (${felterDateStr})`);
+      filterDriverPrice
+        ? (filterDriverPrice = filterDriverPrice + `date in (${felterDateStr})`)
+        : (filterDriverPrice = `date in (${felterDateStr})`);
     }
     if (datafilter.driver) {
       filterStr
@@ -91,6 +100,14 @@ var Tasks = {
         ? (filterUnload =
             filterUnload + `and idDriver in (${datafilter.driver})`)
         : (filterUnload = `idDriver in (${datafilter.driver})`);
+      filterCustomerPrice
+        ? (filterCustomerPrice =
+            filterCustomerPrice + `and idDriver in (${datafilter.driver})`)
+        : (filterCustomerPrice = `idDriver in (${datafilter.driver})`);
+      filterDriverPrice
+        ? (filterDriverPrice =
+            filterDriverPrice + `and idDriver in (${datafilter.driver})`)
+        : (filterDriverPrice = `idDriver in (${datafilter.driver})`);
     }
     if (datafilter.oder) {
       filterStr
@@ -110,6 +127,14 @@ var Tasks = {
         ? (filterUnload =
             filterUnload + ` and idCustomer in(${datafilter.oder})`)
         : (filterUnload = `idCustomer in(${datafilter.oder})`);
+      filterCustomerPrice
+        ? (filterCustomerPrice =
+            filterCustomerPrice + ` and idCustomer in(${datafilter.oder})`)
+        : (filterCustomerPrice = `idCustomer in(${datafilter.oder})`);
+      filterDriverPrice
+        ? (filterDriverPrice =
+            filterDriverPrice + ` and idCustomer in(${datafilter.oder})`)
+        : (filterDriverPrice = `idCustomer in(${datafilter.oder})`);
     }
     if (datafilter.cityLoading) {
       let str = "";
@@ -135,6 +160,14 @@ var Tasks = {
       filterUnload
         ? (filterUnload = filterUnload + " and " + "(" + cityLoadingStr + ")")
         : (filterUnload = "(" + cityLoadingStr + ")");
+      filterCustomerPrice
+        ? (filterCustomerPrice =
+            filterCustomerPrice + " and " + "(" + cityLoadingStr + ")")
+        : (filterCustomerPrice = "(" + cityLoadingStr + ")");
+      filterDriverPrice
+        ? (filterDriverPrice =
+            filterDriverPrice + " and " + "(" + cityLoadingStr + ")")
+        : (filterDriverPrice = "(" + cityLoadingStr + ")");
     }
     if (datafilter.cityUnloading) {
       let str = "";
@@ -160,6 +193,46 @@ var Tasks = {
       filterLoad
         ? (filterLoad = filterLoad + " and " + "(" + cityUnloadingStr + ")")
         : (filterLoad = "(" + cityUnloadingStr + ")");
+      filterCustomerPrice
+        ? (filterCustomerPrice =
+            filterCustomerPrice + " and " + "(" + cityUnloadingStr + ")")
+        : (filterCustomerPrice = "(" + cityUnloadingStr + ")");
+      filterDriverPrice
+        ? (filterDriverPrice =
+            filterDriverPrice + " and " + "(" + cityUnloadingStr + ")")
+        : (filterDriverPrice = "(" + cityUnloadingStr + ")");
+    }
+    if (datafilter.customerPrice) {
+      let str = ` customerPrice between ${datafilter.customerPrice[0]} and ${datafilter.customerPrice[1]}`;
+      filterStr ? (filterStr = filterStr + "and" + str) : (filterStr = str);
+      filterDate ? (filterDate = filterDate + "and" + str) : (filterDate = str);
+      filterDriver
+        ? (filterDriver = filterDriver + "and" + str)
+        : (filterDriver = str);
+      filterOder ? (filterOder = filterOder + "and" + str) : (filterOder = str);
+      filterLoad ? (filterLoad = filterLoad + "and" + str) : (filterLoad = str);
+      filterUnload
+        ? (filterUnload = filterUnload + "and" + str)
+        : (filterUnload = str);
+      filterCustomerPrice
+        ? (filterCustomerPrice = filterCustomerPrice + "and" + str)
+        : (filterCustomerPrice = str);
+    }
+    if (datafilter.driverPrice) {
+      let str = ` driverPrice between ${datafilter.driverPrice[0]} and ${datafilter.driverPrice[1]}`;
+      filterStr ? (filterStr = filterStr + "and" + str) : (filterStr = str);
+      filterDate ? (filterDate = filterDate + "and" + str) : (filterDate = str);
+      filterDriver
+        ? (filterDriver = filterDriver + "and" + str)
+        : (filterDriver = str);
+      filterOder ? (filterOder = filterOder + "and" + str) : (filterOder = str);
+      filterLoad ? (filterLoad = filterLoad + "and" + str) : (filterLoad = str);
+      filterUnload
+        ? (filterUnload = filterUnload + "and" + str)
+        : (filterUnload = str);
+      filterDriverPrice
+        ? (filterDriverPrice = filterDriverPrice + "and" + str)
+        : (filterDriverPrice = str);
     }
 
     const db = mysql.createPool(options).promise();
@@ -170,12 +243,6 @@ var Tasks = {
         );
       } else [data] = await db.query(`SELECT DISTINCT date FROM oderslist`);
       setData.date = data;
-      if (filterDriver) {
-        [data] = await db.query(
-          `SELECT DISTINCT idDriver FROM oderslist where ${filterDriver}`
-        );
-      } else [data] = await db.query(`SELECT DISTINCT idDriver FROM oderslist`);
-      setData.driver = data;
       if (filterDriver) {
         [data] = await db.query(
           `SELECT DISTINCT idDriver FROM oderslist where ${filterDriver}`
@@ -207,6 +274,48 @@ var Tasks = {
           `SELECT DISTINCT idUnloadingPoint FROM oderslist`
         );
       setData.unloadingPoint = data;
+      setData.filteredCustomerPrice = [];
+      if (filterCustomerPrice) {
+        [data] = await db.query(
+          `select min(customerPrice) as 'minCustomerPrice' FROM oderslist where ${filterCustomerPrice}`
+        );
+      } else {
+        [data] = await db.query(
+          `select min(customerPrice) as 'minCustomerPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
+        );
+      }
+      setData.filteredCustomerPrice[0] = data[0].minCustomerPrice;
+      if (filterCustomerPrice) {
+        [data] = await db.query(
+          `select max(customerPrice) as 'maxCustomerPrice' FROM oderslist where ${filterCustomerPrice}`
+        );
+      } else {
+        [data] = await db.query(
+          `select max(customerPrice) as 'maxCustomerPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
+        );
+      }
+      setData.filteredCustomerPrice[1] = data[0].maxCustomerPrice;
+      setData.filteredDriverPrice = [];
+      if (filterDriverPrice) {
+        [data] = await db.query(
+          `select min(driverPrice) as 'minDriverPrice' FROM oderslist where ${filterDriverPrice}`
+        );
+      } else {
+        [data] = await db.query(
+          `select min(driverPrice) as 'minDriverPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
+        );
+      }
+      setData.filteredDriverPrice[0] = data[0].minDriverPrice;
+      if (filterDriverPrice) {
+        [data] = await db.query(
+          `select max(driverPrice) as 'maxDriverPrice' FROM oderslist where ${filterDriverPrice}`
+        );
+      } else {
+        [data] = await db.query(
+          `select max(driverPrice) as 'maxDriverPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
+        );
+      }
+      setData.filteredDriverPrice[1] = data[0].maxDriverPrice;
       [data] = await db.query(
         `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 50000) ORDER BY _id`
       );

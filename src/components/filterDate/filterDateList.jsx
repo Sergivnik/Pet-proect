@@ -184,6 +184,8 @@ export const FilterDateList = (props) => {
     setChosenYears([]);
     setChosenMonths([]);
     setChosenDays([]);
+    props.writeFilterList([], "Date");
+    props.closeFilter();
   };
 
   const getMonthsInYear = (Year) => {

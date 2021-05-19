@@ -38,6 +38,8 @@ export const Oders = () => {
     oder: [],
     cityLoading: [],
     cityUnloading: [],
+    customerPrice: [],
+    driverPrice: [],
   });
 
   const [coord, setCoord] = useState({ left: 0, top: 0 });
@@ -85,6 +87,14 @@ export const Oders = () => {
         break;
       case "UnloadingCity":
         arr.cityUnloading = chosenList;
+        setFilterList(arr);
+        break;
+      case "CustomerPrice":
+        arr.customerPrice = chosenList;
+        setFilterList(arr);
+        break;
+      case "DriverPrice":
+        arr.driverPrice = chosenList;
         setFilterList(arr);
         break;
       default:

@@ -162,7 +162,7 @@ export const UserThead = (props) => {
               name="CustomerPrice"
               maxPrice={maxCustomerPrice}
               minPrice={minCustomerPrice}
-              filterList={props.filterList.cityUnloading}
+              filterList={props.filterList.customerPrice}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}
             />
@@ -182,10 +182,10 @@ export const UserThead = (props) => {
           </button>
           {showFilter && colNumber === 6 && (
             <FilterPrice
-              name="CustomerPrice"
+              name="DriverPrice"
               maxPrice={maxDriverPrice}
               minPrice={minDriverPrice}
-              filterList={props.filterList.cityUnloading}
+              filterList={props.filterList.driverPrice}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}
             />
