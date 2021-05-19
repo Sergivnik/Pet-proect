@@ -30,6 +30,12 @@ export const UserThead = (props) => {
   const minDriverPrice = useSelector(
     (state) => state.oderReducer.minDriverPrice
   );
+  const filteredCustomerPrice = useSelector(
+    (state) => state.oderReducer.filteredCustomerPrice
+  );
+  const filteredDriverPrice = useSelector(
+    (state) => state.oderReducer.filteredDriverPrice
+  );
 
   const handleClickFilter = (e) => {
     setShowFilter(true);
@@ -152,7 +158,7 @@ export const UserThead = (props) => {
               <polygon
                 points="5,5 25,5 15,15 5,5"
                 fill={
-                  props.filterList.cityUnloading.length > 0 ? "blue" : "black"
+                  props.filterList.customerPrice.length > 0 ? "blue" : "black"
                 }
               />
             </svg>
@@ -160,8 +166,8 @@ export const UserThead = (props) => {
           {showFilter && colNumber === 5 && (
             <FilterPrice
               name="CustomerPrice"
-              maxPrice={maxCustomerPrice}
-              minPrice={minCustomerPrice}
+              maxPrice={filteredCustomerPrice[1]}
+              minPrice={filteredCustomerPrice[0]}
               filterList={props.filterList.customerPrice}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}
@@ -175,7 +181,7 @@ export const UserThead = (props) => {
               <polygon
                 points="5,5 25,5 15,15 5,5"
                 fill={
-                  props.filterList.cityUnloading.length > 0 ? "blue" : "black"
+                  props.filterList.driverPrice.length > 0 ? "blue" : "black"
                 }
               />
             </svg>
@@ -183,8 +189,8 @@ export const UserThead = (props) => {
           {showFilter && colNumber === 6 && (
             <FilterPrice
               name="DriverPrice"
-              maxPrice={maxDriverPrice}
-              minPrice={minDriverPrice}
+              maxPrice={filteredDriverPrice[1]}
+              minPrice={filteredDriverPrice[0]}
               filterList={props.filterList.driverPrice}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}

@@ -204,35 +204,47 @@ var Tasks = {
     }
     if (datafilter.customerPrice) {
       let str = ` customerPrice between ${datafilter.customerPrice[0]} and ${datafilter.customerPrice[1]}`;
-      filterStr ? (filterStr = filterStr + "and" + str) : (filterStr = str);
-      filterDate ? (filterDate = filterDate + "and" + str) : (filterDate = str);
+      filterStr ? (filterStr = filterStr + " and" + str) : (filterStr = str);
+      filterDate
+        ? (filterDate = filterDate + " and" + str)
+        : (filterDate = str);
       filterDriver
-        ? (filterDriver = filterDriver + "and" + str)
+        ? (filterDriver = filterDriver + " and" + str)
         : (filterDriver = str);
-      filterOder ? (filterOder = filterOder + "and" + str) : (filterOder = str);
-      filterLoad ? (filterLoad = filterLoad + "and" + str) : (filterLoad = str);
+      filterOder
+        ? (filterOder = filterOder + " and" + str)
+        : (filterOder = str);
+      filterLoad
+        ? (filterLoad = filterLoad + " and" + str)
+        : (filterLoad = str);
       filterUnload
-        ? (filterUnload = filterUnload + "and" + str)
+        ? (filterUnload = filterUnload + " and" + str)
         : (filterUnload = str);
-      filterCustomerPrice
-        ? (filterCustomerPrice = filterCustomerPrice + "and" + str)
-        : (filterCustomerPrice = str);
+      filterDriverPrice
+        ? (filterDriverPrice = filterDriverPrice + " and" + str)
+        : (filterDriverPrice = str);
     }
     if (datafilter.driverPrice) {
       let str = ` driverPrice between ${datafilter.driverPrice[0]} and ${datafilter.driverPrice[1]}`;
-      filterStr ? (filterStr = filterStr + "and" + str) : (filterStr = str);
-      filterDate ? (filterDate = filterDate + "and" + str) : (filterDate = str);
+      filterStr ? (filterStr = filterStr + " and" + str) : (filterStr = str);
+      filterDate
+        ? (filterDate = filterDate + " and" + str)
+        : (filterDate = str);
       filterDriver
-        ? (filterDriver = filterDriver + "and" + str)
+        ? (filterDriver = filterDriver + " and" + str)
         : (filterDriver = str);
-      filterOder ? (filterOder = filterOder + "and" + str) : (filterOder = str);
-      filterLoad ? (filterLoad = filterLoad + "and" + str) : (filterLoad = str);
+      filterOder
+        ? (filterOder = filterOder + " and" + str)
+        : (filterOder = str);
+      filterLoad
+        ? (filterLoad = filterLoad + " and" + str)
+        : (filterLoad = str);
       filterUnload
-        ? (filterUnload = filterUnload + "and" + str)
+        ? (filterUnload = filterUnload + " and" + str)
         : (filterUnload = str);
-      filterDriverPrice
-        ? (filterDriverPrice = filterDriverPrice + "and" + str)
-        : (filterDriverPrice = str);
+      filterCustomerPrice
+        ? (filterCustomerPrice = filterCustomerPrice + " and" + str)
+        : (filterCustomerPrice = str);
     }
 
     const db = mysql.createPool(options).promise();

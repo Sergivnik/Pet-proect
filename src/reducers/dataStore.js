@@ -13,6 +13,8 @@ export const initialStore = {
   minCustomerPrice: 0,
   maxDriverPrice: 0,
   minDriverPrice: 0,
+  filteredCustomerPrice: [],
+  filteredDriverPrice: [],
   request: {
     status: "IDLE",
     error: null,

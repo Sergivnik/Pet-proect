@@ -138,6 +138,8 @@ export const oderReducer = (store = initialStore, action) => {
         filteredUnloading: filteredUnloadinglist,
         filteredDrivers: filteredDriverlist,
         filteredClients: filteredCustomerlist,
+        filteredCustomerPrice: action.dataServer.filteredCustomerPrice,
+        filteredDriverPrice: action.dataServer.filteredDriverPrice,
         request: {
           status: "SUCCESS",
           error: null,
@@ -171,6 +173,14 @@ export const oderReducer = (store = initialStore, action) => {
         minCustomerPrice: Number(action.dataServer.minCustomerPrice),
         maxDriverPrice: Number(action.dataServer.maxDriverPrice),
         minDriverPrice: Number(action.dataServer.minDriverPrice),
+        filteredCustomerPrice: [
+          Number(action.dataServer.minCustomerPrice),
+          Number(action.dataServer.maxCustomerPrice),
+        ],
+        filteredDriverPrice: [
+          Number(action.dataServer.minDriverPrice),
+          Number(action.dataServer.maxDriverPrice),
+        ],
         request: {
           status: "SUCCESS",
           error: null,
