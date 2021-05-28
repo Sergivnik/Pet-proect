@@ -42,17 +42,18 @@ var Tasks = {
   },
 
   filter: async function (datafilter, callback) {
-    let filterStr = null;
-    let filterDate = null;
-    let filterDriver = null;
-    let filterOder = null;
-    let filterLoad = null;
-    let filterUnload = null;
-    let filterCustomerPrice = null;
-    let filterDriverPrice = null;
+    let filterStr = "";
+    let filterDate = "";
+    let filterDriver = "";
+    let filterOder = "";
+    let filterLoad = "";
+    let filterUnload = "";
+    let filterCustomerPrice = "";
+    let filterDriverPrice = "";
+    let filterArr = [];
     let setData = {};
-    if (datafilter.date) {
-      let felterDateStr = "";
+    if (datafilter.date.length) {
+      let felterDateStr = null;
       datafilter.date.forEach((element) => {
         if (felterDateStr) {
           felterDateStr = felterDateStr + "," + `'${element}'`;
@@ -60,83 +61,15 @@ var Tasks = {
           felterDateStr = `'${element}'`;
         }
       });
-      filterStr
-        ? (filterStr = filterStr + `date in (${felterDateStr})`)
-        : (filterStr = `date in (${felterDateStr})`);
-      filterDriver
-        ? (filterDriver = filterDriver + `date in (${felterDateStr})`)
-        : (filterDriver = `date in (${felterDateStr})`);
-      filterOder
-        ? (filterOder = filterOder + `date in (${felterDateStr})`)
-        : (filterOder = `date in (${felterDateStr})`);
-      filterLoad
-        ? (filterLoad = filterLoad + `date in (${felterDateStr})`)
-        : (filterLoad = `date in (${felterDateStr})`);
-      filterUnload
-        ? (filterUnload = filterUnload + `date in (${felterDateStr})`)
-        : (filterUnload = `date in (${felterDateStr})`);
-      filterCustomerPrice
-        ? (filterCustomerPrice =
-            filterCustomerPrice + `date in (${felterDateStr})`)
-        : (filterCustomerPrice = `date in (${felterDateStr})`);
-      filterDriverPrice
-        ? (filterDriverPrice = filterDriverPrice + `date in (${felterDateStr})`)
-        : (filterDriverPrice = `date in (${felterDateStr})`);
+      filterArr[0] = `date in (${felterDateStr}) `;
     }
-    if (datafilter.driver) {
-      filterStr
-        ? (filterStr = filterStr + `and idDriver in (${datafilter.driver})`)
-        : (filterStr = `idDriver in (${datafilter.driver})`);
-      filterDate
-        ? (filterDate = filterDate + `and idDriver in (${datafilter.driver})`)
-        : (filterDate = `idDriver in (${datafilter.driver})`);
-      filterOder
-        ? (filterOder = filterOder + `and idDriver in (${datafilter.driver})`)
-        : (filterOder = `idDriver in (${datafilter.driver})`);
-      filterLoad
-        ? (filterLoad = filterLoad + `and idDriver in (${datafilter.driver})`)
-        : (filterLoad = `idDriver in (${datafilter.driver})`);
-      filterUnload
-        ? (filterUnload =
-            filterUnload + `and idDriver in (${datafilter.driver})`)
-        : (filterUnload = `idDriver in (${datafilter.driver})`);
-      filterCustomerPrice
-        ? (filterCustomerPrice =
-            filterCustomerPrice + `and idDriver in (${datafilter.driver})`)
-        : (filterCustomerPrice = `idDriver in (${datafilter.driver})`);
-      filterDriverPrice
-        ? (filterDriverPrice =
-            filterDriverPrice + `and idDriver in (${datafilter.driver})`)
-        : (filterDriverPrice = `idDriver in (${datafilter.driver})`);
+    if (datafilter.driver.length) {
+      filterArr[1] = `idDriver in (${datafilter.driver})`;
     }
-    if (datafilter.oder) {
-      filterStr
-        ? (filterStr = filterStr + ` and idCustomer in(${datafilter.oder})`)
-        : (filterStr = `idCustomer in(${datafilter.oder})`);
-      filterDate
-        ? (filterDate = filterDate + ` and idCustomer in(${datafilter.oder})`)
-        : (filterDate = `idCustomer in(${datafilter.oder})`);
-      filterDriver
-        ? (filterDriver =
-            filterDriver + ` and idCustomer in(${datafilter.oder})`)
-        : (filterDriver = `idCustomer in(${datafilter.oder})`);
-      filterLoad
-        ? (filterLoad = filterLoad + ` and idCustomer in(${datafilter.oder})`)
-        : (filterLoad = `idCustomer in(${datafilter.oder})`);
-      filterUnload
-        ? (filterUnload =
-            filterUnload + ` and idCustomer in(${datafilter.oder})`)
-        : (filterUnload = `idCustomer in(${datafilter.oder})`);
-      filterCustomerPrice
-        ? (filterCustomerPrice =
-            filterCustomerPrice + ` and idCustomer in(${datafilter.oder})`)
-        : (filterCustomerPrice = `idCustomer in(${datafilter.oder})`);
-      filterDriverPrice
-        ? (filterDriverPrice =
-            filterDriverPrice + ` and idCustomer in(${datafilter.oder})`)
-        : (filterDriverPrice = `idCustomer in(${datafilter.oder})`);
+    if (datafilter.oder.length) {
+      filterArr[2] = `idCustomer in (${datafilter.oder})`;
     }
-    if (datafilter.cityLoading) {
+    if (datafilter.cityLoading.length) {
       let str = "";
       let cityLoadingStr = null;
       datafilter.cityLoading.forEach((elem) => {
@@ -145,31 +78,9 @@ var Tasks = {
           ? (cityLoadingStr = cityLoadingStr + " or " + str)
           : (cityLoadingStr = str);
       });
-      filterStr
-        ? (filterStr = filterStr + " and " + "(" + cityLoadingStr + ")")
-        : (filterStr = "(" + cityLoadingStr + ")");
-      filterDate
-        ? (filterDate = filterDate + " and " + "(" + cityLoadingStr + ")")
-        : (filterDate = "(" + cityLoadingStr + ")");
-      filterDriver
-        ? (filterDriver = filterDriver + " and " + "(" + cityLoadingStr + ")")
-        : (filterDriver = "(" + cityLoadingStr + ")");
-      filterOder
-        ? (filterOder = filterOder + " and " + "(" + cityLoadingStr + ")")
-        : (filterOder = "(" + cityLoadingStr + ")");
-      filterUnload
-        ? (filterUnload = filterUnload + " and " + "(" + cityLoadingStr + ")")
-        : (filterUnload = "(" + cityLoadingStr + ")");
-      filterCustomerPrice
-        ? (filterCustomerPrice =
-            filterCustomerPrice + " and " + "(" + cityLoadingStr + ")")
-        : (filterCustomerPrice = "(" + cityLoadingStr + ")");
-      filterDriverPrice
-        ? (filterDriverPrice =
-            filterDriverPrice + " and " + "(" + cityLoadingStr + ")")
-        : (filterDriverPrice = "(" + cityLoadingStr + ")");
+      filterArr[3] = "(" + cityLoadingStr + ")";
     }
-    if (datafilter.cityUnloading) {
+    if (datafilter.cityUnloading.length) {
       let str = "";
       let cityUnloadingStr = null;
       datafilter.cityUnloading.forEach((elem) => {
@@ -178,74 +89,55 @@ var Tasks = {
           ? (cityUnloadingStr = cityUnloadingStr + " or " + str)
           : (cityUnloadingStr = str);
       });
-      filterStr
-        ? (filterStr = filterStr + " and " + "(" + cityUnloadingStr + ")")
-        : (filterStr = "(" + cityUnloadingStr + ")");
-      filterDate
-        ? (filterDate = filterDate + " and " + "(" + cityUnloadingStr + ")")
-        : (filterDate = "(" + cityUnloadingStr + ")");
-      filterDriver
-        ? (filterDriver = filterDriver + " and " + "(" + cityUnloadingStr + ")")
-        : (filterDriver = "(" + cityUnloadingStr + ")");
-      filterOder
-        ? (filterOder = filterOder + " and " + "(" + cityUnloadingStr + ")")
-        : (filterOder = "(" + cityUnloadingStr + ")");
-      filterLoad
-        ? (filterLoad = filterLoad + " and " + "(" + cityUnloadingStr + ")")
-        : (filterLoad = "(" + cityUnloadingStr + ")");
-      filterCustomerPrice
-        ? (filterCustomerPrice =
-            filterCustomerPrice + " and " + "(" + cityUnloadingStr + ")")
-        : (filterCustomerPrice = "(" + cityUnloadingStr + ")");
-      filterDriverPrice
-        ? (filterDriverPrice =
-            filterDriverPrice + " and " + "(" + cityUnloadingStr + ")")
-        : (filterDriverPrice = "(" + cityUnloadingStr + ")");
+      filterArr[4] = "(" + cityUnloadingStr + ")";
     }
-    if (datafilter.customerPrice) {
-      let str = ` customerPrice between ${datafilter.customerPrice[0]} and ${datafilter.customerPrice[1]}`;
-      filterStr ? (filterStr = filterStr + " and" + str) : (filterStr = str);
-      filterDate
-        ? (filterDate = filterDate + " and" + str)
-        : (filterDate = str);
-      filterDriver
-        ? (filterDriver = filterDriver + " and" + str)
-        : (filterDriver = str);
-      filterOder
-        ? (filterOder = filterOder + " and" + str)
-        : (filterOder = str);
-      filterLoad
-        ? (filterLoad = filterLoad + " and" + str)
-        : (filterLoad = str);
-      filterUnload
-        ? (filterUnload = filterUnload + " and" + str)
-        : (filterUnload = str);
-      filterDriverPrice
-        ? (filterDriverPrice = filterDriverPrice + " and" + str)
-        : (filterDriverPrice = str);
+    if (datafilter.customerPrice.length) {
+      filterArr[5] = ` customerPrice between ${datafilter.customerPrice[0]} and ${datafilter.customerPrice[1]}`;
     }
-    if (datafilter.driverPrice) {
-      let str = ` driverPrice between ${datafilter.driverPrice[0]} and ${datafilter.driverPrice[1]}`;
-      filterStr ? (filterStr = filterStr + " and" + str) : (filterStr = str);
-      filterDate
-        ? (filterDate = filterDate + " and" + str)
-        : (filterDate = str);
-      filterDriver
-        ? (filterDriver = filterDriver + " and" + str)
-        : (filterDriver = str);
-      filterOder
-        ? (filterOder = filterOder + " and" + str)
-        : (filterOder = str);
-      filterLoad
-        ? (filterLoad = filterLoad + " and" + str)
-        : (filterLoad = str);
-      filterUnload
-        ? (filterUnload = filterUnload + " and" + str)
-        : (filterUnload = str);
-      filterCustomerPrice
-        ? (filterCustomerPrice = filterCustomerPrice + " and" + str)
-        : (filterCustomerPrice = str);
+    if (datafilter.driverPrice.length) {
+      filterArr[6] = ` driverPrice between ${datafilter.driverPrice[0]} and ${datafilter.driverPrice[1]}`;
     }
+
+    filterArr.forEach((str, index) => {
+      if (str) {
+        filterStr ? (filterStr = filterStr + " and " + str) : (filterStr = str);
+        if (index != 0) {
+          filterDate
+            ? (filterDate = filterDate + " and " + str)
+            : (filterDate = str);
+        }
+        if (index != 1) {
+          filterDriver
+            ? (filterDriver = filterDriver + " and " + str)
+            : (filterDriver = str);
+        }
+        if (index != 2) {
+          filterOder
+            ? (filterOder = filterOder + " and " + str)
+            : (filterOder = str);
+        }
+        if (index != 3) {
+          filterLoad
+            ? (filterLoad = filterLoad + " and " + str)
+            : (filterLoad = str);
+        }
+        if (index != 4) {
+          filterUnload
+            ? (filterUnload = filterUnload + " and " + str)
+            : (filterUnload = str);
+        }
+        if (index != 5) {
+          filterCustomerPrice
+            ? (filterCustomerPrice = filterCustomerPrice + " and " + str)
+            : (filterCustomerPrice = str);
+        }
+        if (index != 6) {
+          filterDriverPrice
+            ? (filterDriverPrice = filterDriverPrice + " and " + str)
+            : (filterDriverPrice = str);
+        }
+      }
+    });
 
     const db = mysql.createPool(options).promise();
     try {

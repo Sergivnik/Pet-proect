@@ -13,8 +13,8 @@ module.exports.taskGet = (req, res) => {
 };
 module.exports.taskGetFilter = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
-  console.log(req.query);
-  tasks.filter(req.query, (data) => {
+  console.log(req.body.body);
+  tasks.filter(req.body.body, (data) => {
     if (data.error) {
       res.status(500);
       res.json({ message: data.error });

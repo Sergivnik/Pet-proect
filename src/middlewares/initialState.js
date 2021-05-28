@@ -34,7 +34,7 @@ export const filterData = (filterObj) => {
   } else
     return (dispatch) => {
       axios
-        .get(URL + "/filter", { params: filterObj })
+        .post(URL + "/filter", { body: filterObj })
         .then((res) => {
           dispatch(getFilterSuccess(res.data));
         })
