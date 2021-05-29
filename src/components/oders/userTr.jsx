@@ -243,6 +243,28 @@ export const UserTr = (props) => {
           "Нет"
         )}
       </td>
+      {/* Column Check Complited */}
+      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+        {props.showEdit &&
+        props.colNumber == 8 &&
+        props.elem._id == props.trId ? (
+          <span>in developing</span>
+        ) : props.elem.complited ? (
+          "Ок"
+        ) : (
+          "Нет"
+        )}
+      </td>
+      {/* Column Check Document */}
+      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+        {props.showEdit &&
+        props.colNumber == 9 &&
+        props.elem._id == props.trId ? (
+          <span>in developing</span>
+        ) : (
+          props.elem.document
+        )}
+      </td>
       {/* Button Delete */}
       {props.showDelete && props.elem._id == props.trId && (
         <td>

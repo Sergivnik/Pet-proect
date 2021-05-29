@@ -199,6 +199,9 @@ export const UserThead = (props) => {
         </td>
         <td className="odersTd odersTRheader">Доверенность</td>
         <td className="odersTd odersTRheader">Выполнен</td>
+        <td className="odersTd odersTRheader">Док-ты</td>
+        <td className="odersTd odersTRheader">Клиент Оплата</td>
+        <td className="odersTd odersTRheader">Водитель Оплата</td>
         <td className="odersTd odersTRheader">
           <button className="odersTdBtn" onClick={props.handleClick}>
             Саздать
