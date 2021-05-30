@@ -156,9 +156,9 @@ app.use(router);
 //       dateOd.setDate(dateOd.getDate() + elem.Дата - 2);
 //       //dateOd = dateOd.toLocaleDateString();
 //       let Year = dateOd.getFullYear();
-//       let Month = dateOd.getMonth()+1;
+//       let Month = dateOd.getMonth() + 1;
 //       let Day = dateOd.getDate();
-//       dateOd = `${Year}-${Month}-${Day}`
+//       dateOd = `${Year}-${Month}-${Day}`;
 //       res = datalists.driverlist.find((item) => item.value == elem.Колдун);
 //       if (res) {
 //         idDr = res._id;
@@ -185,6 +185,41 @@ app.use(router);
 //       }
 //       CuPr = elem.Ставказаказчика;
 //       DrPr = elem.Ставкаколдуна;
+//       doc = elem.Докты;
+//       switch (elem.Платежзаказчика) {
+//         case "Ок":
+//           CuPay = 1;
+//           break;
+//         case "нет":
+//           CuPay = 2;
+//           break;
+//         case "мыло":
+//           CuPay = 3;
+//           break;
+//         case "печать":
+//           CuPay = 4;
+//           break;
+//         case "почта":
+//           CuPay = 5;
+//           break;
+//         default:
+//           CuPay = 6;
+//           break;
+//       }
+//       switch (elem.Платежколдуну) {
+//         case "Ок":
+//           DrPay = 1;
+//           break;
+//         case "нет":
+//           DrPay = 2;
+//           break;
+//         default:
+//           DrPay = 0;
+//           break;
+//       }
+//       if (elem.Номеракта != "") {
+//         acNum = Number(elem.Номеракта);
+//       } else acNum = null;
 //       oder = {
 //         _id: i,
 //         date: dateOd,
@@ -194,6 +229,10 @@ app.use(router);
 //         idUnloadingPoint: idUP,
 //         customerPrice: CuPr,
 //         driverPrice: DrPr,
+//         document: doc,
+//         customerPayment: CuPay,
+//         driverPayment: DrPay,
+//         acountNumber: acNum,
 //       };
 //       try {
 //         [data] = await db.query("INSERT INTO oderslist SET ?", oder);

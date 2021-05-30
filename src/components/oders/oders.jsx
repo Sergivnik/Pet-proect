@@ -40,6 +40,9 @@ export const Oders = () => {
     cityUnloading: [],
     customerPrice: [],
     driverPrice: [],
+    proxy: [],
+    complited: [],
+    documents: [],
   });
 
   const [coord, setCoord] = useState({ left: 0, top: 0 });
@@ -95,6 +98,18 @@ export const Oders = () => {
         break;
       case "DriverPrice":
         arr.driverPrice = chosenList;
+        setFilterList(arr);
+        break;
+      case "Proxy":
+        arr.proxy = chosenList;
+        setFilterList(arr);
+        break;
+      case "Complited":
+        arr.complited = chosenList;
+        setFilterList(arr);
+        break;
+      case "Documents":
+        arr.documents = chosenList;
         setFilterList(arr);
         break;
       default:
@@ -239,6 +254,9 @@ export const Oders = () => {
 
   return (
     <React.Fragment>
+      <div className="odersDivInfo">
+        <p>check</p>
+      </div>
       <div className="odersDiv" onScroll={onScroll}>
         <table className="odersTable">
           <UserThead

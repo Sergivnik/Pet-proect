@@ -18,18 +18,18 @@ export const UserThead = (props) => {
   const citiesUnloading = useSelector(
     (state) => state.oderReducer.filteredUnloading
   );
-  const maxCustomerPrice = useSelector(
-    (state) => state.oderReducer.maxCustomerPrice
-  );
-  const minCustomerPrice = useSelector(
-    (state) => state.oderReducer.minCustomerPrice
-  );
-  const maxDriverPrice = useSelector(
-    (state) => state.oderReducer.maxDriverPrice
-  );
-  const minDriverPrice = useSelector(
-    (state) => state.oderReducer.minDriverPrice
-  );
+  // const maxCustomerPrice = useSelector(
+  //   (state) => state.oderReducer.maxCustomerPrice
+  // );
+  // const minCustomerPrice = useSelector(
+  //   (state) => state.oderReducer.minCustomerPrice
+  // );
+  // const maxDriverPrice = useSelector(
+  //   (state) => state.oderReducer.maxDriverPrice
+  // );
+  // const minDriverPrice = useSelector(
+  //   (state) => state.oderReducer.minDriverPrice
+  // );
   const filteredCustomerPrice = useSelector(
     (state) => state.oderReducer.filteredCustomerPrice
   );
@@ -48,9 +48,9 @@ export const UserThead = (props) => {
     <thead>
       <tr className="odersTr">
         <td className="odersTd odersTRheader">
-          <span>Дата</span>
+          <span className="odersTheadSpan">Дата рейса</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <svg width="30" height="20">
+            <svg width="100%" height="20">
               <polygon
                 points="5 5, 25 5, 15 15, 5 5 "
                 fill={props.filterList.date.length > 0 ? "blue" : "black"}
@@ -68,9 +68,9 @@ export const UserThead = (props) => {
           )}
         </td>
         <td className="odersTd odersTRheader">
-          <span>Водитель</span>
+          <span className="odersTheadSpan">Водитель</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <svg width="30" height="20">
+            <svg width="100%" height="20">
               <polygon
                 points="5 5, 25 5, 15 15, 5 5 "
                 fill={props.filterList.driver.length > 0 ? "blue" : "black"}
@@ -88,9 +88,9 @@ export const UserThead = (props) => {
           )}
         </td>
         <td className="odersTd odersTRheader">
-          Заказчик
+          <span className="odersTheadSpan">Заказчик</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <svg width="30" height="20">
+            <svg width="100%" height="20">
               <polygon
                 points="5,5 25,5 15,15 5,5"
                 fill={props.filterList.oder.length > 0 ? "blue" : "black"}
@@ -108,9 +108,9 @@ export const UserThead = (props) => {
           )}
         </td>
         <td className="odersTd odersTRheader">
-          Загрузка
+          <span className="odersTheadSpan">Загрузка</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <svg width="30" height="20">
+            <svg width="100%" height="20">
               <polygon
                 points="5,5 25,5 15,15 5,5"
                 fill={
@@ -130,9 +130,9 @@ export const UserThead = (props) => {
           )}
         </td>
         <td className="odersTd odersTRheader">
-          Выгрузка
+          <span className="odersTheadSpan">Выгрузка</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <svg width="30" height="20">
+            <svg width="100%" height="20">
               <polygon
                 points="5,5 25,5 15,15 5,5"
                 fill={
@@ -152,9 +152,9 @@ export const UserThead = (props) => {
           )}
         </td>
         <td className="odersTd odersTRheader">
-          Цена клиента
+          <span className="odersTheadSpan">Цена клиента</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <svg width="30" height="20">
+            <svg width="100%" height="20">
               <polygon
                 points="5,5 25,5 15,15 5,5"
                 fill={
@@ -175,9 +175,9 @@ export const UserThead = (props) => {
           )}
         </td>
         <td className="odersTd odersTRheader">
-          Цена водителя
+          <span className="odersTheadSpan">Цена водителя</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <svg width="30" height="20">
+            <svg width="100%" height="20">
               <polygon
                 points="5,5 25,5 15,15 5,5"
                 fill={
@@ -197,11 +197,109 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">Доверенность</td>
-        <td className="odersTd odersTRheader">Выполнен</td>
-        <td className="odersTd odersTRheader">Док-ты</td>
-        <td className="odersTd odersTRheader">Клиент Оплата</td>
-        <td className="odersTd odersTRheader">Водитель Оплата</td>
+        <td className="odersTd odersTRheader">
+          <span className="odersTheadSpan">Дов-ть</span>
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <svg width="100%" height="20">
+              <polygon
+                points="5 5, 25 5, 15 15, 5 5 "
+                fill={props.filterList.proxy.length > 0 ? "blue" : "black"}
+              />
+            </svg>
+          </button>
+          {showFilter && colNumber === 7 && (
+            <FilterList
+              name="Proxy"
+              arrlist={[
+                { _id: 1, value: "Ок" },
+                { _id: 0, value: "Нет" },
+              ]}
+              filterList={props.filterList.proxy}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
+          )}
+        </td>
+        <td className="odersTd odersTRheader">
+          <span className="odersTheadSpan">Выполнен</span>
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <svg width="100%" height="20">
+              <polygon
+                points="5 5, 25 5, 15 15, 5 5 "
+                fill={props.filterList.complited.length > 0 ? "blue" : "black"}
+              />
+            </svg>
+          </button>
+          {showFilter && colNumber === 8 && (
+            <FilterList
+              name="Complited"
+              arrlist={[
+                { _id: 1, value: "Ок" },
+                { _id: 0, value: "Нет" },
+              ]}
+              filterList={props.filterList.complited}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
+          )}
+        </td>
+        <td className="odersTd odersTRheader">
+          <span className="odersTheadSpan">Док-ты</span>
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <svg width="100%" height="20">
+              <polygon
+                points="5 5, 25 5, 15 15, 5 5 "
+                fill={props.filterList.documents.length > 0 ? "blue" : "black"}
+              />
+            </svg>
+          </button>
+          {showFilter && colNumber === 9 && (
+            <FilterList
+              name="Documents"
+              arrlist={[
+                { _id: 1, value: "Ок" },
+                { _id: 2, value: "Нет" },
+                { _id: 3, value: "Факс" },
+              ]}
+              filterList={props.filterList.documents}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
+          )}
+        </td>
+        <td className="odersTd odersTRheader">
+          <span className="odersTheadSpan">Клиент Оплата</span>
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <svg width="100%" height="20">
+              <polygon
+                points="5 5, 25 5, 15 15, 5 5 "
+                fill={props.filterList.driver.length > 0 ? "blue" : "black"}
+              />
+            </svg>
+          </button>
+        </td>
+        <td className="odersTd odersTRheader">
+          <span className="odersTheadSpan">Водитель Оплата</span>
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <svg width="100%" height="20">
+              <polygon
+                points="5 5, 25 5, 15 15, 5 5 "
+                fill={props.filterList.driver.length > 0 ? "blue" : "black"}
+              />
+            </svg>
+          </button>
+        </td>
+        <td className="odersTd odersTRheader">
+          <span className="odersTheadSpan">Номер счета</span>
+          <button className="theadBtnFilter" onClick={handleClickFilter}>
+            <svg width="100%" height="20">
+              <polygon
+                points="5 5, 25 5, 15 15, 5 5 "
+                fill={props.filterList.driver.length > 0 ? "blue" : "black"}
+              />
+            </svg>
+          </button>
+        </td>
         <td className="odersTd odersTRheader">
           <button className="odersTdBtn" onClick={props.handleClick}>
             Саздать

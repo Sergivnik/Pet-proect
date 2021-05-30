@@ -175,7 +175,6 @@ export const FilterDateList = (props) => {
   };
 
   const handleClickOk = () => {
-    console.log(chosenDays);
     props.writeFilterList(chosenDays, "Date");
     props.closeFilter();
   };

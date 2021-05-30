@@ -265,6 +265,36 @@ export const UserTr = (props) => {
           props.elem.document
         )}
       </td>
+      {/* Column customerPayment */}
+      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+        {props.showEdit &&
+        props.colNumber == 10 &&
+        props.elem._id == props.trId ? (
+          <span>in developing</span>
+        ) : (
+          props.elem.customerPayment
+        )}
+      </td>
+      {/* Column driverPayment */}
+      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+        {props.showEdit &&
+        props.colNumber == 11 &&
+        props.elem._id == props.trId ? (
+          <span>in developing</span>
+        ) : (
+          props.elem.driverPayment
+        )}
+      </td>
+      {/* Column acountNumber */}
+      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+        {props.showEdit &&
+        props.colNumber == 12 &&
+        props.elem._id == props.trId ? (
+          <span>in developing</span>
+        ) : (
+          props.elem.acountNumber
+        )}
+      </td>
       {/* Button Delete */}
       {props.showDelete && props.elem._id == props.trId && (
         <td>

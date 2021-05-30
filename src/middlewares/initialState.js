@@ -17,7 +17,10 @@ export const filterData = (filterObj) => {
     filterObj.cityLoading.length == 0 &&
     filterObj.cityUnloading.length == 0 &&
     filterObj.customerPrice.length == 0 &&
-    filterObj.driverPrice.length == 0
+    filterObj.driverPrice.length == 0 &&
+    filterObj.proxy.length == 0 &&
+    filterObj.complited.length == 0 &&
+    filterObj.documents.length == 0
   ) {
     return (dispatch) => {
       dispatch(getDataRequest());

@@ -50,6 +50,9 @@ var Tasks = {
     let filterUnload = "";
     let filterCustomerPrice = "";
     let filterDriverPrice = "";
+    let filterProxy = "";
+    let filterComplited = "";
+    let filterDocuments = "";
     let filterArr = [];
     let setData = {};
     if (datafilter.date.length) {
@@ -97,6 +100,15 @@ var Tasks = {
     if (datafilter.driverPrice.length) {
       filterArr[6] = ` driverPrice between ${datafilter.driverPrice[0]} and ${datafilter.driverPrice[1]}`;
     }
+    if (datafilter.proxy.length) {
+      filterArr[7] = `proxy in (${datafilter.proxy})`;
+    }
+    if (datafilter.complited.length) {
+      filterArr[8] = `complited in (${datafilter.complited})`;
+    }
+    if (datafilter.documents.length) {
+      filterArr[9] = `document in (${datafilter.documents})`;
+    }
 
     filterArr.forEach((str, index) => {
       if (str) {
@@ -135,6 +147,21 @@ var Tasks = {
           filterDriverPrice
             ? (filterDriverPrice = filterDriverPrice + " and " + str)
             : (filterDriverPrice = str);
+        }
+        if (index != 7) {
+          filterProxy
+            ? (filterProxy = filterProxy + " and " + str)
+            : (filterProxy = str);
+        }
+        if (index != 8) {
+          filterComplited
+            ? (filterComplited = filterComplited + " and " + str)
+            : (filterComplited = str);
+        }
+        if (index != 9) {
+          filterDocuments
+            ? (filterDocuments = filterDocuments + " and " + str)
+            : (filterDocuments = str);
         }
       }
     });
@@ -220,6 +247,24 @@ var Tasks = {
         );
       }
       setData.filteredDriverPrice[1] = data[0].maxDriverPrice;
+      if (filterProxy) {
+        [data] = await db.query(
+          `SELECT DISTINCT proxy FROM oderslist where ${filterProxy}`
+        );
+      } else [data] = await db.query(`SELECT DISTINCT proxy FROM oderslist`);
+      setData.proxy = data;
+      if (filterComplited) {
+        [data] = await db.query(
+          `SELECT DISTINCT complited FROM oderslist where ${filterComplited}`
+        );
+      } else [data] = await db.query(`SELECT DISTINCT complited FROM oderslist`);
+      setData.proxy = data;
+      if (filterDocuments) {
+        [data] = await db.query(
+          `SELECT DISTINCT document FROM oderslist where ${filterDocuments}`
+        );
+      } else [data] = await db.query(`SELECT DISTINCT document FROM oderslist`);
+      setData.documents = data;
       [data] = await db.query(
         `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 50000) ORDER BY _id`
       );

@@ -1,24 +1,41 @@
+.odersDivInfo
+    height: 4vh
 .odersDiv
     border: 1px solid #000
-    height: 78vh
+    height: 75vh
     width: 100%
     display: flex
     flex-direction: column
-    overflow: scroll
+    overflow-y: scroll
 .odersTable
     border: 1px solid #000
-    margin: 3%
+    margin: 0 auto
     width: 94%
     height: 70%
     border-collapse: collapse
     //overflow: scroll
 .odersTr
-    width: 100%
+    width: 97%
 .odersTRheader
     background-color: #ccc
     position: sticky
     top: 0
     z-index: 20
+    min-width: 104px
+.odersTheadSpan
+    width: 75%
+    display: inline-block
+    margin: 0
+    vertical-align: -webkit-baseline-middle
+    font-size: 18px
+.theadBtnFilter
+    border: none
+    background: #ccc0
+    outline: none
+    float: right
+    width: 25%
+    height: 100%
+    padding: 0
 .odersTbody
     height: 70%
     overflow: auto
@@ -27,6 +44,7 @@
     width: auto
     text-align: center
     height: 20px
+    font-size: 18px
 .odersTdBtn
     width: 96%
     margin: 2%
@@ -56,8 +74,3 @@
     padding: 0
 hr
     margin: 0
-.theadBtnFilter
-    border: none
-    background: #ccc0
-    outline: none
-    float: right
