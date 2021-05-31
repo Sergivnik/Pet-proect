@@ -159,25 +159,33 @@ app.use(router);
 //       let Month = dateOd.getMonth() + 1;
 //       let Day = dateOd.getDate();
 //       dateOd = `${Year}-${Month}-${Day}`;
-//       res = datalists.driverlist.find((item) => item.value == elem.Колдун);
+//       res = datalists.driverlist.find(
+//         (item) => item.value.toUpperCase() == elem.Колдун.toUpperCase()
+//       );
 //       if (res) {
 //         idDr = res._id;
 //       } else {
 //         idDr = null;
 //       }
-//       res = datalists.clientList.find((item) => item.value == elem.Заказчик);
+//       res = datalists.clientList.find(
+//         (item) => item.value.toUpperCase() == elem.Заказчик.toUpperCase()
+//       );
 //       if (res) {
 //         idOd = res._id;
 //       } else {
 //         idOd = null;
 //       }
-//       res = datalists.citieslist.find((item) => item.value == elem.погрузка);
+//       res = datalists.citieslist.find(
+//         (item) => item.value.toUpperCase() == elem.погрузка.toUpperCase()
+//       );
 //       if (res) {
 //         idLP = JSON.stringify([res._id]);
 //       } else {
 //         idLP = null;
 //       }
-//       res = datalists.citieslist.find((item) => item.value == elem.выгрузки);
+//       res = datalists.citieslist.find(
+//         (item) => item.value.toUpperCase() == elem.выгрузки.toUpperCase()
+//       );
 //       if (res) {
 //         idUP = JSON.stringify([res._id]); //!!!!!
 //       } else {
