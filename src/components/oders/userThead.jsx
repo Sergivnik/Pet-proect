@@ -300,7 +300,7 @@ export const UserThead = (props) => {
             </svg>
           </button>
         </td>
-        <td className="odersTd odersTRheader">
+        <td className="odersTd odersTRheader" style={{ border: "none" }}>
           <button className="odersTdBtn" onClick={props.handleClick}>
             Саздать
           </button>
