@@ -18,23 +18,14 @@ export const UserThead = (props) => {
   const citiesUnloading = useSelector(
     (state) => state.oderReducer.filteredUnloading
   );
-  // const maxCustomerPrice = useSelector(
-  //   (state) => state.oderReducer.maxCustomerPrice
-  // );
-  // const minCustomerPrice = useSelector(
-  //   (state) => state.oderReducer.minCustomerPrice
-  // );
-  // const maxDriverPrice = useSelector(
-  //   (state) => state.oderReducer.maxDriverPrice
-  // );
-  // const minDriverPrice = useSelector(
-  //   (state) => state.oderReducer.minDriverPrice
-  // );
   const filteredCustomerPrice = useSelector(
     (state) => state.oderReducer.filteredCustomerPrice
   );
   const filteredDriverPrice = useSelector(
     (state) => state.oderReducer.filteredDriverPrice
+  );
+  const statusCustomerPay = useSelector(
+    (state) => state.oderReducer.filteredStatusCustomerPayment
   );
 
   const handleClickFilter = (e) => {
@@ -273,10 +264,21 @@ export const UserThead = (props) => {
             <svg width="100%" height="20">
               <polygon
                 points="5 5, 25 5, 15 15, 5 5 "
-                fill={props.filterList.driver.length > 0 ? "blue" : "black"}
+                fill={
+                  props.filterList.customerPayment.length > 0 ? "blue" : "black"
+                }
               />
             </svg>
           </button>
+          {showFilter && colNumber === 10 && (
+            <FilterList
+              name="CustomerPayment"
+              arrlist={statusCustomerPay}
+              filterList={props.filterList.customerPayment}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
+          )}
         </td>
         <td className="odersTd odersTRheader">
           <span className="odersTheadSpan">Водитель Оплата</span>
@@ -284,10 +286,24 @@ export const UserThead = (props) => {
             <svg width="100%" height="20">
               <polygon
                 points="5 5, 25 5, 15 15, 5 5 "
-                fill={props.filterList.driver.length > 0 ? "blue" : "black"}
+                fill={
+                  props.filterList.driverPayment.length > 0 ? "blue" : "black"
+                }
               />
             </svg>
           </button>
+          {showFilter && colNumber === 11 && (
+            <FilterList
+              name="DriverPayment"
+              arrlist={[
+                { _id: 1, value: "Ок" },
+                { _id: 2, value: "Нет" },
+              ]}
+              filterList={props.filterList.driverPayment}
+              closeFilter={closeFilter}
+              writeFilterList={props.writeFilterList}
+            />
+          )}
         </td>
         <td className="odersTd odersTRheader">
           <span className="odersTheadSpan">Номер счета</span>

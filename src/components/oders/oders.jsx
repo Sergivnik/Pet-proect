@@ -43,6 +43,8 @@ export const Oders = () => {
     proxy: [],
     complited: [],
     documents: [],
+    customerPayment: [],
+    driverPayment: [],
   });
 
   const [coord, setCoord] = useState({ left: 0, top: 0 });
@@ -110,6 +112,14 @@ export const Oders = () => {
         break;
       case "Documents":
         arr.documents = chosenList;
+        setFilterList(arr);
+        break;
+      case "CustomerPayment":
+        arr.customerPayment = chosenList;
+        setFilterList(arr);
+        break;
+      case "DriverPayment":
+        arr.driverPayment = chosenList;
         setFilterList(arr);
         break;
       default:

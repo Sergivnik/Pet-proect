@@ -130,6 +130,15 @@ export const oderReducer = (store = initialStore, action) => {
         }
       });
       filteredUnloadinglist.sort(compareObj);
+      let filteredCustomerpayment = [];
+      action.dataServer.customerPayment.forEach((item) => {
+        if (item.customerPayment)
+          filteredCustomerpayment.push(
+            store.statusCustomerPay.find(
+              (elem) => elem.value == item.customerPayment
+            )
+          );
+      });
       return {
         ...store,
         odersList: action.dataServer.odersList,
@@ -140,6 +149,7 @@ export const oderReducer = (store = initialStore, action) => {
         filteredClients: filteredCustomerlist,
         filteredCustomerPrice: action.dataServer.filteredCustomerPrice,
         filteredDriverPrice: action.dataServer.filteredDriverPrice,
+        filteredStatusCustomerPayment: filteredCustomerpayment,
         request: {
           status: "SUCCESS",
           error: null,
@@ -169,10 +179,6 @@ export const oderReducer = (store = initialStore, action) => {
         clientList: action.dataServer.clientList,
         filteredClients: action.dataServer.clientList,
         odersList: action.dataServer.odersList,
-        // maxCustomerPrice: Number(action.dataServer.maxCustomerPrice),
-        // minCustomerPrice: Number(action.dataServer.minCustomerPrice),
-        // maxDriverPrice: Number(action.dataServer.maxDriverPrice),
-        // minDriverPrice: Number(action.dataServer.minDriverPrice),
         filteredCustomerPrice: [
           Number(action.dataServer.minCustomerPrice),
           Number(action.dataServer.maxCustomerPrice),
@@ -181,6 +187,7 @@ export const oderReducer = (store = initialStore, action) => {
           Number(action.dataServer.minDriverPrice),
           Number(action.dataServer.maxDriverPrice),
         ],
+        filteredStatusCustomerPayment: store.statusCustomerPay,
         request: {
           status: "SUCCESS",
           error: null,

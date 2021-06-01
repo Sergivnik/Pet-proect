@@ -20,7 +20,9 @@ export const filterData = (filterObj) => {
     filterObj.driverPrice.length == 0 &&
     filterObj.proxy.length == 0 &&
     filterObj.complited.length == 0 &&
-    filterObj.documents.length == 0
+    filterObj.documents.length == 0 &&
+    filterObj.customerPayment.length == 0 &&
+    filterObj.driverPayment.length == 0
   ) {
     return (dispatch) => {
       dispatch(getDataRequest());

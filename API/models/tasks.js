@@ -53,6 +53,8 @@ var Tasks = {
     let filterProxy = "";
     let filterComplited = "";
     let filterDocuments = "";
+    let filterCustomerPayment = "";
+    let filterDriverPayment = "";
     let filterArr = [];
     let setData = {};
     if (datafilter.date.length) {
@@ -109,6 +111,12 @@ var Tasks = {
     if (datafilter.documents.length) {
       filterArr[9] = `document in (${datafilter.documents})`;
     }
+    if (datafilter.customerPayment.length) {
+      filterArr[10] = `customerPayment in (${datafilter.customerPayment})`;
+    }
+    if (datafilter.driverPayment.length) {
+      filterArr[11] = `driverPayment in (${datafilter.driverPayment})`;
+    }
 
     filterArr.forEach((str, index) => {
       if (str) {
@@ -162,6 +170,16 @@ var Tasks = {
           filterDocuments
             ? (filterDocuments = filterDocuments + " and " + str)
             : (filterDocuments = str);
+        }
+        if (index != 10) {
+          filterCustomerPayment
+            ? (filterCustomerPayment = filterCustomerPayment + " and " + str)
+            : (filterCustomerPayment = str);
+        }
+        if (index != 11) {
+          filterDriverPayment
+            ? (filterDriverPayment = filterDriverPayment + " and " + str)
+            : (filterDriverPayment = str);
         }
       }
     });
@@ -257,7 +275,8 @@ var Tasks = {
         [data] = await db.query(
           `SELECT DISTINCT complited FROM oderslist where ${filterComplited}`
         );
-      } else [data] = await db.query(`SELECT DISTINCT complited FROM oderslist`);
+      } else
+        [data] = await db.query(`SELECT DISTINCT complited FROM oderslist`);
       setData.proxy = data;
       if (filterDocuments) {
         [data] = await db.query(
@@ -265,6 +284,23 @@ var Tasks = {
         );
       } else [data] = await db.query(`SELECT DISTINCT document FROM oderslist`);
       setData.documents = data;
+      if (filterCustomerPayment) {
+        [data] = await db.query(
+          `SELECT DISTINCT customerPayment FROM oderslist where ${filterCustomerPayment}`
+        );
+      } else
+        [data] = await db.query(
+          `SELECT DISTINCT customerPayment FROM oderslist`
+        );
+      setData.customerPayment = data;
+      if (filterDriverPayment) {
+        [data] = await db.query(
+          `SELECT DISTINCT driverPayment FROM oderslist where ${filterDriverPayment}`
+        );
+      } else
+        [data] = await db.query(`SELECT DISTINCT driverPayment FROM oderslist`);
+      setData.customerPayment = data;
+
       [data] = await db.query(
         `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 50000) ORDER BY _id`
       );
