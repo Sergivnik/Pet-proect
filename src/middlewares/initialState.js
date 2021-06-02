@@ -22,7 +22,8 @@ export const filterData = (filterObj) => {
     filterObj.complited.length == 0 &&
     filterObj.documents.length == 0 &&
     filterObj.customerPayment.length == 0 &&
-    filterObj.driverPayment.length == 0
+    filterObj.driverPayment.length == 0 &&
+    filterObj.accountList.length == 0
   ) {
     return (dispatch) => {
       dispatch(getDataRequest());

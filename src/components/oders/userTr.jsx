@@ -292,7 +292,7 @@ export const UserTr = (props) => {
         props.elem._id == props.trId ? (
           <span>in developing</span>
         ) : (
-          props.elem.acountNumber
+          props.elem.accountNumber
         )}
       </td>
       {/* Button Delete */}

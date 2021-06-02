@@ -139,6 +139,13 @@ export const oderReducer = (store = initialStore, action) => {
             )
           );
       });
+      let filteredAccountNumber = [];
+      action.dataServer.filterAccount.forEach((item) => {
+        if (item.accountNumber)
+          filteredAccountNumber.push(
+            store.accountList.find((elem) => elem.value == item.accountNumber)
+          );
+      });
       return {
         ...store,
         odersList: action.dataServer.odersList,
@@ -150,6 +157,7 @@ export const oderReducer = (store = initialStore, action) => {
         filteredCustomerPrice: action.dataServer.filteredCustomerPrice,
         filteredDriverPrice: action.dataServer.filteredDriverPrice,
         filteredStatusCustomerPayment: filteredCustomerpayment,
+        filteredAccountList: filteredAccountNumber,
         request: {
           status: "SUCCESS",
           error: null,
@@ -167,6 +175,14 @@ export const oderReducer = (store = initialStore, action) => {
     }
 
     case GET_DATA_SUCCESS: {
+      let accountList = [];
+      let i = 1;
+      action.dataServer.accountList.forEach((item) => {
+        if (item.accountNumber) {
+          accountList.push({ _id: i, value: item.accountNumber });
+        }
+        i++;
+      });
       return {
         ...store,
         dateList: action.dataServer.date,
@@ -188,6 +204,8 @@ export const oderReducer = (store = initialStore, action) => {
           Number(action.dataServer.maxDriverPrice),
         ],
         filteredStatusCustomerPayment: store.statusCustomerPay,
+        accountList: accountList,
+        filteredAccountList: accountList,
         request: {
           status: "SUCCESS",
           error: null,

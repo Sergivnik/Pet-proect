@@ -21,6 +21,8 @@ export const initialStore = {
     { _id: 7, value: "Отдал клиенту" },
   ],
   filteredStatusCustomerPayment: [],
+  accountList: [],
+  filteredAccountList: [],
   request: {
     status: "IDLE",
     error: null,

@@ -45,6 +45,7 @@ export const Oders = () => {
     documents: [],
     customerPayment: [],
     driverPayment: [],
+    accountList: [],
   });
 
   const [coord, setCoord] = useState({ left: 0, top: 0 });
@@ -120,6 +121,10 @@ export const Oders = () => {
         break;
       case "DriverPayment":
         arr.driverPayment = chosenList;
+        setFilterList(arr);
+        break;
+      case "AccountList":
+        arr.accountList = chosenList;
         setFilterList(arr);
         break;
       default:

@@ -34,6 +34,10 @@ var Tasks = {
         `select min(driverPrice) as 'minDriverPrice' FROM oderslist where date > DATE_ADD(SYSDATE(),INTERVAL -5 YEAR);`
       );
       allData.minDriverPrice = data[0].minDriverPrice;
+      [data] = await db.query(
+        `SELECT distinct accountNumber from oderslist order by accountNumber;`
+      );
+      allData.accountList = data;
       callback(allData);
       db.end();
     } catch (err) {
@@ -55,6 +59,7 @@ var Tasks = {
     let filterDocuments = "";
     let filterCustomerPayment = "";
     let filterDriverPayment = "";
+    let filterAccount = "";
     let filterArr = [];
     let setData = {};
     if (datafilter.date.length) {
@@ -116,6 +121,9 @@ var Tasks = {
     }
     if (datafilter.driverPayment.length) {
       filterArr[11] = `driverPayment in (${datafilter.driverPayment})`;
+    }
+    if (datafilter.accountList.length) {
+      filterArr[12] = `accountNumber in (${datafilter.accountList})`;
     }
 
     filterArr.forEach((str, index) => {
@@ -180,6 +188,11 @@ var Tasks = {
           filterDriverPayment
             ? (filterDriverPayment = filterDriverPayment + " and " + str)
             : (filterDriverPayment = str);
+        }
+        if (index != 12) {
+          filterAccount
+            ? (filterAccount = filterAccount + " and " + str)
+            : (filterAccount = str);
         }
       }
     });
@@ -300,6 +313,13 @@ var Tasks = {
       } else
         [data] = await db.query(`SELECT DISTINCT driverPayment FROM oderslist`);
       setData.customerPayment = data;
+      if (filterAccount) {
+        [data] = await db.query(
+          `SELECT DISTINCT accountNumber FROM oderslist where ${filterAccount}`
+        );
+      } else
+        [data] = await db.query(`SELECT DISTINCT accountNumber FROM oderslist`);
+      setData.filterAccount = data;
 
       [data] = await db.query(
         `(SELECT * FROM oderslist where ${filterStr} ORDER BY _id DESC LIMIT 50000) ORDER BY _id`
