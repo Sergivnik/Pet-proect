@@ -32,6 +32,7 @@ export const Oders = () => {
   const [indexCity, setIndexCity] = useState(null);
   const [addData, setAddData] = useState(0);
   const [pId, setPId] = useState(null);
+  const [currentTR, setCurrentTR] = useState(null);
   const [filterList, setFilterList] = useState({
     date: [],
     driver: [],
@@ -50,6 +51,21 @@ export const Oders = () => {
 
   const [coord, setCoord] = useState({ left: 0, top: 0 });
 
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (e.code == "Escape") {
+        currentTR.style.backgroundColor = "#FFF";
+        setShowDelete(false);
+        setShowEdit(false);
+        setShowContextMenu(false);
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, [trId, showDelete]);
+  
   useEffect(() => {
     let length = odersList.length;
     console.log(length);
@@ -182,15 +198,18 @@ export const Oders = () => {
   };
 
   const handleClickTR = (event) => {
+    let curTR = event.currentTarget;
+    if (currentTR) currentTR.style.backgroundColor = "#FFF";
+    setCurrentTR(curTR);
     if (event.target.tagName == "TD") {
       setTrId(event.currentTarget.id);
-      event.currentTarget.style.backgroundColor = "#ccc";
+      curTR.style.backgroundColor = "#ccc";
       setShowDelete(true);
       setShowAddCity(false);
     }
     if (event.target.tagName == "P") {
       setTrId(event.currentTarget.id);
-      event.currentTarget.style.backgroundColor = "#ccc";
+      curTR.style.backgroundColor = "#ccc";
       setShowDelete(true);
       setShowAddCity(false);
     }
@@ -199,14 +218,15 @@ export const Oders = () => {
   const handleDBLClick = (event) => {
     event.stopPropagation();
     if (event.target.localName === "td") {
+      let currentTR = event.target.parentElement;
       setColNumber(event.target.cellIndex);
-      event.target.parentElement.style.backgroundColor = "#fff";
+      currentTR.style.backgroundColor = "#fff";
     }
     if (event.target.localName === "p") {
+      let currentTR = event.target.parentElement.parentElement.parentElement;
       setColNumber(event.target.parentElement.parentElement.cellIndex);
       setIndexCity(event.target.id);
-      event.target.parentElement.parentElement.parentElement.style.backgroundColor =
-        "#fff";
+      currentTR.style.backgroundColor = "#fff";
     }
     setShowDelete(false);
     setShowEdit(true);
