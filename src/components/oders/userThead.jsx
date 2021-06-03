@@ -41,7 +41,7 @@ export const UserThead = (props) => {
   return (
     <thead>
       <tr className="odersTr">
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Дата рейса</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -61,7 +61,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Водитель</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -81,7 +81,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Заказчик</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -101,7 +101,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Загрузка</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -123,7 +123,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Выгрузка</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -145,7 +145,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Цена клиента</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -168,7 +168,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Цена водителя</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -191,7 +191,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Дов-ть</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -214,7 +214,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Выполнен</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -237,7 +237,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Док-ты</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -261,7 +261,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Клиент Оплата</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -283,7 +283,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Водитель Оплата</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -308,7 +308,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader">
+        <td className=" odersTRheader">
           <span className="odersTheadSpan">Номер счета</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
@@ -330,7 +330,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className="odersTd odersTRheader" style={{ border: "none" }}>
+        <td className=" odersTRheader" style={{ border: "none" }}>
           <button className="odersTdBtn" onClick={props.handleClick}>
             Саздать
           </button>

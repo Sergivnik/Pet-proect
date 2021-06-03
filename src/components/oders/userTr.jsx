@@ -1,8 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { UserTdCityContext } from "./userTdCityContext/userTdCityContext.jsx";
 
 export const UserTr = (props) => {
+  const accountList = useSelector(
+    (state) => state.oderReducer.statusCustomerPay
+  );
   const DateStr = (date) => {
     date = new Date(date);
     return date.toLocaleDateString();
@@ -248,7 +252,26 @@ export const UserTr = (props) => {
         {props.showEdit &&
         props.colNumber == 8 &&
         props.elem._id == props.trId ? (
-          <span>in developing</span>
+          <div>
+            <span>
+              <input
+                type="radio"
+                name="complited"
+                value="yes"
+                onChange={props.handleClickRadio}
+              />
+              Ок
+            </span>
+            <span>
+              <input
+                type="radio"
+                name="complited"
+                value="no"
+                onChange={props.handleClickRadio}
+              />
+              Нет
+            </span>
+          </div>
         ) : props.elem.complited ? (
           "Ок"
         ) : (
@@ -260,7 +283,17 @@ export const UserTr = (props) => {
         {props.showEdit &&
         props.colNumber == 9 &&
         props.elem._id == props.trId ? (
-          <span>in developing</span>
+          <div className="divChoise">
+            <ChoiseList
+              name="document"
+              arrlist={[
+                { _id: 1, value: "Ок" },
+                { _id: 2, value: "Нет" },
+                { _id: 3, value: "Факс" },
+              ]}
+              setValue={props.setValue}
+            />
+          </div>
         ) : (
           props.elem.document
         )}
@@ -270,7 +303,13 @@ export const UserTr = (props) => {
         {props.showEdit &&
         props.colNumber == 10 &&
         props.elem._id == props.trId ? (
-          <span>in developing</span>
+          <div className="divChoise">
+            <ChoiseList
+              name="customerPayment"
+              arrlist={accountList}
+              setValue={props.setValue}
+            />
+          </div>
         ) : (
           props.elem.customerPayment
         )}
@@ -280,7 +319,16 @@ export const UserTr = (props) => {
         {props.showEdit &&
         props.colNumber == 11 &&
         props.elem._id == props.trId ? (
-          <span>in developing</span>
+          <div className="divChoise">
+            <ChoiseList
+              name="driverPayment"
+              arrlist={[
+                { _id: 1, value: "Ок" },
+                { _id: 2, value: "Нет" },
+              ]}
+              setValue={props.setValue}
+            />
+          </div>
         ) : (
           props.elem.driverPayment
         )}
@@ -290,7 +338,13 @@ export const UserTr = (props) => {
         {props.showEdit &&
         props.colNumber == 12 &&
         props.elem._id == props.trId ? (
-          <span>in developing</span>
+          <div className="divChoise">
+            <input
+              name="accountNumber"
+              type="number"
+              onKeyDown={props.handleEnter}
+            />
+          </div>
         ) : (
           props.elem.accountNumber
         )}

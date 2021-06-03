@@ -63,6 +63,45 @@ export const oderReducer = (store = initialStore, action) => {
         case "proxy":
           newOder.proxy = action.newValue;
           break;
+        case "complited":
+          newOder.complited = action.newValue;
+          break;
+        case "document":
+          switch (action.newValue) {
+            case 1:
+              newOder.document = "Ок";
+              break;
+            case 2:
+              newOder.document = "Нет";
+              break;
+            case 3:
+              newOder.document = "Факс";
+              break;
+            default:
+              break;
+          }
+          break;
+        case "customerPayment":
+          let newValue = store.statusCustomerPay.find(
+            (item) => item._id == action.newValue
+          );
+          newOder.customerPayment = newValue.value;
+          break;
+        case "driverPayment":
+          switch (action.newValue) {
+            case 1:
+              newOder.driverPayment = "Ок";
+              break;
+            case 2:
+              newOder.driverPayment = "нет";
+              break;
+            default:
+              break;
+          }
+          break;
+        case "accountNumber":
+          newOder.accountNumber = action.newValue;
+          break;
 
         default:
           break;

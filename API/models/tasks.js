@@ -379,6 +379,21 @@ var Tasks = {
       case "proxy":
         change = { proxy: newdata.newValue };
         break;
+      case "complited":
+        change = { complited: newdata.newValue };
+        break;
+      case "document":
+        change = { document: newdata.newValue };
+        break;
+      case "customerPayment":
+        change = { customerPayment: newdata.newValue };
+        break;
+      case "driverPayment":
+        change = { driverPayment: newdata.newValue };
+        break;
+      case "accountNumber":
+        change = { accountNumber: newdata.newValue };
+        break;
       default:
         break;
     }

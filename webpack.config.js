@@ -39,7 +39,7 @@ module.exports = {
       // CSS, PostCSS, Sass
       {
         test: /\.s[ac]ss|css$/i,
-        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(js|jsx)$/,
