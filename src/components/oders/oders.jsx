@@ -65,7 +65,7 @@ export const Oders = () => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, [trId, showDelete]);
-  
+
   useEffect(() => {
     let length = odersList.length;
     console.log(length);
@@ -76,9 +76,9 @@ export const Oders = () => {
     }
   }, [odersList, addData]);
 
-  useEffect(() => {
-    setAddData(0);
-  }, [odersList]);
+  // useEffect(() => {
+  //   setAddData(0);
+  // }, [odersList]);
 
   const writeFilterList = (chosenList, name) => {
     let { ...arr } = filterList;
@@ -172,6 +172,8 @@ export const Oders = () => {
   };
 
   const onScroll = (event) => {
+    let heightTable = event.target.children[0].clientHeight;
+    let heightDiv = event.target.clientHeight;
     let length = odersList.length;
     if (event.target.scrollTop < 200) {
       if (addData < length - 110) {
@@ -179,7 +181,7 @@ export const Oders = () => {
         event.target.scrollTop = 300;
       }
     }
-    if (event.target.scrollTop > 1900) {
+    if (event.target.scrollTop > heightTable - heightDiv-50) {
       setAddData(addData - 10);
       event.target.scrollTop = 1800;
     }
