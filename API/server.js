@@ -4,13 +4,14 @@ const router = require("./routers");
 
 const app = express();
 app.use(express.static(path.join(__dirname, "./public")));
-//app.use(express.static(path.join(__dirname, "../dist")));
 app.use(express.static(path.join(__dirname, "documents")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
-
+app.get("/*", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
 // const mongoose = require("mongoose");
 // const Schema = mongoose.Schema;
 // const OderSchema = new Schema({
