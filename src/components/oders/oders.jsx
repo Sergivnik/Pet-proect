@@ -181,7 +181,10 @@ export const Oders = () => {
         event.target.scrollTop = 300;
       }
     }
-    if (event.target.scrollTop > heightTable - heightDiv-50) {
+    if (
+      event.target.scrollTop > heightTable - heightDiv - 50 &&
+      oders.length > 90
+    ) {
       setAddData(addData - 10);
       event.target.scrollTop = 1800;
     }
