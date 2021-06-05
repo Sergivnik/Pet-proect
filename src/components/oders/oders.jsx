@@ -242,8 +242,9 @@ export const Oders = () => {
   };
 
   const handleChange = (event) => {
-    setShowEdit(false);
-    dispatch(editOder(trId, event.target.name, event.target.value));
+    console.log(event.target.value);
+    //setShowEdit(false);
+    //dispatch(editOder(trId, event.target.name, event.target.value));
   };
 
   const handleEnter = (event) => {

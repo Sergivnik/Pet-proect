@@ -312,7 +312,7 @@ var Tasks = {
         );
       } else
         [data] = await db.query(`SELECT DISTINCT driverPayment FROM oderslist`);
-      setData.customerPayment = data;
+      setData.driverPayment = data;
       if (filterAccount) {
         [data] = await db.query(
           `SELECT DISTINCT accountNumber FROM oderslist where ${filterAccount}`

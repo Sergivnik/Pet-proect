@@ -11,6 +11,7 @@ export const UserTr = (props) => {
     date = new Date(date);
     return date.toLocaleDateString();
   };
+
   return (
     <tr id={props.elem._id} onClick={props.handleClickTR}>
       {/* Column Data */}
@@ -18,13 +19,7 @@ export const UserTr = (props) => {
         {props.showEdit &&
         props.elem._id == props.trId &&
         props.colNumber == 0 ? (
-          <input
-            name="date"
-            type="date"
-            value={props.elem.date}
-            onChange={props.handleChange}
-            onKeyDown={props.handleEnter}
-          />
+          <input name="date" type="date" onKeyDown={props.handleEnter} />
         ) : (
           DateStr(props.elem.date)
         )}

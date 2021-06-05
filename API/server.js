@@ -241,7 +241,7 @@ app.use(router);
 //         document: doc,
 //         customerPayment: CuPay,
 //         driverPayment: DrPay,
-//         acountNumber: acNum,
+//         accountNumber: acNum,
 //       };
 //       try {
 //         [data] = await db.query("INSERT INTO oderslist SET ?", oder);
