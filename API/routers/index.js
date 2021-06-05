@@ -10,6 +10,7 @@ router.options("*", (req, res) => {
   res.set("Access-Control-Allow-Methods", "DELETE, PATCH");
   res.send("ok");
 });
+router.use("/oders", APIRouter);
 router.use("/API", APIRouter);
 router.use("/API_MONGODB", APIMongoDBRouter);
 
