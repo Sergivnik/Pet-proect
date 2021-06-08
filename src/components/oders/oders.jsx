@@ -18,6 +18,8 @@ export const Oders = () => {
   const driversList = useSelector((state) => state.oderReducer.driverlist);
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
+  const income = useSelector((state) => state.oderReducer.income);
+  const expenses = useSelector((state) => state.oderReducer.expenses);
 
   const [oders, setOders] = useState(odersList.slice(-100));
 
@@ -48,6 +50,11 @@ export const Oders = () => {
     driverPayment: [],
     accountList: [],
   });
+
+  const [sumAccount, setSumAccount] = useState(0);
+  useEffect(() => {
+    setSumAccount(Math.floor((Number(income) - Number(expenses)) * 100) / 100);
+  }, [income, expenses]);
 
   const [coord, setCoord] = useState({ left: 0, top: 0 });
 
@@ -296,7 +303,7 @@ export const Oders = () => {
   return (
     <React.Fragment>
       <div className="odersDivInfo">
-        <p>check</p>
+        <p>Рас.сч. {sumAccount}</p>
       </div>
       <div className="odersDiv" onScroll={onScroll}>
         <table className="odersTable">

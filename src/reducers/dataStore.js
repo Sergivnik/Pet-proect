@@ -23,6 +23,8 @@ export const initialStore = {
   filteredStatusCustomerPayment: [],
   accountList: [],
   filteredAccountList: [],
+  income: 0,
+  expenses: 0,
   request: {
     status: "IDLE",
     error: null,

@@ -38,6 +38,7 @@ export const oderReducer = (store = initialStore, action) => {
     case EDIT_ODER: {
       let index = store.odersList.findIndex((item) => item._id == action.id);
       let newOder = store.odersList[index];
+      let newIncome;
       switch (action.field) {
         case "date":
           newOder.date = action.newValue;
@@ -85,6 +86,12 @@ export const oderReducer = (store = initialStore, action) => {
           let newValue = store.statusCustomerPay.find(
             (item) => item._id == action.newValue
           );
+          if (
+            store.odersList[index].customerPayment == "Ок" &&
+            action.newValue != 1
+          ) {
+            newIncome = store.income - store.odersList[index].customerPrice;
+          }
           newOder.customerPayment = newValue.value;
           break;
         case "driverPayment":
@@ -112,6 +119,7 @@ export const oderReducer = (store = initialStore, action) => {
             [index]: newOder,
           },
         },
+       // $set: { income: newIncome },
       });
     }
 
@@ -245,6 +253,8 @@ export const oderReducer = (store = initialStore, action) => {
         filteredStatusCustomerPayment: store.statusCustomerPay,
         accountList: accountList,
         filteredAccountList: accountList,
+        income: action.dataServer.income,
+        expenses: action.dataServer.expenses,
         request: {
           status: "SUCCESS",
           error: null,

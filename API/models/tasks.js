@@ -38,6 +38,14 @@ var Tasks = {
         `SELECT distinct accountNumber from oderslist order by accountNumber;`
       );
       allData.accountList = data;
+      [data] = await db.query(
+        `SELECT sum(customerPrice) as income FROM pet_proect.oderslist where customerPayment='Ок';`
+      );
+      allData.income = data[0].income;
+      [data] = await db.query(
+        `SELECT sum(driverPrice) as expenses FROM pet_proect.oderslist where driverPayment='Ок';`
+      );
+      allData.expenses = data[0].expenses;
       callback(allData);
       db.end();
     } catch (err) {
