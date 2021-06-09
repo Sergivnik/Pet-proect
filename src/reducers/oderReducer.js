@@ -90,7 +90,9 @@ export const oderReducer = (store = initialStore, action) => {
             store.odersList[index].customerPayment == "Ок" &&
             action.newValue != 1
           ) {
-            newIncome = store.income - store.odersList[index].customerPrice;
+            newIncome =
+              Number(store.income) -
+              Number(store.odersList[index].customerPrice);
           }
           newOder.customerPayment = newValue.value;
           break;
@@ -119,7 +121,7 @@ export const oderReducer = (store = initialStore, action) => {
             [index]: newOder,
           },
         },
-       // $set: { income: newIncome },
+        income: { $set: newIncome },
       });
     }
 
