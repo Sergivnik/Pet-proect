@@ -94,9 +94,31 @@ export const oderReducer = (store = initialStore, action) => {
               Number(store.income) -
               Number(store.odersList[index].customerPrice);
           }
+          if (
+            store.odersList[index].customerPayment != "Ок" &&
+            action.newValue == 1
+          ) {
+            newIncome =
+              Number(store.income) +
+              Number(store.odersList[index].customerPrice);
+          }
           newOder.customerPayment = newValue.value;
           break;
         case "driverPayment":
+          if (
+            store.odersList[index].driverPayment == "Ок" &&
+            action.newValue != 1
+          ) {
+            newIncome =
+              Number(store.income) + Number(store.odersList[index].driverPrice);
+          }
+          if (
+            store.odersList[index].driverPayment != "Ок" &&
+            action.newValue == 1
+          ) {
+            newIncome =
+              Number(store.income) - Number(store.odersList[index].driverPrice);
+          }
           switch (action.newValue) {
             case 1:
               newOder.driverPayment = "Ок";

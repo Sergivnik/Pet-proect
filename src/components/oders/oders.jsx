@@ -53,7 +53,9 @@ export const Oders = () => {
 
   const [sumAccount, setSumAccount] = useState(0);
   useEffect(() => {
-    setSumAccount(Math.floor((Number(income) - Number(expenses)) * 100) / 100);
+    setSumAccount(
+      Math.floor((Number(income) - Number(expenses)) * 100) / 100 - 35916024.96
+    );
   }, [income, expenses]);
 
   const [coord, setCoord] = useState({ left: 0, top: 0 });
@@ -303,7 +305,7 @@ export const Oders = () => {
   return (
     <React.Fragment>
       <div className="odersDivInfo">
-        <p>Рас.сч. {sumAccount}</p>
+        <p>Рас.сч. {sumAccount} руб.</p>
       </div>
       <div className="odersDiv" onScroll={onScroll}>
         <table className="odersTable">
