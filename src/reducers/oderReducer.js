@@ -38,7 +38,7 @@ export const oderReducer = (store = initialStore, action) => {
     case EDIT_ODER: {
       let index = store.odersList.findIndex((item) => item._id == action.id);
       let newOder = store.odersList[index];
-      let newIncome;
+      let newIncome = store.income
       switch (action.field) {
         case "date":
           newOder.date = action.newValue;
