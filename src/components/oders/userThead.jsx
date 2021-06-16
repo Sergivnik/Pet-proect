@@ -8,7 +8,10 @@ import "./oders.sass";
 export const UserThead = (props) => {
   const [showFilter, setShowFilter] = useState(false);
   const [colNumber, setColNumber] = useState(null);
+  const [sumCustomer, setSumCustomer] = useState(0);
+  const [sumDriver, setSumDriver] = useState(0);
 
+  const odersList = useSelector((state) => state.oderReducer.odersList);
   const dateList = useSelector((state) => state.oderReducer.filteredDateList);
   const driversList = useSelector((state) => state.oderReducer.filteredDrivers);
   const clientList = useSelector((state) => state.oderReducer.filteredClients);
@@ -30,6 +33,17 @@ export const UserThead = (props) => {
   const filteredAccountList = useSelector(
     (state) => state.oderReducer.filteredAccountList
   );
+
+  useEffect(() => {
+    let sumC = 0
+    let sumD = 0
+    odersList.forEach(element => {
+      sumC = sumC + Number(element.customerPrice);
+      sumD = sumD + Number(element.driverPrice);
+    });
+    setSumCustomer(Math.floor(sumC * 100) / 100);
+    setSumDriver(Math.floor(sumD * 100) / 100);
+  }, [odersList])
 
   const handleClickFilter = (e) => {
     setShowFilter(true);
@@ -147,6 +161,7 @@ export const UserThead = (props) => {
         </td>
         <td className=" odersTRheader">
           <span className="odersTheadSpan">Цена клиента</span>
+          <span className="odersTheadSpan">{sumCustomer} руб</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
               <polygon
@@ -170,6 +185,7 @@ export const UserThead = (props) => {
         </td>
         <td className=" odersTRheader">
           <span className="odersTheadSpan">Цена водителя</span>
+          <span className="odersTheadSpan">{sumDriver} руб</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
               <polygon

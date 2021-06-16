@@ -85,10 +85,6 @@ export const Oders = () => {
     }
   }, [odersList, addData]);
 
-  // useEffect(() => {
-  //   setAddData(0);
-  // }, [odersList]);
-
   const writeFilterList = (chosenList, name) => {
     let { ...arr } = filterList;
     switch (name) {
