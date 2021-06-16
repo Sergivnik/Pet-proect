@@ -7,9 +7,15 @@ export const UserTr = (props) => {
   const accountList = useSelector(
     (state) => state.oderReducer.statusCustomerPay
   );
+  const odersList = useSelector((state) => state.oderReducer.odersList);
   const DateStr = (date) => {
     date = new Date(date);
     return date.toLocaleDateString();
+  };
+  const handleMouseOver = (e) => {
+    let id = Number(e.target.parentElement.id);
+    let oder = odersList.find((item) => item._id == id);
+    console.log(oder.dateOfSubmission);
   };
 
   return (
@@ -17,8 +23,8 @@ export const UserTr = (props) => {
       {/* Column Data */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          props.colNumber == 0 ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 0 ? (
           <input name="date" type="date" onKeyDown={props.handleEnter} />
         ) : (
           DateStr(props.elem.date)
@@ -27,8 +33,8 @@ export const UserTr = (props) => {
       {/* Column Driver */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          props.colNumber == 1 ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 1 ? (
           <div className="divChoise">
             <ChoiseList
               name="driver"
@@ -43,8 +49,8 @@ export const UserTr = (props) => {
       {/* Column Customer */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          props.colNumber == 2 ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 2 ? (
           <div className="divChoise">
             <ChoiseList
               name="oders"
@@ -60,9 +66,9 @@ export const UserTr = (props) => {
       <td className="odersTd">
         {props.loadingPoint.map((item, index) =>
           props.showEdit &&
-            props.elem._id == props.trId &&
-            props.colNumber == 3 &&
-            props.indexCity == index ? (
+          props.elem._id == props.trId &&
+          props.colNumber == 3 &&
+          props.indexCity == index ? (
             <div
               className="divChoise"
               key={`ChoiseList-${props.elem._id}-${index}`}
@@ -122,9 +128,9 @@ export const UserTr = (props) => {
       <td className="odersTd">
         {props.unloadingPoint.map((item, index) =>
           props.showEdit &&
-            props.elem._id == props.trId &&
-            props.colNumber == 4 &&
-            props.indexCity == index ? (
+          props.elem._id == props.trId &&
+          props.colNumber == 4 &&
+          props.indexCity == index ? (
             <div
               className="divChoise"
               key={`ChoiseList-${props.elem._id}-${index}`}
@@ -182,8 +188,9 @@ export const UserTr = (props) => {
       {/* Column Customer Price */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          (props.colNumber == 5 && props.elem.customerPayment != "Ок") ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 5 &&
+        props.elem.customerPayment != "Ок" ? (
           <input name="oderPrice" type="number" onKeyDown={props.handleEnter} />
         ) : (
           props.elem.customerPrice
@@ -192,8 +199,9 @@ export const UserTr = (props) => {
       {/* Column Driver Price */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          (props.colNumber == 6 && props.elem.driverPayment != "Ок") ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 6 &&
+        props.elem.driverPayment != "Ок" ? (
           <div className="divChoise">
             <input
               name="driverPrice"
@@ -208,8 +216,8 @@ export const UserTr = (props) => {
       {/* Column Check Proxy */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 7 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 7 &&
+        props.elem._id == props.trId ? (
           !props.elem.proxy ? (
             <button className="odersTdBtn" onClick={props.handleClickProxy}>
               Доверенность
@@ -245,8 +253,8 @@ export const UserTr = (props) => {
       {/* Column Check Complited */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 8 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 8 &&
+        props.elem._id == props.trId ? (
           <div>
             <span>
               <input
@@ -274,10 +282,14 @@ export const UserTr = (props) => {
         )}
       </td>
       {/* Column Check Document */}
-      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+      <td
+        className="odersTd"
+        onDoubleClick={props.handleDBLClick}
+        onMouseOver={handleMouseOver}
+      >
         {props.showEdit &&
-          props.colNumber == 9 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 9 &&
+        props.elem._id == props.trId ? (
           <div className="divChoise">
             <ChoiseList
               name="document"
@@ -296,8 +308,8 @@ export const UserTr = (props) => {
       {/* Column customerPayment */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 10 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 10 &&
+        props.elem._id == props.trId ? (
           <div className="divChoise">
             <ChoiseList
               name="customerPayment"
@@ -312,8 +324,8 @@ export const UserTr = (props) => {
       {/* Column driverPayment */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 11 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 11 &&
+        props.elem._id == props.trId ? (
           <div className="divChoise">
             <ChoiseList
               name="driverPayment"
@@ -331,8 +343,8 @@ export const UserTr = (props) => {
       {/* Column acountNumber */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 12 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 12 &&
+        props.elem._id == props.trId ? (
           <div className="divChoise">
             <input
               name="accountNumber"
