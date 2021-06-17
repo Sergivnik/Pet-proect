@@ -20,20 +20,21 @@ export const UserTr = (props) => {
     if (e.target.nodeName == "TD") {
       setOderId(id);
       let oder = odersList.find((item) => item._id == id);
-      if (oder.dateOfSubmission) setDateOfSubmission(DateStr(oder.dateOfSubmission));
+      if (oder.dateOfSubmission)
+        setDateOfSubmission(DateStr(oder.dateOfSubmission));
     }
   };
   const handleMouseLeave = () => {
     setOderId(null);
-  }
+  };
 
   return (
     <tr id={props.elem._id} onClick={props.handleClickTR}>
       {/* Column Data */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          props.colNumber == 0 ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 0 ? (
           <input name="date" type="date" onKeyDown={props.handleEnter} />
         ) : (
           DateStr(props.elem.date)
@@ -42,8 +43,8 @@ export const UserTr = (props) => {
       {/* Column Driver */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          props.colNumber == 1 ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 1 ? (
           <div className="divChoise">
             <ChoiseList
               name="driver"
@@ -58,8 +59,8 @@ export const UserTr = (props) => {
       {/* Column Customer */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          props.colNumber == 2 ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 2 ? (
           <div className="divChoise">
             <ChoiseList
               name="oders"
@@ -75,9 +76,9 @@ export const UserTr = (props) => {
       <td className="odersTd">
         {props.loadingPoint.map((item, index) =>
           props.showEdit &&
-            props.elem._id == props.trId &&
-            props.colNumber == 3 &&
-            props.indexCity == index ? (
+          props.elem._id == props.trId &&
+          props.colNumber == 3 &&
+          props.indexCity == index ? (
             <div
               className="divChoise"
               key={`ChoiseList-${props.elem._id}-${index}`}
@@ -137,9 +138,9 @@ export const UserTr = (props) => {
       <td className="odersTd">
         {props.unloadingPoint.map((item, index) =>
           props.showEdit &&
-            props.elem._id == props.trId &&
-            props.colNumber == 4 &&
-            props.indexCity == index ? (
+          props.elem._id == props.trId &&
+          props.colNumber == 4 &&
+          props.indexCity == index ? (
             <div
               className="divChoise"
               key={`ChoiseList-${props.elem._id}-${index}`}
@@ -197,9 +198,9 @@ export const UserTr = (props) => {
       {/* Column Customer Price */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          props.colNumber == 5 &&
-          props.elem.customerPayment != "Ок" ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 5 &&
+        props.elem.customerPayment != "Ок" ? (
           <input name="oderPrice" type="number" onKeyDown={props.handleEnter} />
         ) : (
           props.elem.customerPrice
@@ -208,9 +209,9 @@ export const UserTr = (props) => {
       {/* Column Driver Price */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.elem._id == props.trId &&
-          props.colNumber == 6 &&
-          props.elem.driverPayment != "Ок" ? (
+        props.elem._id == props.trId &&
+        props.colNumber == 6 &&
+        props.elem.driverPayment != "Ок" ? (
           <div className="divChoise">
             <input
               name="driverPrice"
@@ -225,8 +226,8 @@ export const UserTr = (props) => {
       {/* Column Check Proxy */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 7 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 7 &&
+        props.elem._id == props.trId ? (
           !props.elem.proxy ? (
             <button className="odersTdBtn" onClick={props.handleClickProxy}>
               Доверенность
@@ -262,8 +263,8 @@ export const UserTr = (props) => {
       {/* Column Check Complited */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 8 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 8 &&
+        props.elem._id == props.trId ? (
           <div>
             <span>
               <input
@@ -298,8 +299,8 @@ export const UserTr = (props) => {
         onMouseLeave={handleMouseLeave}
       >
         {props.showEdit &&
-          props.colNumber == 9 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 9 &&
+        props.elem._id == props.trId ? (
           <div className="divChoise">
             <ChoiseList
               name="document"
@@ -314,13 +315,15 @@ export const UserTr = (props) => {
         ) : (
           props.elem.document
         )}
-        {props.elem._id == oderId && <div className="oderTdTooltip">{dateOfSubmission}</div>}
+        {props.elem._id == oderId && (
+          <div className="oderTdTooltip">{dateOfSubmission}</div>
+        )}
       </td>
       {/* Column customerPayment */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 10 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 10 &&
+        props.elem._id == props.trId ? (
           <div className="divChoise">
             <ChoiseList
               name="customerPayment"
@@ -331,12 +334,21 @@ export const UserTr = (props) => {
         ) : (
           props.elem.customerPayment
         )}
+        {props.elem.customerPayment == "Обещал оплату" && (
+          <div className="oderTdTooltip">
+            {props.elem.dateOfPromise == null ? (
+              <input type="date" />
+            ) : (
+              DateStr(props.elem.dateOfPromise)
+            )}
+          </div>
+        )}
       </td>
       {/* Column driverPayment */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 11 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 11 &&
+        props.elem._id == props.trId ? (
           <div className="divChoise">
             <ChoiseList
               name="driverPayment"
@@ -354,8 +366,8 @@ export const UserTr = (props) => {
       {/* Column acountNumber */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&
-          props.colNumber == 12 &&
-          props.elem._id == props.trId ? (
+        props.colNumber == 12 &&
+        props.elem._id == props.trId ? (
           <div className="divChoise">
             <input
               name="accountNumber"
@@ -368,13 +380,16 @@ export const UserTr = (props) => {
         )}
       </td>
       {/* Button Delete */}
-      {props.showDelete && props.elem._id == props.trId && (
-        <td>
-          <button className="odersTdBtn" onClick={props.handleClickDelete}>
-            Delete
-          </button>
-        </td>
-      )}
+      {props.showDelete &&
+        props.elem._id == props.trId &&
+        props.elem.complited != 1 &&
+        props.elem.customerPayment != "Ок" && (
+          <td>
+            <button className="odersTdBtn" onClick={props.handleClickDelete}>
+              Delete
+            </button>
+          </td>
+        )}
     </tr>
   );
 };
