@@ -211,13 +211,13 @@ var Tasks = {
         [data] = await db.query(
           `SELECT DISTINCT date FROM oderslist where ${filterDate}`
         );
-      } else [data] = await db.query(`SELECT DISTINCT date FROM oderslist`);
+      } else[data] = await db.query(`SELECT DISTINCT date FROM oderslist`);
       setData.date = data;
       if (filterDriver) {
         [data] = await db.query(
           `SELECT DISTINCT idDriver FROM oderslist where ${filterDriver}`
         );
-      } else [data] = await db.query(`SELECT DISTINCT idDriver FROM oderslist`);
+      } else[data] = await db.query(`SELECT DISTINCT idDriver FROM oderslist`);
       setData.driver = data;
       if (filterOder) {
         [data] = await db.query(
@@ -290,7 +290,7 @@ var Tasks = {
         [data] = await db.query(
           `SELECT DISTINCT proxy FROM oderslist where ${filterProxy}`
         );
-      } else [data] = await db.query(`SELECT DISTINCT proxy FROM oderslist`);
+      } else[data] = await db.query(`SELECT DISTINCT proxy FROM oderslist`);
       setData.proxy = data;
       if (filterComplited) {
         [data] = await db.query(
@@ -303,7 +303,7 @@ var Tasks = {
         [data] = await db.query(
           `SELECT DISTINCT document FROM oderslist where ${filterDocuments}`
         );
-      } else [data] = await db.query(`SELECT DISTINCT document FROM oderslist`);
+      } else[data] = await db.query(`SELECT DISTINCT document FROM oderslist`);
       setData.documents = data;
       if (filterCustomerPayment) {
         [data] = await db.query(
@@ -391,7 +391,9 @@ var Tasks = {
         change = { complited: newdata.newValue };
         break;
       case "document":
-        change = { document: newdata.newValue };
+        let now = new Date();
+        if (newdata.newValue != 1) now = null;
+        change = { document: newdata.newValue, dateOfSubmission: now };
         break;
       case "customerPayment":
         change = { customerPayment: newdata.newValue };
