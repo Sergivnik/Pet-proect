@@ -254,8 +254,15 @@ export const Oders = () => {
 
   const handleEnter = (event) => {
     if (event.keyCode == 13) {
-      setShowEdit(false);
-      dispatch(editOder(trId, event.target.name, event.target.value));
+      if (event.target.name == "dateOfPromise") {
+        let id = Number(
+          event.target.parentElement.parentElement.parentElement.id
+        );
+        dispatch(editOder(id, event.target.name, event.target.value));
+      } else {
+        setShowEdit(false);
+        dispatch(editOder(trId, event.target.name, event.target.value));
+      }
     }
   };
 

@@ -10,6 +10,7 @@ export const UserTr = (props) => {
   const odersList = useSelector((state) => state.oderReducer.odersList);
   const [oderId, setOderId] = useState(null);
   const [dateOfSubmission, setDateOfSubmission] = useState(null);
+  const [dateOfPromise, setDateOfPromise] = useState(null);
 
   const DateStr = (date) => {
     date = new Date(date);
@@ -18,14 +19,21 @@ export const UserTr = (props) => {
   const handleMouseOver = (e) => {
     let id = Number(e.target.parentElement.id);
     if (e.target.nodeName == "TD") {
-      setOderId(id);
       let oder = odersList.find((item) => item._id == id);
-      if (oder.dateOfSubmission)
+      if (oder.dateOfSubmission && e.target.cellIndex == 9) {
         setDateOfSubmission(DateStr(oder.dateOfSubmission));
+        setOderId(id);
+      }
+      if (oder.dateOfPromise && e.target.cellIndex == 10) {
+        setDateOfPromise(DateStr(oder.dateOfPromise));
+        setOderId(id);
+      }
     }
   };
   const handleMouseLeave = () => {
     setOderId(null);
+    setDateOfSubmission(null);
+    setDateOfPromise(null);
   };
 
   return (
@@ -315,12 +323,17 @@ export const UserTr = (props) => {
         ) : (
           props.elem.document
         )}
-        {props.elem._id == oderId && (
+        {props.elem._id == oderId && dateOfSubmission && (
           <div className="oderTdTooltip">{dateOfSubmission}</div>
         )}
       </td>
       {/* Column customerPayment */}
-      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+      <td
+        className="odersTd"
+        onDoubleClick={props.handleDBLClick}
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
+      >
         {props.showEdit &&
         props.colNumber == 10 &&
         props.elem._id == props.trId ? (
@@ -334,14 +347,20 @@ export const UserTr = (props) => {
         ) : (
           props.elem.customerPayment
         )}
-        {props.elem.customerPayment == "Обещал оплату" && (
-          <div className="oderTdTooltip">
-            {props.elem.dateOfPromise == null ? (
-              <input type="date" />
-            ) : (
-              DateStr(props.elem.dateOfPromise)
-            )}
-          </div>
+        {(props.elem.customerPayment == "Обещал оплату" ||
+          props.elem.customerPayment == "Почта" ||
+          props.elem.customerPayment == "Отдал клиенту") &&
+          props.elem.dateOfPromise == null && (
+            <div className="oderTdTooltip">
+              <input
+                name="dateOfPromise"
+                type="date"
+                onKeyDown={props.handleEnter}
+              />
+            </div>
+          )}
+        {props.elem._id == oderId && dateOfPromise && (
+          <div className="oderTdTooltip">{dateOfPromise}</div>
         )}
       </td>
       {/* Column driverPayment */}

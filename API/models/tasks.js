@@ -404,6 +404,9 @@ var Tasks = {
       case "accountNumber":
         change = { accountNumber: newdata.newValue };
         break;
+      case "dateOfPromise":
+        change = { dateOfPromise: newdata.newValue };
+        break;
       default:
         break;
     }

@@ -38,7 +38,7 @@ export const oderReducer = (store = initialStore, action) => {
     case EDIT_ODER: {
       let index = store.odersList.findIndex((item) => item._id == action.id);
       let newOder = store.odersList[index];
-      let newIncome = store.income
+      let newIncome = store.income;
       switch (action.field) {
         case "date":
           newOder.date = action.newValue;
@@ -70,7 +70,9 @@ export const oderReducer = (store = initialStore, action) => {
         case "document":
           switch (action.newValue) {
             case 1:
+              let now = new Date();
               newOder.document = "Ок";
+              newOder.dateOfSubmission = now;
               break;
             case 2:
               newOder.document = "Нет";
@@ -103,6 +105,9 @@ export const oderReducer = (store = initialStore, action) => {
               Number(store.odersList[index].customerPrice);
           }
           newOder.customerPayment = newValue.value;
+          break;
+        case "dateOfPromise":
+          newOder.dateOfPromise = action.newValue;
           break;
         case "driverPayment":
           if (
