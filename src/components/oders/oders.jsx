@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UserThead } from "./userThead.jsx";
 import { UserTr } from "./userTr.jsx";
 import { CreateOder } from "../createOder/createOder.jsx";
+import { UserWindow } from "../userWindow/userWindow.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
@@ -28,6 +29,7 @@ export const Oders = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [showAddCity, setShowAddCity] = useState(false);
+  const [showOtherExpenses, setShowOtherExpenses] = useState(false);
 
   const [trId, setTrId] = useState(null);
   const [colNumber, setColNumber] = useState(null);
@@ -63,17 +65,21 @@ export const Oders = () => {
   useEffect(() => {
     const onKeypress = (e) => {
       if (e.code == "Escape") {
-        currentTR.style.backgroundColor = "#FFF";
+        if (currentTR) currentTR.style.backgroundColor = "#FFF";
         setShowDelete(false);
         setShowEdit(false);
         setShowContextMenu(false);
+        if (showOtherExpenses === true) {
+          setShowOtherExpenses(false);
+          dispatch(filterData(filterList));
+        }
       }
     };
     document.addEventListener("keydown", onKeypress);
     return () => {
       document.removeEventListener("keydown", onKeypress);
     };
-  }, [trId, showDelete]);
+  }, [trId, showDelete, showOtherExpenses]);
 
   useEffect(() => {
     let length = odersList.length;
@@ -305,11 +311,23 @@ export const Oders = () => {
     setShowContextMenu(false);
   };
 
+  const handleClickOther = () => {
+    setShowOtherExpenses(true);
+  };
+
   return (
     <React.Fragment>
       <div className="odersDivInfo">
-        <p>Рас.сч. {sumAccount} руб.</p>
+        <span>Рас.сч. {sumAccount} руб.</span>
+        <div className="odersMenu">
+          <button className="odersMenuBtn">Поступление от поставщиков</button>
+          <button className="odersMenuBtn">Оплата переозчикам</button>
+          <button className="odersMenuBtn" onClick={handleClickOther}>
+            Прочие расходы
+          </button>
+        </div>
       </div>
+      {showOtherExpenses && <UserWindow header="Прочие расходы" />}
       <div className="odersDiv" onScroll={onScroll}>
         <table className="odersTable">
           <UserThead
