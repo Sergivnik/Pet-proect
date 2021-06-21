@@ -30,7 +30,7 @@ export const Oders = () => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [showAddCity, setShowAddCity] = useState(false);
   const [showWindow, setShowWindow] = useState(false);
-  const [windowHeader, setWindowHeader] = useState(null)
+  const [windowHeader, setWindowHeader] = useState(null);
 
   const [trId, setTrId] = useState(null);
   const [colNumber, setColNumber] = useState(null);
@@ -311,24 +311,29 @@ export const Oders = () => {
   const hideContextMenu = () => {
     setShowContextMenu(false);
   };
-  const [children, setChildren] = useState(null)
+  const [children, setChildren] = useState(null);
   const handleClickBtnMenu = (e) => {
-    let btnClick = e.target.name
-    if (btnClick == "customPay") {
-      setWindowHeader("Оплата заказчика")
-      setShowWindow(true);
-      setChildren(<p>Оплата заказчика</p>)
+    if (showWindow == false) {
+      let btnClick = e.target.name;
+      if (btnClick == "customPay") {
+        setWindowHeader("Оплата заказчика");
+        setShowWindow(true);
+        setChildren(<p>Оплата заказчика</p>);
+      }
+      if (btnClick == "driverPay") {
+        setWindowHeader("Оплата перевозчику");
+        setShowWindow(true);
+        setChildren(<p>Оплата перевозчику</p>);
+      }
+      if (btnClick == "otherPay") {
+        setWindowHeader("Прочие расходы");
+        setShowWindow(true);
+        setChildren(<p>Прочие расходы</p>);
+      }
     }
-    if (btnClick == "driverPay") {
-      setWindowHeader("Оплата перевозчику")
-      setShowWindow(true);
-      setChildren(<p>Оплата перевозчику</p>)
-    }
-    if (btnClick == "otherPay") {
-      setWindowHeader("Прочие расходы")
-      setShowWindow(true);
-      setChildren(<p>Прочие расходы</p>)
-    }
+  };
+  const handleClickWindowClose = () => {
+    setShowWindow(false);
   };
 
   return (
@@ -336,12 +341,37 @@ export const Oders = () => {
       <div className="odersDivInfo">
         <span>Рас.сч. {sumAccount} руб.</span>
         <div className="odersMenu">
-          <button name="customPay" className="odersMenuBtn" onClick={handleClickBtnMenu}>Поступление от поставщиков</button>
-          <button name="driverPay" className="odersMenuBtn" onClick={handleClickBtnMenu}>Оплата переозчикам</button>
-          <button name="otherPay" className="odersMenuBtn" onClick={handleClickBtnMenu}>Прочие расходы</button>
+          <button
+            name="customPay"
+            className="odersMenuBtn"
+            onClick={handleClickBtnMenu}
+          >
+            Поступление от поставщиков
+          </button>
+          <button
+            name="driverPay"
+            className="odersMenuBtn"
+            onClick={handleClickBtnMenu}
+          >
+            Оплата переозчикам
+          </button>
+          <button
+            name="otherPay"
+            className="odersMenuBtn"
+            onClick={handleClickBtnMenu}
+          >
+            Прочие расходы
+          </button>
         </div>
       </div>
-      {showWindow && <UserWindow header={windowHeader} handleClickBtnMenu={handleClickBtnMenu}>{children}</UserWindow>}
+      {showWindow && (
+        <UserWindow
+          header={windowHeader}
+          handleClickWindowClose={handleClickWindowClose}
+        >
+          {children}
+        </UserWindow>
+      )}
       <div className="odersDiv" onScroll={onScroll}>
         <table className="odersTable">
           <UserThead
@@ -356,13 +386,13 @@ export const Oders = () => {
                 unloadingPoint = [];
               elem.idDriver
                 ? (driver = driversList.find(
-                  (item) => item._id === elem.idDriver
-                ).value)
+                    (item) => item._id === elem.idDriver
+                  ).value)
                 : (driver = "");
               elem.idCustomer
                 ? (customer = clientList.find(
-                  (item) => item._id === elem.idCustomer
-                ).value)
+                    (item) => item._id === elem.idCustomer
+                  ).value)
                 : (customer = "");
               if (elem.idLoadingPoint) {
                 loadingPoint = elem.idLoadingPoint.map((itemLP) => {
@@ -417,6 +447,6 @@ export const Oders = () => {
         </table>
       </div>
       {showCreateOder && <CreateOder addOder={addOder} />}
-    </React.Fragment >
+    </React.Fragment>
   );
 };

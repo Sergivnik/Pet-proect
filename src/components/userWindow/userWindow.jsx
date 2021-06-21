@@ -2,35 +2,35 @@ import React, { useEffect, useState } from "react";
 import "./userWindow.sass";
 
 export const UserWindow = (props) => {
-  const [mouseDown, setMouseDown] = useState(false);
-  const [startY, setStartY] = useState(0);
-  const [startX, setStartX] = useState(0);
   const handleMouseDown = (e) => {
-    let tag = e.target
+    let tag = e.target;
     if (tag.className == "userWindowHeaderName") {
-      setMouseDown(true);
-      setStartX(e.clientX);
-      setStartY(e.clientY);
+      document.addEventListener("mousemove", handleMouseMove);
     }
-  }
+  };
   const handleMouseMove = (e) => {
-    let posX = e.currentTarget.offsetLeft
-    if (mouseDown) {
-      e.currentTarget.style.left = posX + e.clientX - startX + "px";
-      console.log(e.currentTarget.offsetLeft, e.currentTarget.style.left, e.clientX - startX);
-    }
-  }
-  const handleMouseUp = (e) => { setMouseDown(false) }
+    let userObj = document.getElementsByClassName("userWindowDiv")[0];
+    let userHeader = document.getElementsByClassName("userWindowHeaderName")[0];
+    userObj.style.left = e.clientX - userHeader.offsetWidth / 2 + "px";
+    userObj.style.top = e.clientY - userHeader.offsetHeight / 2 + "px";
+  };
+  const handleMouseUp = () => {
+    document.removeEventListener("mousemove", handleMouseMove);
+  };
 
   return (
-    <div className="userWindowDiv" onMouseMove={handleMouseMove}>
-      <header className="userWindowHeader" onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+    <div className="userWindowDiv">
+      <header
+        className="userWindowHeader"
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+      >
         <div className="userWindowHeaderName">{props.header}</div>
         <div className="userWindowHeaderClose">
           <svg
             width="20px"
             height="20px"
-            onClick={props.handleClickBtnMenu}
+            onClick={props.handleClickWindowClose}
           >
             <rect
               x="5%"
