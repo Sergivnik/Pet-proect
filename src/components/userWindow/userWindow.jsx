@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./userWindow.sass";
 
 export const UserWindow = (props) => {
+  let startX, startY;
   const handleMouseDown = (e) => {
     let tag = e.target;
     if (tag.className == "userWindowHeaderName") {
+      startX = e.clientX;
+      startY = e.clientY;
       document.addEventListener("mousemove", handleMouseMove);
     }
   };
   const handleMouseMove = (e) => {
     let userObj = document.getElementsByClassName("userWindowDiv")[0];
-    let userHeader = document.getElementsByClassName("userWindowHeaderName")[0];
-    userObj.style.left = e.clientX - userHeader.offsetWidth / 2 + "px";
-    userObj.style.top = e.clientY - userHeader.offsetHeight / 2 + "px";
+    userObj.style.left = userObj.offsetLeft - startX + e.clientX + "px";
+    userObj.style.top = userObj.offsetTop - startY + e.clientY + "px";
+    startX = e.clientX;
+    startY = e.clientY;
   };
   const handleMouseUp = () => {
     document.removeEventListener("mousemove", handleMouseMove);
