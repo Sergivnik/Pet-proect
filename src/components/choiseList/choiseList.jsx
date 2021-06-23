@@ -4,30 +4,31 @@ import "./choiseList.sass";
 export const ChoiseList = (props) => {
   const [text, setText] = useState("");
   const [list, setList] = useState(props.arrlist);
-  const [showSelect, setShowSelect] = useState(true);
+  const [showSelect, setShowSelect] = useState(false);
   let elSelect = null;
 
-  if (props.clear) setText("");
+  // if (props.clear) setText("");
 
-  const getText = (event) => {
-    let test = event.currentTarget.value;
-    setText(event.currentTarget.value);
+  const getText = (e) => {
+    setShowSelect(true);
+    let test = e.currentTarget.value;
+    setText(e.currentTarget.value);
     let regtext = new RegExp(test, "i");
     let arr = props.arrlist.filter((elem) => regtext.test(elem.value));
     setList(arr);
   };
-  const handleKeyUp = (event) => {
-    if (event.key == "Enter") {
-      event.preventDefault();
-      event.stopPropagation();
+  const handleKeyUp = (e) => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+      e.stopPropagation();
     }
-    if (event.key == "ArrowDown") {
+    if (e.key == "ArrowDown") {
       elSelect.focus();
       elSelect.firstChild.selected = true;
     }
   };
-  const handleClick = (event) => {
-    event.stopPropagation();
+  const handleClick = (e) => {
+    e.stopPropagation();
     let id = elSelect.value;
     list.forEach((elem) => {
       if (elem._id == id) {
@@ -42,10 +43,10 @@ export const ChoiseList = (props) => {
     });
     setShowSelect(false);
   };
-  const handleChoiseEnter = (event) => {
-    if (event.key == "Enter") {
-      event.preventDefault();
-      event.stopPropagation();
+  const handleChoiseEnter = (e) => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+      e.stopPropagation();
       let id = elSelect.value;
       list.forEach((elem) => {
         if (elem._id == id) {
@@ -62,9 +63,9 @@ export const ChoiseList = (props) => {
     }
   };
 
-  useEffect(() => {
-    if (text === "") setShowSelect(true);
-  }, [text]);
+  // useEffect(() => {
+  //   if (text === "") setShowSelect(true);
+  // }, [text]);
 
   return (
     <React.Fragment>
@@ -72,10 +73,6 @@ export const ChoiseList = (props) => {
         type="text"
         id={props.name}
         onChange={getText}
-        // onKeyDown={(event) => {
-        //   if (event.key == "Enter") event.preventDefault();
-        //   return false;
-        // }}
         onKeyUp={handleKeyUp}
         value={text}
         className="inputList"
@@ -85,10 +82,6 @@ export const ChoiseList = (props) => {
           ref={(select) => {
             elSelect = select;
           }}
-          // onKeyDown={(event) => {
-          //   if (event.key == "Enter") event.preventDefault();
-          //   return false;
-          // }}
           size="5"
           onKeyUp={handleChoiseEnter}
           onClick={handleClick}
@@ -96,14 +89,7 @@ export const ChoiseList = (props) => {
         >
           {list.map((elem) => {
             return (
-              <option
-                key={elem._id}
-                value={elem._id}
-                // onKeyDown={(event) => {
-                //   if (event.key == Enter) event.preventDefault();
-                //   return false;
-                // }}
-              >
+              <option key={elem._id} value={elem._id}>
                 {elem.value}
               </option>
             );

@@ -62,20 +62,28 @@ export const CreateOder = (props) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    if (!tempData.loadingPointID.length) tempData.loadingPointID = null;
-    if (!tempData.unloadingPointID.length) tempData.unloadingPointID = null;
-    let data = {
-      _id: tempData._id,
-      date: event.target.elements.date.value,
-      driver: tempData.driverID,
-      oder: tempData.odersID,
-      loadingPoint: tempData.loadingPointID,
-      unloadingPoint: tempData.unloadingPointID,
-      oderPrice: event.target.elements.oderPrice.value,
-      driverPrice: event.target.elements.driverPrice.value,
-    };
-    dispatch(addOder(data));
-    props.addOder();
+    if (
+      event.target.elements.date.value &&
+      tempData.driverID &&
+      tempData.odersID &&
+      tempData.loadingPointID &&
+      tempData.unloadingPointID
+    ) {
+      if (!tempData.loadingPointID.length) tempData.loadingPointID = null;
+      if (!tempData.unloadingPointID.length) tempData.unloadingPointID = null;
+      let data = {
+        _id: tempData._id,
+        date: event.target.elements.date.value,
+        driver: tempData.driverID,
+        oder: tempData.odersID,
+        loadingPoint: tempData.loadingPointID,
+        unloadingPoint: tempData.unloadingPointID,
+        oderPrice: event.target.elements.oderPrice.value,
+        driverPrice: event.target.elements.driverPrice.value,
+      };
+      dispatch(addOder(data));
+      props.addOder();
+    } else alert("Введены не все данные");
   };
   const handlePushEnter = (e) => {
     if (e.key === "Enter") {
