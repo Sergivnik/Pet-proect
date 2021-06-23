@@ -3,6 +3,7 @@ import { UserThead } from "./userThead.jsx";
 import { UserTr } from "./userTr.jsx";
 import { CreateOder } from "../createOder/createOder.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
+import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.jsx"
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
@@ -318,7 +319,7 @@ export const Oders = () => {
       if (btnClick == "customPay") {
         setWindowHeader("Оплата заказчика");
         setShowWindow(true);
-        setChildren(<p>Оплата заказчика</p>);
+        setChildren(<CustomerPaymentForm/>);
       }
       if (btnClick == "driverPay") {
         setWindowHeader("Оплата перевозчику");
@@ -386,13 +387,13 @@ export const Oders = () => {
                 unloadingPoint = [];
               elem.idDriver
                 ? (driver = driversList.find(
-                    (item) => item._id === elem.idDriver
-                  ).value)
+                  (item) => item._id === elem.idDriver
+                ).value)
                 : (driver = "");
               elem.idCustomer
                 ? (customer = clientList.find(
-                    (item) => item._id === elem.idCustomer
-                  ).value)
+                  (item) => item._id === elem.idCustomer
+                ).value)
                 : (customer = "");
               if (elem.idLoadingPoint) {
                 loadingPoint = elem.idLoadingPoint.map((itemLP) => {
