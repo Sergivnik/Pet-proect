@@ -130,13 +130,13 @@ export const UserTr = (props) => {
           props.colNumber == 3 && (
             <div
               className="divChoise"
-              key={`ChoiseList-${props.elem._id}-${props.loadingPoint.lenght}`}
+              key={`ChoiseList-${props.elem._id}-${props.loadingPoint.length}`}
             >
               <ChoiseList
                 name="loadingPoint"
                 arrlist={props.citieslist}
                 setValue={props.setValue}
-                index={props.loadingPoint.lenght}
+                index={props.loadingPoint.length}
               />
             </div>
           )}
@@ -192,13 +192,13 @@ export const UserTr = (props) => {
           props.colNumber == 4 && (
             <div
               className="divChoise"
-              key={`ChoiseList-${props.elem._id}-${props.unloadingPoint.lenght}`}
+              key={`ChoiseList-${props.elem._id}-${props.unloadingPoint.length}`}
             >
               <ChoiseList
                 name="unloadingPoint"
                 arrlist={props.citieslist}
                 setValue={props.setValue}
-                index={props.unloadingPoint.lenght}
+                index={props.unloadingPoint.length}
               />
             </div>
           )}
