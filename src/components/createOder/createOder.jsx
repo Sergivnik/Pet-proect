@@ -77,11 +77,16 @@ export const CreateOder = (props) => {
     dispatch(addOder(data));
     props.addOder();
   };
+  const handlePushEnter = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
   return (
     <form className="createOderForm" onSubmit={onSubmit}>
       <label htmlFor="date" className="createOderLabel">
         Дата
-        <input name="date" type="date" />
+        <input name="date" type="date" onKeyDown={handlePushEnter} />
       </label>
       <label htmlFor="driver" className="createOderLabel">
         Водитель
@@ -133,11 +138,11 @@ export const CreateOder = (props) => {
       </label>
       <label htmlFor="oderPrice" className="createOderLabel">
         Цена клиента
-        <input name="oderPrice" type="number" />
+        <input name="oderPrice" type="number" onKeyDown={handlePushEnter} />
       </label>
       <label htmlFor="driverPrice" className="createOderLabel">
         Цена водителя
-        <input name="driverPrice" type="number" />
+        <input name="driverPrice" type="number" onKeyDown={handlePushEnter} />
       </label>
       <input type="submit" value="Send" />
     </form>

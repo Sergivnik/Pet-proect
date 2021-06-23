@@ -72,10 +72,10 @@ export const ChoiseList = (props) => {
         type="text"
         id={props.name}
         onChange={getText}
-        onKeyDown={(event) => {
-          if (event.key == "Enter") event.preventDefault();
-          return false;
-        }}
+        // onKeyDown={(event) => {
+        //   if (event.key == "Enter") event.preventDefault();
+        //   return false;
+        // }}
         onKeyUp={handleKeyUp}
         value={text}
         className="inputList"
@@ -85,10 +85,10 @@ export const ChoiseList = (props) => {
           ref={(select) => {
             elSelect = select;
           }}
-          onKeyDown={(event) => {
-            if (event.key == "Enter") event.preventDefault();
-            return false;
-          }}
+          // onKeyDown={(event) => {
+          //   if (event.key == "Enter") event.preventDefault();
+          //   return false;
+          // }}
           size="5"
           onKeyUp={handleChoiseEnter}
           onClick={handleClick}
@@ -99,10 +99,10 @@ export const ChoiseList = (props) => {
               <option
                 key={elem._id}
                 value={elem._id}
-                onKeyDown={(event) => {
-                  if (event.key == Enter) event.preventDefault();
-                  return false;
-                }}
+                // onKeyDown={(event) => {
+                //   if (event.key == Enter) event.preventDefault();
+                //   return false;
+                // }}
               >
                 {elem.value}
               </option>
