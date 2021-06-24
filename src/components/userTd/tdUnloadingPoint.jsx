@@ -1,8 +1,5 @@
 import React from "react";
 
 export const TdUnoadingPoint = (props) => {
-
-   return (
-      <td>{props.unloadingPoint+"  "}</td>
-   )
-}
+  return <td className="odersTd">{props.unloadingPoint + "  "}</td>;
+};

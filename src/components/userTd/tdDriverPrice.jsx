@@ -2,7 +2,5 @@ import React from "react";
 
 export const TdDriverPrice = (props) => {
 
-   return (
-      <td>{props.customerPrice}</td>
-   )
+   return <td className="odersTd">{props.customerPrice}</td>;
 }

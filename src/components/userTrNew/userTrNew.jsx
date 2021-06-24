@@ -10,15 +10,21 @@ import { TdCustomerPayment } from "../userTd/tdCustomerPayment.jsx";
 import { TdAccountNumber } from "../userTd/tdAccountNumber.jsx";
 
 export const UserTrNew = (props) => {
-   return (<tr id={props.elem._id}>
-      <TdDate date={props.elem.date} />
-      <TdDriver driver={props.driver} />
-      <TdCustomer customer={props.customer} />
-      <TdLoadingPoint loadingPoint={props.loadingPoint} />
-      <TdUnoadingPoint unloadingPoint={props.unloadingPoint} />
-      <TdCustomerPrice customerPrice={props.elem.customerPrice}/>
-      <TdDocument customerPrice={props.elem.document}/>
-      <TdCustomerPayment customerPayment={props.elem.customerPayment}/>
-      <TdAccountNumber accountNumber={props.elem.accountNumber}/>
-   </tr>)
+   return (
+     <tr id={props.elem._id}>
+       <TdDate date={props.elem.date} />
+       <TdDriver driver={props.driver} />
+       <TdCustomer customer={props.customer} />
+       <TdLoadingPoint loadingPoint={props.loadingPoint} />
+       <TdUnoadingPoint unloadingPoint={props.unloadingPoint} />
+       <TdCustomerPrice customerPrice={props.elem.customerPrice} />
+       <TdDocument
+         id={props.elem._id}
+         customerPrice={props.elem.document}
+         date={props.elem.dateOfSubmission}
+       />
+       <TdCustomerPayment customerPayment={props.elem.customerPayment} />
+       <TdAccountNumber accountNumber={props.elem.accountNumber} />
+     </tr>
+   );
 }

@@ -5,7 +5,5 @@ export const TdDate = (props) => {
       date = new Date(date);
       return date.toLocaleDateString();
    };
-   return (
-      <td>{DateStr(props.date)}</td>
-   )
+   return <td className="odersTd">{DateStr(props.date)}</td>;
 }
