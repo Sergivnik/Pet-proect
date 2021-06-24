@@ -3,8 +3,10 @@ import React, { useState } from "react";
 export const TdDocument = (props) => {
   const [oderId, setOderId] = useState(null);
   const DateStr = (date) => {
-    date = new Date(date);
-    return date.toLocaleDateString();
+    if (date) {
+      date = new Date(date);
+      return date.toLocaleDateString();
+    } else return null;
   };
   const handleMouseOver = (e) => {
     let id = Number(e.target.parentElement.id);
