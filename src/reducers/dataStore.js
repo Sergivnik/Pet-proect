@@ -9,6 +9,7 @@ export const initialStore = {
   filteredLoading: [],
   filteredUnloading: [],
   odersList: [],
+  originOdersList: [],
   filteredCustomerPrice: [],
   filteredDriverPrice: [],
   statusCustomerPay: [

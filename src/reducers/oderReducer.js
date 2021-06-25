@@ -271,6 +271,7 @@ export const oderReducer = (store = initialStore, action) => {
         clientList: action.dataServer.clientList,
         filteredClients: action.dataServer.clientList,
         odersList: action.dataServer.odersList,
+        originOdersList: action.dataServer.odersList,
         filteredCustomerPrice: [
           Number(action.dataServer.minCustomerPrice),
           Number(action.dataServer.maxCustomerPrice),
