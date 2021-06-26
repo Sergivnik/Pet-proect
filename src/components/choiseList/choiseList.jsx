@@ -63,9 +63,9 @@ export const ChoiseList = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (text === "") setShowSelect(true);
-  // }, [text]);
+  useEffect(() => {
+    if (props.parent === "oders") setShowSelect(true);
+  }, []);
 
   return (
     <React.Fragment>

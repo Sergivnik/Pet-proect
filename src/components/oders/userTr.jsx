@@ -56,6 +56,7 @@ export const UserTr = (props) => {
           <div className="divChoise">
             <ChoiseList
               name="driver"
+              parent="oders"
               arrlist={props.driversList}
               setValue={props.setValue}
             />
@@ -72,6 +73,7 @@ export const UserTr = (props) => {
           <div className="divChoise">
             <ChoiseList
               name="oders"
+              parent="oders"
               arrlist={props.clientList}
               setValue={props.setValue}
             />
@@ -93,6 +95,7 @@ export const UserTr = (props) => {
             >
               <ChoiseList
                 name="loadingPoint"
+                parent="oders"
                 arrlist={props.citieslist}
                 setValue={props.setValue}
                 index={index}
@@ -134,6 +137,7 @@ export const UserTr = (props) => {
             >
               <ChoiseList
                 name="loadingPoint"
+                parent="oders"
                 arrlist={props.citieslist}
                 setValue={props.setValue}
                 index={props.loadingPoint.length}
@@ -155,6 +159,7 @@ export const UserTr = (props) => {
             >
               <ChoiseList
                 name="unloadingPoint"
+                parent="oders"
                 arrlist={props.citieslist}
                 setValue={props.setValue}
                 index={index}
@@ -196,6 +201,7 @@ export const UserTr = (props) => {
             >
               <ChoiseList
                 name="unloadingPoint"
+                parent="oders"
                 arrlist={props.citieslist}
                 setValue={props.setValue}
                 index={props.unloadingPoint.length}
@@ -312,6 +318,7 @@ export const UserTr = (props) => {
           <div className="divChoise">
             <ChoiseList
               name="document"
+              parent="oders"
               arrlist={[
                 { _id: 1, value: "Ок" },
                 { _id: 2, value: "Нет" },
@@ -340,6 +347,7 @@ export const UserTr = (props) => {
           <div className="divChoise">
             <ChoiseList
               name="customerPayment"
+              parent="oders"
               arrlist={accountList}
               setValue={props.setValue}
             />
@@ -371,6 +379,7 @@ export const UserTr = (props) => {
           <div className="divChoise">
             <ChoiseList
               name="driverPayment"
+              parent="oders"
               arrlist={[
                 { _id: 1, value: "Ок" },
                 { _id: 2, value: "Нет" },

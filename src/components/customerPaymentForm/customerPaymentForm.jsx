@@ -12,6 +12,9 @@ export const CustomerPaymentForm = () => {
 
   const [idChoisenCustomer, setIdCoisenCustomer] = useState(null);
   const [oders, setOders] = useState(null);
+  const [chosenOders, setChosenOders] = useState([]);
+  const [sumChosenOder, setSumChosenOder] = useState(0);
+  const [sumCustomerPayment, setSumCustomerPayment] = useState(0);
 
   useEffect(() => {
     let arr = odersList.filter(
@@ -19,11 +22,30 @@ export const CustomerPaymentForm = () => {
         item.idCustomer == idChoisenCustomer && item.customerPayment != "Ок"
     );
     setOders(arr);
-    console.log("arr", arr);
   }, [idChoisenCustomer]);
 
   const setValue = (data) => {
     setIdCoisenCustomer(data._id);
+  };
+  const handleTrNewClick = (e) => {
+    let curTr = e.currentTarget;
+    let [...arr] = chosenOders;
+    if (curTr.style.backgroundColor != "rgb(204, 204, 204)") {
+      arr.push(curTr.id);
+      curTr.style.backgroundColor = "rgb(204, 204, 204)";
+      setSumChosenOder(sumChosenOder + Number(curTr.children[5].innerText));
+      setChosenOders(arr);
+    } else {
+      curTr.style.backgroundColor = "rgb(255, 255, 255)";
+      let index = arr.indexOf(curTr.id);
+      arr.splice(index, 1);
+      setSumChosenOder(sumChosenOder - Number(curTr.children[5].innerText));
+      setChosenOders(arr);
+    }
+  };
+
+  const handleChangeSumPayment = (e) => {
+    setSumCustomerPayment(e.currentTarget.value);
   };
   return (
     <div className="customerPaymentMainDiv">
@@ -34,13 +56,15 @@ export const CustomerPaymentForm = () => {
         </div>
         <div className="customerPaymentHeaderDiv">
           <p className="customerPaymentHeaderP">Сумма платежа</p>
-          <input type="number" />
+          <input type="number" onChange={handleChangeSumPayment} />
         </div>
         <div className="customerPaymentHeaderDiv">
           <p className="customerPaymentHeaderP">
             Сумма нераспределенных платежей
           </p>
-          <div className="customerPaymentHeaderUnkown">{0} руб</div>
+          <div className="customerPaymentHeaderUnkown">
+            {sumCustomerPayment - sumChosenOder} руб
+          </div>
         </div>
       </header>
       <div className="customerPaymentOdersDiv">
@@ -79,7 +103,7 @@ export const CustomerPaymentForm = () => {
                   <UserTrNew
                     key={elem._id}
                     elem={elem}
-                    //handleClickTR={handleClickTR}
+                    handleTrNewClick={handleTrNewClick}
                     driver={driver}
                     customer={customer}
                     loadingPoint={loadingPoint}
