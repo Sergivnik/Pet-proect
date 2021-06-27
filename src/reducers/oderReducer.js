@@ -88,21 +88,64 @@ export const oderReducer = (store = initialStore, action) => {
           let newValue = store.statusCustomerPay.find(
             (item) => item._id == action.newValue
           );
-          if (
-            store.odersList[index].customerPayment == "Ок" &&
-            action.newValue != 1
-          ) {
-            newIncome =
-              Number(store.income) -
-              Number(store.odersList[index].customerPrice);
+          if (store.odersList[index].customerPayment == "Ок") {
+            if (action.newValue != 1 && action.newValue != 8) {
+              newIncome =
+                Number(store.income) -
+                Number(store.odersList[index].customerPrice);
+            }
+            if (action.newValue == 8) {
+              newIncome =
+                Number(store.income) -
+                Number(store.odersList[index].customerPrice) +
+                Number(store.odersList[index].partialPaymentAmount);
+            }
           }
           if (
             store.odersList[index].customerPayment != "Ок" &&
-            action.newValue == 1
+            store.odersList[index].customerPayment != "Частично оплачен"
           ) {
-            newIncome =
-              Number(store.income) +
-              Number(store.odersList[index].customerPrice);
+            if (action.newValue == 1) {
+              newIncome =
+                Number(store.income) +
+                Number(store.odersList[index].customerPrice);
+              newOder.partialPaymentAmount = null;
+            }
+            if (action.newValue == 8) {
+              newIncome =
+                Number(store.income) +
+                Number(store.odersList[index].partialPaymentAmount);
+            }
+          }
+          if (store.odersList[index].customerPayment == "Частично оплачен") {
+            if (action.newValue != 1 && action.newValue != 8) {
+              newIncome =
+                Number(store.income) -
+                Number(store.odersList[index].partialPaymentAmount);
+            }
+            if (action.newValue == 1) {
+              newIncome =
+                Number(store.income) -
+                Number(store.odersList[index].partialPaymentAmount) +
+                Number(store.odersList[index].customerPrice);
+            }
+          }
+          if (
+            action.newValue == 1 ||
+            action.newValue == 2 ||
+            action.newValue == 6 ||
+            action.newValue == 7 ||
+            action.newValue == 8
+          ) {
+            newOder.dateOfPromise = null;
+          }
+          if (
+            action.newValue == 3 ||
+            action.newValue == 4 ||
+            action.newValue == 5
+          ) {
+            let now = new Date();
+            newOder.dateOfPromise = now;
           }
           newOder.customerPayment = newValue.value;
           break;
@@ -138,7 +181,9 @@ export const oderReducer = (store = initialStore, action) => {
         case "accountNumber":
           newOder.accountNumber = action.newValue;
           break;
-
+        case "sumPartPay":
+          newOder.partialPaymentAmount = action.newValue;
+          break;
         default:
           break;
       }

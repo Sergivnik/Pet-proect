@@ -11,6 +11,7 @@ export const UserTr = (props) => {
   const [oderId, setOderId] = useState(null);
   const [dateOfSubmission, setDateOfSubmission] = useState(null);
   const [dateOfPromise, setDateOfPromise] = useState(null);
+  const [showFullSum, setShowFullSum] = useState(null);
 
   const DateStr = (date) => {
     date = new Date(date);
@@ -28,12 +29,20 @@ export const UserTr = (props) => {
         setDateOfPromise(DateStr(oder.dateOfPromise));
         setOderId(id);
       }
+      if (
+        oder.customerPayment == "Частично оплачен" &&
+        e.target.cellIndex == 5
+      ) {
+        setShowFullSum(true);
+        setOderId(id);
+      }
     }
   };
   const handleMouseLeave = () => {
     setOderId(null);
     setDateOfSubmission(null);
     setDateOfPromise(null);
+    setShowFullSum(false);
   };
 
   return (
@@ -210,14 +219,24 @@ export const UserTr = (props) => {
           )}
       </td>
       {/* Column Customer Price */}
-      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+      <td
+        className="odersTd"
+        onDoubleClick={props.handleDBLClick}
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
+      >
         {props.showEdit &&
         props.elem._id == props.trId &&
         props.colNumber == 5 &&
         props.elem.customerPayment != "Ок" ? (
           <input name="oderPrice" type="number" onKeyDown={props.handleEnter} />
+        ) : props.elem.customerPayment == "Частично оплачен" ? (
+          props.elem.partialPaymentAmount
         ) : (
           props.elem.customerPrice
+        )}
+        {props.elem._id == oderId && showFullSum && (
+          <div className="oderTdTooltip">{props.elem.customerPrice}</div>
         )}
       </td>
       {/* Column Driver Price */}
@@ -363,6 +382,16 @@ export const UserTr = (props) => {
               <input
                 name="dateOfPromise"
                 type="date"
+                onKeyDown={props.handleEnter}
+              />
+            </div>
+          )}
+        {props.elem.customerPayment == "Частично оплачен" &&
+          props.elem.partialPaymentAmount == null && (
+            <div className="oderTdTooltip">
+              <input
+                name="sumPartPay"
+                type="number"
                 onKeyDown={props.handleEnter}
               />
             </div>

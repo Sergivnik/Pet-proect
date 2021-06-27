@@ -3,7 +3,7 @@ import { UserThead } from "./userThead.jsx";
 import { UserTr } from "./userTr.jsx";
 import { CreateOder } from "../createOder/createOder.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
-import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.jsx"
+import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
@@ -234,6 +234,7 @@ export const Oders = () => {
   };
 
   const handleDBLClick = (event) => {
+    event.preventDefault();
     event.stopPropagation();
     if (event.target.localName === "td") {
       let currentTR = event.target.parentElement;
@@ -262,7 +263,10 @@ export const Oders = () => {
 
   const handleEnter = (event) => {
     if (event.keyCode == 13) {
-      if (event.target.name == "dateOfPromise") {
+      if (
+        event.target.name == "dateOfPromise" ||
+        event.target.name == "sumPartPay"
+      ) {
         let id = Number(
           event.target.parentElement.parentElement.parentElement.id
         );
@@ -319,7 +323,7 @@ export const Oders = () => {
       if (btnClick == "customPay") {
         setWindowHeader("Оплата заказчика");
         setShowWindow(true);
-        setChildren(<CustomerPaymentForm/>);
+        setChildren(<CustomerPaymentForm />);
       }
       if (btnClick == "driverPay") {
         setWindowHeader("Оплата перевозчику");
@@ -387,13 +391,13 @@ export const Oders = () => {
                 unloadingPoint = [];
               elem.idDriver
                 ? (driver = driversList.find(
-                  (item) => item._id === elem.idDriver
-                ).value)
+                    (item) => item._id === elem.idDriver
+                  ).value)
                 : (driver = "");
               elem.idCustomer
                 ? (customer = clientList.find(
-                  (item) => item._id === elem.idCustomer
-                ).value)
+                    (item) => item._id === elem.idCustomer
+                  ).value)
                 : (customer = "");
               if (elem.idLoadingPoint) {
                 loadingPoint = elem.idLoadingPoint.map((itemLP) => {

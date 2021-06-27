@@ -20,6 +20,7 @@ export const initialStore = {
     { _id: 5, value: "Почта" },
     { _id: 6, value: "Обещал оплату" },
     { _id: 7, value: "Отдал клиенту" },
+    { _id: 8, value: "Частично оплачен" },
   ],
   filteredStatusCustomerPayment: [],
   accountList: [],
