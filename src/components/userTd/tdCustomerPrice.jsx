@@ -1,6 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
+import "./userTd.sass";
 
 export const TdCustomerPrice = (props) => {
-   console.log(Number(props.elem.customerPrice - props.elem.partialPaymentAmount));
-   return <td className="odersTd">{props.elem.customerPayment != "Частично оплачен" ? Number(props.elem.customerPrice) : Math.floor((props.elem.customerPrice - props.elem.partialPaymentAmount) * 100) / 100}</td>;
-}
+  const [showTooltip, setShowTooltip] = useState(false);
+  const handleMouseOver = (e) => {
+    setShowTooltip(true);
+  };
+  const handleMouseLeave = (e) => {
+    setShowTooltip(false);
+  };
+  return (
+    <td
+      className="userTd"
+      onMouseOver={handleMouseOver}
+      onMouseLeave={handleMouseLeave}
+    >
+      {props.elem.customerPayment != "Частично оплачен"
+        ? Number(props.elem.customerPrice)
+        : Math.floor(
+            (props.elem.customerPrice - props.elem.partialPaymentAmount) * 100
+          ) / 100}
+      {showTooltip && props.elem.customerPayment == "Частично оплачен" && (
+        <div className="userTdTooltip">
+          <p className="userTdP">
+            Счет на сумму {props.elem.customerPrice} руб{" "}
+          </p>
+          <p className="userTdP">
+            оплачено {props.elem.partialPaymentAmount} руб
+          </p>
+          <p className="userTdP">
+            долг{" "}
+            {Math.floor(
+              (props.elem.customerPrice - props.elem.partialPaymentAmount) * 100
+            ) / 100}
+             руб
+          </p>
+        </div>
+      )}
+    </td>
+  );
+};

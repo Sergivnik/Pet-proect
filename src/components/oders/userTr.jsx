@@ -231,12 +231,14 @@ export const UserTr = (props) => {
         props.elem.customerPayment != "Ок" ? (
           <input name="oderPrice" type="number" onKeyDown={props.handleEnter} />
         ) : props.elem.customerPayment == "Частично оплачен" ? (
-          props.elem.partialPaymentAmount
+          props.elem.customerPrice
         ) : (
           props.elem.customerPrice
         )}
         {props.elem._id == oderId && showFullSum && (
-          <div className="oderTdTooltip">{props.elem.customerPrice}</div>
+          <div className="oderTdTooltip">
+            Частично оплачено {props.elem.partialPaymentAmount} руб
+          </div>
         )}
       </td>
       {/* Column Driver Price */}

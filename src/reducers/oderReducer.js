@@ -37,6 +37,9 @@ export const oderReducer = (store = initialStore, action) => {
     }
     case EDIT_ODER: {
       let index = store.odersList.findIndex((item) => item._id == action.id);
+      let originIndex = store.originOdersList.findIndex(
+        (item) => item._id == action.id
+      );
       let newOder = store.odersList[index];
       let newIncome = store.income;
       switch (action.field) {
@@ -88,6 +91,7 @@ export const oderReducer = (store = initialStore, action) => {
           let newValue = store.statusCustomerPay.find(
             (item) => item._id == action.newValue
           );
+
           if (
             store.odersList[index].customerPayment == "Ок" &&
             action.newValue != 1
@@ -187,7 +191,7 @@ export const oderReducer = (store = initialStore, action) => {
         },
         originOdersList: {
           $merge: {
-            [index]: newOder,
+            [originIndex]: newOder,
           },
         },
         income: { $set: newIncome },
