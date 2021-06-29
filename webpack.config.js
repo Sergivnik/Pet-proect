@@ -21,11 +21,6 @@ module.exports = {
     port: 8080,
   },
   devtool: "source-map",
-  plugins: {
-    "postcss-preset-env": {
-      browsers: "last 2 versions",
-    },
-  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "webpack Boilerplate",
