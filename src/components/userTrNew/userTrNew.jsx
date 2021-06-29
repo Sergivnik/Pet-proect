@@ -17,7 +17,7 @@ export const UserTrNew = (props) => {
       <TdCustomer customer={props.customer} />
       <TdLoadingPoint loadingPoint={props.loadingPoint} />
       <TdUnoadingPoint unloadingPoint={props.unloadingPoint} />
-      <TdCustomerPrice customerPrice={props.elem.customerPrice} />
+      <TdCustomerPrice elem={props.elem} />
       <TdDocument
         id={props.elem._id}
         customerPrice={props.elem.document}

@@ -185,6 +185,11 @@ export const oderReducer = (store = initialStore, action) => {
             [index]: newOder,
           },
         },
+        originOdersList: {
+          $merge: {
+            [index]: newOder,
+          },
+        },
         income: { $set: newIncome },
       });
     }
