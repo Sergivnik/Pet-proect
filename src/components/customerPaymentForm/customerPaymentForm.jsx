@@ -15,6 +15,7 @@ export const CustomerPaymentForm = () => {
   const [chosenOders, setChosenOders] = useState([]);
   const [sumChosenOder, setSumChosenOder] = useState(0);
   const [sumCustomerPayment, setSumCustomerPayment] = useState(0);
+  const [extraPayments, setExtraPayments] = useState(0);
 
   useEffect(() => {
     let arr = odersList.filter(
@@ -26,33 +27,21 @@ export const CustomerPaymentForm = () => {
 
   const setValue = (data) => {
     setIdCoisenCustomer(data._id);
+    setExtraPayments(Number(data.extraPayments));
   };
-  const handleTrNewClick = (elem, chosen) => {
-    let [...arr] = chosenOders;
-    if (!chosen) {
-      arr.push(elem._id);
-      if (elem.customerPayment == "Частично оплачен") {
-        setSumChosenOder(
-          sumChosenOder + Number(elem.customerPrice - elem.partialPaymentAmount)
-        );
+  const handleTrNewClick = (id, sum, chosen, check) => {
+    if (check) {
+      let [...arr] = chosenOders;
+      if (!chosen) {
+        arr.push(id);
+        setSumChosenOder(sumChosenOder + sum);
       } else {
-        setSumChosenOder(sumChosenOder + Number(elem.customerPrice));
-      }
-
-      setChosenOders(arr);
-    } else {
-      let index = arr.indexOf(elem._id);
-      arr.splice(index, 1);
-      if (elem.customerPayment == "Частично оплачен") {
-        setSumChosenOder(
-          sumChosenOder - Number(elem.customerPrice - elem.partialPaymentAmount)
-        );
-      } else {
-        setSumChosenOder(sumChosenOder - Number(elem.customerPrice));
+        let index = arr.indexOf(id);
+        arr.splice(index, 1);
+        setSumChosenOder(sumChosenOder - sum);
       }
       setChosenOders(arr);
-    }
-    console.log(arr);
+    } else alert("Ахтунг!!!");
   };
 
   const handleChangeSumPayment = (e) => {
@@ -74,7 +63,7 @@ export const CustomerPaymentForm = () => {
             Сумма нераспределенных платежей
           </p>
           <div className="customerPaymentHeaderUnkown">
-            {sumCustomerPayment - sumChosenOder} руб
+            {sumCustomerPayment - sumChosenOder + extraPayments} руб
           </div>
         </div>
       </header>
@@ -119,12 +108,15 @@ export const CustomerPaymentForm = () => {
                     customer={customer}
                     loadingPoint={loadingPoint}
                     unloadingPoint={unloadingPoint}
+                    balance={sumCustomerPayment - sumChosenOder + extraPayments}
                   />
                 );
               })}
             </tbody>
           )}
         </table>
+        {sumCustomerPayment - sumChosenOder + extraPayments == 0 &&
+          idChoisenCustomer && <button>Провести</button>}
       </div>
     </div>
   );

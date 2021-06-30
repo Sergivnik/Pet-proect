@@ -38,6 +38,7 @@ export const ChoiseList = (props) => {
           field: props.name,
           value: elem.value,
           index: props.index,
+          extraPayments: elem.extraPayments,
         });
       }
     });
@@ -56,6 +57,7 @@ export const ChoiseList = (props) => {
             field: props.name,
             value: elem.value,
             index: props.index,
+            extraPayments: elem.extraPayments,
           });
         }
       });

@@ -12,16 +12,33 @@ import "./userTrNew.sass";
 
 export const UserTrNew = (props) => {
   const [chosen, setChosen] = useState(false);
+  let classes = "";
+  if (chosen) {
+    classes = "userTrChosen";
+  } else {
+    classes =
+      props.elem.customerPayment == "Частично оплачен" ? "userTrPart" : "";
+  }
   const handleTrNewClick = () => {
-    setChosen(!chosen);
-    props.handleTrNewClick(props.elem, chosen);
+    let sum;
+    let newBalance = 0;
+    if (props.elem.customerPayment == "Частично оплачен") {
+      sum = Number(props.elem.customerPrice - props.elem.partialPaymentAmount);
+    } else {
+      sum = Number(props.elem.customerPrice);
+    }
+    if (!chosen) {
+      newBalance = props.balance - sum;
+    } else {
+      newBalance = props.balance + sum;
+    }
+    if (newBalance >= 0) {
+      setChosen(!chosen);
+      props.handleTrNewClick(props.elem._id, sum, chosen, true);
+    } else props.handleTrNewClick(props.elem._id, sum, chosen, false);
   };
   return (
-    <tr
-      id={props.elem._id}
-      className={chosen ? "userTrChosen" : ""}
-      onClick={handleTrNewClick}
-    >
+    <tr id={props.elem._id} className={classes} onClick={handleTrNewClick}>
       <TdDate date={props.elem.date} />
       <TdDriver driver={props.driver} />
       <TdCustomer customer={props.customer} />
