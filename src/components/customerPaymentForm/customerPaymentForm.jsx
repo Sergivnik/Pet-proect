@@ -27,21 +27,32 @@ export const CustomerPaymentForm = () => {
   const setValue = (data) => {
     setIdCoisenCustomer(data._id);
   };
-  const handleTrNewClick = (e) => {
-    let curTr = e.currentTarget;
+  const handleTrNewClick = (elem, chosen) => {
     let [...arr] = chosenOders;
-    if (curTr.style.backgroundColor != "rgb(204, 204, 204)") {
-      arr.push(curTr.id);
-      curTr.style.backgroundColor = "rgb(204, 204, 204)";
-      setSumChosenOder(sumChosenOder + Number(curTr.children[5].innerText));
+    if (!chosen) {
+      arr.push(elem._id);
+      if (elem.customerPayment == "Частично оплачен") {
+        setSumChosenOder(
+          sumChosenOder + Number(elem.customerPrice - elem.partialPaymentAmount)
+        );
+      } else {
+        setSumChosenOder(sumChosenOder + Number(elem.customerPrice));
+      }
+
       setChosenOders(arr);
     } else {
-      curTr.style.backgroundColor = "rgb(255, 255, 255)";
-      let index = arr.indexOf(curTr.id);
+      let index = arr.indexOf(elem._id);
       arr.splice(index, 1);
-      setSumChosenOder(sumChosenOder - Number(curTr.children[5].innerText));
+      if (elem.customerPayment == "Частично оплачен") {
+        setSumChosenOder(
+          sumChosenOder - Number(elem.customerPrice - elem.partialPaymentAmount)
+        );
+      } else {
+        setSumChosenOder(sumChosenOder - Number(elem.customerPrice));
+      }
       setChosenOders(arr);
     }
+    console.log(arr);
   };
 
   const handleChangeSumPayment = (e) => {
