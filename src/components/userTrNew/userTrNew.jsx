@@ -34,8 +34,21 @@ export const UserTrNew = (props) => {
     }
     if (newBalance >= 0) {
       setChosen(!chosen);
-      props.handleTrNewClick(props.elem._id, sum, chosen, true);
-    } else props.handleTrNewClick(props.elem._id, sum, chosen, false);
+      props.handleTrNewClick(
+        props.elem._id,
+        sum,
+        chosen,
+        true,
+        props.elem.accountNumber
+      );
+    } else
+      props.handleTrNewClick(
+        props.elem._id,
+        sum,
+        chosen,
+        false,
+        props.elem.accountNumber
+      );
   };
   return (
     <tr id={props.elem._id} className={classes} onClick={handleTrNewClick}>

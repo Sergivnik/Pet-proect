@@ -18,7 +18,7 @@ export const CustomerPaymentForm = () => {
   const [extraPayments, setExtraPayments] = useState(0);
 
   useEffect(() => {
-    let arr = odersList.filter(
+    let [...arr] = odersList.filter(
       (item) =>
         item.idCustomer == idChoisenCustomer && item.customerPayment != "Ок"
     );
@@ -28,8 +28,10 @@ export const CustomerPaymentForm = () => {
   const setValue = (data) => {
     setIdCoisenCustomer(data._id);
     setExtraPayments(Number(data.extraPayments));
+    setChosenOders([]);
+    setSumChosenOder(0);
   };
-  const handleTrNewClick = (id, sum, chosen, check) => {
+  const handleTrNewClick = (id, sum, chosen, check, accountNumber) => {
     if (check) {
       let [...arr] = chosenOders;
       if (!chosen) {
@@ -41,7 +43,21 @@ export const CustomerPaymentForm = () => {
         setSumChosenOder(sumChosenOder - sum);
       }
       setChosenOders(arr);
-    } else alert("Ахтунг!!!");
+    } else {
+      let makePartialPayment = confirm(
+        `Ахтунг!!! Сделать счет № ${accountNumber} частично проведенным на сумму ${
+          sumCustomerPayment - sumChosenOder + extraPayments
+        }`
+      );
+      if (makePartialPayment) {
+        let index = oders.findIndex((item) => item._id == id);
+        let [...arr] = oders;
+        arr[index].customerPrice =
+          sumCustomerPayment - sumChosenOder + extraPayments;
+        arr[index].customerPayment = "Выбран для част.оплаты";
+        setOders(arr);
+      }
+    }
   };
 
   const handleChangeSumPayment = (e) => {
@@ -115,9 +131,12 @@ export const CustomerPaymentForm = () => {
             </tbody>
           )}
         </table>
-        {sumCustomerPayment - sumChosenOder + extraPayments == 0 &&
-          idChoisenCustomer && <button>Провести</button>}
       </div>
+      {sumChosenOder ? (
+        <button className="customerPaymentBtn">Провести</button>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
