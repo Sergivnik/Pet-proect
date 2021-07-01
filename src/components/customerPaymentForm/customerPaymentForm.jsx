@@ -22,7 +22,11 @@ export const CustomerPaymentForm = () => {
       (item) =>
         item.idCustomer == idChoisenCustomer && item.customerPayment != "Ок"
     );
-    setOders(arr);
+    let clone = [];
+    arr.forEach((element) => {
+      clone.push(Object.assign({}, element))
+    });
+    setOders(clone);
   }, [idChoisenCustomer]);
 
   const setValue = (data) => {
