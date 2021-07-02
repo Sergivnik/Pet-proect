@@ -37,6 +37,23 @@ export const TdCustomerPrice = (props) => {
           </p>
         </div>
       )}
+      {showTooltip && props.elem.customerPayment == "Выбран для част.оплаты" && (
+        <div className="userTdTooltip">
+          <p className="userTdP">
+            Счет на сумму {props.elem.partialPaymentAmount} руб{" "}
+          </p>
+          <p className="userTdP">
+            выбрано для оплаты {props.elem.customerPrice} руб
+          </p>
+          <p className="userTdP">
+            останется неоплаченными {" "}
+            {Math.floor(
+              (props.elem.partialPaymentAmount - props.elem.customerPrice) * 100
+            ) / 100}
+             руб
+          </p>
+        </div>
+      )}
     </td>
   );
 };

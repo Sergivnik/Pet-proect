@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TdDate } from "../userTd/tdDate.jsx";
 import { TdDriver } from "../userTd/tdDriver.jsx";
 import { TdCustomer } from "../userTd/tdCustomer.jsx";
@@ -19,6 +19,10 @@ export const UserTrNew = (props) => {
     classes =
       props.elem.customerPayment == "Частично оплачен" ? "userTrPart" : "";
   }
+  useEffect(() => {
+    if (props.elem.customerPayment == "Выбран для част.оплаты") handleTrNewClick();
+  }, [props.elem.customerPayment]);
+
   const handleTrNewClick = () => {
     let sum;
     let newBalance = 0;

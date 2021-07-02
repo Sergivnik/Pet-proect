@@ -24,7 +24,7 @@ export const CustomerPaymentForm = () => {
     );
     let clone = [];
     arr.forEach((element) => {
-      clone.push(Object.assign({}, element))
+      clone.push(Object.assign({}, element));
     });
     setOders(clone);
   }, [idChoisenCustomer]);
@@ -56,6 +56,7 @@ export const CustomerPaymentForm = () => {
       if (makePartialPayment) {
         let index = oders.findIndex((item) => item._id == id);
         let [...arr] = oders;
+        arr[index].partialPaymentAmount = arr[index].customerPrice;
         arr[index].customerPrice =
           sumCustomerPayment - sumChosenOder + extraPayments;
         arr[index].customerPayment = "Выбран для част.оплаты";
