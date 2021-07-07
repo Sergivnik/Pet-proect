@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./customerPaymentForm.sass";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { UserTrNew } from "../userTrNew/userTrNew.jsx";
+import { makePaymentCustomer } from "../../actions/oderActions.js";
 
 export const CustomerPaymentForm = () => {
   const clientList = useSelector((state) => state.oderReducer.clientList);
@@ -16,6 +17,8 @@ export const CustomerPaymentForm = () => {
   const [sumChosenOder, setSumChosenOder] = useState(0);
   const [sumCustomerPayment, setSumCustomerPayment] = useState(0);
   const [extraPayments, setExtraPayments] = useState(0);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let [...arr] = odersList.filter(
@@ -67,6 +70,17 @@ export const CustomerPaymentForm = () => {
 
   const handleChangeSumPayment = (e) => {
     setSumCustomerPayment(e.currentTarget.value);
+  };
+
+  const handleClickMakePayment = () => {
+    let arr = [];
+    console.log(chosenOders);
+    chosenOders.forEach((elem) => {
+      let customerPrice = oders.find((item) => item._id == elem).customerPrice;
+      arr.push({ id: elem, customerPrice: Number(customerPrice) });
+    });
+    dispatch(makePaymentCustomer(arr));
+    console.log(arr);
   };
   return (
     <div className="customerPaymentMainDiv">
@@ -138,7 +152,9 @@ export const CustomerPaymentForm = () => {
         </table>
       </div>
       {sumChosenOder ? (
-        <button className="customerPaymentBtn">Провести</button>
+        <button className="customerPaymentBtn" onClick={handleClickMakePayment}>
+          Провести
+        </button>
       ) : (
         ""
       )}

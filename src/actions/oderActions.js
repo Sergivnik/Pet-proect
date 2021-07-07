@@ -2,6 +2,7 @@ export const ADD_ODER = "ADD_ODER";
 export const DEL_ODER = "DEL_ODER";
 export const EDIT_ODER = "EDIT_ODER";
 export const SET_PROXY = "SET_PROXY";
+export const MAKE_PAYMENT_CUSTOMER = "MAKE_PAYMENT_CUSTOMER";
 
 export const addOder = (data) => ({
   type: ADD_ODER,
@@ -25,3 +26,7 @@ export const delOder = (id) => ({
   id,
 });
 
+export const makePaymentCustomer = (arr) => ({
+  type: MAKE_PAYMENT_CUSTOMER,
+  arr,
+});

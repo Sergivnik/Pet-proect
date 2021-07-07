@@ -4,6 +4,7 @@ import {
   EDIT_ODER,
   DEL_ODER,
   SET_PROXY,
+  MAKE_PAYMENT_CUSTOMER,
 } from "../actions/oderActions.js";
 import { URL } from "./initialState";
 
@@ -50,6 +51,19 @@ export default (store) => (next) => (action) => {
       break;
     case SET_PROXY:
       axios.post(`${URL}/proxy/${action.id}`);
+      break;
+    case MAKE_PAYMENT_CUSTOMER:
+      axios
+        .patch(URL + "/makePaymentCustomer", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: action.arr,
+        })
+        .then((res) => {})
+        .catch((e) => {
+          console.log(e.message);
+        });
       break;
   }
 

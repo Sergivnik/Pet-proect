@@ -460,6 +460,47 @@ var Tasks = {
     }
     db.end();
   },
+
+  makePaymentCustomer: async function (data, callBack) {
+    console.log(data);
+    let idList = "";
+    data.forEach((elem) => {
+      if (idList == "") {
+        idList = elem.id;
+      } else {
+        idList = idList + "," + elem.id;
+      }
+    });
+    const db = mysql.createPool(options).promise();
+    try {
+      let [dataelem] = await db.query(
+        `select * FROM pet_proect.oderslist where _id in (${idList})`
+      );
+      for (let i = 0; i < data.length; i++) {
+        if (dataelem[i].customerPrice == data[i].customerPrice) {
+          let [data1] = await db.query(
+            `UPDATE oderslist SET customerPayment="Ок" WHERE _id=${data[i].id}`
+          );
+        } else {
+          if (
+            dataelem[i].customerPayment == "Частично оплачен" &&
+            dataelem[i].customerPrice - dataelem[i].partialPaymentAmount ==
+              data[i].customerPrice
+          ) {
+            let [data1] = await db.query(
+              `UPDATE oderslist SET customerPayment="Частично оплачен", partialPaymentAmount=${data[i].customerPrice} WHERE _id=${data[i].id}`
+            );
+          }
+        }
+      }
+      callBack(dataelem[0].customerPrice);
+    } catch (err) {
+      console.log(err);
+      callback({ error: err });
+    }
+    db.end();
+  },
+
   getDataById: async function (id, table, callback) {
     const db = mysql.createPool(options).promise();
     let dataById = {};
