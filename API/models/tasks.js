@@ -477,23 +477,47 @@ var Tasks = {
         `select * FROM pet_proect.oderslist where _id in (${idList})`
       );
       for (let i = 0; i < data.length; i++) {
-        if (dataelem[i].customerPrice == data[i].customerPrice) {
-          let [data1] = await db.query(
-            `UPDATE oderslist SET customerPayment="Ок" WHERE _id=${data[i].id}`
+        let index = data.findIndex((element) => element.id == dataelem[i]._id);
+        console.log(dataelem[i]._id, data[index]);
+        if (dataelem[i].customerPrice == data[index].customerPrice) {
+          await db.query(
+            `UPDATE oderslist SET customerPayment="Ок" WHERE _id=${data[index].id}`
           );
         } else {
           if (
             dataelem[i].customerPayment == "Частично оплачен" &&
             dataelem[i].customerPrice - dataelem[i].partialPaymentAmount ==
-              data[i].customerPrice
+              data[index].customerPrice
           ) {
-            let [data1] = await db.query(
-              `UPDATE oderslist SET customerPayment="Частично оплачен", partialPaymentAmount=${data[i].customerPrice} WHERE _id=${data[i].id}`
+            await db.query(
+              `UPDATE oderslist SET customerPayment="Ок", partialPaymentAmount=Null WHERE _id=${data[index].id}`
+            );
+          }
+          if (
+            dataelem[i].customerPayment == "Частично оплачен" &&
+            dataelem[i].customerPrice - dataelem[i].partialPaymentAmount !=
+              data[index].customerPrice
+          ) {
+            await db.query(
+              `UPDATE oderslist SET customerPayment="Частично оплачен", partialPaymentAmount=${
+                Number(data[index].customerPrice) +
+                Number(dataelem[i].partialPaymentAmount)
+              } WHERE _id=${data[index].id}`
+            );
+          }
+          if (dataelem[i].customerPayment != "Частично оплачен") {
+            await db.query(
+              `UPDATE oderslist SET customerPayment="Частично оплачен", partialPaymentAmount=${Number(
+                data[index].customerPrice
+              )} WHERE _id=${data[index].id}`
             );
           }
         }
       }
-      callBack(dataelem[0].customerPrice);
+      let [dataChanged] = await db.query(
+        `select * FROM pet_proect.oderslist where _id in (${idList})`
+      );
+      callBack(dataChanged);
     } catch (err) {
       console.log(err);
       callback({ error: err });

@@ -5,6 +5,7 @@ import {
   DEL_ODER,
   EDIT_ODER,
   SET_PROXY,
+  MAKE_PAYMENT_CUSTOMER_SUCCESS,
 } from "../actions/oderActions.js";
 import {
   GET_DATA_SUCCESS,
@@ -355,6 +356,19 @@ export const oderReducer = (store = initialStore, action) => {
         },
       };
     }
+    case MAKE_PAYMENT_CUSTOMER_SUCCESS: {
+      let [...arr] = store.odersList;
+      action.dataServer.forEach((elem) => {
+        let index = arr.findIndex((item) => item._id == elem._id);
+        arr[index] = elem;
+      });
+      console.log(arr);
+      return {
+        ...store,
+        odersList: arr,
+      };
+    }
+
     default:
       return store;
   }

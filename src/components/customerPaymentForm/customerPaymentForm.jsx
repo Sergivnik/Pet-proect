@@ -30,7 +30,7 @@ export const CustomerPaymentForm = () => {
       clone.push(Object.assign({}, element));
     });
     setOders(clone);
-  }, [idChoisenCustomer]);
+  }, [idChoisenCustomer, odersList]);
 
   const setValue = (data) => {
     setIdCoisenCustomer(data._id);
@@ -76,11 +76,20 @@ export const CustomerPaymentForm = () => {
     let arr = [];
     console.log(chosenOders);
     chosenOders.forEach((elem) => {
-      let customerPrice = oders.find((item) => item._id == elem).customerPrice;
-      arr.push({ id: elem, customerPrice: Number(customerPrice) });
+      oders.forEach((item) => {
+        if (item.customerPayment != "Частично оплачен" && item._id == elem) {
+          arr.push({ id: elem, customerPrice: Number(item.customerPrice) });
+        }
+        if (item.customerPayment == "Частично оплачен" && item._id == elem) {
+          arr.push({
+            id: elem,
+            customerPrice:
+              Number(item.customerPrice) - Number(item.partialPaymentAmount),
+          });
+        }
+      });
     });
     dispatch(makePaymentCustomer(arr));
-    console.log(arr);
   };
   return (
     <div className="customerPaymentMainDiv">

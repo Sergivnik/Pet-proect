@@ -1,8 +1,14 @@
+import axios from "axios";
+import { URL } from "../middlewares/initialState";
 export const ADD_ODER = "ADD_ODER";
 export const DEL_ODER = "DEL_ODER";
 export const EDIT_ODER = "EDIT_ODER";
 export const SET_PROXY = "SET_PROXY";
 export const MAKE_PAYMENT_CUSTOMER = "MAKE_PAYMENT_CUSTOMER";
+export const MAKE_PAYMENT_CUSTOMER_SUCCESS =
+  "DATA::MAKE_PAYMENT_CUSTOMER_SUCCESS";
+export const MAKE_PAYMENT_CUSTOMER_FAILURE =
+  "DATA::MAKE_PAYMENT_CUSTOMER_SUCCESS";
 
 export const addOder = (data) => ({
   type: ADD_ODER,
@@ -26,7 +32,29 @@ export const delOder = (id) => ({
   id,
 });
 
-export const makePaymentCustomer = (arr) => ({
-  type: MAKE_PAYMENT_CUSTOMER,
-  arr,
+export const makePaymentCustomer = (arr) => {
+  return (dispatch) =>
+    axios
+      .patch(URL + "/makePaymentCustomer", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: arr,
+      })
+      .then((res) => {
+        console.log(res.data);
+        return dispatch(makePaymentCustomerSuccess(res.data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+};
+
+export const makePaymentCustomerSuccess = (dataServer) => ({
+  type: MAKE_PAYMENT_CUSTOMER_SUCCESS,
+  dataServer,
+});
+
+export const makePaymentCustomerFailure = () => ({
+  type: MAKE_PAYMENT_CUSTOMER_FAILURE,
 });
