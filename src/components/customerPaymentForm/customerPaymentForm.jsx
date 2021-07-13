@@ -10,6 +10,9 @@ export const CustomerPaymentForm = () => {
   const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const driversList = useSelector((state) => state.oderReducer.driverlist);
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
+  const customerWithoutPayment = useSelector(
+    (state) => state.oderReducer.customerWithoutPayment
+  );
 
   const [idChoisenCustomer, setIdCoisenCustomer] = useState(null);
   const [oders, setOders] = useState(null);
@@ -17,6 +20,7 @@ export const CustomerPaymentForm = () => {
   const [sumChosenOder, setSumChosenOder] = useState(0);
   const [sumCustomerPayment, setSumCustomerPayment] = useState(0);
   const [extraPayments, setExtraPayments] = useState(0);
+  const [filteredClientList, setFilteredClientList] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -31,6 +35,18 @@ export const CustomerPaymentForm = () => {
     });
     setOders(clone);
   }, [idChoisenCustomer, odersList]);
+  useEffect(() => {
+    let [...arr] = customerWithoutPayment
+      .filter((item) => item.idCustomer != null)
+      .map((item) => {
+        {
+          let element = clientList.find((elem) => elem._id == item.idCustomer);
+          return element;
+        }
+      });
+    setFilteredClientList(arr);
+    console.log(arr);
+  }, [customerWithoutPayment]);
 
   const setValue = (data) => {
     setIdCoisenCustomer(data._id);
@@ -89,6 +105,7 @@ export const CustomerPaymentForm = () => {
         }
       });
     });
+    setSumCustomerPayment(0);
     dispatch(makePaymentCustomer(arr));
   };
   return (
@@ -96,11 +113,19 @@ export const CustomerPaymentForm = () => {
       <header className="customerPaymentHeader">
         <div className="customerPaymentHeaderDiv">
           <p className="customerPaymentHeaderP">Заказчик</p>
-          <ChoiseList name="oders" arrlist={clientList} setValue={setValue} />
+          <ChoiseList
+            name="oders"
+            arrlist={filteredClientList}
+            setValue={setValue}
+          />
         </div>
         <div className="customerPaymentHeaderDiv">
           <p className="customerPaymentHeaderP">Сумма платежа</p>
-          <input type="number" onChange={handleChangeSumPayment} />
+          <input
+            type="number"
+            onChange={handleChangeSumPayment}
+            value={sumCustomerPayment}
+          />
         </div>
         <div className="customerPaymentHeaderDiv">
           <p className="customerPaymentHeaderP">

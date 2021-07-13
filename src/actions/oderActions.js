@@ -42,7 +42,6 @@ export const makePaymentCustomer = (arr) => {
         body: arr,
       })
       .then((res) => {
-        console.log(res.data);
         return dispatch(makePaymentCustomerSuccess(res.data));
       })
       .catch((e) => {

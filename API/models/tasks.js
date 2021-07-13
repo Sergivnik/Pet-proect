@@ -51,6 +51,8 @@ var Tasks = {
         `SELECT sum(driverPrice) as expenses FROM pet_proect.oderslist where driverPayment='Ок';`
       );
       allData.expenses = data[0].expenses;
+      [data]=await db.query(`SELECT distinct idCustomer FROM pet_proect.oderslist where customerPayment !="Ок"`);
+      allData.customerWithoutPayment=data;
       callback(allData);
       db.end();
     } catch (err) {

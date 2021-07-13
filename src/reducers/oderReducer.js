@@ -332,6 +332,7 @@ export const oderReducer = (store = initialStore, action) => {
         filteredAccountList: accountList,
         income: action.dataServer.income,
         expenses: action.dataServer.expenses,
+        customerWithoutPayment: action.dataServer.customerWithoutPayment,
         request: {
           status: "SUCCESS",
           error: null,
@@ -362,10 +363,10 @@ export const oderReducer = (store = initialStore, action) => {
         let index = arr.findIndex((item) => item._id == elem._id);
         arr[index] = elem;
       });
-      console.log(arr);
       return {
         ...store,
         odersList: arr,
+        originOdersList: arr,
       };
     }
 

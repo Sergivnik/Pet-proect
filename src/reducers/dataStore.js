@@ -25,6 +25,7 @@ export const initialStore = {
   filteredStatusCustomerPayment: [],
   accountList: [],
   filteredAccountList: [],
+  customerWithoutPayment: [],
   income: 0,
   expenses: 0,
   request: {
