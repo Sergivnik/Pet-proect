@@ -20,7 +20,11 @@ export const UserTrNew = (props) => {
       props.elem.customerPayment == "Частично оплачен" ? "userTrPart" : "";
   }
   useEffect(() => {
-    if (props.elem.customerPayment == "Выбран для част.оплаты") handleTrNewClick();
+    if (!props.clear) setChosen(false);
+  }, [props.clear]);
+  useEffect(() => {
+    if (props.elem.customerPayment == "Выбран для част.оплаты")
+      handleTrNewClick();
   }, [props.elem.customerPayment]);
 
   const handleTrNewClick = () => {

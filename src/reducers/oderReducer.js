@@ -358,6 +358,7 @@ export const oderReducer = (store = initialStore, action) => {
       };
     }
     case MAKE_PAYMENT_CUSTOMER_SUCCESS: {
+      let sum=store.income+Number(action.sumCustomerPayment)
       let [...arr] = store.odersList;
       action.dataServer.forEach((elem) => {
         let index = arr.findIndex((item) => item._id == elem._id);
@@ -367,6 +368,7 @@ export const oderReducer = (store = initialStore, action) => {
         ...store,
         odersList: arr,
         originOdersList: arr,
+        income: sum,
       };
     }
 

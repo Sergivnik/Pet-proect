@@ -21,6 +21,10 @@ export const CustomerPaymentForm = () => {
   const [sumCustomerPayment, setSumCustomerPayment] = useState(0);
   const [extraPayments, setExtraPayments] = useState(0);
   const [filteredClientList, setFilteredClientList] = useState(null);
+  const [totalDebt, setTotalDebt] = useState(0);
+  const [showDebt, setShowDebt] = useState(false);
+  const [clear, setClear] = useState(false);
+  const [valueChoisenCustomer, setValueChoisenCustomer] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -30,29 +34,33 @@ export const CustomerPaymentForm = () => {
         item.idCustomer == idChoisenCustomer && item.customerPayment != "Ок"
     );
     let clone = [];
+    let sum = 0;
     arr.forEach((element) => {
       clone.push(Object.assign({}, element));
+      sum =
+        sum +
+        Number(element.customerPrice) -
+        Number(element.partialPaymentAmount);
     });
+    setTotalDebt(sum - extraPayments);
     setOders(clone);
   }, [idChoisenCustomer, odersList]);
   useEffect(() => {
     let [...arr] = customerWithoutPayment
       .filter((item) => item.idCustomer != null)
-      .map((item) => {
-        {
-          let element = clientList.find((elem) => elem._id == item.idCustomer);
-          return element;
-        }
-      });
+      .map((item) => clientList.find((elem) => elem._id == item.idCustomer));
     setFilteredClientList(arr);
     console.log(arr);
   }, [customerWithoutPayment]);
 
   const setValue = (data) => {
+    setValueChoisenCustomer(data.value);
     setIdCoisenCustomer(data._id);
     setExtraPayments(Number(data.extraPayments));
     setChosenOders([]);
     setSumChosenOder(0);
+    setShowDebt(true);
+    setClear(true);
   };
   const handleTrNewClick = (id, sum, chosen, check, accountNumber) => {
     if (check) {
@@ -86,6 +94,7 @@ export const CustomerPaymentForm = () => {
 
   const handleChangeSumPayment = (e) => {
     setSumCustomerPayment(e.currentTarget.value);
+    setClear(true);
   };
 
   const handleClickMakePayment = () => {
@@ -106,7 +115,10 @@ export const CustomerPaymentForm = () => {
       });
     });
     setSumCustomerPayment(0);
-    dispatch(makePaymentCustomer(arr));
+    setChosenOders([]);
+    setClear(false);
+    setSumChosenOder(0);
+    dispatch(makePaymentCustomer(arr, sumCustomerPayment));
   };
   return (
     <div className="customerPaymentMainDiv">
@@ -136,6 +148,14 @@ export const CustomerPaymentForm = () => {
           </div>
         </div>
       </header>
+      {showDebt && (
+        <div>
+          <p className="customerPaymentTotalDebtP">
+            Всего задолженность по клиенту {valueChoisenCustomer} составляет{" "}
+            {totalDebt} руб.
+          </p>
+        </div>
+      )}
       <div className="customerPaymentOdersDiv">
         <table className="odersTable">
           {idChoisenCustomer && (
@@ -177,6 +197,7 @@ export const CustomerPaymentForm = () => {
                     customer={customer}
                     loadingPoint={loadingPoint}
                     unloadingPoint={unloadingPoint}
+                    clear={clear}
                     balance={sumCustomerPayment - sumChosenOder + extraPayments}
                   />
                 );
