@@ -51,8 +51,10 @@ var Tasks = {
         `SELECT sum(driverPrice) as expenses FROM pet_proect.oderslist where driverPayment='Ок';`
       );
       allData.expenses = data[0].expenses;
-      [data]=await db.query(`SELECT distinct idCustomer FROM pet_proect.oderslist where customerPayment !="Ок"`);
-      allData.customerWithoutPayment=data;
+      [data] = await db.query(
+        `SELECT distinct idCustomer FROM pet_proect.oderslist where customerPayment !="Ок"`
+      );
+      allData.customerWithoutPayment = data;
       callback(allData);
       db.end();
     } catch (err) {
@@ -465,8 +467,13 @@ var Tasks = {
 
   makePaymentCustomer: async function (data, callBack) {
     console.log(data);
+    let sumChosenOders = data.arr.reduce(
+      (sum, item) => sum + item.customerPrice,
+      0
+    );
+
     let idList = "";
-    data.forEach((elem) => {
+    data.arr.forEach((elem) => {
       if (idList == "") {
         idList = elem.id;
       } else {
@@ -474,44 +481,64 @@ var Tasks = {
       }
     });
     const db = mysql.createPool(options).promise();
+
     try {
+      let [dataOder] = await db.query(
+        `select * FROM pet_proect.oderslist where _id=${data.arr[0].id}`
+      );
+      let customerId = dataOder[0].idCustomer;
+      if (sumChosenOders == data.sumCustomerPayment + data.extraPayments) {
+        await db.query(
+          `UPDATE oders SET extraPayments=${Null} WHERE _id=${customerId}`
+        );
+      } else {
+        await db.query(
+          `UPDATE oders SET extraPayments=${
+            data.extraPayments +
+            Number(data.sumCustomerPayment) -
+            sumChosenOders
+          } WHERE _id=${customerId}`
+        );
+      }
       let [dataelem] = await db.query(
         `select * FROM pet_proect.oderslist where _id in (${idList})`
       );
-      for (let i = 0; i < data.length; i++) {
-        let index = data.findIndex((element) => element.id == dataelem[i]._id);
-        console.log(dataelem[i]._id, data[index]);
-        if (dataelem[i].customerPrice == data[index].customerPrice) {
+      for (let i = 0; i < data.arr.length; i++) {
+        let index = data.arr.findIndex(
+          (element) => element.id == dataelem[i]._id
+        );
+        console.log(dataelem[i]._id, data.arr[index]);
+        if (dataelem[i].customerPrice == data.arr[index].customerPrice) {
           await db.query(
-            `UPDATE oderslist SET customerPayment="Ок" WHERE _id=${data[index].id}`
+            `UPDATE oderslist SET customerPayment="Ок" WHERE _id=${data.arr[index].id}`
           );
         } else {
           if (
             dataelem[i].customerPayment == "Частично оплачен" &&
             dataelem[i].customerPrice - dataelem[i].partialPaymentAmount ==
-              data[index].customerPrice
+              data.arr[index].customerPrice
           ) {
             await db.query(
-              `UPDATE oderslist SET customerPayment="Ок", partialPaymentAmount=Null WHERE _id=${data[index].id}`
+              `UPDATE oderslist SET customerPayment="Ок", partialPaymentAmount=Null WHERE _id=${data.arr[index].id}`
             );
           }
           if (
             dataelem[i].customerPayment == "Частично оплачен" &&
             dataelem[i].customerPrice - dataelem[i].partialPaymentAmount !=
-              data[index].customerPrice
+              data.arr[index].customerPrice
           ) {
             await db.query(
               `UPDATE oderslist SET customerPayment="Частично оплачен", partialPaymentAmount=${
-                Number(data[index].customerPrice) +
+                Number(data.arr[index].customerPrice) +
                 Number(dataelem[i].partialPaymentAmount)
-              } WHERE _id=${data[index].id}`
+              } WHERE _id=${data.arr[index].id}`
             );
           }
           if (dataelem[i].customerPayment != "Частично оплачен") {
             await db.query(
               `UPDATE oderslist SET customerPayment="Частично оплачен", partialPaymentAmount=${Number(
-                data[index].customerPrice
-              )} WHERE _id=${data[index].id}`
+                data.arr[index].customerPrice
+              )} WHERE _id=${data.arr[index].id}`
             );
           }
         }

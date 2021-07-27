@@ -358,17 +358,37 @@ export const oderReducer = (store = initialStore, action) => {
       };
     }
     case MAKE_PAYMENT_CUSTOMER_SUCCESS: {
-      let sum=store.income+Number(action.sumCustomerPayment)
+      let extraPayments;
+      let customerId = action.dataServer[0].idCustomer;
+      let [...arrCustomer] = store.clientList;
+      let indexCustomer = arrCustomer.findIndex(
+        (item) => item._id == customerId
+      );
+      let sumChosenOders = action.arr.reduce(
+        (sumCustumerPrice, item) => sumCustumerPrice + item.customerPrice,
+        0
+      );
+      if (sumChosenOders == action.sumCustomerPayment + action.extraPayments) {
+        extraPayments = null;
+      } else {
+        extraPayments =
+          action.extraPayments +
+          Number(action.sumCustomerPayment) -
+          sumChosenOders;
+      }
+      let sum = store.income + Number(action.sumCustomerPayment);
       let [...arr] = store.odersList;
       action.dataServer.forEach((elem) => {
         let index = arr.findIndex((item) => item._id == elem._id);
         arr[index] = elem;
       });
+      arrCustomer[indexCustomer].extraPayments = extraPayments;
       return {
         ...store,
         odersList: arr,
         originOdersList: arr,
         income: sum,
+        clientList: arrCustomer,
       };
     }
 

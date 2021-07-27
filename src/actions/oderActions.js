@@ -32,18 +32,27 @@ export const delOder = (id) => ({
   id,
 });
 
-export const makePaymentCustomer = (arr, sumCustomerPayment) => {
+export const makePaymentCustomer = (arr, sumCustomerPayment, extraPayments) => {
   return (dispatch) =>
     axios
       .patch(URL + "/makePaymentCustomer", {
         headers: {
           "Content-Type": "application/json",
         },
-        body: arr,
+        body: {
+          arr: arr,
+          sumCustomerPayment: sumCustomerPayment,
+          extraPayments: extraPayments,
+        },
       })
       .then((res) => {
         return dispatch(
-          makePaymentCustomerSuccess(res.data, sumCustomerPayment)
+          makePaymentCustomerSuccess(
+            res.data,
+            sumCustomerPayment,
+            extraPayments,
+            arr
+          )
         );
       })
       .catch((e) => {
@@ -51,10 +60,17 @@ export const makePaymentCustomer = (arr, sumCustomerPayment) => {
       });
 };
 
-export const makePaymentCustomerSuccess = (dataServer, sumCustomerPayment) => ({
+export const makePaymentCustomerSuccess = (
+  dataServer,
+  sumCustomerPayment,
+  extraPayments,
+  arr
+) => ({
   type: MAKE_PAYMENT_CUSTOMER_SUCCESS,
   dataServer,
   sumCustomerPayment,
+  extraPayments,
+  arr,
 });
 
 export const makePaymentCustomerFailure = () => ({

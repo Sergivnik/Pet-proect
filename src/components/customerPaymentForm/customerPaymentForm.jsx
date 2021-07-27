@@ -118,18 +118,22 @@ export const CustomerPaymentForm = () => {
     setChosenOders([]);
     setClear(false);
     setSumChosenOder(0);
-    dispatch(makePaymentCustomer(arr, sumCustomerPayment));
+    dispatch(makePaymentCustomer(arr, sumCustomerPayment, extraPayments));
   };
   return (
     <div className="customerPaymentMainDiv">
       <header className="customerPaymentHeader">
         <div className="customerPaymentHeaderDiv">
           <p className="customerPaymentHeaderP">Заказчик</p>
-          <ChoiseList
-            name="oders"
-            arrlist={filteredClientList}
-            setValue={setValue}
-          />
+          <div className="customeerPaymentWrapperChoiseDiv">
+            <div className="divChoise">
+              <ChoiseList
+                name="oders"
+                arrlist={filteredClientList}
+                setValue={setValue}
+              />
+            </div>
+          </div>
         </div>
         <div className="customerPaymentHeaderDiv">
           <p className="customerPaymentHeaderP">Сумма платежа</p>
