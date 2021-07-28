@@ -114,6 +114,9 @@ export const CustomerPaymentForm = () => {
         }
       });
     });
+    setExtraPayments(
+      Number(sumCustomerPayment) + extraPayments - sumChosenOder
+    );
     setSumCustomerPayment(0);
     setChosenOders([]);
     setClear(false);
