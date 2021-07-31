@@ -376,7 +376,7 @@ export const oderReducer = (store = initialStore, action) => {
           Number(action.sumCustomerPayment) -
           sumChosenOders;
       }
-      let sum = store.income + Number(action.sumCustomerPayment);
+      let sum = store.income + Number(action.sumCustomerPayment)+action.extraPayments-extraPayments;
       let [...arr] = store.odersList;
       action.dataServer.forEach((elem) => {
         let index = arr.findIndex((item) => item._id == elem._id);

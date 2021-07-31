@@ -4,6 +4,7 @@ import { UserTr } from "./userTr.jsx";
 import { CreateOder } from "../createOder/createOder.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
 import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.jsx";
+import { DriverPaymentForm } from "../driverPayment/form/driverPaymentForm.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
@@ -57,8 +58,12 @@ export const Oders = () => {
 
   const [sumAccount, setSumAccount] = useState(0);
   useEffect(() => {
+    let addSum = clientList.reduce(
+      (sum, item) => sum + Number(item.extraPayments),
+      0
+    );
     setSumAccount(
-      Math.floor((Number(income) - Number(expenses)) * 100) / 100 - 35916024.96
+      Math.floor((Number(income) - Number(expenses)+addSum) * 100) / 100 - 35916024.96
     );
   }, [income, expenses]);
 
@@ -255,11 +260,11 @@ export const Oders = () => {
     dispatch(delOder(trId));
   };
 
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    //setShowEdit(false);
-    //dispatch(editOder(trId, event.target.name, event.target.value));
-  };
+  // const handleChange = (event) => {
+  //   console.log(event.target.value);
+  //setShowEdit(false);
+  //dispatch(editOder(trId, event.target.name, event.target.value));
+  // };
 
   const handleEnter = (event) => {
     if (event.keyCode == 13) {
@@ -328,7 +333,7 @@ export const Oders = () => {
       if (btnClick == "driverPay") {
         setWindowHeader("Оплата перевозчику");
         setShowWindow(true);
-        setChildren(<p>Оплата перевозчику</p>);
+        setChildren(<DriverPaymentForm />);
       }
       if (btnClick == "otherPay") {
         setWindowHeader("Прочие расходы");
@@ -430,7 +435,7 @@ export const Oders = () => {
                   colNumber={colNumber}
                   trId={trId}
                   handleClickRadio={handleClickRadio}
-                  handleChange={handleChange}
+                  // handleChange={handleChange}
                   handleEnter={handleEnter}
                   setValue={setValue}
                   clientList={clientList}
