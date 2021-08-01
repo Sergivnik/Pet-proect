@@ -8,6 +8,9 @@ export const GET_DATA_FAILURE = "DATA::GET_DATA_FAILURE";
 export const GET_FILTER_SUCCESS = "DATA::GET_FILTER_FAILURE";
 export const GET_FILTER_FAILURE = "DATA::GET_FILTER_FAILURE";
 export const FILTER_DATA = "FILTER_DATA";
+export const GET_PAYMENTS_DATA = "DATA::GET_PAYMENTS_DATA";
+export const GET_PAYMENTS_DATA_SUCCESS = "DATA::GET_PAYMENTS_DATA_SUCCESS";
+export const GET_PAYMENTS_DATA_FAILURE = "DATA::GET_PAYMENTS_DATA_FAILURE";
 
 export const filterData = (filterObj) => {
   if (
@@ -84,6 +87,26 @@ export const getData = () => {
       .catch((e) => {
         console.log(e.message);
         return dispatch(getDataFailure());
+      });
+  };
+};
+export const getDataPaymentsSuccess = (dataServer) => ({
+  type: GET_PAYMENTS_DATA_SUCCESS,
+  dataServer,
+});
+export const getDataPaymentsFailure = () => ({
+  type: GET_PAYMENTS_DATA_FAILURE,
+});
+export const getPaymentsData = () => {
+  return (dispatch) => {
+    axios
+      .get(URL + "/dataPayments")
+      .then((res) => {
+        return dispatch(getDataPaymentsSuccess(res.data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        return dispatch(getDataPaymentsFailure());
       });
   };
 };

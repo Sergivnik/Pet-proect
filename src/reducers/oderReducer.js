@@ -13,6 +13,8 @@ import {
   GET_DATA_FAILURE,
   GET_FILTER_SUCCESS,
   GET_FILTER_FAILURE,
+  GET_PAYMENTS_DATA_SUCCESS,
+  GET_PAYMENTS_DATA_FAILURE,
 } from "../middlewares/initialState.js";
 
 export const oderReducer = (store = initialStore, action) => {
@@ -376,7 +378,11 @@ export const oderReducer = (store = initialStore, action) => {
           Number(action.sumCustomerPayment) -
           sumChosenOders;
       }
-      let sum = store.income + Number(action.sumCustomerPayment)+action.extraPayments-extraPayments;
+      let sum =
+        store.income +
+        Number(action.sumCustomerPayment) +
+        action.extraPayments -
+        extraPayments;
       let [...arr] = store.odersList;
       action.dataServer.forEach((elem) => {
         let index = arr.findIndex((item) => item._id == elem._id);
@@ -389,6 +395,21 @@ export const oderReducer = (store = initialStore, action) => {
         originOdersList: arr,
         income: sum,
         clientList: arrCustomer,
+      };
+    }
+    case GET_PAYMENTS_DATA_SUCCESS: {
+      return {
+        ...store,
+        customerPaymentsList: action.dataServer,
+      };
+    }
+    case GET_PAYMENTS_DATA_FAILURE: {
+      return {
+        ...store,
+        request: {
+          status: "FAILURE",
+          error: true,
+        },
       };
     }
 

@@ -1,4 +1,5 @@
 var tasks = require("../models/tasks.js");
+var tasksPayments = require("../models/tasksPayments.js");
 
 module.exports.taskGet = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -11,6 +12,17 @@ module.exports.taskGet = (req, res) => {
     }
   });
 };
+module.exports.taskGetPayments=(req,res)=>{
+  res.set("Access-Control-Allow-Origin", "*");
+  tasksPayments.list((data)=>{
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  })
+}
 module.exports.taskGetFilter = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   console.log(req.body.body);

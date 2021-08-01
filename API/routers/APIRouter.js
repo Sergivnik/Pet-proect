@@ -4,6 +4,7 @@ const path = require("path");
 const API = require("../controlers/API.js");
 
 router.get("/data", API.taskGet);
+router.get("/dataPayments",API.taskGetPayments);
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
 });

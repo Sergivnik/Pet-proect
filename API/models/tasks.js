@@ -543,6 +543,14 @@ var Tasks = {
           }
         }
       }
+      let paymentString = {
+        idCustomer: customerId,
+        sumOfPayment: Number(data.sumCustomerPayment),
+        sumExtraPayment: data.extraPayments,
+        listOfOders: JSON.stringify(data.arr),
+      };
+      console.log(paymentString);
+      await db.query("INSERT INTO customerpayment SET ?", paymentString);
       let [dataChanged] = await db.query(
         `select * FROM pet_proect.oderslist where _id in (${idList})`
       );

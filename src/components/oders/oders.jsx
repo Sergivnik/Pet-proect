@@ -4,6 +4,7 @@ import { UserTr } from "./userTr.jsx";
 import { CreateOder } from "../createOder/createOder.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
 import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.jsx";
+import { CustomerPayments } from "../customerPayments/customerPayments.jsx";
 import { DriverPaymentForm } from "../driverPayment/form/driverPaymentForm.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
@@ -24,7 +25,7 @@ export const Oders = () => {
   const income = useSelector((state) => state.oderReducer.income);
   const expenses = useSelector((state) => state.oderReducer.expenses);
 
-  const [oders, setOders] = useState(odersList.slice(-100));
+  const [oders, setOders] = useState(odersList.slice(-1000));
 
   const [showCreateOder, setShowCreateOder] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -63,7 +64,8 @@ export const Oders = () => {
       0
     );
     setSumAccount(
-      Math.floor((Number(income) - Number(expenses)+addSum) * 100) / 100 - 35916024.96
+      Math.floor((Number(income) - Number(expenses) + addSum) * 100) / 100 -
+        35916024.96
     );
   }, [income, expenses]);
 
@@ -330,8 +332,18 @@ export const Oders = () => {
         setShowWindow(true);
         setChildren(<CustomerPaymentForm />);
       }
+      if (btnClick == "customPayments") {
+        setWindowHeader("Входящие платежи");
+        setShowWindow(true);
+        setChildren(<CustomerPayments />);
+      }
       if (btnClick == "driverPay") {
         setWindowHeader("Оплата перевозчику");
+        setShowWindow(true);
+        setChildren(<DriverPaymentForm />);
+      }
+      if (btnClick == "driversDebt") {
+        setWindowHeader("Задолженность перевозчика");
         setShowWindow(true);
         setChildren(<DriverPaymentForm />);
       }
@@ -359,6 +371,13 @@ export const Oders = () => {
             Поступление от поставщиков
           </button>
           <button
+            name="customPayments"
+            className="odersMenuBtn"
+            onClick={handleClickBtnMenu}
+          >
+            Входящие платежы
+          </button>
+          <button
             name="driverPay"
             className="odersMenuBtn"
             onClick={handleClickBtnMenu}
@@ -366,11 +385,18 @@ export const Oders = () => {
             Оплата переозчикам
           </button>
           <button
+            name="driversDebt"
+            className="odersMenuBtn"
+            onClick={handleClickBtnMenu}
+          >
+            Долг переозчиков
+          </button>
+          <button
             name="otherPay"
             className="odersMenuBtn"
             onClick={handleClickBtnMenu}
           >
-            Прочие расходы
+            Расходы
           </button>
         </div>
       </div>
