@@ -15,7 +15,7 @@ export const CustomerPayments = () => {
   }, [dispatch]);
   return (
     <div className="customerPaymentsMainDiv">
-      <table>
+      <table className="customerPaymentMainTable">
         <thead>
           <tr>
             <td>Дата</td>
@@ -27,19 +27,10 @@ export const CustomerPayments = () => {
         </thead>
         <tbody>
           {customerPaymentsList.map((elem) => {
-            let sumOfOders = elem.listOfOders.reduce(
-              (sum, current) => sum + current.customerPrice,
-              0
-            );
-            let nameOfCustomer = clientList.find(
-              (item) => item._id == elem.idCustomer
-            ).value;
             return (
               <CustomerPaymentsTr
                 key={elem.id}
                 paymentData={elem}
-                sumOfOders={sumOfOders}
-                nameOfCustomer={nameOfCustomer}
               />
             );
           })}
