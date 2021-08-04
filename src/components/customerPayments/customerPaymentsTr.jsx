@@ -47,6 +47,7 @@ export const CustomerPaymentsTr = (props) => {
                   <td>Выгрузка</td>
                   <td>Списано в платеже</td>
                   <td>Полная стоимость рейса</td>
+                  <td>Номер счета</td>
                 </tr>
               </thead>
               <tbody>
@@ -80,6 +81,7 @@ export const CustomerPaymentsTr = (props) => {
                       <td>{unloadingPoints}</td>
                       <td>{item.customerPrice}</td>
                       <td>{oder.customerPrice}</td>
+                      <td>{oder.accountNumber}</td>
                     </tr>
                   );
                 })}

@@ -10,12 +10,12 @@ export const CustomerPayments = () => {
   const customerPaymentsList = useSelector(
     (state) => state.oderReducer.customerPaymentsList
   );
-  console.log(customerPaymentsList);
+
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const [showFilter, setShowFilter] = useState(false);
   const [colNumber, setColNumber] = useState(null);
   const [dateList, setDateList] = useState([]);
-  const [filterList, setFilterList] = useState({date:[]});
+  const [filterList, setFilterList] = useState({ date: [] });
 
   useEffect(() => {
     dispatch(getPaymentsData());
@@ -23,9 +23,15 @@ export const CustomerPayments = () => {
   useEffect(() => {
     let arr = [];
     customerPaymentsList.forEach((elem) => {
-      if (!arr.includes({ date: elem.date })) arr.push({ date: elem.date });
+      if (!arr.includes(elem.date)) arr.push(elem.date);
     });
-    setDateList(arr);
+    console.log(arr);
+    let arrObj = [];
+    arr.forEach((elem) => {
+      arrObj.push({ date: elem });
+    });
+    console.log(arrObj);
+    setDateList(arrObj);
   }, [customerPaymentsList]);
 
   const handleClickFilter = (e) => {
@@ -37,8 +43,14 @@ export const CustomerPayments = () => {
     let { ...arr } = filterList;
     switch (name) {
       case "Date":
+        chosenList = chosenList.map((elem) => {
+          let arrdate = elem.split("-");
+          return `${arrdate[0]}-${Number(arrdate[1]) + 1}-${arrdate[2]}`;
+        });
         arr.date = chosenList;
         setFilterList(arr);
+        break;
+      default:
         break;
     }
   };
@@ -56,7 +68,7 @@ export const CustomerPayments = () => {
                 <svg width="100%" height="20">
                   <polygon
                     points="5 5, 25 5, 15 15, 5 5 "
-                    fill={filterList.length > 0 ? "blue" : "black"}
+                    fill={filterList.date.length > 0 ? "blue" : "black"}
                   />
                 </svg>
               </button>
