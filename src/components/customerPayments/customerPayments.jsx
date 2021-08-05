@@ -4,34 +4,43 @@ import "./customerPayments.sass";
 import { getPaymentsData } from "../../middlewares/initialState";
 import { CustomerPaymentsTr } from "./customerPaymentsTr.jsx";
 import { FilterDateList } from "../filterDate/filterDateList.jsx";
+import { FilterList } from "../filterList/filterList.jsx";
 
 export const CustomerPayments = () => {
   const dispatch = useDispatch();
   const customerPaymentsList = useSelector(
     (state) => state.oderReducer.customerPaymentsList
   );
+  const [clientsFromPayments, setClientsFromPayments] = useState([]);
 
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const [showFilter, setShowFilter] = useState(false);
   const [colNumber, setColNumber] = useState(null);
   const [dateList, setDateList] = useState([]);
-  const [filterList, setFilterList] = useState({ date: [] });
+  const [filterList, setFilterList] = useState({ date: [], driver: [] });
 
   useEffect(() => {
     dispatch(getPaymentsData());
   }, [dispatch]);
   useEffect(() => {
     let arr = [];
+    let arrCustomer = [];
     customerPaymentsList.forEach((elem) => {
       if (!arr.includes(elem.date)) arr.push(elem.date);
+      if (!arrCustomer.includes(elem.idCustomer))
+        arrCustomer.push(elem.idCustomer);
     });
-    console.log(arr);
     let arrObj = [];
     arr.forEach((elem) => {
       arrObj.push({ date: elem });
     });
-    console.log(arrObj);
     setDateList(arrObj);
+    let arrCustomerObj = [];
+    arrCustomer.forEach((elem) => {
+      let obj = clientList.find((item) => item._id == elem);
+      arrCustomerObj.push(obj);
+    });
+    setClientsFromPayments(arrCustomerObj);
   }, [customerPaymentsList]);
 
   const handleClickFilter = (e) => {
@@ -82,7 +91,29 @@ export const CustomerPayments = () => {
                 />
               )}
             </td>
-            <td className="customerPaymentHeaderTd">Заказчик</td>
+            <td className="customerPaymentHeaderTd">
+              <span className="customerPaymentHeaderSpan">Заказчик</span>
+              <button
+                className="customerPaymentHeaderFilter"
+                onClick={handleClickFilter}
+              >
+                <svg width="100%" height="20">
+                  <polygon
+                    points="5 5, 25 5, 15 15, 5 5 "
+                    fill={filterList.date.length > 0 ? "blue" : "black"}
+                  />
+                </svg>
+              </button>
+              {showFilter && colNumber === 1 && (
+                <FilterList
+                  name="Customer"
+                  arrlist={clientsFromPayments}
+                  filterList={filterList.driver}
+                  closeFilter={closeFilter}
+                  writeFilterList={writeFilterList}
+                />
+              )}
+            </td>
             <td className="customerPaymentHeaderTd">Сумма платежа</td>
             <td className="customerPaymentHeaderTd">
               Сумма распределенная по заказам
