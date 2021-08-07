@@ -29,17 +29,16 @@ export const CustomerPayments = () => {
     customer: [],
     sumOfPayment: [],
   });
-
+  function compareNumeric(a, b) {
+    if (Number(a) > Number(b)) return 1;
+    if (Number(a) == Number(b)) return 0;
+    if (Number(a) < Number(b)) return -1;
+  }
   useEffect(() => {
     dispatch(getPaymentsData());
   }, [dispatch]);
 
   useEffect(() => {
-    function compareNumeric(a, b) {
-      if (Number(a) > Number(b)) return 1;
-      if (Number(a) == Number(b)) return 0;
-      if (Number(a) < Number(b)) return -1;
-    }
     let arr = [];
     let arrCustomer = [];
     let arrSumOfPayment = [];
@@ -76,61 +75,71 @@ export const CustomerPayments = () => {
   }, [customerPaymentsList]);
 
   useEffect(() => {
-    let arrDate = [];
-    let arrCustomer = [];
-    let arrSumm = [];
     if (
       filterList.date.length == 0 &&
       filterList.customer.length == 0 &&
       filterList.sumOfPayment.length == 0
     ) {
+      if (originDateList.length) setDateList(originDateList);
+      if (origiClientsFromPayments.length)
+        setClientsFromPayments(origiClientsFromPayments);
+      if (originSumOfPayment.length) setSumOfPaymentsList(originSumOfPayment);
       setFilteredCustomerPaymentsList(customerPaymentsList);
     } else {
-      if (filterList.date.length > 0) {
-        arrDate = filteredCustomerPaymentsList.filter((item) => {
-          let check = false;
-          filterList.date.forEach((elem) => {
-            let dateFromList = new Date(item.date);
-            let datefromChoise = new Date(elem);
-            if (dateFromList - datefromChoise == 0) {
-              check = true;
-            }
+      let arrDate = [];
+      let arrCustomer = [];
+      let arrSum = [];
+      let arr = customerPaymentsList.filter((elem) => {
+        let checkDate = false;
+        let checkCustomer = false;
+        let checkSum = false;
+        if (filterList.date.length != 0) {
+          filterList.date.forEach((dateTxt) => {
+            let dateFromList = new Date(elem.date);
+            let dateFromFilter = new Date(dateTxt);
+            if (dateFromList - dateFromFilter == 0) checkDate = true;
           });
-          if (check) return item;
-        });
-      } else {
-        arrDate = filteredCustomerPaymentsList;
-        setDateList(originDateList);
-      }
-      if (filterList.customer.length > 0) {
-        arrCustomer = arrDate.filter((item) => {
-          let check = false;
-          filterList.customer.forEach((elem) => {
-            if (item.idCustomer == elem) check = true;
+        } else checkDate = true;
+        if (filterList.customer.length != 0) {
+          filterList.customer.forEach((customerId) => {
+            if (elem.idCustomer == customerId) checkCustomer = true;
           });
-          if (check) return item;
-        });
-      } else {
-        arrCustomer = arrDate;
-        setClientsFromPayments(origiClientsFromPayments);
-      }
-      if (filterList.sumOfPayment.length > 0) {
-        arrSumm = arrCustomer.filter((item) => {
-          let check = false;
-          filterList.sumOfPayment.forEach((elem) => {
-            if (
-              item.sumOfPayment ==
-              sumOfPaymentsList.find((sum) => sum._id == elem).value
-            )
-              check = true;
+        } else checkCustomer = true;
+        if (filterList.sumOfPayment.length != 0) {
+          filterList.sumOfPayment.forEach((sumId) => {
+            let sum = originSumOfPayment.find((item) => item._id == sumId);
+            if (sum.value == elem.sumOfPayment) checkSum = true;
           });
-          if (check) return item;
-        });
-      } else {
-        arrSumm = arrCustomer;
-        setSumOfPaymentsList(originSumOfPayment);
-      }
-      setFilteredCustomerPaymentsList(arrSumm);
+        } else checkSum = true;
+        if (checkCustomer && checkSum && !arrDate.includes(elem.date))
+          arrDate.push(elem.date);
+        if (checkDate && checkSum && !arrCustomer.includes(elem.idCustomer))
+          arrCustomer.push(elem.idCustomer);
+        if (checkDate && checkCustomer && !arrSum.includes(elem.sumOfPayment))
+          arrSum.push(elem.sumOfPayment);
+        if (checkDate && checkCustomer && checkSum) return elem;
+      });
+      let arrObj = [];
+      arrDate.forEach((elem) => {
+        arrObj.push({ date: elem });
+      });
+      setDateList(arrObj);
+      arrObj = [];
+      arrCustomer.forEach((elem) => {
+        let obj = clientList.find((item) => item._id == elem);
+        arrObj.push(obj);
+      });
+      setClientsFromPayments(arrObj);
+      arrObj = [];
+      arrSum.sort(compareNumeric);
+      arrSum.forEach((elem) => {
+        let obj = originSumOfPayment.find((element) => element.value == elem);
+        arrObj.push(obj);
+      });
+      setSumOfPaymentsList(arrObj);
+      console.log(filterList);
+      console.log(arrDate, arrCustomer, arrSum);
+      setFilteredCustomerPaymentsList(arr);
     }
   }, [filterList, customerPaymentsList]);
 
@@ -142,6 +151,7 @@ export const CustomerPayments = () => {
   const closeFilter = () => setShowFilter(false);
 
   const writeFilterList = (chosenList, name) => {
+    console.log(filterList);
     let { ...arr } = filterList;
     switch (name) {
       case "Date":
