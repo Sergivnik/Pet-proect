@@ -14,5 +14,6 @@ router.post("/proxy/:id", API.taskProxy);
 router.patch("/edit", API.taskEdit);
 router.patch("/makePaymentCustomer", API.makePaymentCustomer);
 router.delete("/:id", API.taskDel);
+router.delete("/deleteDataPatmenrs/:id",API.taskDeletePayments);
 
 module.exports = router;

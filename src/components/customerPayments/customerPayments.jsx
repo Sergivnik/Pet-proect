@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./customerPayments.sass";
-import { getPaymentsData } from "../../middlewares/initialState";
+import { getPaymentsData, deletePaymentData } from "../../middlewares/initialState";
 import { CustomerPaymentsTr } from "./customerPaymentsTr.jsx";
 import { FilterDateList } from "../filterDate/filterDateList.jsx";
 import { FilterList } from "../filterList/filterList.jsx";
@@ -174,6 +174,11 @@ export const CustomerPayments = () => {
         break;
     }
   };
+
+  const handleClickDelete =(id)=>{
+    alert(id)
+    dispatch(deletePaymentData(id));
+  }
   return (
     <div className="customerPaymentsMainDiv">
       <table className="customerPaymentsMainTable">
@@ -256,7 +261,13 @@ export const CustomerPayments = () => {
         </thead>
         <tbody>
           {filteredCustomerPaymentsList.map((elem) => {
-            return <CustomerPaymentsTr key={elem.id} paymentData={elem} />;
+            return (
+              <CustomerPaymentsTr
+                key={elem.id}
+                paymentData={elem}
+                handleClickDelete={handleClickDelete}
+              />
+            );
           })}
         </tbody>
       </table>

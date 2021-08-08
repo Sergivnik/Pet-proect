@@ -11,6 +11,9 @@ export const FILTER_DATA = "FILTER_DATA";
 export const GET_PAYMENTS_DATA = "DATA::GET_PAYMENTS_DATA";
 export const GET_PAYMENTS_DATA_SUCCESS = "DATA::GET_PAYMENTS_DATA_SUCCESS";
 export const GET_PAYMENTS_DATA_FAILURE = "DATA::GET_PAYMENTS_DATA_FAILURE";
+export const DELETE_PAYMENT_DATA = "DATA::DELETE_PAYMENT_DATA";
+export const DELETE_PAYMENT_DATA_SUCCESS = "DATA::DELETE_PAYMENT_DATA_SUCCESS";
+export const DELETE_PAYMENT_DATA_FAILURE = "DATA::DELETE_PAYMENT_DATA_FAILURE";
 
 export const filterData = (filterObj) => {
   if (
@@ -107,6 +110,26 @@ export const getPaymentsData = () => {
       .catch((e) => {
         console.log(e.message);
         return dispatch(getDataPaymentsFailure());
+      });
+  };
+};
+export const deletePaymentDataSuccess = (dataServer) => ({
+  type: DELETE_PAYMENT_DATA_SUCCESS,
+  dataServer,
+});
+export const deletePaymentDataFailure = () => ({
+  type: DELETE_PAYMENT_DATA_FAILURE,
+});
+export const deletePaymentData = (id) => {
+  return (dispatch) => {
+    axios
+      .delete(URL + "/deleteDataPatmenrs"+"/"+id)
+      .then((res) => {
+        return dispatch(deletePaymentDataSuccess(res.data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        return dispatch(deletePaymentDataFailure());
       });
   };
 };

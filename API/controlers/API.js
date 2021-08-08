@@ -12,17 +12,17 @@ module.exports.taskGet = (req, res) => {
     }
   });
 };
-module.exports.taskGetPayments=(req,res)=>{
+module.exports.taskGetPayments = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
-  tasksPayments.list((data)=>{
+  tasksPayments.list((data) => {
     if (data.error) {
       res.status(500);
       res.json({ message: data.error });
     } else {
       res.json(data);
     }
-  })
-}
+  });
+};
 module.exports.taskGetFilter = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   console.log(req.body.body);
@@ -83,6 +83,21 @@ module.exports.taskDel = (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
   tasks.del(req.params.id, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
+
+module.exports.taskDeletePayments = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  tasksPayments.taskDeletePayments(req.params.id, (data) => {
     if (data.error) {
       res.status(500);
       res.json({ message: data.error });
