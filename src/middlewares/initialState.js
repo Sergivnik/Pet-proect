@@ -113,9 +113,10 @@ export const getPaymentsData = () => {
       });
   };
 };
-export const deletePaymentDataSuccess = (dataServer) => ({
+export const deletePaymentDataSuccess = (dataServer,id) => ({
   type: DELETE_PAYMENT_DATA_SUCCESS,
   dataServer,
+  id,
 });
 export const deletePaymentDataFailure = () => ({
   type: DELETE_PAYMENT_DATA_FAILURE,
@@ -123,9 +124,9 @@ export const deletePaymentDataFailure = () => ({
 export const deletePaymentData = (id) => {
   return (dispatch) => {
     axios
-      .delete(URL + "/deleteDataPatmenrs"+"/"+id)
+      .delete(URL + "/deleteDataPatmenrs" + "/" + id)
       .then((res) => {
-        return dispatch(deletePaymentDataSuccess(res.data));
+        return dispatch(deletePaymentDataSuccess(res.data, id));
       })
       .catch((e) => {
         console.log(e.message);

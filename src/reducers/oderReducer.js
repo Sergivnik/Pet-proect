@@ -15,6 +15,8 @@ import {
   GET_FILTER_FAILURE,
   GET_PAYMENTS_DATA_SUCCESS,
   GET_PAYMENTS_DATA_FAILURE,
+  DELETE_PAYMENT_DATA_SUCCESS,
+  DELETE_PAYMENT_DATA_FAILURE,
 } from "../middlewares/initialState.js";
 
 export const oderReducer = (store = initialStore, action) => {
@@ -404,6 +406,65 @@ export const oderReducer = (store = initialStore, action) => {
       };
     }
     case GET_PAYMENTS_DATA_FAILURE: {
+      return {
+        ...store,
+        request: {
+          status: "FAILURE",
+          error: true,
+        },
+      };
+    }
+    case DELETE_PAYMENT_DATA_SUCCESS: {
+      let [...newCustomerPaymentList] = store.customerPaymentsList;
+      let delPaymentIndex = newCustomerPaymentList.findIndex(
+        (elem) => elem.id == action.id
+      );
+      let delPayment = newCustomerPaymentList[delPaymentIndex];
+      let [...newOderList] = store.odersList;
+      let [...newClientList] = store.clientList;
+      let client = newClientList.find(
+        (elem) => elem._id == delPayment.idCustomer
+      );
+      let newIncome = store.income;
+      let sum = 0;
+      delPayment.listOfOders.forEach((elem) => {
+        let oder = newOderList.find((item) => item._id == elem.id);
+        sum = sum + elem.customerPrice;
+        if (elem.customerPrice == oder.customerPrice) {
+          oder.customerPayment = "Нет";
+          newIncome = newIncome - oder.customerPrice;
+        } else {
+          if (oder.customerPayment == "Ок") {
+            oder.customerPayment = "Частично оплачен";
+            oder.partialPaymentAmount = oder.customerPrice - elem.customerPrice;
+            newIncome = newIncome - elem.customerPrice;
+          } else {
+            if (oder.partialPaymentAmoun == elem.customerPrice) {
+              oder.customerPayment = "Нет";
+              oder.partialPaymentAmoun = null;
+              newIncome = newIncome - elem.customerPrice;
+            } else {
+              oder.partialPaymentAmount =
+                oder.partialPaymentAmount - elem.customerPrice;
+              newIncome = newIncome - elem.customerPrice;
+            }
+          }
+        }
+      });
+      let diff = sum - delPayment.sumOfPayment;
+      client.extraPayments = client.extraPayments + diff;
+      newCustomerPaymentList.splice(delPaymentIndex, 1);
+      return {
+        ...store,
+        customerPaymentsList: newCustomerPaymentList,
+        odersList: newOderList,
+        originOdersList: newOderList,
+        clientList: newClientList,
+        filteredClients: newClientList,
+        income: newIncome,
+      };
+    }
+    case DELETE_PAYMENT_DATA_FAILURE: {
       return {
         ...store,
         request: {
