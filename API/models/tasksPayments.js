@@ -20,7 +20,7 @@ var TasksPayments = {
         `SELECT * FROM customerpayment where id=${id}`
       );
       console.log(PaymentsData[0]);
-      PaymentsData[0].listOfOders.forEach(async (elem) => {
+      for (const elem of PaymentsData[0].listOfOders) {
         let [odersData] = await db.query(
           `SELECT customerPrice, customerPayment, partialPaymentAmount FROM oderslist where _id=${elem.id}`
         );
@@ -57,38 +57,37 @@ var TasksPayments = {
           }
         }
         sum = sum + elem.customerPrice;
-        let [extraPay] = await db.query(
-          `SELECT extraPayments FROM oders where _id=${PaymentsData[0].idCustomer}`
+      }
+      let [extraPay] = await db.query(
+        `SELECT extraPayments FROM oders where _id=${PaymentsData[0].idCustomer}`
+      );
+      if (PaymentsData[0].sumOfPayment == sum) {
+        await db.query(
+          `DELETE FROM customerpayment WHERE id=${PaymentsData[0].id}`
         );
-        if (PaymentsData[0].sumOfPayment == sum) {
-          await db.query(
-            `DELETE FROM customerpayment WHERE id=${PaymentsData[0].id}`
-          );
-        }
-        let diff = PaymentsData[0].sumOfPayment - sum;
-        if (diff > 0) {
-          await db.query(
-            `DELETE FROM customerpayment WHERE id=${PaymentsData[0].id}`
-          );
-          await db.query(
-            `UPDATE oders set extraPayments=${
-              extraPay[0].extraPayments - diff
-            } WHERE _id=${PaymentsData[0].idCustomer}`
-          );
-        }
-        if (diff < 0) {
-          await db.query(
-            `DELETE FROM customerpayment WHERE id=${PaymentsData[0].id}`
-          );
-          await db.query(
-            `UPDATE oders set extraPayments=${
-              extraPay[0].extraPayments - diff
-            } WHERE _id=${PaymentsData[0].idCustomer}`
-          );
-        }
-        db.end();
-      });
-
+      }
+      let diff = PaymentsData[0].sumOfPayment - sum;
+      if (diff > 0) {
+        await db.query(
+          `DELETE FROM customerpayment WHERE id=${PaymentsData[0].id}`
+        );
+        await db.query(
+          `UPDATE oders set extraPayments=${
+            extraPay[0].extraPayments - diff
+          } WHERE _id=${PaymentsData[0].idCustomer}`
+        );
+      }
+      if (diff < 0) {
+        await db.query(
+          `DELETE FROM customerpayment WHERE id=${PaymentsData[0].id}`
+        );
+        await db.query(
+          `UPDATE oders set extraPayments=${
+            extraPay[0].extraPayments - diff
+          } WHERE _id=${PaymentsData[0].idCustomer}`
+        );
+      }
+      db.end();
       callback("success");
     } catch (err) {
       callback({ error: err });

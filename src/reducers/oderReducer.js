@@ -451,6 +451,7 @@ export const oderReducer = (store = initialStore, action) => {
           }
         }
       });
+      console.log(newIncome);
       let diff = sum - delPayment.sumOfPayment;
       client.extraPayments = client.extraPayments + diff;
       newCustomerPaymentList.splice(delPaymentIndex, 1);
