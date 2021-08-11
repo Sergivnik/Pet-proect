@@ -5,7 +5,8 @@ import { CreateOder } from "../createOder/createOder.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
 import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.jsx";
 import { CustomerPayments } from "../customerPayments/customerPayments.jsx";
-import { DriverPaymentForm } from "../driverPayment/form/driverPaymentForm.jsx";
+import { DriverPaymentForm } from "../driverPayment/driverPaymentForm.jsx";
+import { DriverDebtForm } from "../driverPayment/driverDebtForm.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
@@ -345,7 +346,7 @@ export const Oders = () => {
       if (btnClick == "driversDebt") {
         setWindowHeader("Задолженность перевозчика");
         setShowWindow(true);
-        setChildren(<DriverPaymentForm />);
+        setChildren(<DriverDebtForm />);
       }
       if (btnClick == "otherPay") {
         setWindowHeader("Прочие расходы");

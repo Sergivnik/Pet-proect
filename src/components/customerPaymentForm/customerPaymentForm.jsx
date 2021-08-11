@@ -53,6 +53,7 @@ export const CustomerPaymentForm = () => {
     setTotalDebt(sum - extraPayments);
     setOders(clone);
   }, [idChoisenCustomer, odersList]);
+  
   useEffect(() => {
     let [...arr] = customerWithoutPayment
       .filter((item) => item.idCustomer != null)

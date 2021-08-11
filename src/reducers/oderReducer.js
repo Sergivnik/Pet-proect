@@ -310,6 +310,10 @@ export const oderReducer = (store = initialStore, action) => {
         }
         i++;
       });
+      let clone=[];
+      action.dataServer.odersList.forEach((elem)=>{
+        clone.push(Object.assign({}, elem));
+      })
       return {
         ...store,
         dateList: action.dataServer.date,
@@ -322,7 +326,7 @@ export const oderReducer = (store = initialStore, action) => {
         clientList: action.dataServer.clientList,
         filteredClients: action.dataServer.clientList,
         odersList: action.dataServer.odersList,
-        originOdersList: action.dataServer.odersList,
+        originOdersList: clone,
         filteredCustomerPrice: [
           Number(action.dataServer.minCustomerPrice),
           Number(action.dataServer.maxCustomerPrice),
