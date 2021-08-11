@@ -6,6 +6,13 @@ import { UserTrNew } from "../userTrNew/userTrNew.jsx";
 import { makePaymentCustomer } from "../../actions/oderActions.js";
 
 export const CustomerPaymentForm = () => {
+  let now = new Date();
+  const DateStr = (date) => {
+    date = new Date(date);
+    let month = date.getMonth()+1;
+    if (month < 10) month = `0${month}`;
+    return `${date.getFullYear()}-${month}-${date.getDate()}`;
+  };
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const driversList = useSelector((state) => state.oderReducer.driverlist);
@@ -25,6 +32,7 @@ export const CustomerPaymentForm = () => {
   const [showDebt, setShowDebt] = useState(false);
   const [clear, setClear] = useState(false);
   const [valueChoisenCustomer, setValueChoisenCustomer] = useState(null);
+  const [dateOfPayment, setDateOfPayment] = useState(DateStr(now));
 
   const dispatch = useDispatch();
 
@@ -97,6 +105,10 @@ export const CustomerPaymentForm = () => {
     setClear(true);
   };
 
+  const handleChangeDatePayment = (e) => {
+    setDateOfPayment(e.target.value);
+  };
+
   const handleClickMakePayment = () => {
     let arr = [];
     console.log(chosenOders);
@@ -121,7 +133,7 @@ export const CustomerPaymentForm = () => {
     setChosenOders([]);
     setClear(false);
     setSumChosenOder(0);
-    dispatch(makePaymentCustomer(arr, sumCustomerPayment, extraPayments));
+    dispatch(makePaymentCustomer(arr, sumCustomerPayment, extraPayments, dateOfPayment));
   };
   return (
     <div className="customerPaymentMainDiv">
@@ -137,6 +149,14 @@ export const CustomerPaymentForm = () => {
               />
             </div>
           </div>
+        </div>
+        <div className="customerPaymentHeaderDiv">
+          <p className="customerPaymentHeaderP">Дата платежа</p>
+          <input
+            type="date"
+            onChange={handleChangeDatePayment}
+            value={dateOfPayment}
+          />
         </div>
         <div className="customerPaymentHeaderDiv">
           <p className="customerPaymentHeaderP">Сумма платежа</p>

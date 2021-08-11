@@ -5,7 +5,7 @@ var TasksPayments = {
   list: async function (callback) {
     const db = mysql.createPool(options).promise();
     try {
-      let [data] = await db.query("SELECT * FROM customerpayment");
+      let [data] = await db.query("SELECT * FROM customerpayment order by date");
       callback(data);
       db.end();
     } catch (err) {

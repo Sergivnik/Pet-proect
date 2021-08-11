@@ -544,7 +544,7 @@ var Tasks = {
         }
       }
       let paymentString = {
-        date: new Date(),
+        date: new Date(data.date),
         idCustomer: customerId,
         sumOfPayment: Number(data.sumCustomerPayment),
         sumExtraPayment: data.extraPayments,

@@ -32,7 +32,12 @@ export const delOder = (id) => ({
   id,
 });
 
-export const makePaymentCustomer = (arr, sumCustomerPayment, extraPayments) => {
+export const makePaymentCustomer = (
+  arr,
+  sumCustomerPayment,
+  extraPayments,
+  date
+) => {
   return (dispatch) =>
     axios
       .patch(URL + "/makePaymentCustomer", {
@@ -43,6 +48,7 @@ export const makePaymentCustomer = (arr, sumCustomerPayment, extraPayments) => {
           arr: arr,
           sumCustomerPayment: sumCustomerPayment,
           extraPayments: extraPayments,
+          date: date,
         },
       })
       .then((res) => {
