@@ -26,11 +26,12 @@ export const initialStore = {
   accountList: [],
   filteredAccountList: [],
   customerWithoutPayment: [],
-  customerPaymentsList:[],
+  customerPaymentsList: [],
   income: 0,
   expenses: 0,
   request: {
     status: "IDLE",
     error: null,
   },
+  driverDebtList: [],
 };

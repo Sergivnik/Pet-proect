@@ -4,7 +4,8 @@ const path = require("path");
 const API = require("../controlers/API.js");
 
 router.get("/data", API.taskGet);
-router.get("/dataPayments",API.taskGetPayments);
+router.get("/dataPayments", API.taskGetPayments);
+router.get("/dataDriverDebt", API.taskGetDebts);
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
 });
@@ -14,6 +15,6 @@ router.post("/proxy/:id", API.taskProxy);
 router.patch("/edit", API.taskEdit);
 router.patch("/makePaymentCustomer", API.makePaymentCustomer);
 router.delete("/:id", API.taskDel);
-router.delete("/deleteDataPatmenrs/:id",API.taskDeletePayments);
+router.delete("/deleteDataPatmenrs/:id", API.taskDeletePayments);
 
 module.exports = router;

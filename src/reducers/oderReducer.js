@@ -18,6 +18,10 @@ import {
   DELETE_PAYMENT_DATA_SUCCESS,
   DELETE_PAYMENT_DATA_FAILURE,
 } from "../middlewares/initialState.js";
+import {
+  GET_DATA_DRIVER_DEBT_SUCCESS,
+  GET_DATA_DRIVER_DEBT_FAILURE,
+} from "../actions/driverActions.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
@@ -310,10 +314,10 @@ export const oderReducer = (store = initialStore, action) => {
         }
         i++;
       });
-      let clone=[];
-      action.dataServer.odersList.forEach((elem)=>{
+      let clone = [];
+      action.dataServer.odersList.forEach((elem) => {
         clone.push(Object.assign({}, elem));
-      })
+      });
       return {
         ...store,
         dateList: action.dataServer.date,
@@ -476,6 +480,13 @@ export const oderReducer = (store = initialStore, action) => {
           status: "FAILURE",
           error: true,
         },
+      };
+    }
+
+    case GET_DATA_DRIVER_DEBT_SUCCESS:{
+      return {
+        ...store,
+        driverDebtList: action.dataServer,
       };
     }
 

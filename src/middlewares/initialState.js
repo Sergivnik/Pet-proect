@@ -1,14 +1,14 @@
 import axios from "axios";
 export const URL = "http://localhost:3000/API";
 //export const URL = "http://192.168.0.106:3000/API";
-export const GET_DATA = "DATA::GET_DATA";
+//export const GET_DATA = "DATA::GET_DATA";
 export const GET_DATA_REQUEST = "DATA::GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = "DATA::GET_DATA_SUCCESS";
 export const GET_DATA_FAILURE = "DATA::GET_DATA_FAILURE";
 export const GET_FILTER_SUCCESS = "DATA::GET_FILTER_FAILURE";
 export const GET_FILTER_FAILURE = "DATA::GET_FILTER_FAILURE";
 export const FILTER_DATA = "FILTER_DATA";
-export const GET_PAYMENTS_DATA = "DATA::GET_PAYMENTS_DATA";
+//export const GET_PAYMENTS_DATA = "DATA::GET_PAYMENTS_DATA";
 export const GET_PAYMENTS_DATA_SUCCESS = "DATA::GET_PAYMENTS_DATA_SUCCESS";
 export const GET_PAYMENTS_DATA_FAILURE = "DATA::GET_PAYMENTS_DATA_FAILURE";
 export const DELETE_PAYMENT_DATA = "DATA::DELETE_PAYMENT_DATA";
@@ -81,7 +81,7 @@ export const getDataFailure = () => ({
 
 export const getData = () => {
   return (dispatch) => {
-    dispatch(getDataRequest());
+    //dispatch(getDataRequest());
     axios
       .get(URL + "/data")
       .then((res) => {
