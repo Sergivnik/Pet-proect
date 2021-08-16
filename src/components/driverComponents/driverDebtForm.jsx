@@ -13,6 +13,7 @@ export const DriverDebtForm = () => {
   );
 
   const [showCreateDebt, setShowCreateDebt] = useState(false);
+  const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   useEffect(() => {
     dispatch(getDataDriverDebt());
@@ -20,6 +21,10 @@ export const DriverDebtForm = () => {
 
   const handleClickBtn = () => {
     setShowCreateDebt(!showCreateDebt);
+    setShowSaveBtn(!showSaveBtn);
+  };
+  const sentDebt = (data) => {
+    console.log(data);
   };
 
   return (
@@ -39,12 +44,20 @@ export const DriverDebtForm = () => {
           {driverDebtList.map((elem) => {
             return <DriverDebtTr key={elem.id} debtData={elem} />;
           })}
-          {showCreateDebt && <DriverDebtCreate driversList={driversList} />}
+          {showCreateDebt && (
+            <DriverDebtCreate driversList={driversList} sentDebt={sentDebt} />
+          )}
         </tbody>
       </table>
-      <button className="driverDebtBtn" onClick={handleClickBtn}>
-        Добавить
-      </button>
+      {showSaveBtn ? (
+        <button className="driverDebtBtn" onClick={handleClickBtn}>
+          Сохранить
+        </button>
+      ) : (
+        <button className="driverDebtBtn" onClick={handleClickBtn}>
+          Добавить
+        </button>
+      )}
     </div>
   );
 };

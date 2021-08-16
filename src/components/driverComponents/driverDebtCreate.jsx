@@ -48,13 +48,22 @@ export const DriverDebtCreate = (props) => {
       showCreateDriver ||
       showCreateCategory ||
       showCreateSum ||
-      showCreateAddInfo
+      showCreateAddInfo ||
+      showCreateDebtStatus
     ) {
       let dirOfChoise = document.querySelector(".driverDebtCreateChoise");
       let input = dirOfChoise.getElementsByTagName("input")[0];
       input.focus();
+    } else {
+      props.sentDebt(debtData);
     }
-  }, [showCreateDriver, showCreateCategory, showCreateSum, showCreateAddInfo]);
+  }, [
+    showCreateDriver,
+    showCreateCategory,
+    showCreateSum,
+    showCreateAddInfo,
+    showCreateDebtStatus,
+  ]);
   const handleGetFocus = (e) => {
     if (debtData.date == null) setShowCreateDate(true);
   };
@@ -91,7 +100,8 @@ export const DriverDebtCreate = (props) => {
     objData.categoryValue = categoryObj.value;
     setDebtData(objData);
     setShowCreateCategory(false);
-    if (debtData.sumOfDebt == null || debtData.sumOfDebt == 0) setShowCreateSum(true);
+    if (debtData.sumOfDebt == null || debtData.sumOfDebt == 0)
+      setShowCreateSum(true);
   };
 
   const handleClickSum = () => {
@@ -114,22 +124,33 @@ export const DriverDebtCreate = (props) => {
     objData.addInfo = e.target.value;
     setDebtData(objData);
     setShowCreateAddInfo(false);
-    setShowCreateStatus(true)
+    setShowCreateStatus(true);
   };
 
-  const setValueStatus=(statusObj)=>{
+  const setValueStatus = (statusObj) => {
     let objData = debtData;
     objData.idDebtClosed = statusObj._id;
     objData.debtClosedValue = statusObj.value;
     setDebtData(objData);
     setShowCreateStatus(false);
-  }
+  };
 
   const handleSaveByEnter = (e) => {
-    if (e.key == "Enter") console.log(e);
+    if (e.key == "Enter") props.sentDebt(debtData);
+  };
+  const handleBlur = (e) => {
+    console.log(e);
+    if(!e.currentTarget.contains(e.relatedTarget)){
+      props.sentDebt(debtData);
+    }
   };
   return (
-    <tr className="driverDebtCreateTr" onKeyDown={handleSaveByEnter}>
+    <tr
+      tabIndex={1}
+      className="driverDebtCreateTr"
+      onKeyDown={handleSaveByEnter}
+      onBlur={handleBlur}
+    >
       <td className="driverDebtCreateTd" onClick={handleGetFocus}>
         {showCreateDate ? (
           <input
@@ -196,11 +217,14 @@ export const DriverDebtCreate = (props) => {
         )}
       </td>
       <td className="driverDebtCreateTd">
-      {showCreateDebtStatus ? (
+        {showCreateDebtStatus ? (
           <div className="driverDebtCreateChoise">
             <ChoiseList
               name="status"
-              arrlist={[{_id:1,value:"Ок"},{_id:2,value:"Нет"}]}
+              arrlist={[
+                { _id: 1, value: "Ок" },
+                { _id: 2, value: "Нет" },
+              ]}
               setValue={setValueStatus}
             />
           </div>
