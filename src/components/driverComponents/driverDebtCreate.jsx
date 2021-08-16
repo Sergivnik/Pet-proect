@@ -30,14 +30,16 @@ export const DriverDebtCreate = (props) => {
   const [showCreateCategory, setShowCreateCategory] = useState(false);
   const [showCreateSum, setShowCreateSum] = useState(false);
   const [showCreateAddInfo, setShowCreateAddInfo] = useState(false);
+  const [showCreateDebtStatus, setShowCreateStatus] = useState(false);
   const [debtData, setDebtData] = useState({
     date: null,
     idDriver: null,
     driverValue: "",
     idCategory: null,
     categoryValue: "",
-    sumOfDebt: 0,
-    debtClosed: "Нет",
+    sumOfDebt: null,
+    idDebtClosed: null,
+    debtClosedValue: null,
     addInfo: "",
   });
 
@@ -63,7 +65,7 @@ export const DriverDebtCreate = (props) => {
     setDebtData(objData);
   };
   const handleLostFocus = (e) => {
-    console.log(e);
+    if (debtData.date == null) handleGetDate(e);
     setShowCreateDate(false);
     if (debtData.idDriver == null) setShowCreateDriver(true);
   };
@@ -89,15 +91,16 @@ export const DriverDebtCreate = (props) => {
     objData.categoryValue = categoryObj.value;
     setDebtData(objData);
     setShowCreateCategory(false);
-    if (debtData.sumOfDebt == 0) setShowCreateSum(true);
+    if (debtData.sumOfDebt == null || debtData.sumOfDebt == 0) setShowCreateSum(true);
   };
 
   const handleClickSum = () => {
-    if (debtData.sumOfDebt == 0) setShowCreateSum(true);
+    if (debtData.sumOfDebt == null || debtData.sumOfDebt == 0)
+      setShowCreateSum(true);
   };
   const handleGetSum = (e) => {
     let objData = debtData;
-    objData.sumOfDebt = e.target.value;
+    objData.sumOfDebt = Number(e.target.value);
     setDebtData(objData);
     setShowCreateSum(false);
     if (debtData.addInfo == "") setShowCreateAddInfo(true);
@@ -111,7 +114,16 @@ export const DriverDebtCreate = (props) => {
     objData.addInfo = e.target.value;
     setDebtData(objData);
     setShowCreateAddInfo(false);
+    setShowCreateStatus(true)
   };
+
+  const setValueStatus=(statusObj)=>{
+    let objData = debtData;
+    objData.idDebtClosed = statusObj._id;
+    objData.debtClosedValue = statusObj.value;
+    setDebtData(objData);
+    setShowCreateStatus(false);
+  }
 
   const handleSaveByEnter = (e) => {
     if (e.key == "Enter") console.log(e);
@@ -183,7 +195,19 @@ export const DriverDebtCreate = (props) => {
           debtData.addInfo
         )}
       </td>
-      <td className="driverDebtCreateTd"></td>
+      <td className="driverDebtCreateTd">
+      {showCreateDebtStatus ? (
+          <div className="driverDebtCreateChoise">
+            <ChoiseList
+              name="status"
+              arrlist={[{_id:1,value:"Ок"},{_id:2,value:"Нет"}]}
+              setValue={setValueStatus}
+            />
+          </div>
+        ) : (
+          debtData.debtClosedValue
+        )}
+      </td>
     </tr>
   );
 };
