@@ -24,8 +24,9 @@ var TaskDebts = {
     };
     const db = mysql.createPool(options).promise();
     try {
-      await db.query("INSERT INTO driverdebts SET ?", debt);
-      callback("success");
+      let [debtData] = await db.query("INSERT INTO driverdebts SET ?", debt);
+      console.log(debtData.insertId);
+      callback(debtData.insertId);
     } catch (err) {
       callback({ error: err });
     }

@@ -33,30 +33,38 @@ export const DriverDebtForm = () => {
   };
   const handleClickSaveBtn = () => {
     dispatch(addDataDriverDebt(dataNewDebt));
+    setShowCreateDebt(!showCreateDebt);
+    setShowSaveBtn(!showSaveBtn);
   };
 
   return (
     <div className="driverDebtMainDiv">
-      <table className="driverDebtMainTable">
-        <thead className="driverDebtMainHeader">
-          <tr className="driverDebtMainHeaderTr">
-            <td className="driverDebtMainHeaderTd">Дата</td>
-            <td className="driverDebtMainHeaderTd">Перевозчик</td>
-            <td className="driverDebtMainHeaderTd">Категория</td>
-            <td className="driverDebtMainHeaderTd">Сумма</td>
-            <td className="driverDebtMainHeaderTd">Примечание</td>
-            <td className="driverDebtMainHeaderTd">Долг закрыт</td>
-          </tr>
-        </thead>
-        <tbody>
-          {driverDebtList.map((elem) => {
-            return <DriverDebtTr key={elem.id} debtData={elem} />;
-          })}
-          {showCreateDebt && (
-            <DriverDebtCreate driversList={driversList} sentDebt={sentDebt} />
-          )}
-        </tbody>
-      </table>
+      <div className="driverDebtTableDiv">
+        <table className="driverDebtMainTable">
+          <thead className="driverDebtMainHeader">
+            <tr className="driverDebtMainHeaderTr">
+              <td className="driverDebtMainHeaderTd">Дата</td>
+              <td className="driverDebtMainHeaderTd">Перевозчик</td>
+              <td className="driverDebtMainHeaderTd">Категория</td>
+              <td className="driverDebtMainHeaderTd">Сумма</td>
+              <td className="driverDebtMainHeaderTd">Примечание</td>
+              <td className="driverDebtMainHeaderTd">Долг закрыт</td>
+            </tr>
+          </thead>
+          <tbody>
+            {driverDebtList.map((elem) => {
+              return <DriverDebtTr key={elem.id} debtData={elem} />;
+            })}
+            {showCreateDebt && (
+              <DriverDebtCreate
+                key="tempIdKey"
+                driversList={driversList}
+                sentDebt={sentDebt}
+              />
+            )}
+          </tbody>
+        </table>
+      </div>
       {showSaveBtn ? (
         <button className="driverDebtBtn" onClick={handleClickSaveBtn}>
           Сохранить

@@ -139,9 +139,8 @@ export const DriverDebtCreate = (props) => {
     if (e.key == "Enter") props.sentDebt(debtData);
   };
   const handleBlur = (e) => {
-    console.log(e);
     if(!e.currentTarget.contains(e.relatedTarget)){
-      props.sentDebt(debtData);
+      if (debtData.idDriver && debtData.sumOfDebt) props.sentDebt(debtData);
     }
   };
   return (

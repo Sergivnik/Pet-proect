@@ -21,6 +21,7 @@ import {
 import {
   GET_DATA_DRIVER_DEBT_SUCCESS,
   GET_DATA_DRIVER_DEBT_FAILURE,
+  ADD_DATA_DRIVER_DEBT_SUCCESS,
 } from "../actions/driverActions.js";
 
 export const oderReducer = (store = initialStore, action) => {
@@ -483,10 +484,27 @@ export const oderReducer = (store = initialStore, action) => {
       };
     }
 
-    case GET_DATA_DRIVER_DEBT_SUCCESS:{
+    case GET_DATA_DRIVER_DEBT_SUCCESS: {
       return {
         ...store,
         driverDebtList: action.dataServer,
+      };
+    }
+
+    case ADD_DATA_DRIVER_DEBT_SUCCESS: {
+      let [...arr] = store.driverDebtList;
+      arr.push({
+        id: action.dataServer,
+        date: action.data.date,
+        idDriver: action.data.idDriver,
+        category: action.data.categoryValue,
+        sumOfDebt: action.data.sumOfDebt,
+        debtClosed: action.data.debtClosedValue,
+        addInfo: action.data.addInfo,
+      });
+      return {
+        ...store,
+        driverDebtList: arr,
       };
     }
 

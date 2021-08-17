@@ -30,8 +30,9 @@ export const getDataDriverDebt = () => {
       });
   };
 };
-export const addDataDriverDebtSuccess = (data) => ({
+export const addDataDriverDebtSuccess = (dataServer, data) => ({
   type: ADD_DATA_DRIVER_DEBT_SUCCESS,
+  dataServer,
   data,
 });
 export const addDataDriverDebtFailure = () => ({
@@ -46,8 +47,9 @@ export const addDataDriverDebt = (data) => {
         },
         body: data,
       })
-      .then(() => {
-        return dispatch(addDataDriverDebtSuccess(data));
+      .then((res) => {
+        console.log(res);
+        return dispatch(addDataDriverDebtSuccess(res.data, data));
       })
       .catch((e) => {
         console.log(e.message);
