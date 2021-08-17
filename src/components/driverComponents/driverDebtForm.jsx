@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DriverDebtTr } from "./driverDebtTr.jsx";
 import { DriverDebtCreate } from "./driverDebtCreate.jsx";
-import { getDataDriverDebt } from "../../actions/driverActions.js";
+import {
+  getDataDriverDebt,
+  addDataDriverDebt,
+} from "../../actions/driverActions.js";
 import "./driverForms.sass";
 
 export const DriverDebtForm = () => {
@@ -14,6 +17,7 @@ export const DriverDebtForm = () => {
 
   const [showCreateDebt, setShowCreateDebt] = useState(false);
   const [showSaveBtn, setShowSaveBtn] = useState(false);
+  const [dataNewDebt, setDataNewDebt] = useState(null);
 
   useEffect(() => {
     dispatch(getDataDriverDebt());
@@ -24,7 +28,11 @@ export const DriverDebtForm = () => {
     setShowSaveBtn(!showSaveBtn);
   };
   const sentDebt = (data) => {
+    setDataNewDebt(data);
     console.log(data);
+  };
+  const handleClickSaveBtn = () => {
+    dispatch(addDataDriverDebt(dataNewDebt));
   };
 
   return (
@@ -50,7 +58,7 @@ export const DriverDebtForm = () => {
         </tbody>
       </table>
       {showSaveBtn ? (
-        <button className="driverDebtBtn" onClick={handleClickBtn}>
+        <button className="driverDebtBtn" onClick={handleClickSaveBtn}>
           Сохранить
         </button>
       ) : (

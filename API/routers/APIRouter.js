@@ -14,6 +14,7 @@ router.post("/addOder", API.taskAdd);
 router.post("/proxy/:id", API.taskProxy);
 router.patch("/edit", API.taskEdit);
 router.patch("/makePaymentCustomer", API.makePaymentCustomer);
+router.patch("/addDataDriverDebt", API.makeDriverDebt);
 router.delete("/:id", API.taskDel);
 router.delete("/deleteDataPatmenrs/:id", API.taskDeletePayments);
 

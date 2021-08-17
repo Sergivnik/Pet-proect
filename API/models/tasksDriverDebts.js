@@ -12,5 +12,24 @@ var TaskDebts = {
       callback({ error: err });
     }
   },
+  makeDriverDebt: async function (data, callback) {
+    console.log(data);
+    let debt = {
+      date: data.date,
+      idDriver: data.idDriver,
+      category: data.idCategory,
+      sumOfDebt: data.sumOfDebt,
+      debtClosed: data.idDebtClosed,
+      addInfo: data.addInfo,
+    };
+    const db = mysql.createPool(options).promise();
+    try {
+      await db.query("INSERT INTO driverdebts SET ?", debt);
+      callback("success");
+    } catch (err) {
+      callback({ error: err });
+    }
+    db.end();
+  },
 };
 module.exports = TaskDebts;
