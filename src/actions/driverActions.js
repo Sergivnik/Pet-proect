@@ -13,6 +13,10 @@ export const DEL_DATA_DRIVER_DEBT_SUCCESS =
   "DATA::DEL_DATA_DRIVER_DEBT_SUCCESS";
 export const DEL_DATA_DRIVER_DEBT_FAILURE =
   "DATA::DEL_DATA_DRIVER_DEBT_FAILURE";
+export const EDIT_DATA_DRIVER_DEBT_SUCCESS =
+  "DATA::EDIT_DATA_DRIVER_DEBT_SUCCESS";
+export const EDIT_DATA_DRIVER_DEBT_FAILURE =
+  "DATA::EDIT_DATA_DRIVER_DEBT_FAILURE";
 
 export const getDataDriverDebtSuccess = (dataServer) => ({
   type: GET_DATA_DRIVER_DEBT_SUCCESS,
@@ -77,6 +81,33 @@ export const delDataDriverDebt = (id) => {
       .catch((e) => {
         console.log(e.message);
         return dispatch(delDataDriverDebtFailure());
+      });
+  };
+};
+
+export const editDataDriverDebtSuccess = (data) => ({
+  type: EDIT_DATA_DRIVER_DEBT_SUCCESS,
+  data,
+});
+export const editDataDriverDebtFailure = () => ({
+  type: EDIT_DATA_DRIVER_DEBT_FAILURE,
+});
+export const editDataDriverDebt = (data) => {
+  console.log(data);
+  return (dispatch) => {
+    axios
+      .patch(URL + "/editDriverDebt", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: data,
+      })
+      .then((res) => {
+        return dispatch(editDataDriverDebtSuccess(data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        return dispatch(editDataDriverDebtFailure());
       });
   };
 };

@@ -31,6 +31,20 @@ var TaskDebts = {
     }
     db.end();
   },
+  edit: async function (data, callback) {
+    console.log(
+      `UPDATE driverdebts SET ${data.editField}=${data.newValue} WHERE id=${data.id}`
+    );
+    const db = mysql.createPool(options).promise();
+    try {
+      await db.query(
+        `UPDATE driverdebts SET ${data.editField}="${data.newValue}" WHERE id=${data.id}`
+      );
+      callback("success");
+    } catch (err) {
+      callback({ error: err });
+    }
+  },
   del: async function (id, callback) {
     console.log(id);
     const db = mysql.createPool(options).promise();
