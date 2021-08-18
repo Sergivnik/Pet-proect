@@ -9,6 +9,10 @@ export const ADD_DATA_DRIVER_DEBT_SUCCESS =
   "DATA::ADD_DATA_DRIVER_DEBT_SUCCESS";
 export const ADD_DATA_DRIVER_DEBT_FAILURE =
   "DATA::ADD_DATA_DRIVER_DEBT_FAILURE";
+export const DEL_DATA_DRIVER_DEBT_SUCCESS =
+  "DATA::DEL_DATA_DRIVER_DEBT_SUCCESS";
+export const DEL_DATA_DRIVER_DEBT_FAILURE =
+  "DATA::DEL_DATA_DRIVER_DEBT_FAILURE";
 
 export const getDataDriverDebtSuccess = (dataServer) => ({
   type: GET_DATA_DRIVER_DEBT_SUCCESS,
@@ -48,12 +52,31 @@ export const addDataDriverDebt = (data) => {
         body: data,
       })
       .then((res) => {
-        console.log(res);
         return dispatch(addDataDriverDebtSuccess(res.data, data));
       })
       .catch((e) => {
         console.log(e.message);
         return dispatch(addDataDriverDebtFailure());
+      });
+  };
+};
+export const delDataDriverDebtSuccess = (id) => ({
+  type: DEL_DATA_DRIVER_DEBT_SUCCESS,
+  id,
+});
+export const delDataDriverDebtFailure = () => ({
+  type: DEL_DATA_DRIVER_DEBT_FAILURE,
+});
+export const delDataDriverDebt = (id) => {
+  return (dispatch) => {
+    axios
+      .delete(URL + "/deletedriverDebt" + "/" + id)
+      .then((res) => {
+        return dispatch(delDataDriverDebtSuccess(id));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        return dispatch(delDataDriverDebtFailure());
       });
   };
 };

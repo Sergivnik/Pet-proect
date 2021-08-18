@@ -17,5 +17,6 @@ router.patch("/makePaymentCustomer", API.makePaymentCustomer);
 router.patch("/addDataDriverDebt", API.makeDriverDebt);
 router.delete("/:id", API.taskDel);
 router.delete("/deleteDataPatmenrs/:id", API.taskDeletePayments);
+router.delete("/deletedriverDebt/:id", API.taskDeleteDebt);
 
 module.exports = router;

@@ -5,6 +5,7 @@ import { DriverDebtCreate } from "./driverDebtCreate.jsx";
 import {
   getDataDriverDebt,
   addDataDriverDebt,
+  delDataDriverDebt,
 } from "../../actions/driverActions.js";
 import "./driverForms.sass";
 
@@ -17,7 +18,9 @@ export const DriverDebtForm = () => {
 
   const [showCreateDebt, setShowCreateDebt] = useState(false);
   const [showSaveBtn, setShowSaveBtn] = useState(false);
+  const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   const [dataNewDebt, setDataNewDebt] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     dispatch(getDataDriverDebt());
@@ -29,12 +32,23 @@ export const DriverDebtForm = () => {
   };
   const sentDebt = (data) => {
     setDataNewDebt(data);
-    console.log(data);
   };
   const handleClickSaveBtn = () => {
     dispatch(addDataDriverDebt(dataNewDebt));
     setShowCreateDebt(!showCreateDebt);
     setShowSaveBtn(!showSaveBtn);
+  };
+  const handleCliclTr = (id) => {
+    if (id) {
+      setShowDeleteBtn(true);
+    } else {
+      setShowDeleteBtn(false);
+    }
+    setDeleteId(id);
+  };
+  const handleClickDeleteBtn = () => {
+    setShowDeleteBtn(false);
+    dispatch(delDataDriverDebt(deleteId));
   };
 
   return (
@@ -53,7 +67,14 @@ export const DriverDebtForm = () => {
           </thead>
           <tbody>
             {driverDebtList.map((elem) => {
-              return <DriverDebtTr key={elem.id} debtData={elem} />;
+              return (
+                <DriverDebtTr
+                  key={elem.id}
+                  debtData={elem}
+                  handleCliclTr={handleCliclTr}
+                  deleteId={deleteId}
+                />
+              );
             })}
             {showCreateDebt && (
               <DriverDebtCreate
@@ -72,6 +93,11 @@ export const DriverDebtForm = () => {
       ) : (
         <button className="driverDebtBtn" onClick={handleClickBtn}>
           Добавить
+        </button>
+      )}
+      {showDeleteBtn && (
+        <button className="driverDebtBtn" onClick={handleClickDeleteBtn}>
+          Удалить
         </button>
       )}
     </div>

@@ -13,7 +13,6 @@ var TaskDebts = {
     }
   },
   makeDriverDebt: async function (data, callback) {
-    console.log(data);
     let debt = {
       date: data.date,
       idDriver: data.idDriver,
@@ -27,6 +26,17 @@ var TaskDebts = {
       let [debtData] = await db.query("INSERT INTO driverdebts SET ?", debt);
       console.log(debtData.insertId);
       callback(debtData.insertId);
+    } catch (err) {
+      callback({ error: err });
+    }
+    db.end();
+  },
+  del: async function (id, callback) {
+    console.log(id);
+    const db = mysql.createPool(options).promise();
+    try {
+      await db.query(`DELETE FROM driverdebts WHERE id=${id}`);
+      callback("success");
     } catch (err) {
       callback({ error: err });
     }
