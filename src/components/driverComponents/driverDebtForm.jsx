@@ -10,6 +10,18 @@ import {
 import "./driverForms.sass";
 
 export const DriverDebtForm = () => {
+  useEffect(() => {
+    let div = document.getElementsByClassName("driverDebtTableDiv")[0];
+    console.log(div.scrollHeight);
+    div.scrollTop = div.scrollHeight;
+  }, [driverDebtList]);
+  const categoryList = [
+    { _id: 1, value: "Топливо" },
+    { _id: 2, value: "Проценты" },
+    { _id: 3, value: "Пинк" },
+    { _id: 4, value: "Аванс" },
+    { _id: 5, value: "Прочее" },
+  ];
   const dispatch = useDispatch();
   const driversList = useSelector((state) => state.oderReducer.driverlist);
   const driverDebtList = useSelector(
@@ -31,6 +43,10 @@ export const DriverDebtForm = () => {
     setShowSaveBtn(!showSaveBtn);
   };
   const sentDebt = (data) => {
+    if (data.idDebtClosed == null) {
+      data.idDebtClosed = 2;
+      data.debtClosedValue = "нет";
+    }
     setDataNewDebt(data);
   };
   const handleClickSaveBtn = () => {
@@ -73,6 +89,7 @@ export const DriverDebtForm = () => {
                   debtData={elem}
                   handleCliclTr={handleCliclTr}
                   deleteId={deleteId}
+                  categoryList={categoryList}
                 />
               );
             })}
@@ -81,6 +98,7 @@ export const DriverDebtForm = () => {
                 key="tempIdKey"
                 driversList={driversList}
                 sentDebt={sentDebt}
+                categoryList={categoryList}
               />
             )}
           </tbody>

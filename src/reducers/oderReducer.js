@@ -510,12 +510,27 @@ export const oderReducer = (store = initialStore, action) => {
       };
     }
 
-    case EDIT_DATA_DRIVER_DEBT_SUCCESS:{
+    case EDIT_DATA_DRIVER_DEBT_SUCCESS: {
       let [...arr] = store.driverDebtList;
-      let index=arr.findIndex((elem)=> elem.id==action.data.id)
-      if (action.data.editField=='date'){
-        arr[index].date=action.data.newValue
+      let index = arr.findIndex((elem) => elem.id == action.data.id);
+      if (action.data.editField == "date") {
+        arr[index].date = action.data.newValue;
       }
+      if (action.data.editField == "idDriver") {
+        arr[index].idDriver = action.data.newValue;
+      }
+       if (action.data.editField == "category") {
+         arr[index].category = action.data.newValue;
+       }
+       if (action.data.editField == "sumOfDebt") {
+         arr[index].sumOfDebt = action.data.newValue;
+       }
+       if (action.data.editField == "addInfo") {
+         arr[index].addInfo = action.data.newValue;
+       }
+       if (action.data.editField == "debtClosed") {
+         arr[index].debtClosed = action.data.newValue;
+       }
       return {
         ...store,
         driverDebtList: arr,

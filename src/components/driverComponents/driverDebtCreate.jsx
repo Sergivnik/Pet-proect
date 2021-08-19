@@ -16,13 +16,7 @@ export const DriverDebtCreate = (props) => {
       return date.toLocaleDateString();
     }
   };
-  const categoryList = [
-    { _id: 1, value: "Топливо" },
-    { _id: 2, value: "Проценты" },
-    { _id: 3, value: "Пинк" },
-    { _id: 4, value: "Аванс" },
-    { _id: 5, value: "Прочее" },
-  ];
+  const categoryList = props.categoryList;
 
   const [dateOfPayment, setDateOfPayment] = useState(DateStr(now));
   const [showCreateDate, setShowCreateDate] = useState(false);
