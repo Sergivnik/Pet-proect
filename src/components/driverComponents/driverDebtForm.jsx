@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DriverDebtTr } from "./driverDebtTr.jsx";
 import { DriverDebtCreate } from "./driverDebtCreate.jsx";
+import { FilterDateList } from "../filterDate/filterDateList.jsx";
+import { FilterList } from "../filterList/filterList.jsx";
 import {
   getDataDriverDebt,
   addDataDriverDebt,
@@ -10,11 +12,11 @@ import {
 import "./driverForms.sass";
 
 export const DriverDebtForm = () => {
-  useEffect(() => {
-    let div = document.getElementsByClassName("driverDebtTableDiv")[0];
-    console.log(div.scrollHeight);
-    div.scrollTop = div.scrollHeight;
-  }, [driverDebtList]);
+  function compareNumeric(a, b) {
+    if (Number(a) > Number(b)) return 1;
+    if (Number(a) == Number(b)) return 0;
+    if (Number(a) < Number(b)) return -1;
+  }
   const categoryList = [
     { _id: 1, value: "Топливо" },
     { _id: 2, value: "Проценты" },
@@ -28,15 +30,113 @@ export const DriverDebtForm = () => {
     (state) => state.oderReducer.driverDebtList
   );
 
+  const [filteredDriverDebtList, setFilteredDrivrDebtList] =
+    useState(driverDebtList);
   const [showCreateDebt, setShowCreateDebt] = useState(false);
   const [showSaveBtn, setShowSaveBtn] = useState(false);
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   const [dataNewDebt, setDataNewDebt] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
 
+  const [showFilter, setShowFilter] = useState(false);
+  const [colNumber, setColNumber] = useState(null);
+  const [dateList, setDateList] = useState([]);
+  const [driverList, setDriverList] = useState([]);
+  const [categoryFilterList, setCategoryFilterList] = useState([]);
+  const [fullSumList, setFullSumList] = useState([]);
+  const [sumList, setSumList] = useState([]);
+  const fullStatusList = [
+    { _id: 1, value: "Ок" },
+    { _id: 2, value: "нет" },
+    { _id: 3, value: "частично" },
+  ];
+  const [statusList, setStatusList] = useState([]);
+  const [filterList, setFilterList] = useState({
+    date: [],
+    driver: [],
+    category: [],
+    sumOfDebt: [],
+    statusOfDebt: [],
+  });
+
   useEffect(() => {
     dispatch(getDataDriverDebt());
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredDrivrDebtList(driverDebtList);
+  }, [driverDebtList]);
+
+  useEffect(() => {
+    let div = document.getElementsByClassName("driverDebtTableDiv")[0];
+    console.log(div.scrollHeight);
+    div.scrollTop = div.scrollHeight;
+  }, [filteredDriverDebtList]);
+
+  useEffect(() => {
+    let arrDate = [];
+    let arrDriverId = [];
+    let arrCategory = [];
+    let arrSum = [];
+    let arrStatus=[];
+    if (
+      filterList.date.length == 0 &&
+      filterList.driver.length == 0 &&
+      filterList.category.length == 0 &&
+      filterList.sumOfDebt.length == 0 &&
+      filterList.statusOfDebt.length == 0
+    ) {
+      driverDebtList.forEach((elem) => {
+        if (!arrDate.includes(elem.date)) arrDate.push(elem.date);
+        if (!arrDriverId.includes(elem.idDriver))
+          arrDriverId.push(elem.idDriver);
+        if (!arrCategory.includes(elem.category))
+          arrCategory.push(elem.category);
+        if (!arrSum.includes(elem.sumOfDebt)) arrSum.push(elem.sumOfDebt);
+        if (!arrStatus.includes(elem.debtClosed)) arrStatus.push(elem.debtClosed);
+      });
+      let arrObj = [];
+      arrDate.forEach((elem) => {
+        arrObj.push({ date: elem });
+      });
+      setDateList(arrObj);
+      arrObj = [];
+      arrDriverId.forEach((elem) => {
+        let obj = driversList.find((item) => item._id == elem);
+        arrObj.push(obj);
+      });
+      setDriverList(arrObj);
+      arrObj = [];
+      arrCategory = arrCategory.sort();
+      arrCategory.forEach((elem) => {
+        if (elem != null) {
+          let obj = categoryList.find((item) => item.value == elem);
+          arrObj.push(obj);
+        } else {
+          let obj = { _id: 10, value: null };
+          arrObj.push(obj);
+        }
+      });
+      setCategoryFilterList(arrObj);
+      arrObj = [];
+      let i = 1;
+      arrSum = arrSum.sort(compareNumeric);
+      arrSum.forEach((elem) => {
+        let obj = { _id: i, value: elem };
+        i++;
+        arrObj.push(obj);
+      });
+      setFullSumList(arrObj);
+      setSumList(arrObj);
+      arrObj = [];
+      arrStatus.forEach((elem)=>{
+        let obj= fullStatusList.find((item)=>item.value==elem);
+        arrObj.push(obj);
+      })
+      setStatusList(arrObj);
+    } else {
+    }
+  }, [filterList, driverDebtList]);
 
   const handleClickBtn = () => {
     setShowCreateDebt(!showCreateDebt);
@@ -67,22 +167,143 @@ export const DriverDebtForm = () => {
     dispatch(delDataDriverDebt(deleteId));
   };
 
+  const handleClickFilter = (e) => {
+    setShowFilter(true);
+    setColNumber(e.currentTarget.parentElement.cellIndex);
+  };
+  const closeFilter = () => setShowFilter(false);
+  const writeFilterList = (chosenList, name) => {
+    console.log(chosenList, name);
+  };
+
   return (
     <div className="driverDebtMainDiv">
       <div className="driverDebtTableDiv">
         <table className="driverDebtMainTable">
           <thead className="driverDebtMainHeader">
             <tr className="driverDebtMainHeaderTr">
-              <td className="driverDebtMainHeaderTd">Дата</td>
-              <td className="driverDebtMainHeaderTd">Перевозчик</td>
-              <td className="driverDebtMainHeaderTd">Категория</td>
-              <td className="driverDebtMainHeaderTd">Сумма</td>
+              <td className="driverDebtMainHeaderTd">
+                <span>Дата</span>
+                <button
+                  className="customerPaymentHeaderFilter"
+                  onClick={handleClickFilter}
+                >
+                  <svg width="100%" height="20">
+                    <polygon
+                      points="5 5, 25 5, 15 15, 5 5 "
+                      fill={filterList.date.length > 0 ? "blue" : "black"}
+                    />
+                  </svg>
+                </button>
+                {showFilter && colNumber === 0 && (
+                  <FilterDateList
+                    name="Date"
+                    arrlist={dateList}
+                    filterList={filterList.date}
+                    closeFilter={closeFilter}
+                    writeFilterList={writeFilterList}
+                  />
+                )}
+              </td>
+              <td className="driverDebtMainHeaderTd">
+                <span>Перевозчик</span>
+                <button
+                  className="customerPaymentHeaderFilter"
+                  onClick={handleClickFilter}
+                >
+                  <svg width="100%" height="20">
+                    <polygon
+                      points="5 5, 25 5, 15 15, 5 5 "
+                      fill={filterList.driver.length > 0 ? "blue" : "black"}
+                    />
+                  </svg>
+                </button>
+                {showFilter && colNumber === 1 && (
+                  <FilterList
+                    name="driver"
+                    arrlist={driverList}
+                    filterList={filterList.driver}
+                    closeFilter={closeFilter}
+                    writeFilterList={writeFilterList}
+                  />
+                )}
+              </td>
+              <td className="driverDebtMainHeaderTd">
+                <span>Категория</span>
+                <button
+                  className="customerPaymentHeaderFilter"
+                  onClick={handleClickFilter}
+                >
+                  <svg width="100%" height="20">
+                    <polygon
+                      points="5 5, 25 5, 15 15, 5 5 "
+                      fill={filterList.category.length > 0 ? "blue" : "black"}
+                    />
+                  </svg>
+                </button>
+                {showFilter && colNumber === 2 && (
+                  <FilterList
+                    name="category"
+                    arrlist={categoryFilterList}
+                    filterList={filterList.category}
+                    closeFilter={closeFilter}
+                    writeFilterList={writeFilterList}
+                  />
+                )}
+              </td>
+              <td className="driverDebtMainHeaderTd">
+                <span>Сумма</span>
+                <button
+                  className="customerPaymentHeaderFilter"
+                  onClick={handleClickFilter}
+                >
+                  <svg width="100%" height="20">
+                    <polygon
+                      points="5 5, 25 5, 15 15, 5 5 "
+                      fill={filterList.sumOfDebt.length > 0 ? "blue" : "black"}
+                    />
+                  </svg>
+                </button>
+                {showFilter && colNumber === 3 && (
+                  <FilterList
+                    name="sum"
+                    arrlist={sumList}
+                    filterList={filterList.sumOfDebt}
+                    closeFilter={closeFilter}
+                    writeFilterList={writeFilterList}
+                  />
+                )}
+              </td>
               <td className="driverDebtMainHeaderTd">Примечание</td>
-              <td className="driverDebtMainHeaderTd">Долг закрыт</td>
+              <td className="driverDebtMainHeaderTd">
+                <span>Долг закрыт</span>
+                <button
+                  className="customerPaymentHeaderFilter"
+                  onClick={handleClickFilter}
+                >
+                  <svg width="100%" height="20">
+                    <polygon
+                      points="5 5, 25 5, 15 15, 5 5 "
+                      fill={
+                        filterList.statusOfDebt.length > 0 ? "blue" : "black"
+                      }
+                    />
+                  </svg>
+                </button>
+                {showFilter && colNumber === 5 && (
+                  <FilterList
+                    name="status"
+                    arrlist={statusList}
+                    filterList={filterList.statusOfDebt}
+                    closeFilter={closeFilter}
+                    writeFilterList={writeFilterList}
+                  />
+                )}
+              </td>
             </tr>
           </thead>
           <tbody>
-            {driverDebtList.map((elem) => {
+            {filteredDriverDebtList.map((elem) => {
               return (
                 <DriverDebtTr
                   key={elem.id}
@@ -90,6 +311,7 @@ export const DriverDebtForm = () => {
                   handleCliclTr={handleCliclTr}
                   deleteId={deleteId}
                   categoryList={categoryList}
+                  fullStatusList={fullStatusList}
                 />
               );
             })}

@@ -215,10 +215,7 @@ export const DriverDebtTr = (props) => {
             <div className="driverDebtCreateChoise">
               <ChoiseList
                 name="status"
-                arrlist={[
-                  { _id: 1, value: "Ок" },
-                  { _id: 2, value: "нет" },
-                ]}
+                arrlist={props.fullStatusList}
                 setValue={setEditValue}
               />
             </div>

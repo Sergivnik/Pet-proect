@@ -151,7 +151,6 @@ export const CustomerPayments = () => {
   const closeFilter = () => setShowFilter(false);
 
   const writeFilterList = (chosenList, name) => {
-    console.log(filterList);
     let { ...arr } = filterList;
     switch (name) {
       case "Date":
