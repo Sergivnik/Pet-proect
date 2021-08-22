@@ -69,16 +69,10 @@ export const DriverDebtForm = () => {
 
   useEffect(() => {
     let div = document.getElementsByClassName("driverDebtTableDiv")[0];
-    console.log(div.scrollHeight);
     div.scrollTop = div.scrollHeight;
   }, [filteredDriverDebtList]);
 
   useEffect(() => {
-    let arrDate = [];
-    let arrDriverId = [];
-    let arrCategory = [];
-    let arrSum = [];
-    let arrStatus=[];
     if (
       filterList.date.length == 0 &&
       filterList.driver.length == 0 &&
@@ -86,6 +80,11 @@ export const DriverDebtForm = () => {
       filterList.sumOfDebt.length == 0 &&
       filterList.statusOfDebt.length == 0
     ) {
+      let arrDate = [];
+      let arrDriverId = [];
+      let arrCategory = [];
+      let arrSum = [];
+      let arrStatus = [];
       driverDebtList.forEach((elem) => {
         if (!arrDate.includes(elem.date)) arrDate.push(elem.date);
         if (!arrDriverId.includes(elem.idDriver))
@@ -93,7 +92,8 @@ export const DriverDebtForm = () => {
         if (!arrCategory.includes(elem.category))
           arrCategory.push(elem.category);
         if (!arrSum.includes(elem.sumOfDebt)) arrSum.push(elem.sumOfDebt);
-        if (!arrStatus.includes(elem.debtClosed)) arrStatus.push(elem.debtClosed);
+        if (!arrStatus.includes(elem.debtClosed))
+          arrStatus.push(elem.debtClosed);
       });
       let arrObj = [];
       arrDate.forEach((elem) => {
@@ -112,10 +112,7 @@ export const DriverDebtForm = () => {
         if (elem != null) {
           let obj = categoryList.find((item) => item.value == elem);
           arrObj.push(obj);
-        } else {
-          let obj = { _id: 10, value: null };
-          arrObj.push(obj);
-        }
+        } 
       });
       setCategoryFilterList(arrObj);
       arrObj = [];
@@ -129,12 +126,148 @@ export const DriverDebtForm = () => {
       setFullSumList(arrObj);
       setSumList(arrObj);
       arrObj = [];
-      arrStatus.forEach((elem)=>{
-        let obj= fullStatusList.find((item)=>item.value==elem);
+      arrStatus.forEach((elem) => {
+        let obj = fullStatusList.find((item) => item.value == elem);
         arrObj.push(obj);
-      })
+      });
       setStatusList(arrObj);
+      setFilteredDrivrDebtList(driverDebtList);
     } else {
+      let arrDate = [],
+        arrDriver = [],
+        arrCategory = [],
+        arrSum = [],
+        arrStatus = [];
+      let arrList = driverDebtList.filter((elem) => {
+        let checkDate = false,
+          checkDriver = false,
+          checkCategory = false,
+          checkSum = false,
+          checkStatus = false;
+        if (filterList.date.length != 0) {
+          filterList.date.forEach((dateTxt) => {
+            let dateFromList = new Date(elem.date);
+            let dateFromFilter = new Date(dateTxt);
+            if (dateFromList - dateFromFilter == 0) checkDate = true;
+          });
+        } else checkDate = true;
+        if (filterList.driver.length != 0) {
+          filterList.driver.forEach((driverId) => {
+            if (elem.idDriver == driverId) checkDriver = true;
+          });
+        } else checkDriver = true;
+        if (filterList.category.length != 0) {
+          filterList.category.forEach((categoryId) => {
+            let categoryValue = categoryList.find(
+              (item) => item._id == categoryId
+            );
+            if (categoryValue.value == elem.category) checkCategory = true;
+          });
+        }else checkCategory = true;
+        if (filterList.sumOfDebt.length != 0) {
+          filterList.sumOfDebt.forEach((sumId) => {
+            let sumValue = fullSumList.find((item) => item._id == sumId);
+            if (sumValue.value == elem.sumOfDebt) checkSum = true;
+          });
+        } else checkSum = true;
+        if (filterList.statusOfDebt.length != 0) {
+          filterList.statusOfDebt.forEach((statusId) => {
+            let statusValue = fullStatusList.find(
+              (item) => item._id == statusId
+            );
+            if (statusValue.value == elem.debtClosed) checkStatus = true;
+          });
+        } else checkStatus = true;
+        if (
+          checkDriver &&
+          checkCategory &&
+          checkSum &&
+          checkStatus &&
+          !arrDate.includes(elem.date)
+        ) {
+          arrDate.push(elem.date);
+        }
+        if (
+          checkDate &&
+          checkCategory &&
+          checkSum &&
+          checkStatus &&
+          !arrDriver.includes(elem.idDriver)
+        ) {
+          arrDriver.push(elem.idDriver);
+        }
+        if (
+          checkDate &&
+          checkDriver &&
+          checkSum &&
+          checkStatus &&
+          !arrCategory.includes(elem.category)
+        ) {
+          arrCategory.push(elem.category);
+        }
+        if (
+          checkDate &&
+          checkDriver &&
+          checkCategory &&
+          checkStatus &&
+          !arrSum.includes(elem.sumOfDebt)
+        ) {
+          arrSum.push(elem.sumOfDebt);
+        }
+        if (
+          checkDate &&
+          checkDriver &&
+          checkCategory &&
+          checkSum &&
+          !arrStatus.includes(elem.debtClosed)
+        ) {
+          arrStatus.push(elem.debtClosed);
+        }
+        if (
+          checkDate &&
+          checkDriver &&
+          checkCategory &&
+          checkSum &&
+          checkStatus
+        )
+          return elem;
+      });
+      let arrObj = [];
+      arrDate.forEach((elem) => {
+        arrObj.push({ date: elem });
+      });
+      setDateList(arrObj);
+      arrObj = [];
+      arrDriver.forEach((elem) => {
+        let obj = driversList.find((item) => item._id == elem);
+        arrObj.push(obj);
+      });
+      setDriverList(arrObj);
+      arrObj = [];
+      arrCategory = arrCategory.sort();
+      arrCategory.forEach((elem) => {
+        if (elem != null) {
+          let obj = categoryList.find((item) => item.value == elem);
+          arrObj.push(obj);
+        } 
+      });
+      setCategoryFilterList(arrObj);
+      arrObj = [];
+      let i = 1;
+      arrSum = arrSum.sort(compareNumeric);
+      arrSum.forEach((elem) => {
+        let obj = { _id: i, value: elem };
+        i++;
+        arrObj.push(obj);
+      });
+      setSumList(arrObj);
+      arrObj = [];
+      arrStatus.forEach((elem) => {
+        let obj = fullStatusList.find((item) => item.value == elem);
+        arrObj.push(obj);
+      });
+      setStatusList(arrObj);
+      setFilteredDrivrDebtList(arrList);
     }
   }, [filterList, driverDebtList]);
 
@@ -173,7 +306,35 @@ export const DriverDebtForm = () => {
   };
   const closeFilter = () => setShowFilter(false);
   const writeFilterList = (chosenList, name) => {
-    console.log(chosenList, name);
+    let { ...arr } = filterList;
+    switch (name) {
+      case "Date":
+        chosenList = chosenList.map((elem) => {
+          let arrdate = elem.split("-");
+          return `${arrdate[0]}-${Number(arrdate[1]) + 1}-${arrdate[2]}`;
+        });
+        arr.date = chosenList;
+        setFilterList(arr);
+        break;
+      case "driver":
+        arr.driver = chosenList;
+        setFilterList(arr);
+        break;
+      case "category":
+        arr.category = chosenList;
+        setFilterList(arr);
+        break;
+      case "sum":
+        arr.sumOfDebt = chosenList;
+        setFilterList(arr);
+        break;
+      case "status":
+        arr.statusOfDebt = chosenList;
+        setFilterList(arr);
+        break;
+      default:
+        break;
+    }
   };
 
   return (

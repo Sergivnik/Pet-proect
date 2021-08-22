@@ -137,8 +137,6 @@ export const CustomerPayments = () => {
         arrObj.push(obj);
       });
       setSumOfPaymentsList(arrObj);
-      console.log(filterList);
-      console.log(arrDate, arrCustomer, arrSum);
       setFilteredCustomerPaymentsList(arr);
     }
   }, [filterList, customerPaymentsList]);
