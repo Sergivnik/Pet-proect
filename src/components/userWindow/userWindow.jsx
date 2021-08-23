@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./userWindow.sass";
 
 export const UserWindow = (props) => {
@@ -21,6 +21,15 @@ export const UserWindow = (props) => {
   const handleMouseUp = () => {
     document.removeEventListener("mousemove", handleMouseMove);
   };
+  const handleClickClose = ()=>{
+    let div = document.getElementsByClassName("userWindowDiv")[0];
+    div.style.opacity = 0.1;
+    setTimeout(props.handleClickWindowClose, 1000); 
+  }
+  useEffect(()=>{
+    let div = document.getElementsByClassName("userWindowDiv")[0];
+    div.style.opacity = 0.95;
+  },[props])
 
   return (
     <div className="userWindowDiv">
@@ -31,11 +40,7 @@ export const UserWindow = (props) => {
       >
         <div className="userWindowHeaderName">{props.header}</div>
         <div className="userWindowHeaderClose">
-          <svg
-            width="20px"
-            height="20px"
-            onClick={props.handleClickWindowClose}
-          >
+          <svg width="20px" height="20px" onClick={handleClickClose}>
             <rect
               x="5%"
               y="48.5%"
