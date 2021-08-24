@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./userWindow.sass";
 
 export const UserWindow = (props) => {
+  const [fullSeze, setFullSize] = useState(false);
   let startX, startY;
   const handleMouseDown = (e) => {
     let tag = e.target;
@@ -21,15 +22,33 @@ export const UserWindow = (props) => {
   const handleMouseUp = () => {
     document.removeEventListener("mousemove", handleMouseMove);
   };
-  const handleClickClose = ()=>{
+  const handleClickClose = () => {
     let div = document.getElementsByClassName("userWindowDiv")[0];
     div.style.opacity = 0.1;
-    setTimeout(props.handleClickWindowClose, 1000); 
-  }
-  useEffect(()=>{
+    setTimeout(props.handleClickWindowClose, 1000);
+  };
+  const handleClickFullSize = () => {
+    let div = document.getElementsByClassName("userWindowDiv")[0];
+    console.log(document.selection);
+    if (!fullSeze) {
+      div.style.width = "100%";
+      div.style.left = "0";
+      div.style.height = "100%";
+      div.style.top = "35px";
+      setFullSize(true);
+    } else {
+      div.style.width = "1200px";
+      div.style.left = "10%";
+      div.style.height = "70vh";
+      div.style.top = "10%";
+      setFullSize(false);
+    }
+    return false;
+  };
+  useEffect(() => {
     let div = document.getElementsByClassName("userWindowDiv")[0];
     div.style.opacity = 0.95;
-  },[props])
+  }, [props]);
 
   return (
     <div className="userWindowDiv">
@@ -38,8 +57,47 @@ export const UserWindow = (props) => {
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
       >
-        <div className="userWindowHeaderName">{props.header}</div>
+        <div
+          className="userWindowHeaderName"
+          onDoubleClick={handleClickFullSize}
+        >
+          <span className="">{props.header}</span>
+        </div>
         <div className="userWindowHeaderClose">
+          {fullSeze ? (
+            <svg width="20px" height="20px" onClick={handleClickFullSize}>
+              <rect
+                x="5%"
+                y="20%"
+                width="90%"
+                height="55%"
+                stroke="black"
+                fill="transparent"
+                strokeWidth="5%"
+              ></rect>
+              <rect
+                x="5%"
+                y="20%"
+                width="90%"
+                height="75%"
+                stroke="black"
+                fill="transparent"
+                strokeWidth="5%"
+              ></rect>
+            </svg>
+          ) : (
+            <svg width="20px" height="20px" onClick={handleClickFullSize}>
+              <rect
+                x="5%"
+                y="20%"
+                width="90%"
+                height="75%"
+                stroke="black"
+                fill="transparent"
+                strokeWidth="5%"
+              ></rect>
+            </svg>
+          )}
           <svg width="20px" height="20px" onClick={handleClickClose}>
             <rect
               x="5%"

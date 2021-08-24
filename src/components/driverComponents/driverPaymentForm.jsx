@@ -106,6 +106,7 @@ export const DriverPaymentForm = () => {
     } else {
       let index = arr.findIndex((elem) => elem == debtId);
       arr.splice(index, 1);
+      sum = sum - sumOfDebt;
     }
     setChosenDebts(arr);
     setCurrentDriverSumOfDebtss(sum);
