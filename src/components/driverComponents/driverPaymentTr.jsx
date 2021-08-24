@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./driverForms.sass";
 
 export const DriverPaymentTr = (props) => {
   const driversList = useSelector((state) => state.oderReducer.driverlist);
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
+  const [classNameTr, setClassNameTr] = useState("driverDebtMainTd");
   let elem = props.elem;
 
   const getLocalDate = (date) => {
@@ -24,9 +25,20 @@ export const DriverPaymentTr = (props) => {
       return str;
     }
   };
+
+  const handleClickTr = (e) => {
+    if (e.target.tagName == "TD") {
+      if (classNameTr == "driverDebtMainTd") {
+        setClassNameTr("driverDebtMainTd driverDebtMark");
+      } else {
+        setClassNameTr("driverDebtMainTd");
+      }
+      props.choiseOders(elem._id, Number(elem.driverPrice));
+    }
+  };
   return (
     <React.Fragment>
-      <tr>
+      <tr className={classNameTr} onClick={handleClickTr}>
         <td className="driverDebtMainTr">{getLocalDate(elem.date)}</td>
         <td className="driverDebtMainTr">
           {getDriverValueById(elem.idDriver)}

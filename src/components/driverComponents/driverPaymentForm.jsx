@@ -21,8 +21,17 @@ export const DriverPaymentForm = () => {
   const [filteredOdersList, setFilteredOdersList] = useState([]);
   const [driverListWithoutPayment, setDriverListWithoutPayment] = useState([]);
   const [driverDebts, setDriverDebts] = useState([]);
+  const [chosenDriver, setChosenDriver] = useState(null);
+  const [showInputFieldDriver, setShowInputFieldDriver] = useState(true);
   const [currentDriverDebt, setCurrentDriverDebt] = useState(null);
   const [currentDriverSum, setCurrentDriverSum] = useState(null);
+  const [currentDriverSumOfOders, setCurrentDriverSumOfOders] = useState(null);
+  const [currentDriverSumOfDebts, setCurrentDriverSumOfDebtss] = useState(null);
+  const [chosenOders, setChosenOders] = useState([]);
+  const [chosenDebts, setChosenDebts] = useState([]);
+  const [showDetailsOders, setShowDetailsOders] = useState(false);
+  const [showInputFieldOfDebt, setShowInputFieldOfDebt] = useState(true);
+  const [sumOfChosenDebt, setSumOfChosenDebt] = useState(null);
   const [showDebts, setShowDebts] = useState(false);
 
   useEffect(() => {
@@ -52,32 +61,102 @@ export const DriverPaymentForm = () => {
       (sum, elem) => sum + Number(elem.sumOfDebt),
       0
     );
+    setChosenDriver(data.value);
+    setShowInputFieldDriver(false);
     setCurrentDriverDebt(sumDebt);
+    setCurrentDriverSumOfOders(null);
+    setShowDetailsOders(true);
     if (sumDebt != 0) {
       setShowDebts(true);
     } else setShowDebts(false);
+  };
+  const handleEnter = (e) => {
+    if (e.key == "Enter") {
+      setSumOfChosenDebt(e.currentTarget.value);
+      setShowInputFieldOfDebt(false);
+    }
+  };
+  const handleClickInputDebt = () => {
+    setShowInputFieldOfDebt(true);
+  };
+  const handleClickInputDriver = () => {
+    setShowInputFieldDriver(true);
+  };
+  const choiseOders = (oderId, driverPrice) => {
+    let [...arr] = chosenOders;
+    let sum = currentDriverSumOfOders;
+    if (!arr.includes(oderId)) {
+      arr.push(oderId);
+      sum = sum + driverPrice;
+    } else {
+      let index = arr.findIndex((elem) => elem == oderId);
+      arr.splice(index, 1);
+      sum = sum - driverPrice;
+    }
+    setChosenOders(arr);
+    setCurrentDriverSumOfOders(sum);
+    console.log(arr);
+  };
+  const choiseDebts = (debtId, sumOfDebt) => {
+    let [...arr] = chosenDebts;
+    let sum = currentDriverSumOfDebts;
+    if (!arr.includes(debtId)) {
+      arr.push(debtId);
+      sum = sum + sumOfDebt;
+    } else {
+      let index = arr.findIndex((elem) => elem == debtId);
+      arr.splice(index, 1);
+    }
+    setChosenDebts(arr);
+    setCurrentDriverSumOfDebtss(sum);
   };
   return (
     <div className="driverPaymentMainDiv">
       <header className="driverPaymentHeader">
         <div className="driverPaymentChoise">
           <p>Перевозчик</p>
-          <ChoiseList
-            name="driver"
-            arrlist={driverListWithoutPayment}
-            setValue={setValue}
-          />
+          {showInputFieldDriver ? (
+            <ChoiseList
+              name="driver"
+              arrlist={driverListWithoutPayment}
+              setValue={setValue}
+            />
+          ) : (
+            <div onClick={handleClickInputDriver}>{chosenDriver}</div>
+          )}
         </div>
-        {showDebts && (
-          <div>
-            <p>Долг перевозчика</p>
-            <div>{currentDriverDebt}</div>
+        {showDetailsOders && (
+          <div className="driverPaymentDetails">
+            <p>Стоимость рейсов</p>
+            <div>{currentDriverSum}</div>
+          </div>
+        )}
+        {showDetailsOders && (
+          <div className="driverPaymentDetails">
+            <p>Выбрано для оплаты</p>
+            <div>{currentDriverSumOfOders}</div>
           </div>
         )}
         {showDebts && (
-          <div>
-            <p>Стоимость рейсов</p>
-            <div>{currentDriverSum}</div>
+          <div className="driverPaymentDetails">
+            <p>Долг перевозчика</p>
+            <div>{currentDriverDebt - currentDriverSumOfDebts}</div>
+          </div>
+        )}
+        {showDebts && (
+          <div className="driverPaymentDetails">
+            <p>Заплатить из долга</p>
+            {showInputFieldOfDebt ? (
+              <input type="Number" onKeyDown={handleEnter} />
+            ) : (
+              <div onClick={handleClickInputDebt}>{sumOfChosenDebt}</div>
+            )}
+          </div>
+        )}
+        {showDetailsOders && (
+          <div className="driverPaymentDetails">
+            <p>Сумма к оплате</p>
+            <div>{currentDriverSumOfOders - sumOfChosenDebt}</div>
           </div>
         )}
       </header>
@@ -107,7 +186,13 @@ export const DriverPaymentForm = () => {
               </thead>
               <tbody>
                 {driverDebts.map((elem) => {
-                  return <DriverPaymentDebtTr key={elem.id} debtData={elem} />;
+                  return (
+                    <DriverPaymentDebtTr
+                      key={elem.id}
+                      debtData={elem}
+                      choiseDebts={choiseDebts}
+                    />
+                  );
                 })}
               </tbody>
             </table>
@@ -139,7 +224,13 @@ export const DriverPaymentForm = () => {
             </thead>
             <tbody>
               {filteredOdersList.map((elem) => {
-                return <DriverPaymentTr key={elem._id} elem={elem} />;
+                return (
+                  <DriverPaymentTr
+                    key={elem._id}
+                    elem={elem}
+                    choiseOders={choiseOders}
+                  />
+                );
               })}
             </tbody>
           </table>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./driverForms.sass";
 
 export const DriverPaymentDebtTr = (props) => {
@@ -23,6 +23,7 @@ export const DriverPaymentDebtTr = (props) => {
         setClassNameTr("driverDebtMainTd");
       }
     }
+    props.choiseDebts(elem.id, Number(elem.sumOfDebt));
   };
 
   return (
