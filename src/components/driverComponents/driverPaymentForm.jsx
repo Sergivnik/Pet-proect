@@ -26,13 +26,14 @@ export const DriverPaymentForm = () => {
   const [currentDriverDebt, setCurrentDriverDebt] = useState(null);
   const [currentDriverSum, setCurrentDriverSum] = useState(null);
   const [currentDriverSumOfOders, setCurrentDriverSumOfOders] = useState(null);
-  const [currentDriverSumOfDebts, setCurrentDriverSumOfDebtss] = useState(null);
+  const [currentDriverSumOfDebts, setCurrentDriverSumOfDebts] = useState(null);
   const [chosenOders, setChosenOders] = useState([]);
   const [chosenDebts, setChosenDebts] = useState([]);
   const [showDetailsOders, setShowDetailsOders] = useState(false);
   const [showInputFieldOfDebt, setShowInputFieldOfDebt] = useState(true);
   const [sumOfChosenDebt, setSumOfChosenDebt] = useState(null);
   const [showDebts, setShowDebts] = useState(false);
+  const [choiceEnabled, setChoiceEnabled] = useState(false);
 
   useEffect(() => {
     let arr = odersList.filter((elem) => elem.driverPayment != "Ок");
@@ -56,7 +57,11 @@ export const DriverPaymentForm = () => {
     let sumOders = arr.reduce((sum, elem) => sum + Number(elem.driverPrice), 0);
     setCurrentDriverSum(sumOders);
     let arrDebt = driverDebtList.filter((elem) => elem.idDriver == data._id);
-    setDriverDebts(arrDebt);
+    let clone = [];
+    arrDebt.forEach((elem) => {
+      clone.push(Object.assign({}, elem));
+    });
+    setDriverDebts(clone);
     let sumDebt = arrDebt.reduce(
       (sum, elem) => sum + Number(elem.sumOfDebt),
       0
@@ -74,10 +79,12 @@ export const DriverPaymentForm = () => {
     if (e.key == "Enter") {
       setSumOfChosenDebt(e.currentTarget.value);
       setShowInputFieldOfDebt(false);
+      setChoiceEnabled(true);
     }
   };
   const handleClickInputDebt = () => {
     setShowInputFieldOfDebt(true);
+    setChoiceEnabled(false);
   };
   const handleClickInputDriver = () => {
     setShowInputFieldDriver(true);
@@ -108,14 +115,23 @@ export const DriverPaymentForm = () => {
       arr.splice(index, 1);
       sum = sum - sumOfDebt;
     }
-    setChosenDebts(arr);
-    setCurrentDriverSumOfDebtss(sum);
+    if (sum > Number(sumOfChosenDebt)) {
+      let [...arrDebts] = driverDebts;
+      let indexDebt = arrDebts.findIndex((elem) => elem.id == debtId);
+      arrDebts[indexDebt].sumOfDebt = sumOfDebt - sum + Number(sumOfChosenDebt);
+      arrDebts[indexDebt].debtClosed = "частично";
+      setChosenDebts(arr);
+      setCurrentDriverSumOfDebts(Number(sumOfChosenDebt));
+    } else {
+      setChosenDebts(arr);
+      setCurrentDriverSumOfDebts(sum);
+    }
   };
   return (
     <div className="driverPaymentMainDiv">
       <header className="driverPaymentHeader">
         <div className="driverPaymentChoise">
-          <p>Перевозчик</p>
+          <p className="driverPaymentChoiseP">Перевозчик</p>
           {showInputFieldDriver ? (
             <ChoiseList
               name="driver"
@@ -128,35 +144,37 @@ export const DriverPaymentForm = () => {
         </div>
         {showDetailsOders && (
           <div className="driverPaymentDetails">
-            <p>Стоимость рейсов</p>
+            <p className="driverPaymentChoiseP">Стоимость рейсов</p>
             <div>{currentDriverSum}</div>
           </div>
         )}
         {showDetailsOders && (
           <div className="driverPaymentDetails">
-            <p>Выбрано для оплаты</p>
+            <p className="driverPaymentChoiseP">Выбрано для оплаты</p>
             <div>{currentDriverSumOfOders}</div>
           </div>
         )}
         {showDebts && (
           <div className="driverPaymentDetails">
-            <p>Долг перевозчика</p>
-            <div>{currentDriverDebt - currentDriverSumOfDebts}</div>
+            <p className="driverPaymentChoiseP">Долг перевозчика</p>
+            <div>{currentDriverDebt}</div>
           </div>
         )}
         {showDebts && (
           <div className="driverPaymentDetails">
-            <p>Заплатить из долга</p>
+            <p className="driverPaymentChoiseP">Заплатить из долга</p>
             {showInputFieldOfDebt ? (
               <input type="Number" onKeyDown={handleEnter} />
             ) : (
-              <div onClick={handleClickInputDebt}>{sumOfChosenDebt}</div>
+              <div onClick={handleClickInputDebt}>
+                {sumOfChosenDebt - currentDriverSumOfDebts}
+              </div>
             )}
           </div>
         )}
         {showDetailsOders && (
           <div className="driverPaymentDetails">
-            <p>Сумма к оплате</p>
+            <p className="driverPaymentChoiseP">Сумма к оплате</p>
             <div>{currentDriverSumOfOders - sumOfChosenDebt}</div>
           </div>
         )}
@@ -192,6 +210,7 @@ export const DriverPaymentForm = () => {
                       key={elem.id}
                       debtData={elem}
                       choiseDebts={choiseDebts}
+                      choiceEnabled={choiceEnabled}
                     />
                   );
                 })}

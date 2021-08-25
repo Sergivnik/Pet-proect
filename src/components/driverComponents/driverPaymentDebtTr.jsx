@@ -16,14 +16,16 @@ export const DriverPaymentDebtTr = (props) => {
       return driverList.find((driver) => driver._id == id).value;
   };
   const handleClickTr = (e) => {
-    if (e.target.tagName == "TD") {
-      if (classNameTr == "driverDebtMainTd") {
-        setClassNameTr("driverDebtMainTd driverDebtMark");
-      } else {
-        setClassNameTr("driverDebtMainTd");
+    if (props.choiceEnabled) {
+      if (e.target.tagName == "TD") {
+        if (classNameTr == "driverDebtMainTd") {
+          setClassNameTr("driverDebtMainTd driverDebtMark");
+        } else {
+          setClassNameTr("driverDebtMainTd");
+        }
       }
-    }
-    props.choiseDebts(elem.id, Number(elem.sumOfDebt));
+      props.choiseDebts(elem.id, Number(elem.sumOfDebt));
+    } else alert('Введите в поле "заплатить из долга" сумму');
   };
 
   return (
