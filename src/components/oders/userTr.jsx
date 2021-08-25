@@ -46,7 +46,13 @@ export const UserTr = (props) => {
   };
 
   return (
-    <tr id={props.elem._id} onClick={props.handleClickTR}>
+    <tr
+      id={props.elem._id}
+      onClick={props.handleClickTR}
+      onMouseDown={(e) => {
+        e.preventDefault();
+      }}
+    >
       {/* Column Data */}
       <td className="odersTd" onDoubleClick={props.handleDBLClick}>
         {props.showEdit &&

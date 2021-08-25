@@ -5,6 +5,7 @@ export const UserWindow = (props) => {
   const [fullSeze, setFullSize] = useState(false);
   let startX, startY;
   const handleMouseDown = (e) => {
+    e.preventDefault();
     let tag = e.target;
     if (tag.className == "userWindowHeaderName") {
       startX = e.clientX;
@@ -27,9 +28,9 @@ export const UserWindow = (props) => {
     div.style.opacity = 0.1;
     setTimeout(props.handleClickWindowClose, 1000);
   };
-  const handleClickFullSize = () => {
+  const handleClickFullSize = (e) => {
     let div = document.getElementsByClassName("userWindowDiv")[0];
-    console.log(document.selection);
+    console.log(e);
     if (!fullSeze) {
       div.style.width = "100%";
       div.style.left = "0";
@@ -56,11 +57,9 @@ export const UserWindow = (props) => {
         className="userWindowHeader"
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
+        onDoubleClick={handleClickFullSize}
       >
-        <div
-          className="userWindowHeaderName"
-          onDoubleClick={handleClickFullSize}
-        >
+        <div className="userWindowHeaderName">
           <span className="">{props.header}</span>
         </div>
         <div className="userWindowHeaderClose">
