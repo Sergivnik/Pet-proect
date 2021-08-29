@@ -10,6 +10,7 @@ export const DriverPaymentDebtTr = (props) => {
   const [classNameTr, setClassNameTr] = useState("driverDebtMainTd");
   const driverList = useSelector((state) => state.oderReducer.driverlist);
   const elem = props.debtData;
+  const [showAddInfo, setShowAddInfo] = useState(false);
 
   const getDriverById = (id) => {
     if (driverList.length)
@@ -24,17 +25,30 @@ export const DriverPaymentDebtTr = (props) => {
           setClassNameTr("driverDebtMainTd");
         }
       }
-      props.choiseDebts(elem.id, Number(elem.sumOfDebt));
+      props.choiseDebts(elem.id, Number(elem.sumOfDebt - elem.paidPartOfDebt));
     } else alert('Введите в поле "заплатить из долга" сумму');
   };
-
+  const handleMouseOver = () => {
+    if (elem.debtClosed == "частично") setShowAddInfo(true);
+  };
+  const handleMouseLeave = () => {
+    setShowAddInfo(false);
+  };
   return (
     <React.Fragment>
       <tr className={classNameTr} onClick={handleClickTr}>
         <td className="driverDebtMainTr">{dateLocal(elem.date)}</td>
         <td className="driverDebtMainTr">{getDriverById(elem.idDriver)}</td>
         <td className="driverDebtMainTr">{elem.category}</td>
-        <td className="driverDebtMainTr">{elem.sumOfDebt}</td>
+        <td
+          className="driverDebtMainTr"
+          onMouseOver={handleMouseOver}
+          onMouseLeave={handleMouseLeave}
+        >
+          {showAddInfo &&
+            (<div className="driverDebtDivPopup">{`Сумма долга ${elem.sumOfDebt} из него погашено ${elem.paidPartOfDebt} `}</div>)}
+          {elem.sumOfDebt - elem.paidPartOfDebt}
+        </td>
         <td className="driverDebtMainTr">{elem.addInfo}</td>
         <td className="driverDebtMainTr">{elem.debtClosed}</td>
       </tr>

@@ -7,7 +7,12 @@
    overflow-y: auto
 .driverPaymentHeader, .driverDebtHeader
    display: flex
+   justify-content: space-around
    height: 20%
+.driverPaymentTableSpan
+   text-align: center
+   width: 100%
+   display: inline-block
 .driverDebtMainTable
    border: 1px solid #000
    background-color: #d4a3383b
@@ -28,6 +33,7 @@
    font-size: 18px
 .driverPaymentChoiseP
    font-weight: bold
+   font-size: 18px
 .driverPaymentChoise
    position: relative
    margin: 0.5%
@@ -78,10 +84,18 @@
    z-index: 10
 .driverDebtMark
    background: #c94
-
 .driverPaymentDebtsDiv
    height: 30%
    overflow-y: auto
 .driverPaymentOdersDiv
    height: 70%
    overflow-y: auto
+.driverDebtDivPopup
+   position: absolute
+   border: 1px solid #000
+   background-color: #dad9b1
+   bottom: 50%
+   left: 50%
+   width: 90%
+   font-size: 14px
+   z-index: 5

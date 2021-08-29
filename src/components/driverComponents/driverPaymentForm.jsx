@@ -33,7 +33,9 @@ export const DriverPaymentForm = () => {
   const [showInputFieldOfDebt, setShowInputFieldOfDebt] = useState(true);
   const [sumOfChosenDebt, setSumOfChosenDebt] = useState(null);
   const [showDebts, setShowDebts] = useState(false);
+  const [showBtn, setShowBtn] = useState(false);
   const [choiceEnabled, setChoiceEnabled] = useState(false);
+  const [partOfLastDebt, setPartOfLastDebt] = useState(null);
 
   useEffect(() => {
     let arr = odersList.filter((elem) => elem.driverPayment != "Ок");
@@ -63,7 +65,7 @@ export const DriverPaymentForm = () => {
     });
     setDriverDebts(clone);
     let sumDebt = arrDebt.reduce(
-      (sum, elem) => sum + Number(elem.sumOfDebt),
+      (sum, elem) => sum + Number(elem.sumOfDebt) - Number(elem.paidPartOfDebt),
       0
     );
     setChosenDriver(data.value);
@@ -102,7 +104,7 @@ export const DriverPaymentForm = () => {
     }
     setChosenOders(arr);
     setCurrentDriverSumOfOders(sum);
-    console.log(arr);
+    if (!showDebts) setShowBtn(true);
   };
   const choiseDebts = (debtId, sumOfDebt) => {
     let [...arr] = chosenDebts;
@@ -115,18 +117,24 @@ export const DriverPaymentForm = () => {
       arr.splice(index, 1);
       sum = sum - sumOfDebt;
     }
-    if (sum > Number(sumOfChosenDebt)) {
+    if (sum >= Number(sumOfChosenDebt)) {
       let [...arrDebts] = driverDebts;
       let indexDebt = arrDebts.findIndex((elem) => elem.id == debtId);
-      arrDebts[indexDebt].sumOfDebt = sumOfDebt - sum + Number(sumOfChosenDebt);
+      let lastDebtPart = sumOfDebt-sum+Number(sumOfChosenDebt);
+      arrDebts[indexDebt].sumOfDebt = lastDebtPart+Number(arrDebts[indexDebt].paidPartOfDebt);
       arrDebts[indexDebt].debtClosed = "частично";
       setChosenDebts(arr);
+      setPartOfLastDebt(lastDebtPart);
       setCurrentDriverSumOfDebts(Number(sumOfChosenDebt));
+      setShowBtn(true);
     } else {
       setChosenDebts(arr);
       setCurrentDriverSumOfDebts(sum);
     }
   };
+  const handleClickBtn=()=>{
+    console.log(chosenOders, chosenDebts, partOfLastDebt);
+  }
   return (
     <div className="driverPaymentMainDiv">
       <header className="driverPaymentHeader">
@@ -181,6 +189,9 @@ export const DriverPaymentForm = () => {
       </header>
       <div className="driverDebtTableDiv">
         {showDebts && (
+          <span className="driverPaymentTableSpan">Долги перевозчика</span>
+        )}
+        {showDebts && (
           <div className="driverPaymentDebtsDiv">
             <table className="driverDebtMainTable">
               <thead className="driverDebtMainHeader">
@@ -218,6 +229,7 @@ export const DriverPaymentForm = () => {
             </table>
           </div>
         )}
+        <span className="driverPaymentTableSpan">Рейсы перевозчика</span>
         <div className="driverPaymentOdersDiv">
           <table className="driverDebtMainTable">
             <thead className="driverDebtMainHeader">
@@ -227,6 +239,9 @@ export const DriverPaymentForm = () => {
                 </td>
                 <td className="driverDebtMainHeaderTd">
                   <span>Перевозчик</span>
+                </td>
+                <td className="driverDebtMainHeaderTd">
+                  <span>Заказчик</span>
                 </td>
                 <td className="driverDebtMainHeaderTd">
                   <span>Погрузка</span>
@@ -256,6 +271,7 @@ export const DriverPaymentForm = () => {
           </table>
         </div>
       </div>
+      {showBtn && <button onClick={handleClickBtn}>Провести</button>}
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import "./driverForms.sass";
 
 export const DriverPaymentTr = (props) => {
   const driversList = useSelector((state) => state.oderReducer.driverlist);
+  const customerList = useSelector((state) => state.oderReducer.clientList);
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
   const [classNameTr, setClassNameTr] = useState("driverDebtMainTd");
   let elem = props.elem;
@@ -15,6 +16,12 @@ export const DriverPaymentTr = (props) => {
   const getDriverValueById = (id) => {
     let driver = driversList.find((item) => item._id == id);
     return driver.value;
+  };
+  const getCustomerValueById = (id) => {
+    if (id != null) {
+      let customer = customerList.find((item) => item._id == id);
+      return customer.value;
+    }
   };
   const getRouteByIdCites = (arr) => {
     if (arr) {
@@ -42,6 +49,9 @@ export const DriverPaymentTr = (props) => {
         <td className="driverDebtMainTr">{getLocalDate(elem.date)}</td>
         <td className="driverDebtMainTr">
           {getDriverValueById(elem.idDriver)}
+        </td>
+        <td className="driverDebtMainTr">
+          {getCustomerValueById(elem.idCustomer)}
         </td>
         <td className="driverDebtMainTr">
           {getRouteByIdCites(elem.idLoadingPoint)}
