@@ -58,7 +58,9 @@ export const DriverPaymentForm = () => {
     setFilteredOdersList(arr);
     let sumOders = arr.reduce((sum, elem) => sum + Number(elem.driverPrice), 0);
     setCurrentDriverSum(sumOders);
-    let arrDebt = driverDebtList.filter((elem) => elem.idDriver == data._id);
+    let arrDebt = driverDebtList.filter(
+      (elem) => elem.idDriver == data._id && elem.debtClosed != "Ок"
+    );
     let clone = [];
     arrDebt.forEach((elem) => {
       clone.push(Object.assign({}, elem));
@@ -107,34 +109,40 @@ export const DriverPaymentForm = () => {
     if (!showDebts) setShowBtn(true);
   };
   const choiseDebts = (debtId, sumOfDebt) => {
-    let [...arr] = chosenDebts;
+    let arr = [];
+    let [...arrObj] = chosenDebts;
+    chosenDebts.forEach((elem) => arr.push(elem.id));
     let sum = currentDriverSumOfDebts;
     if (!arr.includes(debtId)) {
       arr.push(debtId);
+      arrObj.push({ id: debtId, sum: sumOfDebt });
       sum = sum + sumOfDebt;
     } else {
       let index = arr.findIndex((elem) => elem == debtId);
       arr.splice(index, 1);
+      arrObj.splice(index, 1);
       sum = sum - sumOfDebt;
     }
     if (sum >= Number(sumOfChosenDebt)) {
       let [...arrDebts] = driverDebts;
       let indexDebt = arrDebts.findIndex((elem) => elem.id == debtId);
-      let lastDebtPart = sumOfDebt-sum+Number(sumOfChosenDebt);
-      arrDebts[indexDebt].sumOfDebt = lastDebtPart+Number(arrDebts[indexDebt].paidPartOfDebt);
+      let lastDebtPart = sumOfDebt - sum + Number(sumOfChosenDebt);
+      arrDebts[indexDebt].sumOfDebt =
+        lastDebtPart + Number(arrDebts[indexDebt].paidPartOfDebt);
       arrDebts[indexDebt].debtClosed = "частично";
-      setChosenDebts(arr);
+
+      setChosenDebts(arrObj);
       setPartOfLastDebt(lastDebtPart);
       setCurrentDriverSumOfDebts(Number(sumOfChosenDebt));
       setShowBtn(true);
     } else {
-      setChosenDebts(arr);
+      setChosenDebts(arrObj);
       setCurrentDriverSumOfDebts(sum);
     }
   };
-  const handleClickBtn=()=>{
+  const handleClickBtn = () => {
     console.log(chosenOders, chosenDebts, partOfLastDebt);
-  }
+  };
   return (
     <div className="driverPaymentMainDiv">
       <header className="driverPaymentHeader">
