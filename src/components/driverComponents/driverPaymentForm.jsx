@@ -5,6 +5,7 @@ import { DriverPaymentDebtTr } from "./driverPaymentDebtTr.jsx";
 import { DriverPaymentTr } from "./driverPaymentTr.jsx";
 import { getDataDriverDebt } from "../../actions/driverActions.js";
 import "./driverForms.sass";
+import { ObjIncludesId } from "../myLib/myLib.js";
 
 export const DriverPaymentForm = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ export const DriverPaymentForm = () => {
   const [showDebts, setShowDebts] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
   const [choiceEnabled, setChoiceEnabled] = useState(false);
-  const [partOfLastDebt, setPartOfLastDebt] = useState(null);
+  const [partialDebt, setPartialDebt] = useState({ id: null, sum: null });
 
   useEffect(() => {
     let arr = odersList.filter((elem) => elem.driverPayment != "Ок");
@@ -109,39 +110,50 @@ export const DriverPaymentForm = () => {
     if (!showDebts) setShowBtn(true);
   };
   const choiseDebts = (debtId, sumOfDebt) => {
-    let arr = [];
-    let [...arrObj] = chosenDebts;
-    chosenDebts.forEach((elem) => arr.push(elem.id));
+    let [...arr] = chosenDebts;
     let sum = currentDriverSumOfDebts;
-    if (!arr.includes(debtId)) {
-      arr.push(debtId);
-      arrObj.push({ id: debtId, sum: sumOfDebt });
-      sum = sum + sumOfDebt;
+    console.log(sum);
+    if (!ObjIncludesId(debtId, arr)) {
+      if (sum + sumOfDebt < Number(sumOfChosenDebt)) {
+        arr.push({ id: debtId, sum: sumOfDebt });
+        setCurrentDriverSumOfDebts(sum + sumOfDebt);
+      } else {
+        arr.push({ id: debtId, sum: Number(sumOfChosenDebt) - sum });
+        setCurrentDriverSumOfDebts(Number(sumOfChosenDebt));
+        setPartialDebt({ id: debtId, sum: sumOfDebt });
+        let [...arrDebts] = driverDebts;
+        let indexDebt = arrDebts.findIndex((elem) => elem.id == debtId);
+        let lastDebtPart = Number(sumOfChosenDebt) - sum;
+        arrDebts[indexDebt].sumOfDebt =
+          lastDebtPart + Number(arrDebts[indexDebt].paidPartOfDebt);
+        arrDebts[indexDebt].debtClosed = "частично";
+        setDriverDebts(arrDebts);
+        setShowBtn(true);
+      }
     } else {
-      let index = arr.findIndex((elem) => elem == debtId);
-      arr.splice(index, 1);
-      arrObj.splice(index, 1);
-      sum = sum - sumOfDebt;
+      if (partialDebt.id != debtId) {
+        let index = arr.findIndex((elem) => elem.id == debtId);
+        arr.splice(index, 1);
+        setCurrentDriverSumOfDebts(sum - sumOfDebt);
+      } else {
+        let index = arr.findIndex((elem) => elem.id == debtId);
+        arr.splice(index, 1);
+        setCurrentDriverSumOfDebts(sum - sumOfDebt);
+        let [...arrDebts] = driverDebts;
+        let indexDebt = arrDebts.findIndex((elem) => elem.id == debtId);
+        arrDebts[indexDebt].sumOfDebt =
+          Number(partialDebt.sum) + Number(arrDebts[indexDebt].paidPartOfDebt);
+        if (Number(arrDebts[indexDebt].paidPartOfDebt) == 0)
+          arrDebts[indexDebt].debtClosed = "нет";
+        setDriverDebts(arrDebts);
+      }
+      setShowBtn(false);
     }
-    if (sum >= Number(sumOfChosenDebt)) {
-      let [...arrDebts] = driverDebts;
-      let indexDebt = arrDebts.findIndex((elem) => elem.id == debtId);
-      let lastDebtPart = sumOfDebt - sum + Number(sumOfChosenDebt);
-      arrDebts[indexDebt].sumOfDebt =
-        lastDebtPart + Number(arrDebts[indexDebt].paidPartOfDebt);
-      arrDebts[indexDebt].debtClosed = "частично";
+    setChosenDebts(arr);
 
-      setChosenDebts(arrObj);
-      setPartOfLastDebt(lastDebtPart);
-      setCurrentDriverSumOfDebts(Number(sumOfChosenDebt));
-      setShowBtn(true);
-    } else {
-      setChosenDebts(arrObj);
-      setCurrentDriverSumOfDebts(sum);
-    }
   };
   const handleClickBtn = () => {
-    console.log(chosenOders, chosenDebts, partOfLastDebt);
+    console.log(chosenOders, chosenDebts, partialDebt);
   };
   return (
     <div className="driverPaymentMainDiv">

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "./driverForms.sass";
+import { dateLocal } from "../myLib/myLib";
 
 export const DriverPaymentDebtTr = (props) => {
-  const dateLocal = (date) => {
-    date = new Date(date);
-    return date.toLocaleDateString();
-  };
   const [classNameTr, setClassNameTr] = useState("driverDebtMainTd");
   const driverList = useSelector((state) => state.oderReducer.driverlist);
   const elem = props.debtData;

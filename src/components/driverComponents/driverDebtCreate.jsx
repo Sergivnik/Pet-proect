@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import "./driverForms.sass";
+import { dateLocal } from "../myLib/myLib";
 
 export const DriverDebtCreate = (props) => {
   let now = new Date();
@@ -9,12 +10,6 @@ export const DriverDebtCreate = (props) => {
     let month = date.getMonth() + 1;
     if (month < 10) month = `0${month}`;
     return `${date.getFullYear()}-${month}-${date.getDate()}`;
-  };
-  const DateLocal = (date) => {
-    if (date != null) {
-      date = new Date(date);
-      return date.toLocaleDateString();
-    }
   };
   const categoryList = props.categoryList;
 
@@ -154,7 +149,7 @@ export const DriverDebtCreate = (props) => {
             onBlur={handleLostFocus}
           />
         ) : (
-          DateLocal(debtData.date)
+          dateLocal(debtData.date)
         )}
       </td>
       <td className="driverDebtCreateTd" onClick={handleClickTdDriver}>

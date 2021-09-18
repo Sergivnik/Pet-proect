@@ -3,14 +3,11 @@ import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { editDataDriverDebt } from "../../actions/driverActions.js";
 import "./driverForms.sass";
+import { dateLocal } from "../myLib/myLib";
 
 export const DriverDebtTr = (props) => {
   const dispatch = useDispatch();
   const categoryList = props.categoryList;
-  const dateLocal = (date) => {
-    date = new Date(date);
-    return date.toLocaleDateString();
-  };
   const DateStr = (date) => {
     date = new Date(date);
     let month = date.getMonth() + 1;
