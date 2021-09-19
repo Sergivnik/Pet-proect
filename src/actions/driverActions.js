@@ -17,6 +17,8 @@ export const EDIT_DATA_DRIVER_DEBT_SUCCESS =
   "DATA::EDIT_DATA_DRIVER_DEBT_SUCCESS";
 export const EDIT_DATA_DRIVER_DEBT_FAILURE =
   "DATA::EDIT_DATA_DRIVER_DEBT_FAILURE";
+export const MAKE_PAYMENT_DRIVER_SUCCESS = "DATA::MAKE_PAYMENT_DRIVER_SUCCESS";
+export const MAKE_PAYMENT_DRIVER_FAILURE = "DATA::MAKE_PAYMENT_DRIVER_FAILURE";
 
 export const getDataDriverDebtSuccess = (dataServer) => ({
   type: GET_DATA_DRIVER_DEBT_SUCCESS,
@@ -111,3 +113,37 @@ export const editDataDriverDebt = (data) => {
       });
   };
 };
+export const makePaymentDriver = (chosenOders, chosenDebts) => {
+  return (dispatch) =>
+    axios
+      .patch(URL + "/makePaymentDriver", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          chosenOders: chosenOders,
+          chosenDebts: chosenDebts,
+        },
+      })
+      .then((res) => {
+        return dispatch(
+          makePaymentDriverSuccess(res.data, chosenOders, chosenDebts)
+        );
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+};
+export const makePaymentDriverSuccess = (
+  dataServer,
+  chosenOders,
+  chosenDebts
+) => ({
+  type: MAKE_PAYMENT_DRIVER_SUCCESS,
+  dataServer,
+  chosenOders,
+  chosenDebts,
+});
+export const makePaymentDriverFailure = () => ({
+  type: MAKE_PAYMENT_DRIVER_FAILURE,
+});

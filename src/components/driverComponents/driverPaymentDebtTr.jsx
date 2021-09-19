@@ -17,12 +17,21 @@ export const DriverPaymentDebtTr = (props) => {
     if (props.choiceEnabled) {
       if (e.target.tagName == "TD") {
         if (classNameTr == "driverDebtMainTd") {
-          setClassNameTr("driverDebtMainTd driverDebtMark");
+          if (!props.isDebtsChosen) {
+            setClassNameTr("driverDebtMainTd driverDebtMark");
+            props.choiseDebts(
+              elem.id,
+              Number(elem.sumOfDebt - elem.paidPartOfDebt)
+            );
+          }else alert("Сумма долга выбранна")
         } else {
           setClassNameTr("driverDebtMainTd");
+          props.choiseDebts(
+            elem.id,
+            Number(elem.sumOfDebt - elem.paidPartOfDebt)
+          );
         }
       }
-      props.choiseDebts(elem.id, Number(elem.sumOfDebt - elem.paidPartOfDebt));
     } else alert('Введите в поле "заплатить из долга" сумму');
   };
   const handleMouseOver = () => {
@@ -42,8 +51,9 @@ export const DriverPaymentDebtTr = (props) => {
           onMouseOver={handleMouseOver}
           onMouseLeave={handleMouseLeave}
         >
-          {showAddInfo &&
-            (<div className="driverDebtDivPopup">{`Сумма долга ${elem.sumOfDebt} из него погашено ${elem.paidPartOfDebt} `}</div>)}
+          {showAddInfo && (
+            <div className="driverDebtDivPopup">{`Сумма долга ${elem.sumOfDebt} из него погашено ${elem.paidPartOfDebt} `}</div>
+          )}
           {elem.sumOfDebt - elem.paidPartOfDebt}
         </td>
         <td className="driverDebtMainTr">{elem.addInfo}</td>

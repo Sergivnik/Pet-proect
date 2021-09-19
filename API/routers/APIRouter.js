@@ -12,10 +12,12 @@ router.get("/*", (req, res) => {
 router.post("/filter", API.taskGetFilter);
 router.post("/addOder", API.taskAdd);
 router.post("/proxy/:id", API.taskProxy);
+
 router.patch("/edit", API.taskEdit);
 router.patch("/makePaymentCustomer", API.makePaymentCustomer);
 router.patch("/addDataDriverDebt", API.makeDriverDebt);
 router.patch("/editDriverDebt", API.editDriverDebt);
+router.patch("/makePaymentDriver", API.makePaymentDriver);
 
 router.delete("/:id", API.taskDel);
 router.delete("/deleteDataPatmenrs/:id", API.taskDeletePayments);

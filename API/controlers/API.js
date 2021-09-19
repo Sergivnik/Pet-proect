@@ -1,6 +1,7 @@
 var tasks = require("../models/tasks.js");
 var tasksPayments = require("../models/tasksPayments.js");
 var tasksDebt = require("../models/tasksDriverDebts.js");
+var taskPaymentsDriver = require("../models/taskPaymentsDriver");
 
 module.exports.taskGet = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -119,7 +120,6 @@ module.exports.taskDeleteDebt = (req, res) => {
   });
 };
 
-
 module.exports.taskDel = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
@@ -135,7 +135,7 @@ module.exports.taskDel = (req, res) => {
   });
 };
 
-module.exports.editDriverDebt =(req,res)=>{
+module.exports.editDriverDebt = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
@@ -147,8 +147,23 @@ module.exports.editDriverDebt =(req,res)=>{
     } else {
       res.json(data);
     }
-  }); 
-}
+  });
+};
+
+module.exports.makePaymentDriver = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  taskPaymentsDriver.add(req.body.body, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
 
 module.exports.taskDeletePayments = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");

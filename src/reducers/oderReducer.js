@@ -24,6 +24,7 @@ import {
   ADD_DATA_DRIVER_DEBT_SUCCESS,
   DEL_DATA_DRIVER_DEBT_SUCCESS,
   EDIT_DATA_DRIVER_DEBT_SUCCESS,
+  MAKE_PAYMENT_DRIVER_SUCCESS,
 } from "../actions/driverActions.js";
 
 export const oderReducer = (store = initialStore, action) => {
@@ -519,18 +520,18 @@ export const oderReducer = (store = initialStore, action) => {
       if (action.data.editField == "idDriver") {
         arr[index].idDriver = action.data.newValue;
       }
-       if (action.data.editField == "category") {
-         arr[index].category = action.data.newValue;
-       }
-       if (action.data.editField == "sumOfDebt") {
-         arr[index].sumOfDebt = action.data.newValue;
-       }
-       if (action.data.editField == "addInfo") {
-         arr[index].addInfo = action.data.newValue;
-       }
-       if (action.data.editField == "debtClosed") {
-         arr[index].debtClosed = action.data.newValue;
-       }
+      if (action.data.editField == "category") {
+        arr[index].category = action.data.newValue;
+      }
+      if (action.data.editField == "sumOfDebt") {
+        arr[index].sumOfDebt = action.data.newValue;
+      }
+      if (action.data.editField == "addInfo") {
+        arr[index].addInfo = action.data.newValue;
+      }
+      if (action.data.editField == "debtClosed") {
+        arr[index].debtClosed = action.data.newValue;
+      }
       return {
         ...store,
         driverDebtList: arr,
@@ -544,6 +545,22 @@ export const oderReducer = (store = initialStore, action) => {
       return {
         ...store,
         driverDebtList: arr,
+      };
+    }
+
+    case MAKE_PAYMENT_DRIVER_SUCCESS: {
+      let [...arrOders] = store.originOdersList;
+      let [...arrDebts] = store.driverDebtList;
+      action.chosenOders.forEach((elem) => {
+        let index = arrOders.findIndex((oder) => oder._id == elem);
+        arrOders[index].driverPayment = "Ок";
+      });
+      console.log(action.chosenDebts);
+      console.log(action.chosenOders);
+      return {
+        ...store,
+        originOdersList: arrOders,
+        driverDebtList: arrDebts,
       };
     }
 

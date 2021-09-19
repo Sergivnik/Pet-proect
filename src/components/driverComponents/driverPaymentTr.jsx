@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./driverForms.sass";
+import { dateLocal } from "../myLib/myLib";
 
 export const DriverPaymentTr = (props) => {
   const driversList = useSelector((state) => state.oderReducer.driverlist);
@@ -9,10 +10,6 @@ export const DriverPaymentTr = (props) => {
   const [classNameTr, setClassNameTr] = useState("driverDebtMainTd");
   let elem = props.elem;
 
-  const getLocalDate = (date) => {
-    date = new Date(date);
-    return date.toLocaleDateString();
-  };
   const getDriverValueById = (id) => {
     let driver = driversList.find((item) => item._id == id);
     return driver.value;
@@ -46,7 +43,7 @@ export const DriverPaymentTr = (props) => {
   return (
     <React.Fragment>
       <tr className={classNameTr} onClick={handleClickTr}>
-        <td className="driverDebtMainTr">{getLocalDate(elem.date)}</td>
+        <td className="driverDebtMainTr">{dateLocal(elem.date)}</td>
         <td className="driverDebtMainTr">
           {getDriverValueById(elem.idDriver)}
         </td>

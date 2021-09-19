@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { DriverPaymentDebtTr } from "./driverPaymentDebtTr.jsx";
 import { DriverPaymentTr } from "./driverPaymentTr.jsx";
-import { getDataDriverDebt } from "../../actions/driverActions.js";
+import {
+  getDataDriverDebt,
+  makePaymentDriver,
+} from "../../actions/driverActions.js";
 import "./driverForms.sass";
 import { ObjIncludesId } from "../myLib/myLib.js";
 
@@ -23,6 +26,7 @@ export const DriverPaymentForm = () => {
   const [driverListWithoutPayment, setDriverListWithoutPayment] = useState([]);
   const [driverDebts, setDriverDebts] = useState([]);
   const [chosenDriver, setChosenDriver] = useState(null);
+  const [chosenDriverId, setChosenDriverId] = useState(null);
   const [showInputFieldDriver, setShowInputFieldDriver] = useState(true);
   const [currentDriverDebt, setCurrentDriverDebt] = useState(null);
   const [currentDriverSum, setCurrentDriverSum] = useState(null);
@@ -37,6 +41,7 @@ export const DriverPaymentForm = () => {
   const [showBtn, setShowBtn] = useState(false);
   const [choiceEnabled, setChoiceEnabled] = useState(false);
   const [partialDebt, setPartialDebt] = useState({ id: null, sum: null });
+  const [isDebtsChosen, setIsDebtsChosen] = useState(false);
 
   useEffect(() => {
     let arr = odersList.filter((elem) => elem.driverPayment != "Ок");
@@ -52,6 +57,11 @@ export const DriverPaymentForm = () => {
       arrObj.push(driver);
     });
     setDriverListWithoutPayment(arrObj);
+    if (chosenDriverId) {
+      console.log(chosenDriverId);
+      let arrDriver = arr.filter((elem) => elem.idDriver == chosenDriverId);
+      setFilteredOdersList(arrDriver);
+    }
   }, [odersList]);
 
   const setValue = (data) => {
@@ -71,6 +81,7 @@ export const DriverPaymentForm = () => {
       (sum, elem) => sum + Number(elem.sumOfDebt) - Number(elem.paidPartOfDebt),
       0
     );
+    setChosenDriverId(data._id);
     setChosenDriver(data.value);
     setShowInputFieldDriver(false);
     setCurrentDriverDebt(sumDebt);
@@ -129,6 +140,7 @@ export const DriverPaymentForm = () => {
         arrDebts[indexDebt].debtClosed = "частично";
         setDriverDebts(arrDebts);
         setShowBtn(true);
+        setIsDebtsChosen(true);
       }
     } else {
       if (partialDebt.id != debtId) {
@@ -146,14 +158,14 @@ export const DriverPaymentForm = () => {
         if (Number(arrDebts[indexDebt].paidPartOfDebt) == 0)
           arrDebts[indexDebt].debtClosed = "нет";
         setDriverDebts(arrDebts);
+        setIsDebtsChosen(false);
       }
       setShowBtn(false);
     }
     setChosenDebts(arr);
-
   };
   const handleClickBtn = () => {
-    console.log(chosenOders, chosenDebts, partialDebt);
+    dispatch(makePaymentDriver(chosenOders, chosenDebts));
   };
   return (
     <div className="driverPaymentMainDiv">
@@ -242,6 +254,7 @@ export const DriverPaymentForm = () => {
                       debtData={elem}
                       choiseDebts={choiseDebts}
                       choiceEnabled={choiceEnabled}
+                      isDebtsChosen={isDebtsChosen}
                     />
                   );
                 })}
