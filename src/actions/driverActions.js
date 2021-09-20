@@ -113,7 +113,11 @@ export const editDataDriverDebt = (data) => {
       });
   };
 };
-export const makePaymentDriver = (chosenOders, chosenDebts) => {
+export const makePaymentDriver = (
+  chosenOders,
+  chosenDebts,
+  currentDriverSumOfOders
+) => {
   return (dispatch) =>
     axios
       .patch(URL + "/makePaymentDriver", {
@@ -127,7 +131,12 @@ export const makePaymentDriver = (chosenOders, chosenDebts) => {
       })
       .then((res) => {
         return dispatch(
-          makePaymentDriverSuccess(res.data, chosenOders, chosenDebts)
+          makePaymentDriverSuccess(
+            res.data,
+            chosenOders,
+            chosenDebts,
+            currentDriverSumOfOders
+          )
         );
       })
       .catch((e) => {
@@ -137,12 +146,14 @@ export const makePaymentDriver = (chosenOders, chosenDebts) => {
 export const makePaymentDriverSuccess = (
   dataServer,
   chosenOders,
-  chosenDebts
+  chosenDebts,
+  currentDriverSumOfOders
 ) => ({
   type: MAKE_PAYMENT_DRIVER_SUCCESS,
   dataServer,
   chosenOders,
   chosenDebts,
+  currentDriverSumOfOders,
 });
 export const makePaymentDriverFailure = () => ({
   type: MAKE_PAYMENT_DRIVER_FAILURE,

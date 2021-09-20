@@ -58,6 +58,7 @@ export const DriverPaymentTr = (props) => {
         </td>
         <td className="driverDebtMainTr">{elem.driverPrice}</td>
         <td className="driverDebtMainTr">{elem.document}</td>
+        <td className="driverDebtMainTr">{elem.accountNumber}</td>
       </tr>
     </React.Fragment>
   );

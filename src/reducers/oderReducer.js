@@ -549,18 +549,37 @@ export const oderReducer = (store = initialStore, action) => {
     }
 
     case MAKE_PAYMENT_DRIVER_SUCCESS: {
-      let [...arrOders] = store.originOdersList;
+      let [...arrOriginOders] = store.originOdersList;
+      let [...arrOders] = store.odersList;
       let [...arrDebts] = store.driverDebtList;
+      let expenses = Number(store.expenses);
+      let sum = 0;
       action.chosenOders.forEach((elem) => {
-        let index = arrOders.findIndex((oder) => oder._id == elem);
+        let index = arrOriginOders.findIndex((oder) => oder._id == elem);
+        arrOriginOders[index].driverPayment = "Ок";
+        index = arrOders.findIndex((oder) => oder._id == elem);
         arrOders[index].driverPayment = "Ок";
       });
-      console.log(action.chosenDebts);
-      console.log(action.chosenOders);
+      action.chosenDebts.forEach((elem) => {
+        let index = arrDebts.findIndex((debt) => debt.id == elem.id);
+        let sumOfDebt = Number(arrDebts[index].sumOfDebt);
+        let paidPartOfDebt = Number(arrDebts[index].paidPartOfDebt);
+        sum = sum + elem.sum;
+        if (sumOfDebt > paidPartOfDebt + elem.sum) {
+          arrDebts[index].paidPartOfDebt = paidPartOfDebt + elem.sum;
+          arrDebts[index].debtClosed = "частично";
+        } else {
+          arrDebts[index].paidPartOfDebt = 0;
+          arrDebts[index].debtClosed = "Ок";
+        }
+      });
+      expenses = expenses + action.currentDriverSumOfOders - sum;
       return {
         ...store,
-        originOdersList: arrOders,
+        originOdersList: arrOriginOders,
+        odersList: arrOders,
         driverDebtList: arrDebts,
+        expenses: expenses,
       };
     }
 

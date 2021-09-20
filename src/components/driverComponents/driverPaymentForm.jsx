@@ -59,10 +59,15 @@ export const DriverPaymentForm = () => {
     setDriverListWithoutPayment(arrObj);
     if (chosenDriverId) {
       console.log(chosenDriverId);
-      let arrDriver = arr.filter((elem) => elem.idDriver == chosenDriverId);
-      setFilteredOdersList(arrDriver);
+      let arrOders = arr.filter((elem) => elem.idDriver == chosenDriverId);
+      setFilteredOdersList(arrOders);
+      let arrDebts = driverDebtList.filter(
+        (elem) => elem.idDriver == chosenDriverId && elem.debtClosed != "Ок"
+      );
+      setDriverDebts(arrDebts);
+      setSumOfChosenDebt(null);
     }
-  }, [odersList]);
+  }, [odersList, driverDebtList]);
 
   const setValue = (data) => {
     let arr = odersWithoutPayment.filter((elem) => elem.idDriver == data._id);
@@ -165,7 +170,15 @@ export const DriverPaymentForm = () => {
     setChosenDebts(arr);
   };
   const handleClickBtn = () => {
-    dispatch(makePaymentDriver(chosenOders, chosenDebts));
+    dispatch(
+      makePaymentDriver(chosenOders, chosenDebts, currentDriverSumOfOders)
+    );
+    setCurrentDriverSumOfDebts(null);
+    setSumOfChosenDebt(null);
+    setIsDebtsChosen(false);
+    setPartialDebt({ id: null, sum: null });
+    setChosenOders([]);
+    setChosenDebts([]);
   };
   return (
     <div className="driverPaymentMainDiv">
@@ -287,6 +300,9 @@ export const DriverPaymentForm = () => {
                 </td>
                 <td className="driverDebtMainHeaderTd">
                   <span>Документы</span>
+                </td>
+                <td className="driverDebtMainHeaderTd">
+                  <span>Номер акта</span>
                 </td>
               </tr>
             </thead>
