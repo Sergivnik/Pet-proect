@@ -114,6 +114,7 @@ export const editDataDriverDebt = (data) => {
   };
 };
 export const makePaymentDriver = (
+  idDriver,
   chosenOders,
   chosenDebts,
   currentDriverSumOfOders
@@ -125,6 +126,7 @@ export const makePaymentDriver = (
           "Content-Type": "application/json",
         },
         body: {
+          id: idDriver,
           chosenOders: chosenOders,
           chosenDebts: chosenDebts,
         },

@@ -171,7 +171,12 @@ export const DriverPaymentForm = () => {
   };
   const handleClickBtn = () => {
     dispatch(
-      makePaymentDriver(chosenOders, chosenDebts, currentDriverSumOfOders)
+      makePaymentDriver(
+        chosenDriverId,
+        chosenOders,
+        chosenDebts,
+        currentDriverSumOfOders
+      )
     );
     setCurrentDriverSumOfDebts(null);
     setSumOfChosenDebt(null);
