@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `pet_proect` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `pet_proect`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: pet_proect
@@ -88,7 +90,7 @@ CREATE TABLE `driverdebts` (
   `paidPartOfDebt` decimal(8,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,8 +99,38 @@ CREATE TABLE `driverdebts` (
 
 LOCK TABLES `driverdebts` WRITE;
 /*!40000 ALTER TABLE `driverdebts` DISABLE KEYS */;
-INSERT INTO `driverdebts` VALUES (1,'2021-08-05',234,'Топливо',10000.00,'нет','Рейс на Ставрополь',NULL),(2,'2021-08-09',206,'Пинк',3250.00,'нет','Алина',NULL),(3,'2021-07-07',187,'Аванс',5000.00,'нет','Кулебяки',NULL),(4,'2021-08-10',234,'Пинк',4500.00,'нет','РСМ',NULL),(5,'2021-08-04',234,'Пинк',4500.00,'нет','РСМ',NULL),(6,'2021-08-10',122,'Пинк',3250.00,'нет','Алина',0.00),(7,'2021-08-17',17,'Прочее',5000.00,'нет','',NULL),(8,'2021-08-11',216,'Пинк',1350.00,'нет','Алина',NULL),(9,'2021-08-10',17,'Прочее',1500.00,'нет','HCV',NULL),(10,'2021-08-17',122,'Пинк',1500.00,'частично','Алина',500.00),(11,'2021-08-17',187,'Пинк',2000.00,'Ок','РСМ',NULL),(12,'2021-08-17',17,'Прочее',5000.00,'Ок','',NULL),(14,'2021-08-12',1,'Прочее',3500.00,'частично','',NULL),(16,'2021-08-03',122,'Проценты',1250.00,'нет','Май 2021',NULL),(17,'2021-08-12',17,'Топливо',10000.00,'частично','Симферополь',NULL),(19,'2021-08-19',17,NULL,3500.00,'Ок','',NULL),(23,'2021-08-21',220,'Прочее',25000.00,'нет','Рассыпал лист',NULL),(24,'2021-08-12',157,'Прочее',3400.00,'нет','',NULL),(26,'2021-08-09',225,'Прочее',10000.00,'нет','',NULL);
+INSERT INTO `driverdebts` VALUES (1,'2021-08-05',234,'Топливо',10000.00,'нет','Рейс на Ставрополь',NULL),(2,'2021-08-09',206,'Пинк',3250.00,'нет','Алина',NULL),(3,'2021-07-07',187,'Аванс',5000.00,'нет','Кулебяки',NULL),(4,'2021-08-10',234,'Пинк',4500.00,'нет','РСМ',NULL),(5,'2021-08-04',234,'Пинк',4500.00,'нет','РСМ',NULL),(6,'2021-08-10',122,'Пинк',3250.00,'нет','Алина',0.00),(7,'2021-08-17',17,'Прочее',5000.00,'нет','',NULL),(8,'2021-08-11',216,'Пинк',1350.00,'нет','Алина',NULL),(9,'2021-08-10',17,'Прочее',1500.00,'нет','HCV',NULL),(10,'2021-08-17',122,'Пинк',1500.00,'частично','Алина',500.00),(11,'2021-08-17',187,'Пинк',2000.00,'Ок','РСМ',NULL),(12,'2021-08-17',17,'Прочее',5000.00,'Ок','',NULL),(14,'2021-08-12',1,'Прочее',3500.00,'частично','',NULL),(16,'2021-08-03',122,'Проценты',1250.00,'нет','Май 2021',NULL),(17,'2021-08-12',17,'Топливо',10000.00,'частично','Симферополь',NULL),(19,'2021-08-19',17,NULL,3500.00,'Ок','',NULL),(23,'2021-08-21',220,'Прочее',25000.00,'нет','Рассыпал лист',NULL),(24,'2021-08-12',157,'Прочее',3400.00,'нет','',NULL),(26,'2021-08-09',225,'Прочее',10000.00,'нет','',NULL),(27,'2021-09-18',122,'Пинк',2100.00,'нет','Пинк',NULL);
 /*!40000 ALTER TABLE `driverdebts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `driverpayment`
+--
+
+DROP TABLE IF EXISTS `driverpayment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `driverpayment` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
+  `idDriver` int DEFAULT NULL,
+  `sumOfPayment` decimal(8,2) DEFAULT NULL,
+  `listOfOders` json DEFAULT NULL,
+  `sumOfDebts` decimal(8,2) DEFAULT NULL,
+  `listOfDebts` json DEFAULT NULL,
+  `driverPaymentcol` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `driverpayment`
+--
+
+LOCK TABLES `driverpayment` WRITE;
+/*!40000 ALTER TABLE `driverpayment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `driverpayment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -209,4 +241,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-29 14:56:49
+-- Dump completed on 2021-09-24 12:07:29
