@@ -241,18 +241,18 @@ export const Oders = () => {
     }
   };
 
-  const handleDBLClick = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.target.localName === "td") {
-      let currentTR = event.target.parentElement;
-      setColNumber(event.target.cellIndex);
+  const handleDBLClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.target.localName === "td") {
+      let currentTR = e.target.parentElement;
+      setColNumber(e.target.cellIndex);
       currentTR.style.backgroundColor = "#fff";
     }
-    if (event.target.localName === "p") {
-      let currentTR = event.target.parentElement.parentElement.parentElement;
-      setColNumber(event.target.parentElement.parentElement.cellIndex);
-      setIndexCity(event.target.id);
+    if (e.target.localName === "p") {
+      let currentTR = e.target.parentElement.parentElement.parentElement;
+      setColNumber(e.target.parentElement.parentElement.cellIndex);
+      setIndexCity(e.target.id);
       currentTR.style.backgroundColor = "#fff";
     }
     setShowDelete(false);
@@ -262,13 +262,13 @@ export const Oders = () => {
   const handleClickDelete = () => {
     dispatch(delOder(trId));
   };
-
-  // const handleChange = (event) => {
-  //   console.log(event.target.value);
-  //setShowEdit(false);
-  //dispatch(editOder(trId, event.target.name, event.target.value));
-  // };
-
+/* 
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setShowEdit(false);
+    dispatch(editOder(trId, event.target.name, event.target.value));
+  };
+ */
   const handleEnter = (event) => {
     if (event.keyCode == 13) {
       if (

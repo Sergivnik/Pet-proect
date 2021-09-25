@@ -64,6 +64,9 @@ export const ChoiseList = (props) => {
       setShowSelect(false);
     }
   };
+  const handleClickInput =(e)=>{
+    //console.log(e);
+  }
 
   useEffect(() => {
     if (props.parent === "oders") {
@@ -77,6 +80,7 @@ export const ChoiseList = (props) => {
       <input
         type="text"
         id={props.name}
+        onClick={handleClickInput}
         onChange={getText}
         onKeyUp={handleKeyUp}
         value={text}

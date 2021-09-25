@@ -50,7 +50,7 @@ export const UserTr = (props) => {
       id={props.elem._id}
       onClick={props.handleClickTR}
       onMouseDown={(e) => {
-        e.preventDefault();
+        if (e.target.tagName === "TD") e.preventDefault();
       }}
     >
       {/* Column Data */}

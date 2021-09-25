@@ -129,6 +129,7 @@ export const makePaymentDriver = (
           id: idDriver,
           chosenOders: chosenOders,
           chosenDebts: chosenDebts,
+          currentDriverSumOfOders: currentDriverSumOfOders,
         },
       })
       .then((res) => {
