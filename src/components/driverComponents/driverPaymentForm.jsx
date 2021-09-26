@@ -101,6 +101,7 @@ export const DriverPaymentForm = () => {
       setSumOfChosenDebt(e.currentTarget.value);
       setShowInputFieldOfDebt(false);
       setChoiceEnabled(true);
+      if (e.currentTarget.value == 0) setShowBtn(true);
     }
   };
   const handleClickInputDebt = () => {
@@ -184,6 +185,7 @@ export const DriverPaymentForm = () => {
     setPartialDebt({ id: null, sum: null });
     setChosenOders([]);
     setChosenDebts([]);
+    setShowBtn(false);
   };
   return (
     <div className="driverPaymentMainDiv">
