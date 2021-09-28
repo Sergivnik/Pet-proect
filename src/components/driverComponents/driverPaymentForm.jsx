@@ -92,6 +92,12 @@ export const DriverPaymentForm = () => {
     setCurrentDriverDebt(sumDebt);
     setCurrentDriverSumOfOders(null);
     setShowDetailsOders(true);
+    setChosenOders([]);
+    setChosenDebts([]);
+    setSumOfChosenDebt(null);
+    setCurrentDriverSumOfDebts(null);
+    setIsDebtsChosen(false);
+    setShowInputFieldOfDebt(true);
     if (sumDebt != 0) {
       setShowDebts(true);
     } else setShowDebts(false);

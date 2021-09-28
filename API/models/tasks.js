@@ -50,7 +50,12 @@ var Tasks = {
       [data] = await db.query(
         `SELECT sum(driverPrice) as expenses FROM pet_proect.oderslist where driverPayment='Ок';`
       );
-      allData.expenses = data[0].expenses;
+      let driverPayment = data[0].expenses;
+      [data] = await db.query(
+        `SELECT sum(sumOfDebts) as debt FROM driverpayment`
+      );
+      let driverDebtReturn = data[0].debt;
+      allData.expenses = driverPayment - driverDebtReturn;
       [data] = await db.query(
         `SELECT distinct idCustomer FROM pet_proect.oderslist where customerPayment !="Ок"`
       );
