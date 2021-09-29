@@ -12,6 +12,8 @@ app.use(router);
 
 var loadData = require("./DB/loadData");
 // loadData.getData();
-
+// loadData.getCities();
+// loadData.getDrivers();
+// loadData.getCustomers();
 
 app.listen(3000, () => console.log("Example app listening on port 3000!"));

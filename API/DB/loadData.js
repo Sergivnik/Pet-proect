@@ -33,7 +33,7 @@ var LoadData = {
       (async () => {
         for (const elem of xlData) {
           i = elem.id;
-          dateOd = new Date(1900, 0, 1);
+          let dateOd = new Date(1900, 0, 1);
           dateOd.setDate(dateOd.getDate() + elem.Дата - 2);
           //dateOd = dateOd.toLocaleDateString();
           let Year = dateOd.getFullYear();
@@ -132,6 +132,66 @@ var LoadData = {
         }
       })();
     });
+  },
+  getCities: async function () {
+    var XLSX = require("xlsx");
+    var workbook = XLSX.readFile("./DB/Колдовство.xlsb");
+    var sheet_name_list = workbook.SheetNames;
+    var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[5]]);
+    console.log(xlData);
+    let i = 1;
+    let city;
+    const db = mysql.createPool(options).promise();
+    try {
+      for (const elem of xlData) {
+        console.log(elem.загрузки);
+        city = { _id: i, value: elem.загрузки };
+        await db.query("INSERT INTO cities SET ?", city);
+        i = i + 1;
+      }
+    } catch (err) {
+      console.log({ error: err });
+    }
+  },
+  getDrivers: async function () {
+    var XLSX = require("xlsx");
+    var workbook = XLSX.readFile("./DB/Колдовство.xlsb");
+    var sheet_name_list = workbook.SheetNames;
+    var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[3]]);
+    console.log(xlData);
+    let i = 1;
+    let driver;
+    const db = mysql.createPool(options).promise();
+    try {
+      for (const elem of xlData) {
+        console.log(elem.Колдун);
+        driver = { _id: i, value: elem.Колдун };
+        await db.query("INSERT INTO drivers SET ?", driver);
+        i = i + 1;
+      }
+    } catch (err) {
+      console.log({ error: err });
+    }
+  },
+  getCustomers: async function () {
+    var XLSX = require("xlsx");
+    var workbook = XLSX.readFile("./DB/Колдовство.xlsb");
+    var sheet_name_list = workbook.SheetNames;
+    var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[4]]);
+    console.log(xlData);
+    let i = 1;
+    let customer;
+    const db = mysql.createPool(options).promise();
+    try {
+      for (const elem of xlData) {
+        console.log(elem.Заказчик);
+        customer = { _id: i, value: elem.Заказчик };
+        await db.query("INSERT INTO oders SET ?", customer);
+        i = i + 1;
+      }
+    } catch (err) {
+      console.log({ error: err });
+    }
   },
 };
 module.exports = LoadData;
