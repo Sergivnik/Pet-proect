@@ -106,8 +106,8 @@ var LoadData = {
               DrPay = 0;
               break;
           }
-          if (elem.Номеракта != "") {
-            acNum = Number(elem.Номеракта);
+          if (elem.Номеракта != "" || elem.Номеракта != "бабло") {
+            acNum = elem.Номеракта;
           } else acNum = null;
           oder = {
             _id: i,
