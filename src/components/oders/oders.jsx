@@ -25,6 +25,9 @@ export const Oders = () => {
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
   const income = useSelector((state) => state.oderReducer.income);
   const expenses = useSelector((state) => state.oderReducer.expenses);
+  const filteredAccountList = useSelector(
+    (state) => state.oderReducer.filteredAccountList
+  );
 
   const [oders, setOders] = useState(odersList.slice(-1000));
 
@@ -161,7 +164,13 @@ export const Oders = () => {
         setFilterList(arr);
         break;
       case "AccountList":
-        arr.accountList = chosenList;
+        let tempArr=[];
+        console.log(filteredAccountList, chosenList);
+        chosenList.forEach(element => {
+          tempArr.push(filteredAccountList.find((item) => item._id == element));
+        });
+        console.log(tempArr);
+        arr.accountList = tempArr;
         setFilterList(arr);
         break;
       default:

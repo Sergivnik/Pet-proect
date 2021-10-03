@@ -145,7 +145,15 @@ var Tasks = {
       filterArr[11] = `driverPayment in (${datafilter.driverPayment})`;
     }
     if (datafilter.accountList.length) {
-      filterArr[12] = `accountNumber in (${datafilter.accountList})`;
+      let accountStr = "";
+      datafilter.accountList.forEach((elem) => {
+        if (accountStr == "") {
+          accountStr = `"${elem.value}"`;
+        } else {
+          accountStr = accountStr + `, "${elem.value}"`;
+        }
+      });
+      filterArr[12] = `accountNumber in (${accountStr})`;
     }
 
     filterArr.forEach((str, index) => {

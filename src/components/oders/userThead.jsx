@@ -35,15 +35,15 @@ export const UserThead = (props) => {
   );
 
   useEffect(() => {
-    let sumC = 0
-    let sumD = 0
-    odersList.forEach(element => {
+    let sumC = 0;
+    let sumD = 0;
+    odersList.forEach((element) => {
       sumC = sumC + Number(element.customerPrice);
       sumD = sumD + Number(element.driverPrice);
     });
     setSumCustomer(Math.floor(sumC * 100) / 100);
     setSumDriver(Math.floor(sumD * 100) / 100);
-  }, [odersList])
+  }, [odersList]);
 
   const handleClickFilter = (e) => {
     setShowFilter(true);
@@ -51,6 +51,12 @@ export const UserThead = (props) => {
   };
 
   const closeFilter = () => setShowFilter(false);
+
+  const getIdOnly = (arrObj) => {
+    let arrId = [];
+    arrObj.forEach((elem) => arrId.push(elem._id));
+    return arrId;
+  };
 
   return (
     <thead>
@@ -340,7 +346,7 @@ export const UserThead = (props) => {
             <FilterList
               name="AccountList"
               arrlist={filteredAccountList}
-              filterList={props.filterList.accountList}
+              filterList={getIdOnly(props.filterList.accountList)}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}
             />

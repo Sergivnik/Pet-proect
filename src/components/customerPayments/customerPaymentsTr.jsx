@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 export const CustomerPaymentsTr = (props) => {
   const clientList = useSelector((state) => state.oderReducer.clientList);
-  const odersList = useSelector((state) => state.oderReducer.odersList);
+  const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const driversList = useSelector((state) => state.oderReducer.driverlist);
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
 
