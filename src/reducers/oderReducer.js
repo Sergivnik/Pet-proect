@@ -26,6 +26,10 @@ import {
   EDIT_DATA_DRIVER_DEBT_SUCCESS,
   MAKE_PAYMENT_DRIVER_SUCCESS,
 } from "../actions/driverActions.js";
+import {
+  GET_DATA_CONSTRACTORS_SUCCESS,
+  GET_DATA_CONSTRACTORS_FAILURE,
+} from "../actions/constractorActions.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {

@@ -112,7 +112,7 @@ export const DriverDebtForm = () => {
         if (elem != null) {
           let obj = categoryList.find((item) => item.value == elem);
           arrObj.push(obj);
-        } 
+        }
       });
       setCategoryFilterList(arrObj);
       arrObj = [];
@@ -163,7 +163,7 @@ export const DriverDebtForm = () => {
             );
             if (categoryValue.value == elem.category) checkCategory = true;
           });
-        }else checkCategory = true;
+        } else checkCategory = true;
         if (filterList.sumOfDebt.length != 0) {
           filterList.sumOfDebt.forEach((sumId) => {
             let sumValue = fullSumList.find((item) => item._id == sumId);
@@ -249,7 +249,7 @@ export const DriverDebtForm = () => {
         if (elem != null) {
           let obj = categoryList.find((item) => item.value == elem);
           arrObj.push(obj);
-        } 
+        }
       });
       setCategoryFilterList(arrObj);
       arrObj = [];

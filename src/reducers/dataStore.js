@@ -34,4 +34,6 @@ export const initialStore = {
     error: null,
   },
   driverDebtList: [],
+  constractorsList: [],
+  constractorsPayments: [],
 };

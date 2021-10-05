@@ -7,6 +7,7 @@ import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.
 import { CustomerPayments } from "../customerPayments/customerPayments.jsx";
 import { DriverPaymentForm } from "../driverComponents/driverPaymentForm.jsx";
 import { DriverDebtForm } from "../driverComponents/driverDebtForm.jsx";
+import { ConstractorsPayments } from "../contractors/contractorsPayments.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
@@ -67,10 +68,9 @@ export const Oders = () => {
       (sum, item) => sum + Number(item.extraPayments),
       0
     );
-    setSumAccount(
-      Math.floor((Number(income) - Number(expenses) + addSum) * 100) / 100 -
-        35916024.96
-    );
+    let sum =
+      Math.floor((Number(income) - Number(expenses) + addSum - 35916105.12) * 100) / 100;
+    setSumAccount(sum);
   }, [income, expenses]);
 
   const [coord, setCoord] = useState({ left: 0, top: 0 });
@@ -164,9 +164,9 @@ export const Oders = () => {
         setFilterList(arr);
         break;
       case "AccountList":
-        let tempArr=[];
+        let tempArr = [];
         console.log(filteredAccountList, chosenList);
-        chosenList.forEach(element => {
+        chosenList.forEach((element) => {
           tempArr.push(filteredAccountList.find((item) => item._id == element));
         });
         console.log(tempArr);
@@ -271,7 +271,7 @@ export const Oders = () => {
   const handleClickDelete = () => {
     dispatch(delOder(trId));
   };
-/* 
+  /* 
   const handleChange = (event) => {
     console.log(event.target.value);
     setShowEdit(false);
@@ -360,7 +360,7 @@ export const Oders = () => {
       if (btnClick == "otherPay") {
         setWindowHeader("Прочие расходы");
         setShowWindow(true);
-        setChildren(<p>Прочие расходы</p>);
+        setChildren(<ConstractorsPayments/>);
       }
     }
   };

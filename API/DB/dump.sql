@@ -44,6 +44,58 @@ INSERT INTO `cities` VALUES (1,'10-й переулок'),(2,'11-й цех'),(3,'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `constractorspayments`
+--
+
+DROP TABLE IF EXISTS `constractorspayments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `constractorspayments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idContractor` int DEFAULT NULL,
+  `sum` decimal(8,2) DEFAULT NULL,
+  `category` enum('1','2','3') DEFAULT NULL,
+  `addInfo` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `constractorspayments`
+--
+
+LOCK TABLES `constractorspayments` WRITE;
+/*!40000 ALTER TABLE `constractorspayments` DISABLE KEYS */;
+INSERT INTO `constractorspayments` VALUES (1,5,5000.00,'2','Карта'),(2,1,14000.00,'1','Офис');
+/*!40000 ALTER TABLE `constractorspayments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contractors`
+--
+
+DROP TABLE IF EXISTS `contractors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contractors` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `value` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `value_UNIQUE` (`value`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contractors`
+--
+
+LOCK TABLES `contractors` WRITE;
+/*!40000 ALTER TABLE `contractors` DISABLE KEYS */;
+INSERT INTO `contractors` VALUES (5,'Карта'),(2,'Картридж'),(1,'Оптима-Ленд'),(3,'Почта'),(4,'Ростелеком');
+/*!40000 ALTER TABLE `contractors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `customerpayment`
 --
 
@@ -241,4 +293,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-02 17:28:57
+-- Dump completed on 2021-10-05 16:21:32
