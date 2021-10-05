@@ -1,7 +1,8 @@
 var tasks = require("../models/tasks.js");
 var tasksPayments = require("../models/tasksPayments.js");
 var tasksDebt = require("../models/tasksDriverDebts.js");
-var taskPaymentsDriver = require("../models/taskPaymentsDriver");
+var taskPaymentsDriver = require("../models/taskPaymentsDriver.js");
+var taskContractors = require("../models/taskContractor.js")
 
 module.exports.taskGet = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -36,6 +37,18 @@ module.exports.taskGetDebts = (req, res) => {
     }
   });
 };
+module.exports.taskGetContractors = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  taskContractors.list((data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
+
 
 module.exports.taskGetFilter = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");

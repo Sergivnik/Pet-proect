@@ -586,6 +586,10 @@ export const oderReducer = (store = initialStore, action) => {
         expenses: expenses,
       };
     }
+    case GET_DATA_CONSTRACTORS_SUCCESS: {
+      console.log(action.dataServer);
+      return { ...store };
+    }
 
     default:
       return store;

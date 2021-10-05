@@ -7,5 +7,13 @@ export const ConstractorsPayments = () => {
   const constractorsList = useSelector(
     (state) => state.oderReducer.constractorsList
   );
-  return <div>Other spends</div>;
+  const constractorsPayments = useSelector(
+    (state) => state.oderReducer.constractorsPayments
+  );
+  
+  useEffect(() => {
+    dispatch(getDataConstractorst());
+  }, [dispatch]);
+
+  return <div>Other spends{constractorsPayments}{constractorsList}</div>;
 };
