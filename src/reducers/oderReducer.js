@@ -588,7 +588,11 @@ export const oderReducer = (store = initialStore, action) => {
     }
     case GET_DATA_CONSTRACTORS_SUCCESS: {
       console.log(action.dataServer);
-      return { ...store };
+      return {
+        ...store,
+        constractorsList: action.dataServer.contractors,
+        constractorsPayments: action.dataServer.contractorsPayments,
+      };
     }
 
     default:

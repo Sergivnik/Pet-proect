@@ -35,5 +35,5 @@ export const initialStore = {
   },
   driverDebtList: [],
   constractorsList: [],
-  constractorsPayments: ["hi", "hello"],
+  constractorsPayments: [],
 };
