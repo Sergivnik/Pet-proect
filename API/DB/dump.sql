@@ -51,9 +51,9 @@ DROP TABLE IF EXISTS `contractors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `contractors` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `_id` int NOT NULL AUTO_INCREMENT,
   `value` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`_id`),
   UNIQUE KEY `value_UNIQUE` (`value`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -294,4 +294,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-06 16:39:52
+-- Dump completed on 2021-10-07 17:59:09

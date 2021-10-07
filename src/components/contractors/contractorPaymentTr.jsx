@@ -10,7 +10,7 @@ export const ContractorPaymentTr = (props) => {
   let elem = props.paymentData;
 
   const findValueById = (id)=>{
-   let value = constractorsList.find((elem) => elem.id == id);
+   let value = constractorsList.find((elem) => elem._id == id);
    if (value != undefined) {
      return value.value;
    } else {

@@ -23,7 +23,10 @@ export const ConstractorsPayments = () => {
   const handleClickFilter = () => {};
 
   const handleClickAdd = () => {
-    setShowAddForm(!showAddForm);
+    setShowAddForm(true);
+  };
+  const handleClickCross = () => {
+    setShowAddForm(false);
   };
 
   return (
@@ -132,7 +135,12 @@ export const ConstractorsPayments = () => {
         </table>
       </div>
       <button onClick={handleClickAdd}>Добавить</button>
-      {showAddForm && <ContractorAddForm/>}
+      {showAddForm && (
+        <ContractorAddForm
+          clickCross={handleClickCross}
+          constractorsList={constractorsList}
+        />
+      )}
     </div>
   );
 };

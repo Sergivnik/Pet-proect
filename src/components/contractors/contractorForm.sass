@@ -1,3 +1,4 @@
+$delay: .5s
 .contrPayMainDiv
    height: 100%
    border: 1px solid #000
@@ -43,12 +44,61 @@
    text-align: center
 .contrPayAddDiv
    position: absolute
-   width: 10%
-   height: 10%
-   background-color: #695e2f
+   background-color: #e9d68c
    border: 1px solid #000
-   top: 45%
-   left: 45%
-   opacity: 0.1
    transition-property: width, height, top, left, opacity
-   transition-duration: 2s
+   transition-duration: $delay
+.contrPaySmallSize
+   width: 20%
+   height: 20%
+   top: 40%
+   left: 40%
+   opacity: 0.1
+   font-size: 6.5px
+.contrPayNormalSize
+   width: 80%
+   height: 50%
+   top: 25%
+   left: 10%
+   font-size: 20px
+   opacity: 0.95
+.contrPayAddHeader
+   display: flex
+   border: 1px solid #000
+   background-color: #bbac73
+   text-align: center
+   transition-property: font-size
+   transition-duration: $delay
+.contrPayAddHeaderText
+   width: 95%
+.contrPayAddHeaderClose
+   width: 5%
+.contrPayAddHeaderCloseSvgSmall
+   width: 10px
+   height: 10px
+   transition-property: width, height
+   transition-duration: $delay
+.contrPayAddHeaderCloseSvgNormall
+   width: 20px
+   height: 20px
+   transition-property: width, height
+   transition-duration: $delay
+.contrPayAddMain
+   display: flex
+.contrPayAddMainDiv
+   padding: 2%
+   max-width: 20%
+   height: max-content
+   transition-property: font-size
+   transition-duration: $delay
+.contrPayInput
+   border: none
+   padding: 0
+   width: 90%
+   height: 18px
+   transition-property: font-size
+   transition-duration: $delay
+.contrPayAddFontSizeSmall
+   font-size: 5px
+.contrPayAddFontSizeNormal
+   font-size: 16px
