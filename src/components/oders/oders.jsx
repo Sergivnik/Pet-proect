@@ -7,7 +7,7 @@ import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.
 import { CustomerPayments } from "../customerPayments/customerPayments.jsx";
 import { DriverPaymentForm } from "../driverComponents/driverPaymentForm.jsx";
 import { DriverDebtForm } from "../driverComponents/driverDebtForm.jsx";
-import { ConstractorsPayments } from "../contractors/contractorsPayments.jsx";
+import { ContractorsPayments } from "../contractors/contractorsPayments.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
@@ -360,7 +360,7 @@ export const Oders = () => {
       if (btnClick == "otherPay") {
         setWindowHeader("Прочие расходы");
         setShowWindow(true);
-        setChildren(<ConstractorsPayments/>);
+        setChildren(<ContractorsPayments/>);
       }
     }
   };

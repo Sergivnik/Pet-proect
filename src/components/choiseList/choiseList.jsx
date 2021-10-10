@@ -64,9 +64,9 @@ export const ChoiseList = (props) => {
       setShowSelect(false);
     }
   };
-  const handleClickInput =(e)=>{
+  const handleClickInput = (e) => {
     //console.log(e);
-  }
+  };
 
   useEffect(() => {
     if (props.parent === "oders") {
@@ -85,6 +85,7 @@ export const ChoiseList = (props) => {
         onKeyUp={handleKeyUp}
         value={text}
         className="inputList"
+        autoComplete ="off"
       />
       {showSelect && (
         <select

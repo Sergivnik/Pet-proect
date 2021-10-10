@@ -27,9 +27,11 @@ import {
   MAKE_PAYMENT_DRIVER_SUCCESS,
 } from "../actions/driverActions.js";
 import {
-  GET_DATA_CONSTRACTORS_SUCCESS,
-  GET_DATA_CONSTRACTORS_FAILURE,
-} from "../actions/constractorActions.js";
+  GET_DATA_CONTRACTORS_SUCCESS,
+  GET_DATA_CONTRACTORS_FAILURE,
+  ADD_DATA_CONTRACTORS_SUCCESS,
+  ADD_DATA_CONTRACTORS_FAILURE,
+} from "../actions/contractorActions.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
@@ -586,14 +588,26 @@ export const oderReducer = (store = initialStore, action) => {
         expenses: expenses,
       };
     }
-    case GET_DATA_CONSTRACTORS_SUCCESS: {
-      console.log(action.dataServer);
+    case GET_DATA_CONTRACTORS_SUCCESS: {
       return {
         ...store,
-        constractorsList: action.dataServer.contractors,
-        constractorsPayments: action.dataServer.contractorsPayments,
+        contractorsList: action.dataServer.contractors,
+        contractorsPayments: action.dataServer.contractorsPayments,
       };
     }
+    case ADD_DATA_CONTRACTORS_SUCCESS:
+      console.log(action.dataServer, action.data);
+      let expenses = Number(store.expenses);
+      let [...arrContractorsList] = store.contractorsPayments;
+      let { ...contractorPayment } = action.data;
+      contractorPayment.id = action.dataServer;
+      expenses = Number(expenses) + Number(action.data.sum);
+      arrContractorsList.push(contractorPayment);
+      return {
+        ...store,
+        expenses: expenses,
+        contractorsList: arrContractorsList,
+      };
 
     default:
       return store;

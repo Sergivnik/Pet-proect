@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getDataConstractorst } from "../../actions/constractorActions.js";
+import {
+  getDataContractors,
+  addDataContractorPayment,
+} from "../../actions/contractorActions.js";
 import { ContractorPaymentTr } from "./contractorPaymentTr.jsx";
 import { ContractorAddForm } from "./contractorPaymentAddForm.jsx";
 import "./contractorForm.sass";
 
-export const ConstractorsPayments = () => {
+export const ContractorsPayments = () => {
   const dispatch = useDispatch();
-  const constractorsList = useSelector(
-    (state) => state.oderReducer.constractorsList
+  const contractorsList = useSelector(
+    (state) => state.oderReducer.contractorsList
   );
-  const constractorsPayments = useSelector(
-    (state) => state.oderReducer.constractorsPayments
+  const contractorsPayments = useSelector(
+    (state) => state.oderReducer.contractorsPayments
   );
 
   const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
-    dispatch(getDataConstractorst());
+    dispatch(getDataContractors());
   }, [dispatch]);
 
   const handleClickFilter = () => {};
@@ -27,6 +30,10 @@ export const ConstractorsPayments = () => {
   };
   const handleClickCross = () => {
     setShowAddForm(false);
+  };
+  const handleClickAddPayment = (paymentsData) => {
+    setShowAddForm(false);
+    dispatch(addDataContractorPayment(paymentsData));
   };
 
   return (
@@ -128,7 +135,7 @@ export const ConstractorsPayments = () => {
             </tr>
           </thead>
           <tbody>
-            {constractorsPayments.map((elem) => {
+            {contractorsPayments.map((elem) => {
               return <ContractorPaymentTr key={elem.id} paymentData={elem} />;
             })}
           </tbody>
@@ -138,7 +145,8 @@ export const ConstractorsPayments = () => {
       {showAddForm && (
         <ContractorAddForm
           clickCross={handleClickCross}
-          constractorsList={constractorsList}
+          contractorsList={contractorsList}
+          handleClickAdd={handleClickAddPayment}
         />
       )}
     </div>

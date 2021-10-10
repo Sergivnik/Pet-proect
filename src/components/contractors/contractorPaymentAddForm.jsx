@@ -13,6 +13,14 @@ export const ContractorAddForm = (props) => {
     "contrPayInput contrPayAddFontSizeSmall"
   );
 
+  const [paymentsData, setPaymentsData] = useState({
+    idContractor: null,
+    date: null,
+    sum: null,
+    category: null,
+    addInfo: null,
+  });
+
   useEffect(() => {
     setClassMainDiv("contrPayAddDiv contrPayNormalSize");
     setClassCrossSvg("contrPayAddHeaderCloseSvgNormall");
@@ -26,7 +34,22 @@ export const ContractorAddForm = (props) => {
     setTimeout(props.clickCross, 500);
   };
 
-  const setValue = () => {};
+  const setValue = (e) => {
+    let { ...obj } = paymentsData;
+    if (e.target.name == "date") obj.date = e.target.value;
+    if (e.target.name == "sum") obj.sum = e.target.value;
+    if (e.target.name == "addInfo") obj.addInfo = e.target.value;
+    setPaymentsData(obj);
+  };
+  const setValueFromList = (data) => {
+    let { ...obj } = paymentsData;
+    if (data.field == "contractor") obj.idContractor = data._id;
+    if (data.field == "tax") obj.category = data._id;
+    setPaymentsData(obj);
+  };
+  const handleClickAdd = () => {
+    props.handleClickAdd(paymentsData);
+  };
   return (
     <div className={classMainDiv}>
       <header className="contrPayAddHeader">
@@ -55,20 +78,30 @@ export const ContractorAddForm = (props) => {
       <main className="contrPayAddMain">
         <div className="contrPayAddMainDiv">
           <span>Дата платежа</span>
-          <input className={classInput} type="date" />
+          <input
+            className={classInput}
+            name="date"
+            type="date"
+            onBlur={setValue}
+          />
         </div>
         <div className="contrPayAddMainDiv">
           <span>Контрагент</span>
           <ChoiseList
             className="contrPayAddMainDiv"
             name="contractor"
-            arrlist={props.constractorsList}
-            setValue={setValue}
+            arrlist={props.contractorsList}
+            setValue={setValueFromList}
           />
         </div>
         <div className="contrPayAddMainDiv">
           <span>Сумма</span>
-          <input className={classInput} type="number" />
+          <input
+            className={classInput}
+            name="sum"
+            type="number"
+            onBlur={setValue}
+          />
         </div>
         <div className="contrPayAddMainDiv">
           <span>Учет в налогах</span>
@@ -79,14 +112,20 @@ export const ContractorAddForm = (props) => {
               { _id: 1, value: "Да" },
               { _id: 2, value: "нет" },
             ]}
-            setValue={setValue}
+            setValue={setValueFromList}
           />
         </div>
         <div className="contrPayAddMainDiv">
           <span>Примечание</span>
-          <input className={classInput} type="text" />
+          <input
+            className={classInput}
+            name="addInfo"
+            type="text"
+            onBlur={setValue}
+          />
         </div>
       </main>
+      <button onClick={handleClickAdd}>Добавить</button>
     </div>
   );
 };

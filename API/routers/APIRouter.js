@@ -6,7 +6,7 @@ const API = require("../controlers/API.js");
 router.get("/data", API.taskGet);
 router.get("/dataPayments", API.taskGetPayments);
 router.get("/dataDriverDebt", API.taskGetDebts);
-router.get("/dataConstractors", API.taskGetContractors);
+router.get("/dataContractors", API.taskGetContractors);
 
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
@@ -20,6 +20,7 @@ router.patch("/makePaymentCustomer", API.makePaymentCustomer);
 router.patch("/addDataDriverDebt", API.makeDriverDebt);
 router.patch("/editDriverDebt", API.editDriverDebt);
 router.patch("/makePaymentDriver", API.makePaymentDriver);
+router.patch("/addDataContractorPayment", API.addDataContractorPayment);
 
 router.delete("/:id", API.taskDel);
 router.delete("/deleteDataPatmenrs/:id", API.taskDeletePayments);

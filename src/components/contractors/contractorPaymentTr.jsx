@@ -4,13 +4,13 @@ import "./contractorForm.sass";
 import { dateLocal } from "../myLib/myLib";
 
 export const ContractorPaymentTr = (props) => {
-  const constractorsList = useSelector(
-    (state) => state.oderReducer.constractorsList
+  const contractorsList = useSelector(
+    (state) => state.oderReducer.contractorsList
   );
   let elem = props.paymentData;
 
   const findValueById = (id)=>{
-   let value = constractorsList.find((elem) => elem._id == id);
+   let value = contractorsList.find((item) => item._id == id);
    if (value != undefined) {
      return value.value;
    } else {
@@ -20,7 +20,7 @@ export const ContractorPaymentTr = (props) => {
   return (
     <tr>
       <td className="contrPayBodyTr">{dateLocal(elem.date)}</td>
-      <td className="contrPayBodyTr">{findValueById(elem.idContractor, constractorsList)}</td>
+      <td className="contrPayBodyTr">{findValueById(elem.idContractor)}</td>
       <td className="contrPayBodyTr">{elem.sum}</td>
       <td className="contrPayBodyTr">{elem.category}</td>
       <td className="contrPayBodyTr">{elem.addInfo}</td>
