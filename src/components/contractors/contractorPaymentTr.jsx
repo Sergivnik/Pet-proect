@@ -8,6 +8,12 @@ export const ContractorPaymentTr = (props) => {
     (state) => state.oderReducer.contractorsList
   );
   let elem = props.paymentData;
+  let now= new Date();
+  let date = new Date(elem.date);
+  let contrPayBodyTr="";
+  if (date > now) {
+    contrPayBodyTr = "contrPayBodyTr";
+  }
 
   const findValueById = (id)=>{
    let value = contractorsList.find((item) => item._id == id);
@@ -18,12 +24,12 @@ export const ContractorPaymentTr = (props) => {
    }
   }
   return (
-    <tr>
-      <td className="contrPayBodyTr">{dateLocal(elem.date)}</td>
-      <td className="contrPayBodyTr">{findValueById(elem.idContractor)}</td>
-      <td className="contrPayBodyTr">{elem.sum}</td>
-      <td className="contrPayBodyTr">{elem.category}</td>
-      <td className="contrPayBodyTr">{elem.addInfo}</td>
+    <tr className={contrPayBodyTr}>
+      <td className="contrPayBodyTd">{dateLocal(elem.date)}</td>
+      <td className="contrPayBodyTd">{findValueById(elem.idContractor)}</td>
+      <td className="contrPayBodyTd">{elem.sum}</td>
+      <td className="contrPayBodyTd">{elem.category}</td>
+      <td className="contrPayBodyTd">{elem.addInfo}</td>
     </tr>
   );
 };

@@ -13,15 +13,30 @@ export const ContractorsPayments = () => {
   const contractorsList = useSelector(
     (state) => state.oderReducer.contractorsList
   );
-  const contractorsPayments = useSelector(
+  const contractorsPaymentsFull = useSelector(
     (state) => state.oderReducer.contractorsPayments
   );
+  const [contractorsPayments, setContractorsPayments] = useState([]);
 
   const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
     dispatch(getDataContractors());
   }, [dispatch]);
+  useEffect(() => {
+    let length = contractorsPaymentsFull.length;
+    if (length > 200) {
+      setContractorsPayments(
+        contractorsPaymentsFull.slice(length - 200, length)
+      );
+    } else {
+      setContractorsPayments(contractorsPaymentsFull);
+    }
+  }, [contractorsPaymentsFull]);
+  useEffect(() => {
+    let div = document.getElementsByClassName("contrPayTableDiv")[0];
+    div.scrollTop = div.scrollHeight;
+  }, [contractorsPayments]);
 
   const handleClickFilter = () => {};
 
