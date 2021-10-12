@@ -598,15 +598,15 @@ export const oderReducer = (store = initialStore, action) => {
     case ADD_DATA_CONTRACTORS_SUCCESS:
       console.log(action.dataServer, action.data);
       let expenses = Number(store.expenses);
-      let [...arrContractorsList] = store.contractorsPayments;
+      let [...arrContractorsPayment] = store.contractorsPayments;
       let { ...contractorPayment } = action.data;
       contractorPayment.id = action.dataServer;
       expenses = Number(expenses) + Number(action.data.sum);
-      arrContractorsList.push(contractorPayment);
+      arrContractorsPayment.push(contractorPayment);
       return {
         ...store,
         expenses: expenses,
-        contractorsList: arrContractorsList,
+        contractorsPayments: arrContractorsPayment,
       };
 
     default:

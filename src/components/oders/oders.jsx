@@ -69,7 +69,7 @@ export const Oders = () => {
       0
     );
     let sum =
-      Math.floor((Number(income) - Number(expenses) + addSum - 35916105.12) * 100) / 100;
+      Math.floor((Number(income) - Number(expenses) + addSum ) * 100) / 100;
     setSumAccount(sum);
   }, [income, expenses]);
 

@@ -193,6 +193,68 @@ var LoadData = {
       console.log({ error: err });
     }
   },
+  getExpenses: async function () {
+    var XLSX = require("xlsx");
+    var workbook = XLSX.readFile("./DB/Колдовство.xlsb");
+    var sheet_name_list = workbook.SheetNames;
+    var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[6]]);
+    console.log(xlData);
+    let i = 1;
+    const db = mysql.createPool(options).promise();
+    try {
+      for (const elem of xlData) {
+        let dateEx = new Date(1900, 0, 1);
+        dateEx.setDate(dateEx.getDate() + elem.Дата - 2);
+        let Year = dateEx.getFullYear();
+        let Month = dateEx.getMonth() + 1;
+        let Day = dateEx.getDate();
+        dateEx = `${Year}-${Month}-${Day}`;
+        let addInfo = "";
+        if (elem.Получатель == undefined) {
+          addInfo = "";
+        } else {
+          addInfo = elem.Получатель;
+        }
+        if (elem.Расходы1 != undefined) {
+          let expens = {
+            id: i,
+            date: dateEx,
+            sum: elem.Расходы1,
+            category: 1,
+            addInfo: addInfo,
+          };
+          i = i + 1;
+          await db.query("INSERT INTO contractorspayments SET ?", expens);
+        }
+        if (elem.Расходы2 != undefined) {
+          let expens = {
+            id: i,
+            idContractor:5,
+            date: dateEx,
+            sum: elem.Расходы2,
+            category: 2,
+            addInfo: addInfo,
+          };
+          i = i + 1;
+          await db.query("INSERT INTO contractorspayments SET ?", expens);
+        }
+        if (elem.Расходы3 != undefined) {
+          let expens = {
+            id: i,
+            idContractor:5,
+            date: dateEx,
+            sum: elem.Расходы3,
+            category: 2,
+            addInfo: addInfo,
+          };
+          i = i + 1;
+          await db.query("INSERT INTO contractorspayments SET ?", expens);
+        }
+      }
+    } catch (err) {
+      console.log({ error: err });
+    }
+  },
 };
 module.exports = LoadData;
 
