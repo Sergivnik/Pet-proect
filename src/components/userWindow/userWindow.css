@@ -1,0 +1,53 @@
+.userWindowDiv {
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 1200px;
+  border: 1px solid #000;
+  z-index: 25;
+  background-color: white;
+  height: 70vh;
+  opacity: 0.1;
+  -webkit-transition-property: opacity;
+  transition-property: opacity;
+  -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s;
+}
+
+.userWindowHeader {
+  border: 1px solid #000;
+  background-color: #6462623b;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.userWindowHeaderName {
+  width: 97%;
+}
+
+.userWindowHeaderClose {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 6%;
+}
+
+.unselected {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+rect {
+  -webkit-transform-origin: center;
+          transform-origin: center;
+}
+/*# sourceMappingURL=userWindow.css.map */

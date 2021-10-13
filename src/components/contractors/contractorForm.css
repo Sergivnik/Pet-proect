@@ -1,0 +1,168 @@
+.contrPayMainDiv {
+  height: 100%;
+  border: 1px solid #000;
+  background-color: #eee29d;
+  position: relative;
+}
+
+.contrPayTableDiv {
+  height: 80%;
+  overflow-y: auto;
+}
+
+.contrPayMainTable {
+  border: 1px solid #000;
+  background-color: #d4a3383b;
+  width: 100%;
+  margin: auto;
+  border-collapse: collapse;
+}
+
+.contrPayMainHeader {
+  background-color: #ccc;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  vertical-align: top;
+  min-width: 82px;
+  border: 1px solid #000;
+  width: auto;
+  text-align: center;
+  height: 20px;
+  font-size: 18px;
+}
+
+.contrPayMainHeaderTr {
+  width: 97%;
+}
+
+.contrPayMainHeaderTd {
+  position: relative;
+  border: 1px solid #000;
+}
+
+.contrPayHeaderFilter {
+  border: none;
+  background: #ccc0;
+  outline: none;
+  width: 25px;
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.contrPayBodyTd {
+  border: 1px solid #000;
+  text-align: center;
+}
+
+.contrPayBodyTr {
+  background-color: #f2eccd;
+}
+
+.contrPayAddDiv {
+  position: absolute;
+  background-color: #e9d68c;
+  border: 1px solid #000;
+  -webkit-transition-property: width, height, top, left, opacity;
+  transition-property: width, height, top, left, opacity;
+  -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s;
+}
+
+.contrPaySmallSize {
+  width: 20%;
+  height: 20%;
+  top: 40%;
+  left: 40%;
+  opacity: 0.1;
+  font-size: 6.5px;
+}
+
+.contrPayNormalSize {
+  width: 80%;
+  height: 50%;
+  top: 25%;
+  left: 10%;
+  font-size: 20px;
+  opacity: 0.95;
+}
+
+.contrPayAddHeader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid #000;
+  background-color: #bbac73;
+  text-align: center;
+  -webkit-transition-property: font-size;
+  transition-property: font-size;
+  -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s;
+}
+
+.contrPayAddHeaderText {
+  width: 95%;
+}
+
+.contrPayAddHeaderClose {
+  width: 5%;
+}
+
+.contrPayAddHeaderCloseSvgSmall {
+  width: 10px;
+  height: 10px;
+  -webkit-transition-property: width, height;
+  transition-property: width, height;
+  -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s;
+}
+
+.contrPayAddHeaderCloseSvgNormall {
+  width: 20px;
+  height: 20px;
+  -webkit-transition-property: width, height;
+  transition-property: width, height;
+  -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s;
+}
+
+.contrPayAddMain {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.contrPayAddMainDiv {
+  padding: 2%;
+  max-width: 20%;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  -webkit-transition-property: font-size;
+  transition-property: font-size;
+  -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s;
+}
+
+.contrPayInput {
+  border: none;
+  padding: 0;
+  width: 90%;
+  height: 18px;
+  -webkit-transition-property: font-size;
+  transition-property: font-size;
+  -webkit-transition-duration: 0.5s;
+          transition-duration: 0.5s;
+}
+
+.contrPayAddFontSizeSmall {
+  font-size: 5px;
+}
+
+.contrPayAddFontSizeNormal {
+  font-size: 16px;
+}
+/*# sourceMappingURL=contractorForm.css.map */

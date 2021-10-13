@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,aAAa,CAAC;EACX,gBAAgB,EAAE,IAAI;CAAG;;AAC5B,AAAA,WAAW,CAAC;EACT,gBAAgB,EAAE,OAAO;CAAG",
+    "sources": [
+        "userTrNew.sass"
+    ],
+    "names": [],
+    "file": "userTrNew.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,eAAe,CAAC;EACZ,MAAM,EAAE,cAAc;EACtB,OAAO,EAAE,IAAI;EACb,MAAM,EAAE,IAAI;EACZ,MAAM,EAAE,OAAO;EACf,KAAK,EAAE,GAAG;CAAG;;AACjB,AAAA,gBAAgB,CAAC;EACb,MAAM,EAAE,cAAc;EACtB,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,KAAK,EAAE,GAAG;CAAG;;AAEjB,AAAA,eAAe,CAAC;EACZ,MAAM,EAAE,CAAC;EACT,OAAO,EAAE,CAAC;CAAG",
+    "sources": [
+        "createOder.sass"
+    ],
+    "names": [],
+    "file": "createOder.css"
+}

@@ -1,0 +1,31 @@
+.divList {
+  border: 1px solid #000;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 20%;
+}
+
+.selectList {
+  z-index: 1;
+  padding: 0 0 0 10px;
+  width: 98%;
+}
+
+.inputList {
+  height: 98%;
+  width: 98%;
+  border: none;
+  padding: 0;
+  font-size: 16px;
+}
+
+.inputList:focus-visible {
+  outline: none;
+  padding: 0;
+}
+/*# sourceMappingURL=choiseList.css.map */

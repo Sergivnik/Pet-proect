@@ -1,0 +1,70 @@
+.customerPaymentMainDiv {
+  height: 100%;
+  border: 1px solid #000;
+  background-color: #eee29d;
+}
+
+.customerPaymentHeader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 20%;
+}
+
+.customerPaymentHeaderDiv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  max-width: 30%;
+  min-width: 15%;
+  margin: 0 2%;
+  position: relative;
+}
+
+.customeerPaymentWrapperChoiseDiv {
+  position: relative;
+}
+
+.customerPaymentHeaderP {
+  text-align: center;
+  height: 25%;
+}
+
+.customerPaymentHeaderUnkown {
+  border: 1px solid #000;
+}
+
+.customerPaymentOdersDiv {
+  background-color: #eee29d;
+  max-height: 55%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow-y: auto;
+}
+
+.customerPaymentBtn {
+  margin-top: 1%;
+  margin-right: 5%;
+  width: 10%;
+  float: right;
+}
+
+.customerPaymentTotalDebtP {
+  margin: 1%;
+  text-align: center;
+  font-size: 22px;
+}
+/*# sourceMappingURL=customerPaymentForm.css.map */

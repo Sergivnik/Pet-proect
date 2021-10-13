@@ -1,0 +1,48 @@
+.filterDiv {
+  position: absolute;
+  right: 0;
+  border: 1px solid #000;
+  width: 200px;
+  max-height: 320px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  z-index: 5;
+  background-color: #eee;
+  opacity: 0.95;
+}
+
+.filterDivChosenP {
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.filterP {
+  margin: 1px;
+  text-align: left;
+}
+
+.filterPChosen {
+  margin: 1px;
+  text-align: left;
+}
+
+.filterDivList {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 200px;
+}
+
+.filterDivBtn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+/*# sourceMappingURL=filterList.css.map */
