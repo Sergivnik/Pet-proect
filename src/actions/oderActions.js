@@ -1,6 +1,8 @@
 import axios from "axios";
 import { URL } from "../middlewares/initialState";
 export const ADD_ODER = "ADD_ODER";
+export const ADD_ODER_SUCCESS = "ADD_ODER_SUCCESS";
+export const ADD_ODER_FAILURE = "ADD_ODER_FAILURE";
 export const DEL_ODER = "DEL_ODER";
 export const EDIT_ODER = "EDIT_ODER";
 export const SET_PROXY = "SET_PROXY";
@@ -10,9 +12,29 @@ export const MAKE_PAYMENT_CUSTOMER_SUCCESS =
 export const MAKE_PAYMENT_CUSTOMER_FAILURE =
   "DATA::MAKE_PAYMENT_CUSTOMER_SUCCESS";
 
-export const addOder = (data) => ({
-  type: ADD_ODER,
+export const addOder = (data) => {
+  return (dispatch) =>
+    axios
+      .post(URL + "/addOder", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      .then((res) => {
+        return dispatch(addOderSuccess(res.data, data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+};
+export const addOderSuccess = (dataServer, data) => ({
+  type: ADD_ODER_SUCCESS,
+  dataServer,
   data,
+});
+export const addOderFailure = () => ({
+  type: ADD_ODER_FAILURE,
 });
 
 export const editOder = (id, field, newValue) => ({

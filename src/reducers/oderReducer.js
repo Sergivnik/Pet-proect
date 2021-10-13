@@ -1,7 +1,7 @@
 import update from "react-addons-update";
 import { initialStore } from "./dataStore.js";
 import {
-  ADD_ODER,
+  ADD_ODER_SUCCESS,
   DEL_ODER,
   EDIT_ODER,
   SET_PROXY,
@@ -35,13 +35,13 @@ import {
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
-    case ADD_ODER: {
-      const oderId = store.odersList[store.odersList.length - 1]._id + 1;
+    case ADD_ODER_SUCCESS: {
+      console.log(action);
       return update(store, {
         odersList: {
           $merge: {
             [store.odersList.length]: {
-              _id: oderId,
+              _id: action.dataServer.insertId,
               date: action.data.date,
               idDriver: action.data.driver,
               idCustomer: action.data.oder,

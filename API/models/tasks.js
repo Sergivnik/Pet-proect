@@ -371,7 +371,6 @@ var Tasks = {
   add: async function (data, callback) {
     data = JSON.parse(data);
     let oder = {
-      _id: data._id,
       date: data.date,
       idDriver: data.driver,
       idCustomer: data.oder,
