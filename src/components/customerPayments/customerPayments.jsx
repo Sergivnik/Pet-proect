@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./customerPayments.sass";
-import { getPaymentsData, deletePaymentData } from "../../middlewares/initialState";
+import {
+  getPaymentsData,
+  deletePaymentData,
+} from "../../middlewares/initialState";
 import { CustomerPaymentsTr } from "./customerPaymentsTr.jsx";
 import { FilterDateList } from "../filterDate/filterDateList.jsx";
 import { FilterList } from "../filterList/filterList.jsx";
@@ -95,9 +98,11 @@ export const CustomerPayments = () => {
         let checkSum = false;
         if (filterList.date.length != 0) {
           filterList.date.forEach((dateTxt) => {
-            let dateFromList = new Date(elem.date);
-            let dateFromFilter = new Date(dateTxt);
-            if (dateFromList - dateFromFilter == 0) checkDate = true;
+            let dateFromList = new Date(elem.date.toLocaleString()).toDateString();
+            let dateFromFilter = new Date(dateTxt).toDateString();
+            //dateFromFilter.setHours(0,0,0,0)
+            console.log(dateFromList, dateFromFilter);
+            if (dateFromList == dateFromFilter) checkDate = true;
           });
         } else checkDate = true;
         if (filterList.customer.length != 0) {
@@ -172,10 +177,10 @@ export const CustomerPayments = () => {
     }
   };
 
-  const handleClickDelete =(id)=>{
-    alert(id)
+  const handleClickDelete = (id) => {
+    alert(id);
     dispatch(deletePaymentData(id));
-  }
+  };
   return (
     <div className="customerPaymentsMainDiv">
       <table className="customerPaymentsMainTable">
