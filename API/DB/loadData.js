@@ -255,6 +255,21 @@ var LoadData = {
       console.log({ error: err });
     }
   },
+  getTrackDrivers: async function (){
+    var XLSX = require("xlsx");
+    var workbook = XLSX.readFile("./DB/Колдовство.xlsb");
+    var sheet_name_list = workbook.SheetNames;
+    var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[7]]);
+    let i=1;
+    const db = mysql.createPool(options).promise();
+    try {
+      for (const elem of xlData){
+        console.log(elem);
+      }
+    } catch (err) {
+      console.log({ error: err });
+    }
+  }
 };
 module.exports = LoadData;
 

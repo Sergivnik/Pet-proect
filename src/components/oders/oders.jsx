@@ -61,6 +61,7 @@ export const Oders = () => {
     driverPayment: [],
     accountList: [],
   });
+  const [showLast, setShowLast] = useState(false);
 
   const [sumAccount, setSumAccount] = useState(0);
   useEffect(() => {
@@ -69,7 +70,7 @@ export const Oders = () => {
       0
     );
     let sum =
-      Math.floor((Number(income) - Number(expenses) + addSum ) * 100) / 100;
+      Math.floor((Number(income) - Number(expenses) + addSum) * 100) / 100;
     setSumAccount(sum);
   }, [income, expenses]);
 
@@ -87,6 +88,10 @@ export const Oders = () => {
           dispatch(filterData(filterList));
         }
       }
+      if (e.code == "NumpadAdd" && e.ctrlKey) {
+        e.preventDefault();
+        alert("Works!!");
+      }
     };
     document.addEventListener("keydown", onKeypress);
     return () => {
@@ -95,6 +100,12 @@ export const Oders = () => {
   }, [trId, showDelete, showWindow]);
 
   useEffect(() => {
+    if (showLast) {
+      let div = document.getElementsByClassName("odersDiv")[0];
+      div.scrollTop = div.scrollHeight;
+      setAddData(0);
+      setShowLast(false);
+    }
     let length = odersList.length;
     console.log(length);
     if (length > 100) {
@@ -224,6 +235,7 @@ export const Oders = () => {
 
   const addOder = () => {
     setShowCreateOder(false);
+    setShowLast(true);
   };
 
   const handleContextCity = (e) => {
@@ -360,7 +372,7 @@ export const Oders = () => {
       if (btnClick == "otherPay") {
         setWindowHeader("Прочие расходы");
         setShowWindow(true);
-        setChildren(<ContractorsPayments/>);
+        setChildren(<ContractorsPayments />);
       }
     }
   };
