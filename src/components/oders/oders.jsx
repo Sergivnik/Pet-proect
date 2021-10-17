@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UserThead } from "./userThead.jsx";
 import { UserTr } from "./userTr.jsx";
 import { CreateOder } from "../createOder/createOder.jsx";
+import { CreateOderNew } from "../createOder/createOderNew.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
 import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.jsx";
 import { CustomerPayments } from "../customerPayments/customerPayments.jsx";
@@ -231,9 +232,15 @@ export const Oders = () => {
     }
   };
 
-  const handleClick = () => setShowCreateOder(!showCreateOder);
+  const handleClick = () => {
+    setShowCreateOder(!showCreateOder);
+    setShowWindow(true);
+    setWindowHeader("Добавить заказ");
+    setChildren(<CreateOderNew addOder={addOder} />);
+  };
 
   const addOder = () => {
+    setShowWindow(false);
     setShowCreateOder(false);
     setShowLast(true);
   };
@@ -505,6 +512,14 @@ export const Oders = () => {
         </table>
       </div>
       {showCreateOder && <CreateOder addOder={addOder} />}
+      {/* {showCreateOder && (
+        <UserWindow
+          header={windowHeader}
+          handleClickWindowClose={handleClickWindowClose}
+        >
+          {children}
+        </UserWindow>
+      )} */}
     </React.Fragment>
   );
 };

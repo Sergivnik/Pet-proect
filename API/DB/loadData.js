@@ -229,7 +229,7 @@ var LoadData = {
         if (elem.Расходы2 != undefined) {
           let expens = {
             id: i,
-            idContractor:5,
+            idContractor: 5,
             date: dateEx,
             sum: elem.Расходы2,
             category: 2,
@@ -241,7 +241,7 @@ var LoadData = {
         if (elem.Расходы3 != undefined) {
           let expens = {
             id: i,
-            idContractor:5,
+            idContractor: 5,
             date: dateEx,
             sum: elem.Расходы3,
             category: 2,
@@ -255,21 +255,48 @@ var LoadData = {
       console.log({ error: err });
     }
   },
-  getTrackDrivers: async function (){
+  getTrackDrivers: async function () {
     var XLSX = require("xlsx");
     var workbook = XLSX.readFile("./DB/Колдовство.xlsb");
     var sheet_name_list = workbook.SheetNames;
     var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[7]]);
-    let i=1;
+    let i = 1;
     const db = mysql.createPool(options).promise();
     try {
-      for (const elem of xlData){
+      for (const elem of xlData) {
         console.log(elem);
+        let dateOd = new Date(1900, 0, 1);
+        dateOd.setDate(dateOd.getDate() + elem.ДатаВыдачи - 2);
+        let Year = dateOd.getFullYear();
+        let Month = dateOd.getMonth() + 1;
+        let Day = dateOd.getDate();
+        dateOd = `${Year}-${Month}-${Day}`;
+        let trackDriver = {
+          id: i,
+          name: elem.ФИО_1,
+          shortName: elem.Кратко,
+          passportNumber: elem.Паспорт,
+          department: elem.Выдан,
+          dateOfIssue: dateOd,
+          driverLicense: elem.ВУД,
+          phoneNumber: elem.Телефон,
+          shortestName: elem.ФИО,
+        };
+        await db.query("INSERT INTO trackdrivers SET ?", trackDriver);
+        let track = {
+          id: i,
+          model: elem.МаркаАМ,
+          licensePlate: elem.НомерАМ,
+          trackTrailerLicensePlate: elem.Прицеп,
+          idowner: null,
+        };
+        await db.query("INSERT INTO tracklist SET ?", track);
+        i = i + 1;
       }
     } catch (err) {
       console.log({ error: err });
     }
-  }
+  },
 };
 module.exports = LoadData;
 

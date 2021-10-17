@@ -68,6 +68,12 @@ var Tasks = {
         `SELECT distinct idCustomer FROM oderslist where customerPayment !="Ок"`
       );
       allData.customerWithoutPayment = data;
+      [data] = await db.query(`SELECT * FROM clientmanager order by value`);
+      allData.clientmanager = data;
+      [data] = await db.query(`SELECT * FROM trackdrivers order by value`);
+      allData.trackdrivers = data;
+      [data] = await db.query(`SELECT * FROM tracklist order by value`);
+      allData.tracklist = data;
       callback(allData);
       db.end();
     } catch (err) {
