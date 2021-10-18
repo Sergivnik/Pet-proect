@@ -40,6 +40,7 @@ export const Oders = () => {
   const [showAddCity, setShowAddCity] = useState(false);
   const [showWindow, setShowWindow] = useState(false);
   const [windowHeader, setWindowHeader] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(1200);
 
   const [trId, setTrId] = useState(null);
   const [colNumber, setColNumber] = useState(null);
@@ -234,6 +235,7 @@ export const Oders = () => {
 
   const handleClick = () => {
     setShowCreateOder(!showCreateOder);
+    setWindowWidth(1400);
     setShowWindow(true);
     setWindowHeader("Добавить заказ");
     setChildren(<CreateOderNew addOder={addOder} />);
@@ -359,26 +361,31 @@ export const Oders = () => {
       if (btnClick == "customPay") {
         setWindowHeader("Оплата заказчика");
         setShowWindow(true);
+        setWindowWidth(1200);
         setChildren(<CustomerPaymentForm />);
       }
       if (btnClick == "customPayments") {
         setWindowHeader("Входящие платежи");
         setShowWindow(true);
+        setWindowWidth(1200);
         setChildren(<CustomerPayments />);
       }
       if (btnClick == "driverPay") {
         setWindowHeader("Оплата перевозчику");
         setShowWindow(true);
+        setWindowWidth(1200);
         setChildren(<DriverPaymentForm />);
       }
       if (btnClick == "driversDebt") {
         setWindowHeader("Задолженность перевозчика");
         setShowWindow(true);
+        setWindowWidth(1200);
         setChildren(<DriverDebtForm />);
       }
       if (btnClick == "otherPay") {
         setWindowHeader("Прочие расходы");
         setShowWindow(true);
+        setWindowWidth(1200);
         setChildren(<ContractorsPayments />);
       }
     }
@@ -432,6 +439,7 @@ export const Oders = () => {
       {showWindow && (
         <UserWindow
           header={windowHeader}
+          width={windowWidth}
           handleClickWindowClose={handleClickWindowClose}
         >
           {children}
@@ -512,14 +520,6 @@ export const Oders = () => {
         </table>
       </div>
       {showCreateOder && <CreateOder addOder={addOder} />}
-      {/* {showCreateOder && (
-        <UserWindow
-          header={windowHeader}
-          handleClickWindowClose={handleClickWindowClose}
-        >
-          {children}
-        </UserWindow>
-      )} */}
     </React.Fragment>
   );
 };

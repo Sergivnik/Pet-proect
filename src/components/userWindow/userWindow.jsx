@@ -49,6 +49,7 @@ export const UserWindow = (props) => {
   useEffect(() => {
     let div = document.getElementsByClassName("userWindowDiv")[0];
     div.style.opacity = 0.95;
+    if (props.width) div.style.width = props.width + "px";
   }, [props]);
 
   return (
