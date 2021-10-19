@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { PointsForm } from "./pointsForm.jsx";
 import { addOder } from "../../actions/oderActions.js";
 import "./createOder.sass";
 
@@ -16,9 +17,9 @@ export const CreateOderNew = (props) => {
   const [odersData, setOdersData] = useState({
     idLoadingPoint: [],
     idUnloadingPoint: [],
-    valueLoadingPoint: [],
+    valueLoadingPoint: ["Таганрог", "Ростов", "Батайск"],
     valueUnloadingPoint: [],
-    loadingInfo: [],
+    loadingInfo: ["Терминал", "Доваторов, 154", "Совхозная, 4"],
     unloadingInfo: [],
   });
 
@@ -39,14 +40,6 @@ export const CreateOderNew = (props) => {
       obj.date = e.target.value;
       if (e.target.value != "") setShowDateInput(false);
     }
-    if (e.target.className == "crOderLoadInfo") {
-      obj.loadingInfo.push(e.target.value);
-      setShowLoadingInfo(false);
-    }
-    if (e.target.className == "crOderUnloadInfo") {
-      obj.unloadingInfo.push(e.target.value);
-      setShowUnloadingInfo(false);
-    }
     setOdersData(obj);
   };
   const handleDblClick = (e) => {
@@ -58,18 +51,6 @@ export const CreateOderNew = (props) => {
     }
     if (e.target.className == "crOderManagerP") {
       setShowManagerInput(true);
-    }
-    if (e.target.className == "crOderLoadPointP") {
-      setShowLoadingPoint(true);
-    }
-    if (e.target.className == "crOderLoadInfoP") {
-      setShowLoadingInfo(true);
-    }
-    if (e.target.className == "crOderUnloadPointP") {
-      setShowUnloadingPoint(true);
-    }
-    if (e.target.className == "crOderUnloadInfoP") {
-      setShowUnloadingInfo(true);
     }
   };
   const setValue = (value) => {
@@ -85,16 +66,6 @@ export const CreateOderNew = (props) => {
       obj.idManager = value._id;
       obj.valueManager = value.value;
       setShowManagerInput(false);
-    }
-    if (value.field == "loadingPoint") {
-      obj.idLoadingPoint.push(value._id);
-      obj.valueLoadingPoint.push(value.value);
-      setShowLoadingPoint(false);
-    }
-    if (value.field == "unloadingPoint") {
-      obj.idUnloadingPoint.push(value._id);
-      obj.valueUnloadingPoint.push(value.value);
-      setShowUnloadingPoint(false);
     }
     console.log(obj);
     setOdersData(obj);
@@ -183,133 +154,22 @@ export const CreateOderNew = (props) => {
           <div className="crOderRouteContent">
             <div className="crOderLoadPart">
               <h5 className="crOderLoadHeader routeH10px">Погрузка</h5>
-              <div className="crOderLoadDiv">
-                {showLoadingPoint ? (
-                  <div className="containerChoiseRoute">
-                    <h5 className="crOderLoadHeader routeH15px">Город</h5>
-                    <div className="containerChoise">
-                      <ChoiseList
-                        name="loadingPoint"
-                        arrlist={citieslist}
-                        setValue={setValue}
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="containerChoiseRoute">
-                    <h5 className="crOderLoadHeader routeH15px">Город</h5>
-                    {odersData.valueLoadingPoint.map((elem,index) => {
-                      return (
-                        <p
-                          key={"valueLoadingPoint"+index}
-                          className="crOderLoadPointP"
-                          onDoubleClick={handleDblClick}
-                          onMouseDown={(e) => {
-                            if (e.target.className == "crOderManagerP")
-                              e.preventDefault();
-                          }}
-                        >
-                          {elem}
-                        </p>
-                      );
-                    })}
-                  </div>
-                )}
-                {showLoadingInfo ? (
-                  <div className="containerChoiseRoute">
-                    <h5 className="crOderLoadHeader routeH15px">Примечание</h5>
-                    <input
-                      type="text"
-                      className="crOderLoadInfo"
-                      onBlur={handleLostFocus}
-                    />
-                  </div>
-                ) : (
-                  <div className="containerChoiseRoute">
-                    <h5 className="crOderLoadHeader routeH15px">Примечание</h5>
-                    {odersData.loadingInfo.map((elem,index) => {
-                      return (
-                        <p
-                          key={"loadingInfo"+index}
-                          className="crOderLoadInfoP"
-                          onDoubleClick={handleDblClick}
-                          onMouseDown={(e) => {
-                            if (e.target.className == "crOderManagerP")
-                              e.preventDefault();
-                          }}
-                        >
-                          {elem}
-                        </p>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+              <PointsForm
+                pointsList={odersData.valueLoadingPoint}
+                infoList={odersData.loadingInfo}
+              />
             </div>
             <div className="crOderUnloadPart">
               <h5 className="crOderUnloadHeader routeH10px">Разгрузка</h5>
-              <div className="crOderLoadDiv">
-                {showUnloadingPoint ? (
-                  <div className="containerChoiseRoute">
-                    <h5 className="crOderLoadHeader routeH15px">Город</h5>
-                    <ChoiseList
-                      name="unloadingPoint"
-                      arrlist={citieslist}
-                      setValue={setValue}
-                    />
-                  </div>
-                ) : (
-                  <div className="containerChoiseRoute">
-                    <h5 className="crOderLoadHeader routeH15px">Город</h5>
-                    {odersData.valueUnloadingPoint.map((elem,index) => {
-                      return (
-                        <p
-                          key={"valueUnloadingPoint"+index}
-                          className="crOderUnloadPointP"
-                          onDoubleClick={handleDblClick}
-                          onMouseDown={(e) => {
-                            if (e.target.className == "crOderUnloadPointP")
-                              e.preventDefault();
-                          }}
-                        >
-                          {elem}
-                        </p>
-                      );
-                    })}
-                  </div>
-                )}
-                {showUnloadingInfo ? (
-                  <div className="containerChoiseRoute">
-                    <h5 className="crOderLoadHeader routeH15px">Примечание</h5>
-                    <input
-                      type="text"
-                      className="crOderUnloadInfo"
-                      onBlur={handleLostFocus}
-                    />
-                  </div>
-                ) : (
-                  <div className="containerChoiseRoute">
-                    <h5 className="crOderLoadHeader routeH15px">Примечание</h5>
-                    {odersData.unloadingInfo.map((elem,index) => {
-                      return (
-                        <p
-                          key={"unloadingInfo"+index}
-                          className="crOderUnloadInfoP"
-                          onDoubleClick={handleDblClick}
-                          onMouseDown={(e) => {
-                            if (e.target.className == "crOderManagerP")
-                              e.preventDefault();
-                          }}
-                        >
-                          {elem}
-                        </p>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+              <PointsForm
+                pointsList={odersData.valueUnloadingPoint}
+                infoList={odersData.unloadingInfo}
+              />
             </div>
           </div>
+        </div>
+        <div className="crOderPrice">
+          <h4 className="crOderCustomHeader">Цена</h4>
         </div>
       </div>
     </div>
