@@ -12,14 +12,13 @@ export const CreateOderNew = (props) => {
     (state) => state.oderReducer.clientmanager
   );
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
-  const customerlist = useSelector((state) => state.oderReducer.odersList);
   const dispatch = useDispatch();
   const [odersData, setOdersData] = useState({
     idLoadingPoint: [],
     idUnloadingPoint: [],
-    valueLoadingPoint: ["Таганрог", "Ростов", "Батайск"],
+    valueLoadingPoint: [],
     valueUnloadingPoint: [],
-    loadingInfo: ["Терминал", "Доваторов, 154", "Совхозная, 4"],
+    loadingInfo: [],
     unloadingInfo: [],
   });
 
@@ -70,6 +69,35 @@ export const CreateOderNew = (props) => {
     console.log(obj);
     setOdersData(obj);
   };
+
+  const delPoint = (index, name) => {
+    let { ...obj } = odersData;
+    if (name == "LoadingPoint") {
+      obj.idLoadingPoint.splice(index, 1);
+      obj.valueLoadingPoint.splice(index, 1);
+      obj.loadingInfo.splice(index, 1);
+    }
+    if (name == "UnloadingPoint") {
+      obj.idUnloadingPoint.splice(index, 1);
+      obj.valueUnloadingPoint.splice(index, 1);
+      obj.unloadingInfo.splice(index, 1);
+    }
+    setOdersData(obj);
+  };
+  const addPoint=(data,name)=>{
+    let { ...obj } = odersData;
+    if (name == "LoadingPoint") {
+      obj.idLoadingPoint.push(data.id);
+      obj.valueLoadingPoint.push(data.value);
+      obj.loadingInfo.push(data.info);
+    }
+    if (name == "UnloadingPoint") {
+      obj.idUnloadingPoint.push(data.id);
+      obj.valueUnloadingPoint.push(data.value);
+      obj.unloadingInfo.push(data.info);
+    }
+    setOdersData(obj);
+  }
   return (
     <div className="crOderMainDiv">
       <h4 className="crOderCustomerHeader">Информация о заказе</h4>
@@ -153,17 +181,23 @@ export const CreateOderNew = (props) => {
           <h4 className="crOderCustomHeader routeH15px">Маршрут</h4>
           <div className="crOderRouteContent">
             <div className="crOderLoadPart">
-              <h5 className="crOderLoadHeader routeH10px">Погрузка</h5>
+              <h5 className="crOderLoadHeader routeH15px">Погрузка</h5>
               <PointsForm
+                name="LoadingPoint"
                 pointsList={odersData.valueLoadingPoint}
                 infoList={odersData.loadingInfo}
+                delPoint={delPoint}
+                addPoint={addPoint}
               />
             </div>
             <div className="crOderUnloadPart">
-              <h5 className="crOderUnloadHeader routeH10px">Разгрузка</h5>
+              <h5 className="crOderUnloadHeader routeH15px">Разгрузка</h5>
               <PointsForm
+                name="UnloadingPoint"
                 pointsList={odersData.valueUnloadingPoint}
                 infoList={odersData.unloadingInfo}
+                delPoint={delPoint}
+                addPoint={addPoint}
               />
             </div>
           </div>
