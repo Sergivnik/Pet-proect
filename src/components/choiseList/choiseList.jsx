@@ -33,13 +33,16 @@ export const ChoiseList = (props) => {
     list.forEach((elem) => {
       if (elem._id == id) {
         setText(elem.value);
-        props.setValue({
-          _id: elem._id,
-          field: props.name,
-          value: elem.value,
-          index: props.index,
-          extraPayments: elem.extraPayments,
-        });
+        props.setValue(
+          {
+            _id: elem._id,
+            field: props.name,
+            value: elem.value,
+            index: props.index,
+            extraPayments: elem.extraPayments,
+          },
+          e
+        );
       }
     });
     setShowSelect(false);
@@ -52,13 +55,16 @@ export const ChoiseList = (props) => {
       list.forEach((elem) => {
         if (elem._id == id) {
           setText(elem.value);
-          props.setValue({
-            _id: elem._id,
-            field: props.name,
-            value: elem.value,
-            index: props.index,
-            extraPayments: elem.extraPayments,
-          });
+          props.setValue(
+            {
+              _id: elem._id,
+              field: props.name,
+              value: elem.value,
+              index: props.index,
+              extraPayments: elem.extraPayments,
+            },
+            e
+          );
         }
       });
       setShowSelect(false);
@@ -85,7 +91,7 @@ export const ChoiseList = (props) => {
         onKeyUp={handleKeyUp}
         value={text}
         className="inputList"
-        autoComplete ="off"
+        autoComplete="off"
       />
       {showSelect && (
         <select

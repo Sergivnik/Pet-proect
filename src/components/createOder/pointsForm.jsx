@@ -6,7 +6,7 @@ import "./createOder.sass";
 export const PointsForm = (props) => {
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
 
-  const [showAddPoint, setShowAddPoint] = useState(false);
+  const [showAddPoint, setShowAddPoint] = useState(true);
   const [pointData, setPointData] = useState({});
 
   const handleClickMinis = (index) => {
@@ -15,6 +15,9 @@ export const PointsForm = (props) => {
   const handleClickPlus = () => {
     setShowAddPoint(true);
   };
+  const handleEnter=(e)=>{
+    console.log(e);
+  }
   const setValue = (data) => {
     setPointData({ id: data._id, value: data.value });
     let input = document.querySelector(".crOderLoadInfo");
@@ -22,8 +25,8 @@ export const PointsForm = (props) => {
   };
   const handleBlur = (e) => {
     let { ...obj } = pointData;
-    obj.info=e.target.value;
-    props.addPoint(obj,props.name);
+    obj.info = e.target.value;
+    props.addPoint(obj, props.name);
     setPointData({});
     setShowAddPoint(false);
   };
@@ -92,7 +95,11 @@ export const PointsForm = (props) => {
             </div>
           </>
         ) : (
-          <div className="PFBtnWrap" onClick={handleClickPlus}>
+          <div
+            className="PFBtnWrap"
+            onClick={handleClickPlus}
+            onKeyDown={handleEnter}
+          >
             <svg viewBox="0 0 120 120" className="PFBtnSvg">
               <circle
                 cx="60"

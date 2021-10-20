@@ -23,23 +23,27 @@ export const CreateOderNew = (props) => {
   });
 
   const [clientManager, setClientManager] = useState(clientManagerFull);
-
   const [showDateInput, setShowDateInput] = useState(true);
   const [showClientInput, setShowClientInput] = useState(true);
   const [showManagerInput, setShowManagerInput] = useState(true);
-  const [showLoadingPoint, setShowLoadingPoint] = useState(true);
-  const [showUnloadingPoint, setShowUnloadingPoint] = useState(true);
-  const [showLoadingInfo, setShowLoadingInfo] = useState(true);
-  const [showUnloadingInfo, setShowUnloadingInfo] = useState(true);
 
   const handleLostFocus = (e) => {
     let { ...obj } = odersData;
     console.log(e.target.value);
     if (e.target.className == "crOderDateInput") {
       obj.date = e.target.value;
-      if (e.target.value != "") setShowDateInput(false);
+      if (e.target.value != "") {
+        setShowDateInput(false);
+        let nextFocus =
+          document.querySelectorAll(".containerChoise")[0].firstChild;
+        nextFocus.focus();
+      }
+    }
+    if (e.target.className=="crOderPriceInput"){
+      obj.customerPrice = e.target.value;
     }
     setOdersData(obj);
+    console.log(obj);
   };
   const handleDblClick = (e) => {
     if (e.target.className == "crOderDateP") {
@@ -52,7 +56,7 @@ export const CreateOderNew = (props) => {
       setShowManagerInput(true);
     }
   };
-  const setValue = (value) => {
+  const setValue = (value, e) => {
     let { ...obj } = odersData;
     if (value.field == "client") {
       obj.idCustomer = value._id;
@@ -60,13 +64,17 @@ export const CreateOderNew = (props) => {
       let arr = clientManagerFull.filter((elem) => elem.odersId == value._id);
       setClientManager(arr);
       setShowClientInput(false);
+      let nextFocus =
+        document.querySelectorAll(".containerChoise")[1].firstChild;
+      nextFocus.focus();
     }
     if (value.field == "manager") {
       obj.idManager = value._id;
       obj.valueManager = value.value;
       setShowManagerInput(false);
+      let nextFocus = document.querySelector(".PFContentPoint").firstChild;
+      nextFocus.focus();
     }
-    console.log(obj);
     setOdersData(obj);
   };
 
@@ -84,7 +92,7 @@ export const CreateOderNew = (props) => {
     }
     setOdersData(obj);
   };
-  const addPoint=(data,name)=>{
+  const addPoint = (data, name) => {
     let { ...obj } = odersData;
     if (name == "LoadingPoint") {
       obj.idLoadingPoint.push(data.id);
@@ -97,7 +105,7 @@ export const CreateOderNew = (props) => {
       obj.unloadingInfo.push(data.info);
     }
     setOdersData(obj);
-  }
+  };
   return (
     <div className="crOderMainDiv">
       <h4 className="crOderCustomerHeader">Информация о заказе</h4>
@@ -204,6 +212,13 @@ export const CreateOderNew = (props) => {
         </div>
         <div className="crOderPrice">
           <h4 className="crOderCustomHeader">Цена</h4>
+          <div className="crOderPriceWrap">
+            <input
+              type="numnber"
+              className="crOderPriceInput"
+              onBlur={handleLostFocus}
+            />
+          </div>
         </div>
       </div>
     </div>
