@@ -26,6 +26,7 @@ export const CreateOderNew = (props) => {
   const [showDateInput, setShowDateInput] = useState(true);
   const [showClientInput, setShowClientInput] = useState(true);
   const [showManagerInput, setShowManagerInput] = useState(true);
+  const [showClientPrice, setShowClientPrice] = useState(true);
 
   const handleLostFocus = (e) => {
     let { ...obj } = odersData;
@@ -39,8 +40,9 @@ export const CreateOderNew = (props) => {
         nextFocus.focus();
       }
     }
-    if (e.target.className=="crOderPriceInput"){
+    if (e.target.className == "crOderPriceInput") {
       obj.customerPrice = e.target.value;
+      if (e.target.value != "") setShowClientPrice(false);
     }
     setOdersData(obj);
     console.log(obj);
@@ -213,14 +215,20 @@ export const CreateOderNew = (props) => {
         <div className="crOderPrice">
           <h4 className="crOderCustomHeader">Цена</h4>
           <div className="crOderPriceWrap">
-            <input
-              type="numnber"
-              className="crOderPriceInput"
-              onBlur={handleLostFocus}
-            />
+            {showClientPrice ? (
+              <input
+                type="numnber"
+                className="crOderPriceInput"
+                onBlur={handleLostFocus}
+              />
+            ) : (
+              <p className="crOderPriceP">{odersData.customerPrice} руб</p>
+            )}
           </div>
         </div>
       </div>
+      <h4 className="crOderDriverHeader">Информация о перевозчике</h4>
+      <div className="crOderDriverDiv"></div>
     </div>
   );
 };
