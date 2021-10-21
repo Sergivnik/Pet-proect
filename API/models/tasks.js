@@ -378,12 +378,17 @@ var Tasks = {
     data = JSON.parse(data);
     let oder = {
       date: data.date,
-      idDriver: data.driver,
-      idCustomer: data.oder,
-      idLoadingPoint: JSON.stringify(data.loadingPoint),
-      idUnloadingPoint: JSON.stringify(data.unloadingPoint),
-      customerPrice: data.oderPrice,
+      idDriver: data.idDriver,
+      idCustomer: data.idCustomer,
+      idLoadingPoint: JSON.stringify(data.idLoadingPoint),
+      idUnloadingPoint: JSON.stringify(data.idUnloadingPoint),
+      customerPrice: data.customerPrice,
       driverPrice: data.driverPrice,
+      idManager: data.idManager,
+      idTrackDriver: data.idTrackDriver,
+      idTrack: data.idTrack,
+      loadingInfo: JSON.stringify(data.loadingInfo),
+      unloadingInfo: JSON.stringify(data.unloadingInfo),
     };
     if (oder.customerPrice === "") oder.customerPrice = null;
     if (oder.driverPrice === "") oder.driverPrice = null;

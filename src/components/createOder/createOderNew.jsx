@@ -35,6 +35,7 @@ export const CreateOderNew = (props) => {
   const [showOwnerInput, setShowOwnerInput] = useState(true);
   const [showTrackDriverInput, setShowTrackDriverInput] = useState(true);
   const [showTrackInput, setShowTrackInput] = useState(true);
+  const [showDriverPrice, setShowDriverPrice] = useState(true);
 
   const handleLostFocus = (e) => {
     let { ...obj } = odersData;
@@ -54,7 +55,7 @@ export const CreateOderNew = (props) => {
     }
     if (e.target.className == "crOderDriverPriceInput") {
       obj.driverPrice = e.target.value;
-      if (e.target.value != "") setShowClientPrice(false);
+      if (e.target.value != "") setShowDriverPrice(false);
     }
     setOdersData(obj);
     console.log(obj);
@@ -177,6 +178,11 @@ export const CreateOderNew = (props) => {
     }
     setOdersData(obj);
   };
+  const handleClick=()=>{
+    console.log(odersData);
+    dispatch(addOder(odersData));
+    //props.addOder();
+  }
   return (
     <div className="crOderMainDiv">
       <h4 className="crOderCustomerHeader">Информация о заказе</h4>
@@ -372,7 +378,7 @@ export const CreateOderNew = (props) => {
         <div className="crOderPrice">
           <h4 className="crOderDriverPriceHeader">Цена</h4>
           <div className="crOderDriverPriceWrap">
-            {showClientPrice ? (
+            {showDriverPrice ? (
               <input
                 type="numnber"
                 className="crOderDriverPriceInput"
@@ -383,15 +389,23 @@ export const CreateOderNew = (props) => {
                 className="crOderDriverPriceP"
                 onDoubleClick={handleDblClick}
                 onMouseDown={(e) => {
-                  if (e.target.className == "crOderDriverPriceP") e.preventDefault();
+                  if (e.target.className == "crOderDriverPriceP")
+                    e.preventDefault();
                 }}
               >
-                {odersData.customerPrice} руб
+                {odersData.driverPrice} руб
               </p>
             )}
           </div>
         </div>
       </div>
+      {!(showDateInput || showClientInput || showClientPrice) &&
+        odersData.idLoadingPoint.length > 0 &&
+        odersData.idUnloadingPoint.length > 0 && (
+          <button className="crOdBtn" onClick={handleClick}>
+            Добавить
+          </button>
+        )}
     </div>
   );
 };
