@@ -519,7 +519,7 @@ export const Oders = () => {
           </tbody>
         </table>
       </div>
-      {showCreateOder && <CreateOder addOder={addOder} />}
+      {/* {showCreateOder && <CreateOder addOder={addOder} />} */}
     </React.Fragment>
   );
 };

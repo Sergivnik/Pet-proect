@@ -61,7 +61,7 @@ export const UserTrNew = (props) => {
   return (
     <tr id={props.elem._id} className={classes} onClick={handleTrNewClick}>
       <TdDate date={props.elem.date} />
-      <TdDriver driver={props.driver} />
+      <TdDriver driver={props.driver} elem={props.elem} />
       <TdCustomer customer={props.customer} />
       <TdLoadingPoint loadingPoint={props.loadingPoint} />
       <TdUnoadingPoint unloadingPoint={props.unloadingPoint} />

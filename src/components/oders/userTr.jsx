@@ -7,8 +7,13 @@ export const UserTr = (props) => {
   const accountList = useSelector(
     (state) => state.oderReducer.statusCustomerPay
   );
-  const odersList = useSelector((state) => state.oderReducer.odersList);
+  const trackDriverList = useSelector(
+    (state) => state.oderReducer.trackdrivers
+  );
+  const managerList = useSelector((state) => state.oderReducer.clientmanager);
   const [oderId, setOderId] = useState(null);
+  const [trackDriver, setTrackDriver] = useState(null);
+  const [manager, setManager] = useState(null);
   const [dateOfSubmission, setDateOfSubmission] = useState(null);
   const [dateOfPromise, setDateOfPromise] = useState(null);
   const [showFullSum, setShowFullSum] = useState(null);
@@ -19,8 +24,20 @@ export const UserTr = (props) => {
   };
   const handleMouseOver = (e) => {
     let id = Number(e.target.parentElement.id);
+    let oder = props.elem;
     if (e.target.nodeName == "TD") {
-      let oder = odersList.find((item) => item._id == id);
+      if (e.target.cellIndex == 1 && oder.idTrackDriver != null) {
+        let driver = trackDriverList.find(
+          (elem) => elem._id == oder.idTrackDriver
+        ).value;
+        setTrackDriver(driver);
+      }
+      if (e.target.cellIndex == 2 && oder.idManager != null) {
+        let clientManager = managerList.find(
+          (elem) => elem._id == oder.idManager
+        ).value;
+        setManager(clientManager);
+      }
       if (oder.dateOfSubmission && e.target.cellIndex == 9) {
         setDateOfSubmission(DateStr(oder.dateOfSubmission));
         setOderId(id);
@@ -43,6 +60,8 @@ export const UserTr = (props) => {
     setDateOfSubmission(null);
     setDateOfPromise(null);
     setShowFullSum(false);
+    setTrackDriver(null);
+    setManager(null);
   };
 
   return (
@@ -64,7 +83,12 @@ export const UserTr = (props) => {
         )}
       </td>
       {/* Column Driver */}
-      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+      <td
+        className="odersTd"
+        onDoubleClick={props.handleDBLClick}
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
+      >
         {props.showEdit &&
         props.elem._id == props.trId &&
         props.colNumber == 1 ? (
@@ -79,9 +103,15 @@ export const UserTr = (props) => {
         ) : (
           props.driver
         )}
+        {trackDriver && <div className="oderTdTooltip">{trackDriver}</div>}
       </td>
       {/* Column Customer */}
-      <td className="odersTd" onDoubleClick={props.handleDBLClick}>
+      <td
+        className="odersTd"
+        onDoubleClick={props.handleDBLClick}
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
+      >
         {props.showEdit &&
         props.elem._id == props.trId &&
         props.colNumber == 2 ? (
@@ -96,6 +126,7 @@ export const UserTr = (props) => {
         ) : (
           props.customer
         )}
+        {manager && <div className="oderTdTooltip">{manager}</div>}
       </td>
       {/* Column LoadingPoint */}
       <td className="odersTd">
@@ -123,9 +154,12 @@ export const UserTr = (props) => {
                 id={index}
                 onDoubleClick={props.handleDBLClick}
                 onContextMenu={props.handleContext}
+                onMouseOver={handleMouseOver}
+                onMouseLeave={handleMouseLeave}
               >
                 {item}
               </p>
+              {/*Place for tooltip*/}
               {props.showContextMenu &&
                 props.elem._id == props.trId &&
                 props.pId == index &&
