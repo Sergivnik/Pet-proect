@@ -5,6 +5,9 @@ export const ADD_ODER_SUCCESS = "ADD_ODER_SUCCESS";
 export const ADD_ODER_FAILURE = "ADD_ODER_FAILURE";
 export const DEL_ODER = "DEL_ODER";
 export const EDIT_ODER = "EDIT_ODER";
+export const EDIT_ODER_NEW = "EDIT_ODER_NEW";
+export const EDIT_ODER_NEW_SUCCESS = "EDIT_ODER_NEW_SUCCESS";
+export const EDIT_ODER_NEW_FAILURE = "EDIT_ODER_NEW_FAILURE";
 export const SET_PROXY = "SET_PROXY";
 export const MAKE_PAYMENT_CUSTOMER = "MAKE_PAYMENT_CUSTOMER";
 export const MAKE_PAYMENT_CUSTOMER_SUCCESS =
@@ -16,9 +19,7 @@ export const addOder = (data) => {
   return (dispatch) =>
     axios
       .post(URL + "/addOder", {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       })
       .then((res) => {
@@ -43,6 +44,30 @@ export const editOder = (id, field, newValue) => ({
   field,
   newValue,
 });
+
+export const editOderNew = (data) => {
+  return (dispatch) =>
+    axios
+      .patch(URL + "/editOderNew", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      .then((res) => {
+        return dispatch(editOderNewSuccess(data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+};
+export const editOderNewSuccess = (data) => ({
+  type: EDIT_ODER_NEW_SUCCESS,
+  data,
+});
+export const editOderNewFailure = ()=>({
+  type: EDIT_ODER_NEW_FAILURE
+})
 
 export const setProxy = (id) => ({
   type: SET_PROXY,

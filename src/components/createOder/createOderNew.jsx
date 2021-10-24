@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { PointsForm } from "./pointsForm.jsx";
-import { addOder } from "../../actions/oderActions.js";
+import { addOder, editOderNew } from "../../actions/oderActions.js";
+import { dateLocal } from "../myLib/myLib.js";
 import "./createOder.sass";
 
 export const CreateOderNew = (props) => {
@@ -14,8 +15,12 @@ export const CreateOderNew = (props) => {
   const trackdriversFull = useSelector(
     (state) => state.oderReducer.trackdrivers
   );
+  const pointList = useSelector((state) => state.oderReducer.citieslist);
   const tracksFull = useSelector((state) => state.oderReducer.tracklist);
   const dispatch = useDispatch();
+
+  const [mainDivStyle, setMainDivStyle] = useState("crOderMainDiv");
+
   const [odersData, setOdersData] = useState({
     idLoadingPoint: [],
     idUnloadingPoint: [],
@@ -36,6 +41,77 @@ export const CreateOderNew = (props) => {
   const [showTrackDriverInput, setShowTrackDriverInput] = useState(true);
   const [showTrackInput, setShowTrackInput] = useState(true);
   const [showDriverPrice, setShowDriverPrice] = useState(true);
+  const [showBtn, setShowBtn] = useState(false);
+  const [btnName, setBtnName] = useState("Добавить");
+
+  useEffect(() => {
+    if (props.elem) {
+      setMainDivStyle("crOderMainDiv H250");
+      let { ...obj } = props.elem;
+      obj.valueLoadingPoint = [];
+      obj.valueUnloadingPoint = [];
+      if (obj.loadingInfo == null) obj.loadingInfo = [];
+      if (obj.unloadingInfo == null) obj.unloadingInfo = [];
+      if (obj.date != null) {
+        setShowDateInput(false);
+        obj.date = dateLocal(obj.date);
+      }
+      if (obj.idCustomer != null) {
+        setShowClientInput(false);
+        obj.valueCustomer = oderslist.find(
+          (elem) => elem._id == obj.idCustomer
+        ).value;
+      }
+      if (obj.idManager != null) {
+        setShowManagerInput(false);
+        obj.valueManager = clientManagerFull.find(
+          (elem) => elem._id == obj.idManager
+        ).value;
+      }
+      if (obj.idDriver != null) {
+        setShowOwnerInput(false);
+        obj.valueDriver = driverlist.find(
+          (elem) => elem._id == obj.idDriver
+        ).value;
+      }
+      if (obj.idTrackDriver != null) {
+        setShowTrackDriverInput(false);
+        obj.valueTrackDriver = trackdriversFull.find(
+          (elem) => elem._id == obj.idTrackDriver
+        ).value;
+      }
+      if (obj.idTrack != null) {
+        setShowTrackInput(false);
+        obj.valueTrack = tracksFull.find(
+          (elem) => elem._id == obj.idTrack
+        ).value;
+      }
+      if (obj.idLoadingPoint != null) {
+        obj.idLoadingPoint.forEach((elem) => {
+          let pointValue = pointList.find((item) => item._id == elem).value;
+          obj.valueLoadingPoint.push(pointValue);
+        });
+      }
+      if (obj.idUnloadingPoint != null) {
+        obj.idUnloadingPoint.forEach((elem) => {
+          let pointValue = pointList.find((item) => item._id == elem).value;
+          obj.valueUnloadingPoint.push(pointValue);
+        });
+      }
+      setOdersData(obj);
+      setBtnName("Сохранить");
+      setShowClientPrice(false);
+      setShowDriverPrice(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    setShowBtn(
+      !(showDateInput || showClientInput || showClientPrice) &&
+        odersData.idLoadingPoint.length > 0 &&
+        odersData.idUnloadingPoint.length > 0
+    );
+  }, [odersData]);
 
   const handleLostFocus = (e) => {
     let { ...obj } = odersData;
@@ -99,8 +175,8 @@ export const CreateOderNew = (props) => {
       obj.idManager = value._id;
       obj.valueManager = value.value;
       setShowManagerInput(false);
-      let nextFocus = document.querySelector(".PFContentPoint").firstChild;
-      nextFocus.focus();
+      //let nextFocus = document.querySelector(".PFContentPoint").firstChild;
+      //nextFocus.focus();
     }
     if (value.field == "owner") {
       obj.idDriver = value._id;
@@ -178,13 +254,20 @@ export const CreateOderNew = (props) => {
     }
     setOdersData(obj);
   };
-  const handleClick=()=>{
-    console.log(odersData);
-    dispatch(addOder(odersData));
-    //props.addOder();
-  }
+  const handleClick = () => {
+    if (btnName == "Добавить") {
+      dispatch(addOder(odersData));
+      props.addOder();
+    }
+    if (btnName == "Сохранить") {
+      console.log(odersData);
+      dispatch(editOderNew(odersData));
+      props.clickSave();
+    }
+  };
+
   return (
-    <div className="crOderMainDiv">
+    <div className={mainDivStyle}>
       <h4 className="crOderCustomerHeader">Информация о заказе</h4>
       <div className="crOderCustomDiv">
         <div className="crOderDate">
@@ -399,13 +482,11 @@ export const CreateOderNew = (props) => {
           </div>
         </div>
       </div>
-      {!(showDateInput || showClientInput || showClientPrice) &&
-        odersData.idLoadingPoint.length > 0 &&
-        odersData.idUnloadingPoint.length > 0 && (
-          <button className="crOdBtn" onClick={handleClick}>
-            Добавить
-          </button>
-        )}
+      {showBtn && (
+        <button className="crOdBtn" onClick={handleClick}>
+          {btnName}
+        </button>
+      )}
     </div>
   );
 };

@@ -6,7 +6,7 @@ import "./createOder.sass";
 export const PointsForm = (props) => {
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
 
-  const [showAddPoint, setShowAddPoint] = useState(true);
+  const [showAddPoint, setShowAddPoint] = useState(false);
   const [pointData, setPointData] = useState({});
 
   const handleClickMinis = (index) => {

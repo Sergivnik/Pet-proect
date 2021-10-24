@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { UserThead } from "./userThead.jsx";
 import { UserTr } from "./userTr.jsx";
-import { CreateOder } from "../createOder/createOder.jsx";
 import { CreateOderNew } from "../createOder/createOderNew.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
 import { CustomerPaymentForm } from "../customerPaymentForm/customerPaymentForm.jsx";

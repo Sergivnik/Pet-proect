@@ -401,6 +401,43 @@ var Tasks = {
     }
     db.end();
   },
+  editNew: async function (data, callback){
+    console.log(data);
+    let newData = {
+      date: data.date,
+      idDriver: data.idDriver,
+      idCustomer: data.idCustomer,
+      idLoadingPoint: data.idLoadingPoint,
+      idUnloadingPoint: data.idUnloadingPoint,
+      customerPrice: data.customerPrice,
+      driverPrice: data.driverPrice,
+      proxy: data.proxy,
+      document: data.document,
+      dateOfSubmission: data.dateOfSubmission,
+      customerPayment: data.customerPayment,
+      dateOfPromise: data.dateOfPromise,
+      driverPayment: data.driverPayment,
+      accountNumber: data.accountNumber,
+      partialPaymentAmount: data.partialPaymentAmount,
+      idTrackDriver: data.idTrackDriver,
+      idTrack: data.idTrack,
+      idManager: data.idManager,
+      loadingInfo: data.loadingInfo,
+      unloadingInfo: data.unloadingInfo,
+    };
+    const db = mysql.createPool(options).promise();
+    try {
+      await db.query(`UPDATE oderslist SET ? WHERE _id=?`, [
+        newData,
+        data._id,
+      ]);
+      callback(data);
+    } catch (err) {
+      console.log(err);
+      callback({ error: err });
+    }
+    db.end();
+  },
   edit: async function (newdata, callback) {
     switch (newdata.field) {
       case "date":

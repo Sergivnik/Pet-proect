@@ -4,6 +4,8 @@ import {
   ADD_ODER_SUCCESS,
   DEL_ODER,
   EDIT_ODER,
+  EDIT_ODER_NEW_SUCCESS,
+  EDIT_ODER_NEW_FAILURE,
   SET_PROXY,
   MAKE_PAYMENT_CUSTOMER_SUCCESS,
 } from "../actions/oderActions.js";
@@ -56,6 +58,20 @@ export const oderReducer = (store = initialStore, action) => {
               unloadingInfo: action.data.unloadingInfo,
             },
           },
+        },
+      });
+    }
+    case EDIT_ODER_NEW_SUCCESS: {
+      let index = store.odersList.findIndex(
+        (item) => item._id == action.data._id
+      );
+      console.log(index);
+      return update(store, {
+        odersList: {
+          $merge: { [index]: action.data },
+        },
+        originOdersList: {
+          $merge: { [index]: action.data },
         },
       });
     }
@@ -209,14 +225,10 @@ export const oderReducer = (store = initialStore, action) => {
       }
       return update(store, {
         odersList: {
-          $merge: {
-            [index]: newOder,
-          },
+          $merge: { [index]: newOder },
         },
         originOdersList: {
-          $merge: {
-            [originIndex]: newOder,
-          },
+          $merge: { [originIndex]: newOder },
         },
         income: { $set: newIncome },
       });
