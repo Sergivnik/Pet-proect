@@ -159,6 +159,9 @@ export const UserTr = (props) => {
           </td>
           {/* Column LoadingPoint */}
           <td className="odersTd">
+            {pointLoadInfo && (
+              <div className="oderTdTooltip">{pointLoadInfo}</div>
+            )}
             {props.loadingPoint.map((item, index) =>
               props.showEdit &&
               props.elem._id == props.trId &&
@@ -191,9 +194,7 @@ export const UserTr = (props) => {
                   >
                     {item}
                   </p>
-                  {pointLoadInfo && (
-                    <div className="oderTdTooltip">{pointLoadInfo}</div>
-                  )}
+
                   {props.showContextMenu &&
                     props.elem._id == props.trId &&
                     props.pId == index &&
@@ -231,6 +232,9 @@ export const UserTr = (props) => {
 
           {/* Column UnloadingPoint */}
           <td className="odersTd">
+            {pointUnloadInfo && (
+              <div className="oderTdTooltip">{pointUnloadInfo}</div>
+            )}
             {props.unloadingPoint.map((item, index) =>
               props.showEdit &&
               props.elem._id == props.trId &&
@@ -263,9 +267,7 @@ export const UserTr = (props) => {
                   >
                     {item}
                   </p>
-                  {pointUnloadInfo && (
-                    <div className="oderTdTooltip">{pointUnloadInfo}</div>
-                  )}
+
                   {props.showContextMenu &&
                     props.elem._id == props.trId &&
                     props.pId == index &&
