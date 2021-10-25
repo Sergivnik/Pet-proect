@@ -52,7 +52,7 @@ export const editOderNew = (data) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: data,
       })
       .then((res) => {
         return dispatch(editOderNewSuccess(data));
@@ -65,9 +65,9 @@ export const editOderNewSuccess = (data) => ({
   type: EDIT_ODER_NEW_SUCCESS,
   data,
 });
-export const editOderNewFailure = ()=>({
-  type: EDIT_ODER_NEW_FAILURE
-})
+export const editOderNewFailure = () => ({
+  type: EDIT_ODER_NEW_FAILURE,
+});
 
 export const setProxy = (id) => ({
   type: SET_PROXY,

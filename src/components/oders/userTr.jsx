@@ -16,6 +16,8 @@ export const UserTr = (props) => {
   const [oderId, setOderId] = useState(null);
   const [trackDriver, setTrackDriver] = useState(null);
   const [manager, setManager] = useState(null);
+  const [pointLoadInfo, setPointLoadInfo] = useState(null);
+  const [pointUnloadInfo, setPointUnloadInfo] = useState(null);
   const [dateOfSubmission, setDateOfSubmission] = useState(null);
   const [dateOfPromise, setDateOfPromise] = useState(null);
   const [showFullSum, setShowFullSum] = useState(null);
@@ -59,6 +61,19 @@ export const UserTr = (props) => {
       }
     }
   };
+  const handleMouseOverPoint = (e) => {
+    let pId = Number(e.currentTarget.id);
+    let oder = props.elem;
+    let TD = e.currentTarget.parentElement.parentElement;
+    if (TD.nodeName == "TD" && TD.cellIndex == 3 && oder.loadingInfo != null) {
+      let toolTip = oder.loadingInfo[pId];
+      setPointLoadInfo(toolTip);
+    }
+    if (TD.nodeName == "TD" && TD.cellIndex == 4 && oder.unloadingInfo != null) {
+      let toolTip = oder.unloadingInfo[pId];
+      setPointUnloadInfo(toolTip);
+    }
+  };
   const handleMouseLeave = () => {
     setOderId(null);
     setDateOfSubmission(null);
@@ -66,13 +81,15 @@ export const UserTr = (props) => {
     setShowFullSum(false);
     setTrackDriver(null);
     setManager(null);
+    setPointLoadInfo(null);
+    setPointUnloadInfo(null);
   };
   const handleClickEdit = () => {
     setShowEdit(false);
   };
-  const handleClickSave=()=>{
+  const handleClickSave = () => {
     setShowEdit(true);
-  }
+  };
 
   return (
     <>
@@ -169,12 +186,14 @@ export const UserTr = (props) => {
                     id={index}
                     onDoubleClick={props.handleDBLClick}
                     onContextMenu={props.handleContext}
-                    onMouseOver={handleMouseOver}
+                    onMouseOver={handleMouseOverPoint}
                     onMouseLeave={handleMouseLeave}
                   >
                     {item}
                   </p>
-                  {/*Place for tooltip*/}
+                  {pointLoadInfo && (
+                    <div className="oderTdTooltip">{pointLoadInfo}</div>
+                  )}
                   {props.showContextMenu &&
                     props.elem._id == props.trId &&
                     props.pId == index &&
@@ -239,9 +258,14 @@ export const UserTr = (props) => {
                     id={index}
                     onDoubleClick={props.handleDBLClick}
                     onContextMenu={props.handleContext}
+                    onMouseOver={handleMouseOverPoint}
+                    onMouseLeave={handleMouseLeave}
                   >
                     {item}
                   </p>
+                  {pointUnloadInfo && (
+                    <div className="oderTdTooltip">{pointUnloadInfo}</div>
+                  )}
                   {props.showContextMenu &&
                     props.elem._id == props.trId &&
                     props.pId == index &&

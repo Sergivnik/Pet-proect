@@ -54,7 +54,6 @@ export const CreateOderNew = (props) => {
       if (obj.unloadingInfo == null) obj.unloadingInfo = [];
       if (obj.date != null) {
         setShowDateInput(false);
-        obj.date = dateLocal(obj.date);
       }
       if (obj.idCustomer != null) {
         setShowClientInput(false);
@@ -289,7 +288,7 @@ export const CreateOderNew = (props) => {
                   if (e.target.className == "crOderDateP") e.preventDefault();
                 }}
               >
-                {odersData.date}
+                {dateLocal(odersData.date)}
               </p>
             </div>
           )}
