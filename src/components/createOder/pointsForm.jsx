@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import "./createOder.sass";
@@ -6,8 +6,12 @@ import "./createOder.sass";
 export const PointsForm = (props) => {
   const citieslist = useSelector((state) => state.oderReducer.citieslist);
 
-  const [showAddPoint, setShowAddPoint] = useState(false);
+  const [showAddPoint, setShowAddPoint] = useState(true);
   const [pointData, setPointData] = useState({});
+
+  useEffect(() => {
+    if (props.pointsList.length != 0) setShowAddPoint(false);
+  }, [props]);
 
   const handleClickMinis = (index) => {
     props.delPoint(index, props.name);
@@ -15,9 +19,9 @@ export const PointsForm = (props) => {
   const handleClickPlus = () => {
     setShowAddPoint(true);
   };
-  const handleEnter=(e)=>{
+  const handleEnter = (e) => {
     console.log(e);
-  }
+  };
   const setValue = (data) => {
     setPointData({ id: data._id, value: data.value });
     let input = document.querySelector(".crOderLoadInfo");
