@@ -1,6 +1,12 @@
 const mysql = require("mysql2");
 const options = require("./config.js");
-
+const dateToSqlString = (dateSomeFormate) => {
+  let date = new Date(dateSomeFormate);
+  let Year = date.getFullYear();
+  let Month = date.getMonth() + 1;
+  let Day = date.getDate();
+  return `${Year}-${Month}-${Day}`;
+};
 var Tasks = {
   list: async function (callback) {
     let allData = {};
@@ -402,9 +408,11 @@ var Tasks = {
     db.end();
   },
   editNew: async function (data, callback) {
-    console.log(data);
+    
+    dateToSqlString(data.dateOfSubmission);
+    console.log(data.date);
     let newData = {
-      date: data.date,
+      date: dateToSqlString(data.date),
       idDriver: data.idDriver,
       idCustomer: data.idCustomer,
       idLoadingPoint: JSON.stringify(data.idLoadingPoint),
@@ -413,9 +421,9 @@ var Tasks = {
       driverPrice: data.driverPrice,
       proxy: data.proxy,
       document: data.document,
-      dateOfSubmission: data.dateOfSubmission,
+      dateOfSubmission: dateToSqlString(data.dateOfSubmission),
       customerPayment: data.customerPayment,
-      dateOfPromise: data.dateOfPromise,
+      dateOfPromise: dateToSqlString(data.dateOfPromise),
       driverPayment: data.driverPayment,
       accountNumber: data.accountNumber,
       partialPaymentAmount: data.partialPaymentAmount,
@@ -425,6 +433,7 @@ var Tasks = {
       loadingInfo: JSON.stringify(data.loadingInfo),
       unloadingInfo: JSON.stringify(data.unloadingInfo),
     };
+    console.log(newData);
     const db = mysql.createPool(options).promise();
     try {
       await db.query(`UPDATE oderslist SET ? WHERE _id=?`, [newData, data._id]);
