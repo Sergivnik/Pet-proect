@@ -1,9 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { editOder } from "../../actions/oderActions.js";
 
 export const TdDate = (props) => {
-   const DateStr = (date) => {
-      date = new Date(date);
-      return date.toLocaleDateString();
-   };
-   return <td className="odersTd">{DateStr(props.date)}</td>;
-}
+  const DateStr = (date) => {
+    date = new Date(date);
+    return date.toLocaleDateString();
+  };
+  const dispatch = useDispatch();
+  const [showEdit, setShowEdit] = useState(false);
+  const [currentId, setCurrentId] = useState(null);
+  const handleDBLClick = (e) => {
+    if (props.edit) {
+      setShowEdit(true);
+      e.currentTarget.parentElement.style.backgroundColor = "#fff";
+      setCurrentId(e.currentTarget.parentElement.id);
+    }
+  };
+  const handleEnter = (e) => {
+    if (e.key == "Enter") {
+      dispatch(editOder(currentId, "date", e.currentTarget.value));
+      setShowEdit(false);
+      setCurrentId(null);
+    }
+    if (e.key == "Escape") {
+      setShowEdit(false);
+      setCurrentId(null);
+    }
+  };
+  const handleBlur = (e) => {
+    dispatch(editOder(currentId, "date", e.currentTarget.value));
+    setShowEdit(false);
+    setCurrentId(null);
+  };
+  useEffect(() => {
+    if (props.currentTR != currentId) {
+      setShowEdit(false);
+      setCurrentId(null);
+    }
+  }, [props.currentTR]);
+  return (
+    <td className="odersTd" onDoubleClick={handleDBLClick}>
+      {showEdit ? (
+        <input
+          className="tdDateInput"
+          name="date"
+          type="date"
+          onKeyDown={handleEnter}
+          onBlur={handleBlur}
+        />
+      ) : (
+        DateStr(props.date)
+      )}
+    </td>
+  );
+};

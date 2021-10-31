@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { UserTdCityContext } from "./userTdCityContext/userTdCityContext.jsx";
 import { CreateOderNew } from "../createOder/createOderNew.jsx";
+import { TdDate } from "../userTd/tdDate.jsx";
+import { TdDriver } from "../userTd/tdDriver.jsx";
 
 export const UserTr = (props) => {
   const accountList = useSelector(
@@ -69,7 +71,11 @@ export const UserTr = (props) => {
       let toolTip = oder.loadingInfo[pId];
       setPointLoadInfo(toolTip);
     }
-    if (TD.nodeName == "TD" && TD.cellIndex == 4 && oder.unloadingInfo != null) {
+    if (
+      TD.nodeName == "TD" &&
+      TD.cellIndex == 4 &&
+      oder.unloadingInfo != null
+    ) {
       let toolTip = oder.unloadingInfo[pId];
       setPointUnloadInfo(toolTip);
     }
@@ -101,39 +107,14 @@ export const UserTr = (props) => {
             if (e.target.tagName === "TD") e.preventDefault();
           }}
         >
-          {/* Column Data */}
-          <td className="odersTd" onDoubleClick={props.handleDBLClick}>
-            {props.showEdit &&
-            props.elem._id == props.trId &&
-            props.colNumber == 0 ? (
-              <input name="date" type="date" onKeyDown={props.handleEnter} />
-            ) : (
-              DateStr(props.elem.date)
-            )}
-          </td>
-          {/* Column Driver */}
-          <td
-            className="odersTd"
-            onDoubleClick={props.handleDBLClick}
-            onMouseOver={handleMouseOver}
-            onMouseLeave={handleMouseLeave}
-          >
-            {props.showEdit &&
-            props.elem._id == props.trId &&
-            props.colNumber == 1 ? (
-              <div className="divChoise">
-                <ChoiseList
-                  name="driver"
-                  parent="oders"
-                  arrlist={props.driversList}
-                  setValue={props.setValue}
-                />
-              </div>
-            ) : (
-              props.driver
-            )}
-            {trackDriver && <div className="oderTdTooltip">{trackDriver}</div>}
-          </td>
+          <TdDate date={props.elem.date} currentTR={props.trId} edit={true} />
+          <TdDriver
+            idDriver={props.elem.idDriver}
+            idTrackDriver={props.elem.idTrackDriver}
+            currentTR={props.trId}
+            edit={true}
+          />
+          
           {/* Column Customer */}
           <td
             className="odersTd"
