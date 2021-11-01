@@ -65,7 +65,11 @@ export const UserTrNew = (props) => {
         idDriver={props.elem.idDriver}
         idTrackDriver={props.elem.idTrackDriver}
       />
-      <TdCustomer customer={props.customer} />
+      <TdCustomer
+        idCustomer={props.elem.idCustomer}
+        idManager={props.elem.idManager}
+        currentTR={props.trId}
+      />
       <TdLoadingPoint loadingPoint={props.loadingPoint} />
       <TdUnoadingPoint unloadingPoint={props.unloadingPoint} />
       <TdCustomerPrice elem={props.elem} />

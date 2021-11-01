@@ -5,6 +5,7 @@ import { UserTdCityContext } from "./userTdCityContext/userTdCityContext.jsx";
 import { CreateOderNew } from "../createOder/createOderNew.jsx";
 import { TdDate } from "../userTd/tdDate.jsx";
 import { TdDriver } from "../userTd/tdDriver.jsx";
+import { TdCustomer } from "../userTd/tdCustomer.jsx";
 
 export const UserTr = (props) => {
   const accountList = useSelector(
@@ -114,30 +115,12 @@ export const UserTr = (props) => {
             currentTR={props.trId}
             edit={true}
           />
-          
-          {/* Column Customer */}
-          <td
-            className="odersTd"
-            onDoubleClick={props.handleDBLClick}
-            onMouseOver={handleMouseOver}
-            onMouseLeave={handleMouseLeave}
-          >
-            {props.showEdit &&
-            props.elem._id == props.trId &&
-            props.colNumber == 2 ? (
-              <div className="divChoise">
-                <ChoiseList
-                  name="oders"
-                  parent="oders"
-                  arrlist={props.clientList}
-                  setValue={props.setValue}
-                />
-              </div>
-            ) : (
-              props.customer
-            )}
-            {manager && <div className="oderTdTooltip">{manager}</div>}
-          </td>
+          <TdCustomer
+            idCustomer={props.elem.idCustomer}
+            idManager={props.elem.idManager}
+            currentTR={props.trId}
+            edit={true}
+          />
           {/* Column LoadingPoint */}
           <td className="odersTd">
             {pointLoadInfo && (
