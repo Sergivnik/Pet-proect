@@ -6,6 +6,7 @@ import { CreateOderNew } from "../createOder/createOderNew.jsx";
 import { TdDate } from "../userTd/tdDate.jsx";
 import { TdDriver } from "../userTd/tdDriver.jsx";
 import { TdCustomer } from "../userTd/tdCustomer.jsx";
+import { TdLoadingPoint } from "../userTd/tdLoadingPoint.jsx";
 
 export const UserTr = (props) => {
   const accountList = useSelector(
@@ -122,6 +123,12 @@ export const UserTr = (props) => {
             edit={true}
           />
           {/* Column LoadingPoint */}
+          <TdLoadingPoint
+            idLoadingPoint={props.elem.idLoadingPoint}
+            loadingInfo={props.elem.loadingInfo}
+            currentTR={props.trId}
+            edit={true}
+          />
           <td className="odersTd">
             {pointLoadInfo && (
               <div className="oderTdTooltip">{pointLoadInfo}</div>

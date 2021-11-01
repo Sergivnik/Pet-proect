@@ -51,6 +51,12 @@ export const TdDriver = (props) => {
   useEffect(() => {
     if (currentElement) currentElement.firstChild.firstChild.focus();
   }, [currentElement]);
+  useEffect(() => {
+    if (props.currentTR != currentId) {
+      setShowEdit(false);
+      setCurrentId(null);
+    }
+  }, [props.currentTR]);
   return (
     <td
       className="userTd"
