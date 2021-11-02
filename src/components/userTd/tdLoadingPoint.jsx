@@ -53,19 +53,15 @@ export const TdLoadingPoint = (props) => {
     setCurrentId(null);
     setAddPoint(false);
   };
-  const handleESC = (e) => {
-    if (e.code == "Escape") {
-      setShowEdit(false);
-      setCurrentId(null);
-    }
-  };
   const handleContext = (e) => {
-    e.preventDefault();
-    props.getCurrentTR();
-    let id = e.currentTarget.parentElement.parentElement.parentElement.id;
-    setPIndex(e.currentTarget.id);
-    setCurrentId(Number(id));
-    setShowContextMenu(true);
+    if (props.edit) {
+      e.preventDefault();
+      props.getCurrentTR();
+      let id = e.currentTarget.parentElement.parentElement.parentElement.id;
+      setPIndex(e.currentTarget.id);
+      setCurrentId(Number(id));
+      setShowContextMenu(true);
+    }
   };
   const hideContextMenu = () => {
     setShowContextMenu(false);
@@ -85,15 +81,19 @@ export const TdLoadingPoint = (props) => {
   useEffect(() => {
     const onKeypress = (e) => {
       if (showContextMenu) setShowContextMenu(false);
+      if (showEdit){
+        setShowEdit(false);
+        setCurrentId(null);
+      }
     };
     document.addEventListener("keydown", onKeypress);
     return () => {
       document.removeEventListener("keydown", onKeypress);
     };
-  }, [showContextMenu]);
+  }, [showContextMenu,showEdit]);
 
   return (
-    <td className="userTd" onKeyDown={handleESC}>
+    <td className="userTd">
       {pointLoadInfo && <div className="oderTdTooltip">{pointLoadInfo}</div>}
       {props.idLoadingPoint.map((idCity, index) =>
         showEdit ? (
