@@ -252,6 +252,10 @@ export const Oders = () => {
     }
   };
 
+  const getCurrentTR = (id) => {
+    setTrId(id);
+  };
+
   const handleClickTR = (event) => {
     let curTR = event.currentTarget;
     if (currentTR) currentTR.style.backgroundColor = "#FFF";
@@ -512,6 +516,7 @@ export const Oders = () => {
                   handleClickAddCity={handleClickAddCity}
                   showAddCity={showAddCity}
                   hideContextMenu={hideContextMenu}
+                  getCurrentTR={getCurrentTR}
                 />
               );
             })}

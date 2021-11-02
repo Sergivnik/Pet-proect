@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { UserTdCityContext } from "../oders/userTdCityContext/userTdCityContext.jsx";
 
 export const TdLoadingPoint = (props) => {
   const dispatch = useDispatch();
@@ -11,6 +12,9 @@ export const TdLoadingPoint = (props) => {
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [editCityIndex, setEditCityIndex] = useState(null);
+  const [showContextMenu, setShowContextMenu] = useState(false);
+  const [pIndex, setPIndex] = useState(null);
+  const [addPoint, setAddPoint] = useState(false);
 
   const getValue = (id, arrObj) => {
     if (id) {
@@ -37,18 +41,39 @@ export const TdLoadingPoint = (props) => {
     }
   };
   const setValue = (data) => {
-    let arr = props.idLoadingPoint;
-    arr[data.index] = data._id;
+    let [...arr] = props.idLoadingPoint;
+    if (addPoint) {
+      arr.push(data._id);
+    } else {
+      arr[data.index] = data._id;
+    }
     console.log(currentId, "oders", arr);
     dispatch(editOder(currentId, "loadingPoint", arr));
     setShowEdit(false);
     setCurrentId(null);
+    setAddPoint(false);
   };
   const handleESC = (e) => {
     if (e.code == "Escape") {
       setShowEdit(false);
       setCurrentId(null);
     }
+  };
+  const handleContext = (e) => {
+    e.preventDefault();
+    props.getCurrentTR();
+    let id = e.currentTarget.parentElement.parentElement.parentElement.id;
+    setPIndex(e.currentTarget.id);
+    setCurrentId(Number(id));
+    setShowContextMenu(true);
+  };
+  const hideContextMenu = () => {
+    setShowContextMenu(false);
+  };
+  const handleClickAddCity = () => {
+    setAddPoint(true);
+    setShowContextMenu(false);
+    setShowEdit(true);
   };
 
   useEffect(() => {
@@ -57,6 +82,15 @@ export const TdLoadingPoint = (props) => {
       setCurrentId(null);
     }
   }, [props.currentTR]);
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (showContextMenu) setShowContextMenu(false);
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, [showContextMenu]);
 
   return (
     <td className="userTd" onKeyDown={handleESC}>
@@ -78,12 +112,24 @@ export const TdLoadingPoint = (props) => {
               className="odersP"
               id={index}
               onDoubleClick={handleDBLClick}
-              //onContextMenu={props.handleContext}
+              onContextMenu={handleContext}
               onMouseOver={handleMouseOver}
               onMouseLeave={handleMouseLeave}
             >
               {getValue(idCity, citieslist)}
             </p>
+            {showContextMenu &&
+              currentId == props.currentTR &&
+              pIndex == index && (
+                <UserTdCityContext
+                  loadingPointList={props.idLoadingPoint}
+                  hideContextMenu={hideContextMenu}
+                  trId={currentId}
+                  pId={pIndex}
+                  colNumber={3}
+                  handleClickAddCity={handleClickAddCity}
+                />
+              )}
           </div>
         )
       )}

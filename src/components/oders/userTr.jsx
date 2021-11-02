@@ -98,6 +98,9 @@ export const UserTr = (props) => {
   const handleClickSave = () => {
     setShowEdit(true);
   };
+  const trGetId = () => {
+    props.getCurrentTR(props.elem._id);
+  };
 
   return (
     <>
@@ -122,84 +125,13 @@ export const UserTr = (props) => {
             currentTR={props.trId}
             edit={true}
           />
-          {/* Column LoadingPoint */}
           <TdLoadingPoint
             idLoadingPoint={props.elem.idLoadingPoint}
             loadingInfo={props.elem.loadingInfo}
+            getCurrentTR={trGetId}
             currentTR={props.trId}
             edit={true}
           />
-          <td className="odersTd">
-            {pointLoadInfo && (
-              <div className="oderTdTooltip">{pointLoadInfo}</div>
-            )}
-            {props.loadingPoint.map((item, index) =>
-              props.showEdit &&
-              props.elem._id == props.trId &&
-              props.colNumber == 3 &&
-              props.indexCity == index ? (
-                <div
-                  className="divChoise"
-                  key={`ChoiseList-${props.elem._id}-${index}`}
-                >
-                  <ChoiseList
-                    name="loadingPoint"
-                    parent="oders"
-                    arrlist={props.citieslist}
-                    setValue={props.setValue}
-                    index={index}
-                  />
-                </div>
-              ) : (
-                <div
-                  className="odersDivP"
-                  key={`divLP-${props.elem._id}-${index}`}
-                >
-                  <p
-                    className="odersP"
-                    id={index}
-                    onDoubleClick={props.handleDBLClick}
-                    onContextMenu={props.handleContext}
-                    onMouseOver={handleMouseOverPoint}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {item}
-                  </p>
-
-                  {props.showContextMenu &&
-                    props.elem._id == props.trId &&
-                    props.pId == index &&
-                    props.colNumber == 3 && (
-                      <UserTdCityContext
-                        coord={props.coord}
-                        trId={props.trId}
-                        pId={props.pId}
-                        colNumber={props.colNumber}
-                        loadingPointList={props.elem.idLoadingPoint}
-                        handleClickAddCity={props.handleClickAddCity}
-                        hideContextMenu={props.hideContextMenu}
-                      />
-                    )}
-                </div>
-              )
-            )}
-            {props.showAddCity &&
-              props.elem._id == props.trId &&
-              props.colNumber == 3 && (
-                <div
-                  className="divChoise"
-                  key={`ChoiseList-${props.elem._id}-${props.loadingPoint.length}`}
-                >
-                  <ChoiseList
-                    name="loadingPoint"
-                    parent="oders"
-                    arrlist={props.citieslist}
-                    setValue={props.setValue}
-                    index={props.loadingPoint.length}
-                  />
-                </div>
-              )}
-          </td>
 
           {/* Column UnloadingPoint */}
           <td className="odersTd">
