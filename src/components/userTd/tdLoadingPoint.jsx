@@ -15,6 +15,7 @@ export const TdLoadingPoint = (props) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [pIndex, setPIndex] = useState(null);
   const [addPoint, setAddPoint] = useState(false);
+  const [coord, setCoord] = useState({ left: 0, top: 0 });
 
   const getValue = (id, arrObj) => {
     if (id) {
@@ -47,13 +48,17 @@ export const TdLoadingPoint = (props) => {
     } else {
       arr[data.index] = data._id;
     }
-    console.log(currentId, "oders", arr);
     dispatch(editOder(currentId, "loadingPoint", arr));
     setShowEdit(false);
     setCurrentId(null);
     setAddPoint(false);
   };
   const handleContext = (e) => {
+    /* let TdX = e.currentTarget.offsetParent.offsetParent.offsetLeft;
+    let X = e.clientX;
+    let TdY = e.currentTarget.offsetParent.offsetParent.offsetTop;
+    let Y = e.clientY;
+    setCoord({ left: X - TdX, top: Y - TdY }); */
     if (props.edit) {
       e.preventDefault();
       props.getCurrentTR();
@@ -81,7 +86,7 @@ export const TdLoadingPoint = (props) => {
   useEffect(() => {
     const onKeypress = (e) => {
       if (showContextMenu) setShowContextMenu(false);
-      if (showEdit){
+      if (showEdit) {
         setShowEdit(false);
         setCurrentId(null);
       }
@@ -90,7 +95,7 @@ export const TdLoadingPoint = (props) => {
     return () => {
       document.removeEventListener("keydown", onKeypress);
     };
-  }, [showContextMenu,showEdit]);
+  }, [showContextMenu, showEdit]);
 
   return (
     <td className="userTd">
@@ -122,6 +127,7 @@ export const TdLoadingPoint = (props) => {
               currentId == props.currentTR &&
               pIndex == index && (
                 <UserTdCityContext
+                  coord={coord}
                   loadingPointList={props.idLoadingPoint}
                   hideContextMenu={hideContextMenu}
                   trId={currentId}
