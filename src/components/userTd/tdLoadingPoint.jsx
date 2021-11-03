@@ -54,11 +54,14 @@ export const TdLoadingPoint = (props) => {
     setAddPoint(false);
   };
   const handleContext = (e) => {
-    /* let TdX = e.currentTarget.offsetParent.offsetParent.offsetLeft;
+    let TdX = e.currentTarget.offsetParent.getBoundingClientRect().x;
     let X = e.clientX;
-    let TdY = e.currentTarget.offsetParent.offsetParent.offsetTop;
+    let TdY = e.currentTarget.offsetParent.getBoundingClientRect().y;
     let Y = e.clientY;
-    setCoord({ left: X - TdX, top: Y - TdY }); */
+    console.log("pageY", e.pageY);
+    console.log(e.currentTarget.offsetParent.getBoundingClientRect().y);
+    console.log("clientY", Y);
+    setCoord({ left: X - TdX, top: Y - TdY });
     if (props.edit) {
       e.preventDefault();
       props.getCurrentTR();
@@ -89,6 +92,7 @@ export const TdLoadingPoint = (props) => {
       if (showEdit) {
         setShowEdit(false);
         setCurrentId(null);
+        setCoord({ left: 0, top: 0 });
       }
     };
     document.addEventListener("keydown", onKeypress);
