@@ -80,7 +80,11 @@ export const UserTrNew = (props) => {
         unLoadingInfo={props.elem.unloadingInfo}
         currentTR={props.trId}
       />
-      <TdCustomerPrice elem={props.elem} />
+      <TdCustomerPrice
+        customerPrice={props.elem.customerPrice}
+        customerPayment={props.elem.customerPayment}
+        partialPaymentAmount={props.elem.partialPaymentAmount}
+      />
       <TdDocument
         id={props.elem._id}
         customerPrice={props.elem.document}

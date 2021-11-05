@@ -8,6 +8,10 @@ import { TdDriver } from "../userTd/tdDriver.jsx";
 import { TdCustomer } from "../userTd/tdCustomer.jsx";
 import { TdLoadingPoint } from "../userTd/tdLoadingPoint.jsx";
 import { TdUnoadingPoint } from "../userTd/tdUnloadingPoint.jsx";
+import { TdCustomerPrice } from "../userTd/tdCustomerPrice.jsx";
+import { TdDriverPrice } from "../userTd/tdDriverPrice.jsx";
+import { TdProxy } from "../userTd/tdProxy.jsx";
+import { TdComplited } from "../userTd/tdComplited.jsx";
 
 export const UserTr = (props) => {
   const accountList = useSelector(
@@ -140,118 +144,29 @@ export const UserTr = (props) => {
             currentTR={props.trId}
             edit={true}
           />
-          {/* Column Customer Price */}
-          <td
-            className="odersTd"
-            onDoubleClick={props.handleDBLClick}
-            onMouseOver={handleMouseOver}
-            onMouseLeave={handleMouseLeave}
-          >
-            {props.showEdit &&
-            props.elem._id == props.trId &&
-            props.colNumber == 5 &&
-            props.elem.customerPayment != "Ок" ? (
-              <input
-                name="oderPrice"
-                type="number"
-                onKeyDown={props.handleEnter}
-              />
-            ) : props.elem.customerPayment == "Частично оплачен" ? (
-              props.elem.customerPrice
-            ) : (
-              props.elem.customerPrice
-            )}
-            {props.elem._id == oderId && showFullSum && (
-              <div className="oderTdTooltip">
-                Частично оплачено {props.elem.partialPaymentAmount} руб
-              </div>
-            )}
-          </td>
-          {/* Column Driver Price */}
-          <td className="odersTd" onDoubleClick={props.handleDBLClick}>
-            {props.showEdit &&
-            props.elem._id == props.trId &&
-            props.colNumber == 6 &&
-            props.elem.driverPayment != "Ок" ? (
-              <div className="divChoise">
-                <input
-                  name="driverPrice"
-                  type="number"
-                  onKeyDown={props.handleEnter}
-                />
-              </div>
-            ) : (
-              props.elem.driverPrice
-            )}
-          </td>
-          {/* Column Check Proxy */}
-          <td className="odersTd" onDoubleClick={props.handleDBLClick}>
-            {props.showEdit &&
-            props.colNumber == 7 &&
-            props.elem._id == props.trId ? (
-              !props.elem.proxy ? (
-                <button className="odersTdBtn" onClick={props.handleClickProxy}>
-                  Доверенность
-                </button>
-              ) : (
-                <div>
-                  <span>
-                    <input
-                      type="radio"
-                      name="proxy"
-                      value="yes"
-                      onChange={props.handleClickRadio}
-                    />
-                    Ок
-                  </span>
-                  <span>
-                    <input
-                      type="radio"
-                      name="proxy"
-                      value="no"
-                      onChange={props.handleClickRadio}
-                    />
-                    Нет
-                  </span>
-                </div>
-              )
-            ) : props.elem.proxy ? (
-              "Ок"
-            ) : (
-              "Нет"
-            )}
-          </td>
-          {/* Column Check Complited */}
-          <td className="odersTd" onDoubleClick={props.handleDBLClick}>
-            {props.showEdit &&
-            props.colNumber == 8 &&
-            props.elem._id == props.trId ? (
-              <div>
-                <span>
-                  <input
-                    type="radio"
-                    name="complited"
-                    value="yes"
-                    onChange={props.handleClickRadio}
-                  />
-                  Ок
-                </span>
-                <span>
-                  <input
-                    type="radio"
-                    name="complited"
-                    value="no"
-                    onChange={props.handleClickRadio}
-                  />
-                  Нет
-                </span>
-              </div>
-            ) : props.elem.complited ? (
-              "Ок"
-            ) : (
-              "Нет"
-            )}
-          </td>
+          <TdCustomerPrice
+            customerPrice={props.elem.customerPrice}
+            customerPayment={props.elem.customerPayment}
+            partialPaymentAmount={props.elem.partialPaymentAmount}
+            currentTR={props.trId}
+            edit={true}
+          />
+          <TdDriverPrice
+            driverPrice={props.elem.driverPrice}
+            driverPayment={props.elem.driverPayment}
+            currentTR={props.trId}
+            edit={true}
+          />
+          <TdProxy
+            proxy={props.elem.proxy}
+            currentTR={props.trId}
+            edit={true}
+          />
+          <TdComplited
+            complited={props.elem.complited}
+            currentTR={props.trId}
+            edit={true}
+          />
           {/* Column Check Document */}
           <td
             className="odersTd"

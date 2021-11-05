@@ -88,11 +88,13 @@ export const TdLoadingPoint = (props) => {
   }, [props.currentTR]);
   useEffect(() => {
     const onKeypress = (e) => {
-      if (showContextMenu) setShowContextMenu(false);
-      if (showEdit) {
-        setShowEdit(false);
-        setCurrentId(null);
-        setCoord({ left: 0, top: 0 });
+      if (e.code == "Escape"){
+        if (showContextMenu) setShowContextMenu(false);
+        if (showEdit) {
+          setShowEdit(false);
+          setCurrentId(null);
+          setCoord({ left: 0, top: 0 });
+        }
       }
     };
     document.addEventListener("keydown", onKeypress);
