@@ -242,18 +242,18 @@ export const UserThead = (props) => {
             <svg width="100%" height="20">
               <polygon
                 points="5 5, 25 5, 15 15, 5 5 "
-                fill={props.filterList.complited.length > 0 ? "blue" : "black"}
+                fill={props.filterList.completed.length > 0 ? "blue" : "black"}
               />
             </svg>
           </button>
           {showFilter && colNumber === 8 && (
             <FilterList
-              name="Complited"
+              name="Completed"
               arrlist={[
                 { _id: 1, value: "Ок" },
                 { _id: 0, value: "Нет" },
               ]}
-              filterList={props.filterList.complited}
+              filterList={props.filterList.completed}
               closeFilter={closeFilter}
               writeFilterList={props.writeFilterList}
             />

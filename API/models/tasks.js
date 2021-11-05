@@ -97,7 +97,7 @@ var Tasks = {
     let filterCustomerPrice = "";
     let filterDriverPrice = "";
     let filterProxy = "";
-    let filterComplited = "";
+    let filterCompleted = "";
     let filterDocuments = "";
     let filterCustomerPayment = "";
     let filterDriverPayment = "";
@@ -152,8 +152,8 @@ var Tasks = {
     if (datafilter.proxy.length) {
       filterArr[7] = `proxy in (${datafilter.proxy})`;
     }
-    if (datafilter.complited.length) {
-      filterArr[8] = `complited in (${datafilter.complited})`;
+    if (datafilter.completed.length) {
+      filterArr[8] = `completed in (${datafilter.completed})`;
     }
     if (datafilter.documents.length) {
       filterArr[9] = `document in (${datafilter.documents})`;
@@ -220,9 +220,9 @@ var Tasks = {
             : (filterProxy = str);
         }
         if (index != 8) {
-          filterComplited
-            ? (filterComplited = filterComplited + " and " + str)
-            : (filterComplited = str);
+          filterCompleted
+            ? (filterCompleted = filterCompleted + " and " + str)
+            : (filterCompleted = str);
         }
         if (index != 9) {
           filterDocuments
@@ -334,12 +334,12 @@ var Tasks = {
         );
       } else [data] = await db.query(`SELECT DISTINCT proxy FROM oderslist`);
       setData.proxy = data;
-      if (filterComplited) {
+      if (filterCompleted) {
         [data] = await db.query(
-          `SELECT DISTINCT complited FROM oderslist where ${filterComplited}`
+          `SELECT DISTINCT completed FROM oderslist where ${filterCompleted}`
         );
       } else
-        [data] = await db.query(`SELECT DISTINCT complited FROM oderslist`);
+        [data] = await db.query(`SELECT DISTINCT completed FROM oderslist`);
       setData.proxy = data;
       if (filterDocuments) {
         [data] = await db.query(
@@ -470,8 +470,8 @@ var Tasks = {
       case "proxy":
         change = { proxy: newdata.newValue };
         break;
-      case "complited":
-        change = { complited: newdata.newValue };
+      case "completed":
+        change = { completed: newdata.newValue };
         break;
       case "document":
         let now = new Date();

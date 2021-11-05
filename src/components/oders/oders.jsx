@@ -56,7 +56,7 @@ export const Oders = () => {
     customerPrice: [],
     driverPrice: [],
     proxy: [],
-    complited: [],
+    completed: [],
     documents: [],
     customerPayment: [],
     driverPayment: [],
@@ -159,8 +159,8 @@ export const Oders = () => {
         arr.proxy = chosenList;
         setFilterList(arr);
         break;
-      case "Complited":
-        arr.complited = chosenList;
+      case "Completed":
+        arr.completed = chosenList;
         setFilterList(arr);
         break;
       case "Documents":

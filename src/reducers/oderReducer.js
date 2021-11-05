@@ -107,8 +107,8 @@ export const oderReducer = (store = initialStore, action) => {
         case "proxy":
           newOder.proxy = action.newValue;
           break;
-        case "complited":
-          newOder.complited = action.newValue;
+        case "completed":
+          newOder.completed = action.newValue;
           break;
         case "document":
           switch (action.newValue) {

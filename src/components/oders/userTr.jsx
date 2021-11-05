@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
-import { UserTdCityContext } from "./userTdCityContext/userTdCityContext.jsx";
 import { CreateOderNew } from "../createOder/createOderNew.jsx";
 import { TdDate } from "../userTd/tdDate.jsx";
 import { TdDriver } from "../userTd/tdDriver.jsx";
@@ -11,7 +10,7 @@ import { TdUnoadingPoint } from "../userTd/tdUnloadingPoint.jsx";
 import { TdCustomerPrice } from "../userTd/tdCustomerPrice.jsx";
 import { TdDriverPrice } from "../userTd/tdDriverPrice.jsx";
 import { TdProxy } from "../userTd/tdProxy.jsx";
-import { TdComplited } from "../userTd/tdComplited.jsx";
+import { TdCompleted } from "../userTd/tdCompleted.jsx";
 
 export const UserTr = (props) => {
   const accountList = useSelector(
@@ -32,6 +31,7 @@ export const UserTr = (props) => {
   const [showFullSum, setShowFullSum] = useState(null);
   const [showEdit, setShowEdit] = useState(true);
   const [showEditBtn, setShowEditBtn] = useState(true);
+  const [showDelete, setShowDelete] = useState(false);
 
   const DateStr = (date) => {
     date = new Date(date);
@@ -70,23 +70,6 @@ export const UserTr = (props) => {
       }
     }
   };
-  const handleMouseOverPoint = (e) => {
-    let pId = Number(e.currentTarget.id);
-    let oder = props.elem;
-    let TD = e.currentTarget.parentElement.parentElement;
-    if (TD.nodeName == "TD" && TD.cellIndex == 3 && oder.loadingInfo != null) {
-      let toolTip = oder.loadingInfo[pId];
-      setPointLoadInfo(toolTip);
-    }
-    if (
-      TD.nodeName == "TD" &&
-      TD.cellIndex == 4 &&
-      oder.unloadingInfo != null
-    ) {
-      let toolTip = oder.unloadingInfo[pId];
-      setPointUnloadInfo(toolTip);
-    }
-  };
   const handleMouseLeave = () => {
     setOderId(null);
     setDateOfSubmission(null);
@@ -106,6 +89,9 @@ export const UserTr = (props) => {
   const trGetId = () => {
     props.getCurrentTR(props.elem._id);
   };
+  const deleteActive = (completed)=>{
+    setShowDelete(!completed);
+  }
 
   return (
     <>
@@ -162,10 +148,11 @@ export const UserTr = (props) => {
             currentTR={props.trId}
             edit={true}
           />
-          <TdComplited
-            complited={props.elem.complited}
+          <TdCompleted
+            completed={props.elem.completed}
             currentTR={props.trId}
             edit={true}
+            deleteActive={deleteActive}
           />
           {/* Column Check Document */}
           <td
@@ -282,7 +269,7 @@ export const UserTr = (props) => {
           {/* Button Delete */}
           {props.showDelete &&
             props.elem._id == props.trId &&
-            props.elem.complited != 1 &&
+            !props.elem.completed &&
             props.elem.customerPayment != "Ок" && (
               <td>
                 <button
@@ -295,7 +282,7 @@ export const UserTr = (props) => {
             )}
 
           {props.showDelete &&
-            props.elem.complited == 1 &&
+            props.elem.completed &&
             props.elem._id == props.trId && (
               <td>
                 <button className="odersTdBtn" onClick={handleClickEdit}>

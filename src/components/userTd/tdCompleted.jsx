@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import "./userTd.sass";
 
-export const TdComplited = (props)=>{
+export const TdCompleted = (props)=>{
 const dispatch = useDispatch();
 
   const [showEdit, setShowEdit] = useState(false);
@@ -19,6 +19,7 @@ const dispatch = useDispatch();
   };
   const handleClickRadio = (e) => {
     setShowEdit(false);
+    props.deleteActive(e.target.value == "yes" ? true : false);
     dispatch(editOder(currentId, e.target.name, e.target.value == "yes" ? true : false));
   };
 
@@ -50,7 +51,7 @@ const dispatch = useDispatch();
           <span>
             <input
               type="radio"
-              name="complited"
+              name="completed"
               value="yes"
               onChange={handleClickRadio}
             />
@@ -59,7 +60,7 @@ const dispatch = useDispatch();
           <span>
             <input
               type="radio"
-              name="complited"
+              name="completed"
               value="no"
               onChange={handleClickRadio}
             />
@@ -68,7 +69,7 @@ const dispatch = useDispatch();
         </div>
       ) : null}
 
-      {!showEdit && (props.complited ? "Ок" : "Нет")}
+      {!showEdit && (props.completed ? "Ок" : "Нет")}
     </td>
   );
 }
