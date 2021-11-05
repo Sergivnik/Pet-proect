@@ -30,8 +30,6 @@ export const UserTr = (props) => {
   const [dateOfPromise, setDateOfPromise] = useState(null);
   const [showFullSum, setShowFullSum] = useState(null);
   const [showEdit, setShowEdit] = useState(true);
-  const [showEditBtn, setShowEditBtn] = useState(true);
-  const [showDelete, setShowDelete] = useState(false);
 
   const DateStr = (date) => {
     date = new Date(date);
@@ -89,9 +87,6 @@ export const UserTr = (props) => {
   const trGetId = () => {
     props.getCurrentTR(props.elem._id);
   };
-  const deleteActive = (completed)=>{
-    setShowDelete(!completed);
-  }
 
   return (
     <>
@@ -152,7 +147,6 @@ export const UserTr = (props) => {
             completed={props.elem.completed}
             currentTR={props.trId}
             edit={true}
-            deleteActive={deleteActive}
           />
           {/* Column Check Document */}
           <td

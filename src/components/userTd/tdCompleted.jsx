@@ -19,7 +19,6 @@ const dispatch = useDispatch();
   };
   const handleClickRadio = (e) => {
     setShowEdit(false);
-    props.deleteActive(e.target.value == "yes" ? true : false);
     dispatch(editOder(currentId, e.target.name, e.target.value == "yes" ? true : false));
   };
 
