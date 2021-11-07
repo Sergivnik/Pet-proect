@@ -241,7 +241,7 @@ export const Oders = () => {
   };
   const [children, setChildren] = useState(null);
   const handleClickBtnMenu = (e) => {
-    if (showWindow == false) {
+    if (!showWindow) {
       let btnClick = e.target.name;
       if (btnClick == "customPay") {
         setWindowHeader("Оплата заказчика");
@@ -339,33 +339,6 @@ export const Oders = () => {
           />
           <tbody className="odersTbody">
             {oders.map((elem) => {
-              let driver, customer;
-              let loadingPoint,
-                unloadingPoint = [];
-              elem.idDriver
-                ? (driver = driversList.find(
-                    (item) => item._id === elem.idDriver
-                  ).value)
-                : (driver = "");
-              elem.idCustomer
-                ? (customer = clientList.find(
-                    (item) => item._id === elem.idCustomer
-                  ).value)
-                : (customer = "");
-              if (elem.idLoadingPoint) {
-                loadingPoint = elem.idLoadingPoint.map((itemLP) => {
-                  return citieslist.find((item) => item._id == itemLP).value;
-                });
-              } else {
-                loadingPoint = [""];
-              }
-              if (elem.idUnloadingPoint) {
-                unloadingPoint = elem.idUnloadingPoint.map((itemLP) => {
-                  return citieslist.find((item) => item._id == itemLP).value;
-                });
-              } else {
-                unloadingPoint = [""];
-              }
               return (
                 <UserTr
                   key={elem._id}
