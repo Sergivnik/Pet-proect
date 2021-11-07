@@ -183,27 +183,31 @@ export const CreateOderNew = (props) => {
       setShowOwnerInput(false);
       let arr = trackdriversFull.filter((elem) => elem.idOwner == value._id);
       setTrackdrivers(arr);
-      if (arr.length == 1 && arr != undefined) {
-        obj.idTrackDriver = arr[0]._id;
-        obj.valueTrackDriver = arr[0].value;
-        setShowTrackDriverInput(false);
-      } else {
-        setShowTrackDriverInput(true);
-      }
-      if (arr.length == 0) {
-        setShowTrackDriverInput(false);
+      if (arr != undefined) {
+        if (arr.length == 1) {
+          obj.idTrackDriver = arr[0]._id;
+          obj.valueTrackDriver = arr[0].value;
+          setShowTrackDriverInput(false);
+        } else {
+          setShowTrackDriverInput(true);
+        }
+        if (arr.length == 0) {
+          setShowTrackDriverInput(false);
+        }
       }
       arr = tracksFull.filter((elem) => elem.idOwner == value._id);
       setTracks(arr);
-      if (arr.length == 1 && arr != undefined) {
-        obj.idTrack = arr[0]._id;
-        obj.valueTrack = arr[0].value;
-        setShowTrackInput(false);
-      } else {
-        setShowTrackInput(true);
-      }
-      if (arr.length == 0) {
-        setShowTrackInput(false);
+      if (arr != undefined) {
+        if (arr.length == 1) {
+          obj.idTrack = arr[0]._id;
+          obj.valueTrack = arr[0].value;
+          setShowTrackInput(false);
+        } else {
+          setShowTrackInput(true);
+        }
+        if (arr.length == 0) {
+          setShowTrackInput(false);
+        }
       }
       /* let nextFocus = document.querySelector(".PFContentPoint").firstChild;
       nextFocus.focus(); */

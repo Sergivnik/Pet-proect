@@ -40,9 +40,10 @@ var LoadData = {
           let Month = dateOd.getMonth() + 1;
           let Day = dateOd.getDate();
           dateOd = `${Year}-${Month}-${Day}`;
-          res = datalists.driverlist.find(
+          let res = datalists.driverlist.find(
             (item) => item.value.toUpperCase() == elem.Колдун.toUpperCase()
           );
+          let idDr, idOd, idLP, idUP;
           if (res) {
             idDr = res._id;
           } else {
@@ -72,9 +73,10 @@ var LoadData = {
           } else {
             idUP = null;
           }
-          CuPr = elem.Ставказаказчика;
-          DrPr = elem.Ставкаколдуна;
-          doc = elem.Докты;
+          let CuPr = elem.Ставказаказчика;
+          let DrPr = elem.Ставкаколдуна;
+          let doc = elem.Докты;
+          let CuPay;
           switch (elem.Платежзаказчика) {
             case "Ок":
               CuPay = 1;
@@ -95,6 +97,7 @@ var LoadData = {
               CuPay = 6;
               break;
           }
+          let DrPay;
           switch (elem.Платежколдуну) {
             case "Ок":
               DrPay = 1;
@@ -106,7 +109,8 @@ var LoadData = {
               DrPay = 0;
               break;
           }
-          if (elem.Номеракта != "" || elem.Номеракта != "бабло") {
+          let acNum;
+          if (elem.Номеракта != "" && elem.Номеракта != "бабло") {
             acNum = elem.Номеракта;
           } else acNum = null;
           oder = {
@@ -124,7 +128,7 @@ var LoadData = {
             accountNumber: acNum,
           };
           try {
-            [data] = await db.query("INSERT INTO oderslist SET ?", oder);
+            let [data] = await db.query("INSERT INTO oderslist SET ?", oder);
             console.log(data);
           } catch (err) {
             console.log({ error: err });
