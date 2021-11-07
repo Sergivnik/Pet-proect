@@ -475,7 +475,7 @@ var Tasks = {
         break;
       case "document":
         let now = new Date();
-        if (newdata.newValue != 1) now = null;
+        if (newdata.newValue == 2) now = null;
         change = { document: newdata.newValue, dateOfSubmission: now };
         break;
       case "customerPayment":
@@ -489,7 +489,8 @@ var Tasks = {
         if (
           newdata.newValue == 3 ||
           newdata.newValue == 4 ||
-          newdata.newValue == 5
+          newdata.newValue == 5 ||
+          newdata.newValue == 7
         ) {
           let now = new Date();
           change = {
@@ -500,7 +501,6 @@ var Tasks = {
         }
         if (
           newdata.newValue == 6 ||
-          newdata.newValue == 7 ||
           newdata.newValue == 8
         ) {
           change = {

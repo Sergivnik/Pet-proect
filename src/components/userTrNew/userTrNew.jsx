@@ -86,11 +86,15 @@ export const UserTrNew = (props) => {
         partialPaymentAmount={props.elem.partialPaymentAmount}
       />
       <TdDocument
-        id={props.elem._id}
-        customerPrice={props.elem.document}
-        date={props.elem.dateOfSubmission}
+        document={props.elem.document}
+        dateOfSubmission={props.elem.dateOfSubmission}
+        currentTR={props.trId}
+        edit={true}
       />
-      <TdCustomerPayment customerPayment={props.elem.customerPayment} />
+      <TdCustomerPayment
+        customerPayment={props.elem.customerPayment}
+        dateOfPromise={props.elem.dateOfPromise}
+      />
       <TdAccountNumber accountNumber={props.elem.accountNumber} />
     </tr>
   );

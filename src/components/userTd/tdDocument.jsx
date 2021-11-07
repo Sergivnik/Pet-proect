@@ -1,29 +1,89 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { editOder } from "../../actions/oderActions.js";
+import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { dateLocal } from "../myLib/myLib.js";
 
 export const TdDocument = (props) => {
-  const [oderId, setOderId] = useState(null);
-  const DateStr = (date) => {
-    if (date) {
-      date = new Date(date);
-      return date.toLocaleDateString();
-    } else return null;
+  const docList = [
+    { _id: 1, value: "Ок" },
+    { _id: 2, value: "Нет" },
+    { _id: 3, value: "Факс" },
+  ];
+  const dispatch = useDispatch();
+  
+  const [showDetails, setShowDetails] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [currentId, setCurrentId] = useState(null);
+  const [currentElement, setCurrentElement] = useState(null);
+
+  const handleMouseOver = () => {
+    if (props.dateOfSubmission) setShowDetails(true);
   };
-  const handleMouseOver = (e) => {
-    let id = Number(e.target.parentElement.id);
-    setOderId(id);
+  const handleMouseLeave = () => {
+    setShowDetails(false);
   };
-  const handleMouseLeave = (e) => {
-    setOderId(null);
+  const handleDBLClick = (e) => {
+    let element = e.currentTarget;
+    if (props.edit) {
+      setShowEdit(true);
+      e.currentTarget.parentElement.style.backgroundColor = "#fff";
+      setCurrentId(e.currentTarget.parentElement.id);
+      setCurrentElement(element);
+    }
   };
+  const setValue = (data) => {
+    dispatch(editOder(currentId, "document", data._id));
+    setShowEdit(false);
+    setCurrentId(null);
+    setCurrentElement(null);
+  };
+
+  useEffect(() => {
+    if (currentElement) currentElement.firstChild.firstChild.focus();
+  }, [currentElement]);
+  useEffect(() => {
+    if (props.currentTR != currentId) {
+      setShowEdit(false);
+      setCurrentId(null);
+    }
+  }, [props.currentTR]);
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (e.code == "Escape") {
+        if (showEdit) {
+          setShowEdit(false);
+          setCurrentId(null);
+        }
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, [showEdit]);
+
   return (
     <td
-      className="odersTd"
+      className="userTd"
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
+      onDoubleClick={handleDBLClick}
     >
-      {props.customerPrice}
-      {props.id == oderId && (
-        <div className="oderTdTooltip">{DateStr(props.date)}</div>
+      {showEdit ? (
+        <div className="divChoise">
+          <ChoiseList
+            name="document"
+            parent="oders"
+            arrlist={docList}
+            setValue={setValue}
+          />
+        </div>
+      ) : (
+        props.document
+      )}
+      {showDetails && (
+        <div className="oderTdTooltip">{dateLocal(props.dateOfSubmission)}</div>
       )}
     </td>
   );

@@ -10,7 +10,7 @@ import { DriverDebtForm } from "../driverComponents/driverDebtForm.jsx";
 import { ContractorsPayments } from "../contractors/contractorsPayments.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
-import { editOder, delOder, setProxy } from "../../actions/oderActions.js";
+import { delOder } from "../../actions/oderActions.js";
 import "./oders.sass";
 
 export const Oders = () => {
@@ -35,17 +35,12 @@ export const Oders = () => {
   const [showCreateOder, setShowCreateOder] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [showContextMenu, setShowContextMenu] = useState(false);
-  const [showAddCity, setShowAddCity] = useState(false);
   const [showWindow, setShowWindow] = useState(false);
   const [windowHeader, setWindowHeader] = useState(null);
   const [windowWidth, setWindowWidth] = useState(1200);
 
   const [trId, setTrId] = useState(null);
-  const [colNumber, setColNumber] = useState(null);
-  const [indexCity, setIndexCity] = useState(null);
   const [addData, setAddData] = useState(0);
-  const [pId, setPId] = useState(null);
   const [currentTR, setCurrentTR] = useState(null);
   const [filterList, setFilterList] = useState({
     date: [],
@@ -75,7 +70,6 @@ export const Oders = () => {
     setSumAccount(sum);
   }, [income, expenses]);
 
-  const [coord, setCoord] = useState({ left: 0, top: 0 });
 
   useEffect(() => {
     const onKeypress = (e) => {
@@ -83,7 +77,6 @@ export const Oders = () => {
         if (currentTR) currentTR.style.backgroundColor = "#FFF";
         setShowDelete(false);
         setShowEdit(false);
-        setShowContextMenu(false);
         if (showWindow === true) {
           setShowWindow(false);
           dispatch(filterData(filterList));
@@ -191,28 +184,6 @@ export const Oders = () => {
     dispatch(filterData(arr));
   };
 
-  const handleContext = (e) => {
-    e.preventDefault();
-    setShowContextMenu(true);
-    handleContextCity(e);
-    setPId(e.target.id);
-    setColNumber(e.target.parentElement.parentElement.cellIndex);
-    let coordelem = e.target.parentElement.getBoundingClientRect();
-    setCoord({ left: e.clientX - coordelem.x, top: e.clientY - coordelem.y });
-  };
-
-  const handleClickProxy = (e) => {
-    setShowEdit(false);
-    dispatch(editOder(e.target.parentElement.parentElement.id, "proxy", true));
-    dispatch(setProxy(e.target.parentElement.parentElement.id));
-  };
-  const handleClickRadio = (e) => {
-    setShowEdit(false);
-    dispatch(
-      editOder(trId, e.target.name, e.target.value == "yes" ? true : false)
-    );
-  };
-
   const onScroll = (event) => {
     let heightTable = event.target.children[0].clientHeight;
     let heightDiv = event.target.clientHeight;
@@ -246,12 +217,6 @@ export const Oders = () => {
     setShowLast(true);
   };
 
-  const handleContextCity = (e) => {
-    if (e.target.tagName == "P") {
-      setTrId(e.target.parentElement.parentElement.parentElement.id);
-    }
-  };
-
   const getCurrentTR = (id) => {
     setTrId(id);
   };
@@ -264,98 +229,15 @@ export const Oders = () => {
       setTrId(event.currentTarget.id);
       curTR.style.backgroundColor = "#ccc";
       setShowDelete(true);
-      setShowAddCity(false);
     }
     if (event.target.tagName == "P") {
       setTrId(event.currentTarget.id);
       curTR.style.backgroundColor = "#ccc";
       setShowDelete(true);
-      setShowAddCity(false);
     }
   };
-
-  const handleDBLClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.target.localName === "td") {
-      let currentTR = e.target.parentElement;
-      setColNumber(e.target.cellIndex);
-      currentTR.style.backgroundColor = "#fff";
-    }
-    if (e.target.localName === "p") {
-      let currentTR = e.target.parentElement.parentElement.parentElement;
-      setColNumber(e.target.parentElement.parentElement.cellIndex);
-      setIndexCity(e.target.id);
-      currentTR.style.backgroundColor = "#fff";
-    }
-    setShowDelete(false);
-    setShowEdit(true);
-  };
-
   const handleClickDelete = () => {
     dispatch(delOder(trId));
-  };
-  /* 
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setShowEdit(false);
-    dispatch(editOder(trId, event.target.name, event.target.value));
-  };
- */
-  const handleEnter = (event) => {
-    if (event.keyCode == 13) {
-      if (
-        event.target.name == "dateOfPromise" ||
-        event.target.name == "sumPartPay"
-      ) {
-        let id = Number(
-          event.target.parentElement.parentElement.parentElement.id
-        );
-        dispatch(editOder(id, event.target.name, event.target.value));
-      } else {
-        setShowEdit(false);
-        dispatch(editOder(trId, event.target.name, event.target.value));
-      }
-    }
-  };
-
-  const setValue = (value) => {
-    let data = [];
-    switch (value.field) {
-      case "loadingPoint":
-        data = oders.find((item) => item._id == trId).idLoadingPoint;
-        if (showAddCity) {
-          data.push(value._id);
-          setShowAddCity(false);
-        } else {
-          data[value.index] = value._id;
-        }
-        dispatch(editOder(trId, value.field, data));
-        break;
-      case "unloadingPoint":
-        data = oders.find((item) => item._id == trId).idUnloadingPoint;
-        if (showAddCity) {
-          data.push(value._id);
-          setShowAddCity(false);
-        } else {
-          data[value.index] = value._id;
-        }
-        dispatch(editOder(trId, value.field, data));
-        break;
-      default:
-        dispatch(editOder(trId, value.field, value._id));
-    }
-    setShowEdit(false);
-  };
-
-  const handleClickAddCity = (e) => {
-    e.stopPropagation();
-    setShowContextMenu(false);
-    setShowAddCity(true);
-  };
-
-  const hideContextMenu = () => {
-    setShowContextMenu(false);
   };
   const [children, setChildren] = useState(null);
   const handleClickBtnMenu = (e) => {
@@ -489,33 +371,10 @@ export const Oders = () => {
                   key={elem._id}
                   elem={elem}
                   handleClickTR={handleClickTR}
-                  handleDBLClick={handleDBLClick}
                   showEdit={showEdit}
-                  driver={driver}
-                  customer={customer}
-                  loadingPoint={loadingPoint}
-                  unloadingPoint={unloadingPoint}
                   showDelete={showDelete}
                   handleClickDelete={handleClickDelete}
-                  handleClickProxy={handleClickProxy}
-                  colNumber={colNumber}
                   trId={trId}
-                  handleClickRadio={handleClickRadio}
-                  // handleChange={handleChange}
-                  handleEnter={handleEnter}
-                  setValue={setValue}
-                  clientList={clientList}
-                  driversList={driversList}
-                  citieslist={citieslist}
-                  indexCity={indexCity}
-                  handleContextCity={handleContextCity}
-                  showContextMenu={showContextMenu}
-                  pId={pId}
-                  coord={coord}
-                  handleContext={handleContext}
-                  handleClickAddCity={handleClickAddCity}
-                  showAddCity={showAddCity}
-                  hideContextMenu={hideContextMenu}
                   getCurrentTR={getCurrentTR}
                 />
               );

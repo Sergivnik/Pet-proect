@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 
-export const TdAccountNumber = (props) => {
+export const TdDriverPayment = (props) => {
   const dispatch = useDispatch();
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
@@ -18,13 +18,11 @@ export const TdAccountNumber = (props) => {
       setCurrentElement(element);
     }
   };
-  const handleEnter = (e) => {
-   if (e.key == "Enter") {
-     dispatch(editOder(currentId, "accountNumber", e.currentTarget.value));
-     setShowEdit(false);
-     setCurrentId(null);
-     setCurrentElement(null);
-   }
+  const setValue = (data) => {
+    dispatch(editOder(currentId, "driverPayment", data._id));
+    setShowEdit(false);
+    setCurrentId(null);
+    setCurrentElement(null);
   };
 
   useEffect(() => {
@@ -55,14 +53,18 @@ export const TdAccountNumber = (props) => {
     <td className="odersTd" onDoubleClick={handleDBLClick}>
       {showEdit ? (
         <div className="divChoise">
-          <input
-            name="accountNumber"
-            type="number"
-            onKeyDown={handleEnter}
+          <ChoiseList
+            name="driverPayment"
+            parent="oders"
+            arrlist={[
+              { _id: 1, value: "Ок" },
+              { _id: 2, value: "Нет" },
+            ]}
+            setValue={setValue}
           />
         </div>
       ) : (
-        props.accountNumber
+        props.driverPayment
       )}
     </td>
   );

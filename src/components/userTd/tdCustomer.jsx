@@ -17,7 +17,7 @@ export const TdCustomer = (props) => {
    const getValue = (id, arrObj) => {
      if (id) {
        let value = arrObj.find((elem) => elem._id == id);
-       return value.value;
+       return value;
      }
    };
    const handleMouseOver = () => {
@@ -71,11 +71,16 @@ export const TdCustomer = (props) => {
            <ChoiseList name="oders" arrlist={clientList} setValue={setValue} />
          </div>
        ) : (
-         getValue(props.idCustomer, clientList)
+         getValue(props.idCustomer, clientList).value
        )}
        {showDetails && (
          <div className="oderTdTooltip">
-           {getValue(props.idManager, clientmanager)}
+           <p className="userPTooltip">
+             {getValue(props.idManager, clientmanager).value}
+           </p>
+           <p className="userPTooltip">
+             {getValue(props.idManager, clientmanager).phone}
+           </p>
          </div>
        )}
      </td>

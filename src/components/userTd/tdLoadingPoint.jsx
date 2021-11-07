@@ -58,9 +58,6 @@ export const TdLoadingPoint = (props) => {
     let X = e.clientX;
     let TdY = e.currentTarget.offsetParent.getBoundingClientRect().y;
     let Y = e.clientY;
-    console.log("pageY", e.pageY);
-    console.log(e.currentTarget.offsetParent.getBoundingClientRect().y);
-    console.log("clientY", Y);
     setCoord({ left: X - TdX, top: Y - TdY });
     if (props.edit) {
       e.preventDefault();
@@ -88,7 +85,7 @@ export const TdLoadingPoint = (props) => {
   }, [props.currentTR]);
   useEffect(() => {
     const onKeypress = (e) => {
-      if (e.code == "Escape"){
+      if (e.code == "Escape") {
         if (showContextMenu) setShowContextMenu(false);
         if (showEdit) {
           setShowEdit(false);

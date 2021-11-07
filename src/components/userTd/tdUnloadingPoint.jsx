@@ -15,6 +15,7 @@ export const TdUnoadingPoint = (props) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [pIndex, setPIndex] = useState(null);
   const [addPoint, setAddPoint] = useState(false);
+  const [coord, setCoord] = useState({ left: 0, top: 0 });
 
   const getValue = (id, arrObj) => {
     if (id) {
@@ -53,6 +54,11 @@ export const TdUnoadingPoint = (props) => {
     setAddPoint(false);
   };
   const handleContext = (e) => {
+    let TdX = e.currentTarget.offsetParent.getBoundingClientRect().x;
+    let X = e.clientX;
+    let TdY = e.currentTarget.offsetParent.getBoundingClientRect().y;
+    let Y = e.clientY;
+    setCoord({ left: X - TdX, top: Y - TdY });
     if (props.edit) {
       e.preventDefault();
       props.getCurrentTR();
@@ -126,6 +132,7 @@ export const TdUnoadingPoint = (props) => {
               currentId == props.currentTR &&
               pIndex == index && (
                 <UserTdCityContext
+                  coord={coord}
                   loadingPointList={props.idUnloadingPoint}
                   hideContextMenu={hideContextMenu}
                   trId={currentId}

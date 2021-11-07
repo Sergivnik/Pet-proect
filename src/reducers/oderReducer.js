@@ -111,17 +111,19 @@ export const oderReducer = (store = initialStore, action) => {
           newOder.completed = action.newValue;
           break;
         case "document":
+          let now = new Date();
           switch (action.newValue) {
             case 1:
-              let now = new Date();
               newOder.document = "Ок";
               newOder.dateOfSubmission = now;
               break;
             case 2:
               newOder.document = "Нет";
+              newOder.dateOfSubmission = null;
               break;
             case 3:
               newOder.document = "Факс";
+              newOder.dateOfSubmission = now;
               break;
             default:
               break;
@@ -167,7 +169,6 @@ export const oderReducer = (store = initialStore, action) => {
             action.newValue == 1 ||
             action.newValue == 2 ||
             action.newValue == 6 ||
-            action.newValue == 7 ||
             action.newValue == 8
           ) {
             newOder.dateOfPromise = null;
@@ -175,7 +176,8 @@ export const oderReducer = (store = initialStore, action) => {
           if (
             action.newValue == 3 ||
             action.newValue == 4 ||
-            action.newValue == 5
+            action.newValue == 5 ||
+            action.newValue == 7 
           ) {
             let now = new Date();
             newOder.dateOfPromise = now;
