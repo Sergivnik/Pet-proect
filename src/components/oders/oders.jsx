@@ -21,9 +21,7 @@ export const Oders = () => {
   }, [dispatch]);
 
   const odersList = useSelector((state) => state.oderReducer.odersList);
-  const driversList = useSelector((state) => state.oderReducer.driverlist);
   const clientList = useSelector((state) => state.oderReducer.clientList);
-  const citieslist = useSelector((state) => state.oderReducer.citieslist);
   const income = useSelector((state) => state.oderReducer.income);
   const expenses = useSelector((state) => state.oderReducer.expenses);
   const filteredAccountList = useSelector(
@@ -62,7 +60,7 @@ export const Oders = () => {
   const [sumAccount, setSumAccount] = useState(0);
   useEffect(() => {
     let addSum = clientList.reduce(
-      (sum, item) => sum + Number(item.extraPayments),
+      (s, item) => s + Number(item.extraPayments),
       0
     );
     let sum =

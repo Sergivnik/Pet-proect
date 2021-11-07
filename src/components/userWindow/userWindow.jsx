@@ -44,7 +44,6 @@ export const UserWindow = (props) => {
       div.style.top = "10%";
       setFullSize(false);
     }
-    return false;
   };
   useEffect(() => {
     let div = document.getElementsByClassName("userWindowDiv")[0];
