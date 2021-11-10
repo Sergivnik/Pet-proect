@@ -73,7 +73,7 @@ export const EditDataForm = (props) => {
           Менеджер
         </button>
       </div>
-      <div>{editTable}</div>
+      <div className="EDFTableDiv">{editTable}</div>
     </div>
   );
 };
