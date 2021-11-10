@@ -11,6 +11,7 @@ import { ContractorsPayments } from "../contractors/contractorsPayments.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { delOder } from "../../actions/oderActions.js";
+import { EditDataForm } from "../editData/editDataForm.jsx";
 import "./oders.sass";
 
 export const Oders = () => {
@@ -64,10 +65,10 @@ export const Oders = () => {
       0
     );
     let sum =
-      Math.floor((Number(income) - Number(expenses) + addSum+0.01) * 100) / 100;
+      Math.floor((Number(income) - Number(expenses) + addSum + 0.01) * 100) /
+      100;
     setSumAccount(sum);
   }, [income, expenses]);
-
 
   useEffect(() => {
     const onKeypress = (e) => {
@@ -271,6 +272,12 @@ export const Oders = () => {
         setWindowWidth(1200);
         setChildren(<ContractorsPayments />);
       }
+      if (btnClick == "dataEdit") {
+        setWindowHeader("Редактирование данных");
+        setShowWindow(true);
+        setWindowWidth(1200);
+        setChildren(<EditDataForm />);
+      }
     }
   };
   const handleClickWindowClose = () => {
@@ -316,6 +323,13 @@ export const Oders = () => {
             onClick={handleClickBtnMenu}
           >
             Расходы
+          </button>
+          <button
+            name="dataEdit"
+            className="odersMenuBtn"
+            onClick={handleClickBtnMenu}
+          >
+            Внесение данных
           </button>
         </div>
       </div>
