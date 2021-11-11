@@ -73,6 +73,9 @@ export const ChoiseList = (props) => {
   const handleClickInput = (e) => {
     //console.log(e);
   };
+  const handleLostFocus = (e) => {
+    console.log(e.target);
+  };
 
   useEffect(() => {
     if (props.parent === "oders") {
