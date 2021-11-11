@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { DriverTableTR } from "./driverTableTR.jsx";
 
 import "./editData.sass";
 
@@ -10,6 +11,7 @@ export const DriverTable = (props) => {
   const [driversList, setDriversList] = useState(driversListFull);
   const [driverListChoise, setDriverListChoise] = useState(driversListFull);
   const [check, setCheck] = useState(true);
+  const [currentId, setCurrentId] = useState(null);
 
   useEffect(() => {
     setDriversList(driversListFull.filter((elem) => elem.active));
@@ -31,6 +33,9 @@ export const DriverTable = (props) => {
   const setValue = (data) => {
     let arr = driversListFull.filter((elem) => elem._id == data._id);
     setDriversList(arr);
+  };
+  const getCurrentId = (id) => {
+    setCurrentId(id);
   };
   return (
     <div>
@@ -62,15 +67,12 @@ export const DriverTable = (props) => {
         <tbody className="driverTbody">
           {driversList.map((elem) => {
             return (
-              <tr key={"driver" + elem._id}>
-                <td className="driverTd">{elem.value}</td>
-                <td className="driverTd">{elem.phone}</td>
-                <td className="driverTd">{elem.compfnyName}</td>
-                <td className="driverTd">{elem.TIN}</td>
-                <td className="driverTd">{elem.address}</td>
-                <td className="driverTd">{elem.currentAccount}</td>
-                <td className="driverTd">{elem.contract}</td>
-              </tr>
+              <DriverTableTR
+                key={"driver" + elem._id}
+                elem={elem}
+                getCurrentId={getCurrentId}
+                currentId={currentId}
+              />
             );
           })}
         </tbody>
