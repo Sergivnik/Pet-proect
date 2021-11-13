@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { editData } from "../../actions/editDataAction.js";
 
 import "./editData.sass";
 
 export const DriverTableTR = (props) => {
+  const dispatch = useDispatch();
   let elem = props.elem;
   const [colNumber, setColNumber] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
@@ -43,6 +46,8 @@ export const DriverTableTR = (props) => {
           break;
       }
       console.log(obj);
+      dispatch(editData(obj, "drivers"));
+      setColNumber(null);
     }
   };
 

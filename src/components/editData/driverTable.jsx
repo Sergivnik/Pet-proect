@@ -16,7 +16,7 @@ export const DriverTable = (props) => {
   useEffect(() => {
     setDriversList(driversListFull.filter((elem) => elem.active));
     setDriverListChoise(driversListFull.filter((elem) => elem.active));
-  }, []);
+  }, [driversListFull]);
 
   const handleChangeBox = (e) => {
     if (e.currentTarget.checked) {

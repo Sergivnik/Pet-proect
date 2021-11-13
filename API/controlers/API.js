@@ -2,7 +2,8 @@ var tasks = require("../models/tasks.js");
 var tasksPayments = require("../models/tasksPayments.js");
 var tasksDebt = require("../models/tasksDriverDebts.js");
 var taskPaymentsDriver = require("../models/taskPaymentsDriver.js");
-var taskContractors = require("../models/taskContractor.js")
+var taskContractors = require("../models/taskContractor.js");
+var tasksData = require("../models/tasksData.js");
 
 module.exports.taskGet = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -48,7 +49,6 @@ module.exports.taskGetContractors = (req, res) => {
     }
   });
 };
-
 
 module.exports.taskGetFilter = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -104,6 +104,21 @@ module.exports.taskEditNew = (req, res) => {
     }
   });
 };
+module.exports.taskEditData = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  tasksData.editData(req.body.body, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
+
 module.exports.makePaymentCustomer = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");

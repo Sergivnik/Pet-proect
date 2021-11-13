@@ -34,6 +34,12 @@ import {
   ADD_DATA_CONTRACTORS_SUCCESS,
   ADD_DATA_CONTRACTORS_FAILURE,
 } from "../actions/contractorActions.js";
+import {
+  EDIT_DATA_SUCCESS,
+  EDIT_DATA_FAILURE,
+  ADD_DATA_SUCCESS,
+  ADD_DATA_FAILURE,
+} from "../actions/editDataAction.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
@@ -177,7 +183,7 @@ export const oderReducer = (store = initialStore, action) => {
             action.newValue == 3 ||
             action.newValue == 4 ||
             action.newValue == 5 ||
-            action.newValue == 7 
+            action.newValue == 7
           ) {
             let now = new Date();
             newOder.dateOfPromise = now;
@@ -630,6 +636,18 @@ export const oderReducer = (store = initialStore, action) => {
         expenses: expenses,
         contractorsPayments: arrContractorsPayment,
       };
+    case EDIT_DATA_SUCCESS:
+      console.log(action.dataServer, action.newData, action.editTable);
+      switch (action.editTable) {
+        case "drivers":
+          let [...arr] = store.driverlist;
+          let index = arr.findIndex((elem) => elem._id == action.newData._id);
+          arr[index] = action.newData;
+          return { ...store, driverlist: arr };
+          break;
+        default:
+          break;
+      }
 
     default:
       return store;
