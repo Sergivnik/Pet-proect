@@ -28,7 +28,7 @@ export const DriverTable = (props) => {
     if (e.currentTarget.checked) {
       let [...arr] = driversListFull;
       setCheck(true);
-      setDriversList(arr.filter((elem) => elem.active));
+      setDriversList(arr.filter((elem) => elem.active==1));
       setDriverListChoise(arr.filter((elem) => elem.active));
     } else {
       setDriversList(driversListFull);
@@ -69,6 +69,7 @@ export const DriverTable = (props) => {
             <td className="driverTdHeader">Адрес</td>
             <td className="driverTdHeader">Расчетный счет</td>
             <td className="driverTdHeader">Договор</td>
+            <td className="driverTdHeader">Активный</td>
           </tr>
         </thead>
         <tbody className="driverTbody">

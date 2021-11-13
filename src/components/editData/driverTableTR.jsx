@@ -51,6 +51,13 @@ export const DriverTableTR = (props) => {
       setColNumber(null);
     }
   };
+  const handleRadio = (e) => {
+    console.log(e.currentTarget.value);
+    let { ...obj } = elem;
+    obj.active = e.currentTarget.value;
+    dispatch(editData(obj, "drivers"));
+    setColNumber(null);
+  };
 
   useEffect(() => {
     if (props.currentId != elem._id) setColNumber(null);
@@ -135,6 +142,32 @@ export const DriverTableTR = (props) => {
           />
         ) : (
           elem.contract
+        )}
+      </td>
+      <td className="driverTd" onDoubleClick={handleDBLclick}>
+        {colNumber == 7 ? (
+          <div>
+            <span>
+              <input
+                type="radio"
+                name="active"
+                value={1}
+                onChange={handleRadio}
+              />
+              Да
+            </span>
+            <span>
+              <input
+                type="radio"
+                name="active"
+                value={0}
+                onChange={handleRadio}
+              />
+              Нет
+            </span>
+          </div>
+        ) : (
+          elem.active
         )}
       </td>
     </tr>
