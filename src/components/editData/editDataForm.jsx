@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DriverTable } from "./driverTable.jsx";
 import "./editData.sass";
+import { TrackDriverTable } from "./trackDriverTable.jsx";
 
 export const EditDataForm = (props) => {
   const [editTable, setEditTable] = useState(null);
@@ -11,7 +12,7 @@ export const EditDataForm = (props) => {
         setEditTable(<DriverTable />);
         break;
       case "trackdrivers":
-        setEditTable(<DriverTable />);
+        setEditTable(<TrackDriverTable />);
         break;
       case "tracklist":
         setEditTable(<DriverTable />);

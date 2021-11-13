@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { DriverTableTR } from "./driverTableTR.jsx";
 
@@ -12,10 +12,16 @@ export const DriverTable = (props) => {
   const [driverListChoise, setDriverListChoise] = useState(driversListFull);
   const [check, setCheck] = useState(true);
   const [currentId, setCurrentId] = useState(null);
+  const [chosenId, setChosenId] = useState(null);
 
   useEffect(() => {
-    setDriversList(driversListFull.filter((elem) => elem.active));
-    setDriverListChoise(driversListFull.filter((elem) => elem.active));
+    if (chosenId != null) {
+      let arr = driversListFull.filter((elem) => elem._id == chosenId);
+      setDriversList(arr);
+    } else {
+      setDriversList(driversListFull.filter((elem) => elem.active));
+      setDriverListChoise(driversListFull.filter((elem) => elem.active));
+    }
   }, [driversListFull]);
 
   const handleChangeBox = (e) => {
@@ -33,6 +39,7 @@ export const DriverTable = (props) => {
   const setValue = (data) => {
     let arr = driversListFull.filter((elem) => elem._id == data._id);
     setDriversList(arr);
+    setChosenId(data._id);
   };
   const getCurrentId = (id) => {
     setCurrentId(id);

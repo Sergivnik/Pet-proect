@@ -15,6 +15,7 @@ export const DriverTableTR = (props) => {
     props.getCurrentId(elem._id);
     console.log(e.currentTarget.offsetWidth);
     e.currentTarget.width = e.currentTarget.offsetWidth - 2 + "px";
+    e.currentTarget.height = e.currentTarget.offsetHeight - 2 + "px";
     setCurrentElement(e.currentTarget);
   };
   const handleEnter = (e) => {
