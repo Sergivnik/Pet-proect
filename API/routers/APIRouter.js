@@ -14,6 +14,7 @@ router.get("/*", (req, res) => {
 router.post("/filter", API.taskGetFilter);
 router.post("/addOder", API.taskAdd);
 router.post("/proxy/:id", API.taskProxy);
+router.post("/addData", API.taskAddData);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);
@@ -27,5 +28,6 @@ router.patch("/editData", API.taskEditData);
 router.delete("/:id", API.taskDel);
 router.delete("/deleteDataPatmenrs/:id", API.taskDeletePayments);
 router.delete("/deletedriverDebt/:id", API.taskDeleteDebt);
+router.delete("/deleteData/:id", API.taskDeleteData);
 
 module.exports = router;

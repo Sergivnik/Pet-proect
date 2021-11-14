@@ -76,6 +76,21 @@ module.exports.taskAdd = (req, res) => {
     }
   });
 };
+module.exports.taskAddData = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  tasksData.addData(req.body.body, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
+
 module.exports.taskEdit = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
@@ -171,6 +186,20 @@ module.exports.taskDel = (req, res) => {
     if (data.error) {
       res.status(500);
       res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
+module.exports.taskDeleteData = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  tasksData.delData(req.params.id, req.body.editTable, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json(data.error);
     } else {
       res.json(data);
     }

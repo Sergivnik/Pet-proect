@@ -644,11 +644,20 @@ export const oderReducer = (store = initialStore, action) => {
           let index = arr.findIndex((elem) => elem._id == action.newData._id);
           arr[index] = action.newData;
           return { ...store, driverlist: arr };
-          break;
         default:
           break;
       }
-
+    case ADD_DATA_SUCCESS:
+      console.log(action.dataServer, action.data, action.editTable);
+      switch (action.editTable) {
+        case "drivers":
+          let [...arr] = store.driverlist;
+          action.data._id = action.dataServer.insertId;
+          arr.push(action.data);
+          return { ...store, driverlist: arr };
+        default:
+          break;
+      }
     default:
       return store;
   }

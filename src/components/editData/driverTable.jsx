@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { DriverAddTr } from "./driverAddTr.jsx";
 import { DriverTableTR } from "./driverTableTR.jsx";
+import { addData } from "../../actions/editDataAction.js";
 
 import "./editData.sass";
 
 export const DriverTable = (props) => {
+  const dispatch = useDispatch();
   const driversListFull = useSelector((state) => state.oderReducer.driverlist);
 
   const [driversList, setDriversList] = useState(driversListFull);
@@ -13,6 +16,7 @@ export const DriverTable = (props) => {
   const [check, setCheck] = useState(true);
   const [currentId, setCurrentId] = useState(null);
   const [chosenId, setChosenId] = useState(null);
+  const [showAddTr, setShowAddTr] = useState(false);
 
   useEffect(() => {
     if (chosenId != null) {
@@ -28,7 +32,7 @@ export const DriverTable = (props) => {
     if (e.currentTarget.checked) {
       let [...arr] = driversListFull;
       setCheck(true);
-      setDriversList(arr.filter((elem) => elem.active==1));
+      setDriversList(arr.filter((elem) => elem.active == 1));
       setDriverListChoise(arr.filter((elem) => elem.active));
     } else {
       setDriversList(driversListFull);
@@ -44,6 +48,13 @@ export const DriverTable = (props) => {
   const getCurrentId = (id) => {
     setCurrentId(id);
   };
+  const handleClickAdd = () => {
+    setShowAddTr(true);
+  };
+  const handleAddDriver = (data) => {
+    dispatch(addData(data, "drivers"));
+    setShowAddTr(false);
+  };
   return (
     <div>
       <h2 className="driverH2">Таблица перевозчиков</h2>
@@ -58,6 +69,9 @@ export const DriverTable = (props) => {
         </div>
         <span>Активный</span>
         <input type="checkbox" onChange={handleChangeBox} checked={check} />
+        <button className="driverAddBtn" onClick={handleClickAdd}>
+          Добавить
+        </button>
       </div>
       <table className="driverTbl">
         <thead>
@@ -83,6 +97,7 @@ export const DriverTable = (props) => {
               />
             );
           })}
+          {showAddTr && <DriverAddTr handleAddDriver={handleAddDriver} />}
         </tbody>
       </table>
     </div>
