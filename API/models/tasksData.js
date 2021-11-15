@@ -56,7 +56,10 @@ let TasksDada = {
         await db.query(`DELETE FROM drivers WHERE _id=${id}`);
         callback("success!");
       } else {
-        callback({ error: "Данного перевозчика нельхя удалить" });
+        callback({
+          error: "Данного перевозчика нельхя удалить",
+          NoErr: "userErr1",
+        });
       }
     } catch (err) {
       console.log(err);

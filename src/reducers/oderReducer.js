@@ -39,6 +39,8 @@ import {
   EDIT_DATA_FAILURE,
   ADD_DATA_SUCCESS,
   ADD_DATA_FAILURE,
+  DEL_DATA_SUCCESS,
+  DEL_DATA_FAILURE,
 } from "../actions/editDataAction.js";
 
 export const oderReducer = (store = initialStore, action) => {
@@ -576,10 +578,7 @@ export const oderReducer = (store = initialStore, action) => {
       let [...arr] = store.driverDebtList;
       let index = arr.findIndex((elem) => elem.id == action.id);
       arr.splice(index, 1);
-      return {
-        ...store,
-        driverDebtList: arr,
-      };
+      return { ...store, driverDebtList: arr };
     }
 
     case MAKE_PAYMENT_DRIVER_SUCCESS: {
@@ -658,6 +657,18 @@ export const oderReducer = (store = initialStore, action) => {
         default:
           break;
       }
+    case ADD_DATA_FAILURE:
+      console.log(action.message);
+      return { ...store, message: "err" };
+    case DEL_DATA_SUCCESS:
+      console.log(action.ia, action.editTable);
+      let [...arr] = store.driverlist;
+      let index = arr.findIndex((elem) => elem._id == action.id);
+      arr.splice(index, 1);
+      return { ...store, driverlist: arr };
+    case DEL_DATA_FAILURE:
+      console.log(action.message);
+      return { ...store, message: action.message };
     default:
       return store;
   }

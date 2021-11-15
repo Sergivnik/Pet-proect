@@ -36,7 +36,11 @@ export const DriverAddTr = (props) => {
         setEditColNumber(editColNumber + 1);
         break;
       case 3:
-        obj.TIN = e.currentTarget.value;
+        if (e.currentTarget.value != "") {
+          obj.TIN = e.currentTarget.value;
+        } else {
+          obj.TIN = null;
+        }
         setEditColNumber(editColNumber + 1);
         break;
       case 4:

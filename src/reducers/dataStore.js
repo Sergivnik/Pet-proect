@@ -38,5 +38,6 @@ export const initialStore = {
   contractorsPayments: [],
   trackdrivers: [],
   tracklist: [],
-  clientmanager:[],
+  clientmanager: [],
+  message: null,
 };

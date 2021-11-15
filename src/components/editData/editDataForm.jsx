@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { DriverTable } from "./driverTable.jsx";
 import "./editData.sass";
 import { TrackDriverTable } from "./trackDriverTable.jsx";
 
 export const EditDataForm = (props) => {
+  const errMessage = useSelector((state) => state.oderReducer.message);
+
   const [editTable, setEditTable] = useState(null);
+  const [showErrDiv, setShowErrDiv] = useState(false);
+
   const handleClickBtnMenu = (e) => {
     let btnName = e.currentTarget.name;
     switch (btnName) {
@@ -28,6 +33,13 @@ export const EditDataForm = (props) => {
         break;
     }
   };
+  useEffect(() => {
+    if (errMessage != null) {
+      setShowErrDiv(true);
+    } else {
+      setShowErrDiv(false);
+    }
+  }, [errMessage]);
   return (
     <div className="EDFmainForm">
       <div className="EDFMenuDiv">
@@ -74,6 +86,7 @@ export const EditDataForm = (props) => {
           Менеджер
         </button>
       </div>
+      {/* {showErrDiv && <div>{errMessage.error}</div>} */}
       <div className="EDFTableDiv">{editTable}</div>
     </div>
   );

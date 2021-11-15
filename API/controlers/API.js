@@ -84,7 +84,7 @@ module.exports.taskAddData = (req, res) => {
   tasksData.addData(req.body.body, (data) => {
     if (data.error) {
       res.status(500);
-      res.json({ message: data.error });
+      res.json(data.error);
     } else {
       res.json(data);
     }
@@ -199,7 +199,7 @@ module.exports.taskDeleteData = (req, res) => {
   tasksData.delData(req.params.id, req.body.editTable, (data) => {
     if (data.error) {
       res.status(500);
-      res.json(data.error);
+      res.json(data);
     } else {
       res.json(data);
     }

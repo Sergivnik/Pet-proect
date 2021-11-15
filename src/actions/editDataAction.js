@@ -41,8 +41,9 @@ export const addDataSuccess = (dataServer, data, editTable) => ({
   data,
   editTable,
 });
-export const addDataFailure = () => ({
+export const addDataFailure = (message) => ({
   type: ADD_DATA_FAILURE,
+  message,
 });
 export const addData = (newData, editTable) => {
   return (dispatch) => {
@@ -57,8 +58,7 @@ export const addData = (newData, editTable) => {
         return dispatch(addDataSuccess(res.data, newData, editTable));
       })
       .catch((e) => {
-        console.log(e.message);
-        return dispatch(addDataFailure());
+        return dispatch(addDataFailure(e.response.data));
       });
   };
 };
@@ -84,7 +84,6 @@ export const delData = (id, editTable) => {
         return dispatch(delDataSuccess(id));
       })
       .catch((e) => {
-        console.log(e.response.data);
         return dispatch(delDataFailure(e.response.data));
       });
   };
