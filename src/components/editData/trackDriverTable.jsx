@@ -1,31 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
-import { findValueById, dateLocal } from "../myLib/myLib.js";
 
 import "./editData.sass";
+import { TrackDriverTr } from "./trackDriverTr.jsx";
 export const TrackDriverTable = (props) => {
   const driversListFull = useSelector((state) => state.oderReducer.driverlist);
-  const trackdrivers = useSelector((state) => state.oderReducer.trackdrivers);
-  const tracklist = useSelector((state) => state.oderReducer.tracklist);
+  const trackdriversFull = useSelector(
+    (state) => state.oderReducer.trackdrivers
+  );
 
   const [driversList, setDriversList] = useState(driversListFull);
+  const [trackdrivers, setTrackDrivers] = useState(trackdriversFull);
   const [check, setCheck] = useState(true);
+  const [chosenId, setChosenId] = useState(null);
+  const [currentId, setCurrentId] = useState(null);
 
   const setValue = (data) => {
-    console.log(data);
+    let arr = trackdriversFull.filter((elem) => elem.idOwner == data._id);
+    setTrackDrivers(arr);
+    setChosenId(data._id);
   };
   const handleChangeBox = (e) => {
-    console.log(e);
+    if (e.currentTarget.checked) {
+      let [...arr] = driversListFull;
+      setCheck(true);
+      setDriversList(arr.filter((elem) => elem.active == 1));
+    } else {
+      setDriversList(driversListFull);
+      setCheck(false);
+    }
   };
   const handleClickAdd = () => {};
+  const getCurrentId = (id) => {
+    setCurrentId(id);
+  };
 
+  useEffect(() => {
+    if (chosenId != null) {
+      let arr = trackdriversFull.filter((elem) => elem.idOwner == chosenId);
+      setDriversList(arr);
+    } else {
+      setDriversList(trackdriversFull);
+    }
+    if (check) {
+      setDriversList(driversListFull.filter((elem) => elem.active == 1));
+    } else {
+      setDriversList(driversListFull);
+    }
+  }, [trackdriversFull]);
   return (
     <div>
       <h2 className="driverH2">Таблица водителей</h2>
       <div className="driverFilter">
         <span>Перевозчик</span>
-        <div className="driverChoise">
+        <div className="trackDriverChoise">
           <ChoiseList name="owner" arrlist={driversList} setValue={setValue} />
         </div>
         <span>Активный</span>
@@ -50,9 +79,14 @@ export const TrackDriverTable = (props) => {
           </tr>
         </thead>
         <tbody className="trackDriverTbody">
-          {driversList.map((elem) => {
+          {trackdrivers.map((elem) => {
             return (
-              <tr></tr>       
+              <TrackDriverTr
+                key={"trackDriver" + elem._id}
+                elem={elem}
+                getCurrentId={getCurrentId}
+                currentId={currentId}
+              />
             );
           })}
         </tbody>

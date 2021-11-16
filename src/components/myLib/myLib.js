@@ -21,3 +21,11 @@ export const findValueById = (id, arrObj) => {
     return "";
   }
 };
+export const findValueBy_Id = (id, arrObj) => {
+  let value = arrObj.find((elem) => elem._id == id);
+  if (value != undefined) {
+    return value;
+  } else {
+    return "";
+  }
+};
