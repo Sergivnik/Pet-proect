@@ -16,6 +16,14 @@ export const TrackDriverTr = (props) => {
   const [currentElement, setCurrentElement] = useState(null);
   const [styleTr, setStyleTr] = useState(null);
 
+  const dateToSqlString = (dateSomeFormate) => {
+    let date = new Date(dateSomeFormate);
+    let Year = date.getFullYear();
+    let Month = date.getMonth() + 1;
+    let Day = date.getDate();
+    return `${Year}-${Month}-${Day}`;
+  };
+
   const handleClickTr = (e) => {
     props.getCurrentId(elem._id);
     setStyleTr("driverActiveTr");
@@ -29,7 +37,41 @@ export const TrackDriverTr = (props) => {
     setCurrentElement(e.currentTarget);
   };
   const handleEnter = (e) => {
-    console.log(e);
+    if (e.key == "Enter") {
+      let { ...obj } = elem;
+      obj.dateOfIssue = dateToSqlString(obj.dateOfIssue);
+      switch (colNumber) {
+        case 0:
+          obj.value = e.currentTarget.value;
+          break;
+        case 1:
+          obj.name = e.currentTarget.value;
+          break;
+        case 2:
+          obj.shortName = e.currentTarget.value;
+          break;
+        case 3:
+          obj.passportNumber = e.currentTarget.value;
+          break;
+        case 4:
+          obj.department = e.currentTarget.value;
+          break;
+        case 5:
+          obj.dateOfIssue = e.currentTarget.value;
+          break;
+        case 6:
+          obj.driverLicense = e.currentTarget.value;
+          break;
+        case 7:
+          obj.phoneNumber = e.currentTarget.value;
+          break;
+        default:
+          break;
+      }
+      console.log(obj);
+      dispatch(editData(obj, "trackdrivers"));
+      setColNumber(null);
+    }
   };
   const setValue = (data) => {
     console.log(data);

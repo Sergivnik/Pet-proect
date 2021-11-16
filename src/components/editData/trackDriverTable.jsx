@@ -39,16 +39,16 @@ export const TrackDriverTable = (props) => {
   useEffect(() => {
     if (chosenId != null) {
       let arr = trackdriversFull.filter((elem) => elem.idOwner == chosenId);
-      setDriversList(arr);
+      setTrackDrivers(arr);
     } else {
-      setDriversList(trackdriversFull);
+      setTrackDrivers(trackdriversFull);
     }
     if (check) {
       setDriversList(driversListFull.filter((elem) => elem.active == 1));
     } else {
       setDriversList(driversListFull);
     }
-  }, [trackdriversFull]);
+  }, [trackdriversFull, trackdriversFull]);
   return (
     <div>
       <h2 className="driverH2">Таблица водителей</h2>
