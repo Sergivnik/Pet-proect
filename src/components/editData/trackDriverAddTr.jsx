@@ -10,22 +10,81 @@ export const TrackDraverAddTr = (props) => {
   const tracklist = useSelector((state) => state.oderReducer.tracklist);
 
   const [editColNumber, setEditColNumber] = useState(0);
-  const [addDriverObj, setAddDriverObj] = useState({});
+  const [addTrackDriverObj, setAddTrackDriverObj] = useState({});
 
   const handleInputBlur = (e) => {
-    console.log(e);
+    let { ...obj } = addTrackDriverObj;
+    switch (editColNumber) {
+      case 0:
+        obj.value = e.currentTarget.value;
+        setEditColNumber(editColNumber + 1);
+        break;
+      case 1:
+        obj.name = e.currentTarget.value;
+        setEditColNumber(editColNumber + 1);
+        break;
+      case 2:
+        obj.shortName = e.currentTarget.value;
+        setEditColNumber(editColNumber + 1);
+        break;
+      case 3:
+        obj.passportNumber = e.currentTarget.value;
+        setEditColNumber(editColNumber + 1);
+        break;
+      case 4:
+        obj.department = e.currentTarget.value;
+        setEditColNumber(editColNumber + 1);
+        break;
+      case 5:
+        obj.dateOfIssue = e.currentTarget.value;
+        setEditColNumber(editColNumber + 1);
+        break;
+      case 6:
+        obj.driverLicense = e.currentTarget.value;
+        setEditColNumber(editColNumber + 1);
+        break;
+      case 7:
+        obj.phoneNumber = e.currentTarget.value;
+        setEditColNumber(editColNumber + 1);
+        break;
+      default:
+        break;
+    }
+    setAddTrackDriverObj(obj);
   };
   const handleEnter = (e) => {
     console.log(e);
   };
-  const setValue = (e) => {
-    console.log(e);
+  const setValue = (data) => {
+    let { ...obj } = addTrackDriverObj;
+    if (editColNumber == 8) {
+      obj.idOwner = data._id;
+      setEditColNumber(editColNumber + 1);
+      setAddTrackDriverObj(obj);
+    }
+    if (editColNumber == 9) {
+      if (obj.value != "") {
+        obj.idTrack = data._id;
+        setEditColNumber(null);
+        props.handleAddTrackDriver(obj);
+      } else {
+        setEditColNumber(0);
+      }
+    }
   };
 
   useEffect(() => {
     let div = document.querySelector(".EDFTableDiv");
     div.scrollTop = div.scrollHeight;
   }, []);
+  useEffect(() => {
+    if (editColNumber < 8 && editColNumber != null) {
+      let parent = document.querySelector(".driverAddTr");
+      let input = parent.querySelector(".driverTrInput");
+      input.focus();
+    }
+  }, [editColNumber]);
+
   return (
     <tr className="driverAddTr" onKeyDown={handleEnter}>
       <td className="trackDriverTd">
@@ -37,7 +96,7 @@ export const TrackDraverAddTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          addDriverObj.value
+          addTrackDriverObj.value
         )}
       </td>
       <td className="trackDriverTd">
@@ -49,7 +108,7 @@ export const TrackDraverAddTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          addDriverObj.name
+          addTrackDriverObj.name
         )}
       </td>
       <td className="trackDriverTd">
@@ -61,7 +120,7 @@ export const TrackDraverAddTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          addDriverObj.shortName
+          addTrackDriverObj.shortName
         )}
       </td>
       <td className="trackDriverTd">
@@ -73,7 +132,7 @@ export const TrackDraverAddTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          addDriverObj.passportNumber
+          addTrackDriverObj.passportNumber
         )}
       </td>
       <td className="trackDriverTd">
@@ -85,7 +144,7 @@ export const TrackDraverAddTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          addDriverObj.department
+          addTrackDriverObj.department
         )}
       </td>
       <td className="trackDriverTd">
@@ -97,7 +156,7 @@ export const TrackDraverAddTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          dateLocal(addDriverObj.dateOfIssue)
+          dateLocal(addTrackDriverObj.dateOfIssue)
         )}
       </td>
       <td className="trackDriverTd">
@@ -109,7 +168,7 @@ export const TrackDraverAddTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          addDriverObj.driverLicense
+          addTrackDriverObj.driverLicense
         )}
       </td>
       <td className="trackDriverTd">
@@ -121,7 +180,7 @@ export const TrackDraverAddTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          addDriverObj.phoneNumber
+          addTrackDriverObj.phoneNumber
         )}
       </td>
       <td className="trackDriverTd">
@@ -132,14 +191,14 @@ export const TrackDraverAddTr = (props) => {
             setValue={setValue}
           />
         ) : (
-          findValueBy_Id(addDriverObj.idOwner, driversListFull)
+          findValueBy_Id(addTrackDriverObj.idOwner, driversListFull).value
         )}
       </td>
       <td className="trackDriverTd">
         {editColNumber == 9 ? (
           <ChoiseList name="track" arrlist={tracklist} setValue={setValue} />
         ) : (
-          findValueBy_Id(addDriverObj.idTrack, tracklist)
+          findValueBy_Id(addTrackDriverObj.idTrack, tracklist).value
         )}
       </td>
     </tr>

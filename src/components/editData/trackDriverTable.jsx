@@ -41,6 +41,7 @@ export const TrackDriverTable = (props) => {
   };
   const handleAddTrackDriver = (data) => {
     console.log(data);
+    setShowAddTr(false);
   };
 
   useEffect(() => {
