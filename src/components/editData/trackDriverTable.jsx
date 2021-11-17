@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 
 import "./editData.sass";
+import { TrackDraverAddTr } from "./trackDriverAddTr.jsx";
 import { TrackDriverTr } from "./trackDriverTr.jsx";
 export const TrackDriverTable = (props) => {
   const driversListFull = useSelector((state) => state.oderReducer.driverlist);
@@ -15,6 +16,7 @@ export const TrackDriverTable = (props) => {
   const [check, setCheck] = useState(true);
   const [chosenId, setChosenId] = useState(null);
   const [currentId, setCurrentId] = useState(null);
+  const [showAddTr, setShowAddTr] = useState(false);
 
   const setValue = (data) => {
     let arr = trackdriversFull.filter((elem) => elem.idOwner == data._id);
@@ -31,9 +33,14 @@ export const TrackDriverTable = (props) => {
       setCheck(false);
     }
   };
-  const handleClickAdd = () => {};
+  const handleClickAdd = () => {
+    setShowAddTr(true);
+  };
   const getCurrentId = (id) => {
     setCurrentId(id);
+  };
+  const handleAddTrackDriver = (data) => {
+    console.log(data);
   };
 
   useEffect(() => {
@@ -89,6 +96,9 @@ export const TrackDriverTable = (props) => {
               />
             );
           })}
+          {showAddTr && (
+            <TrackDraverAddTr handleAddTrackDriver={handleAddTrackDriver} />
+          )}
         </tbody>
       </table>
     </div>
