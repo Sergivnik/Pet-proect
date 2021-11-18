@@ -53,7 +53,18 @@ export const TrackDraverAddTr = (props) => {
     setAddTrackDriverObj(obj);
   };
   const handleEnter = (e) => {
-    console.log(e);
+    if (e.key == "Enter") {
+      if (addTrackDriverObj.value != "" && addTrackDriverObj.value != undefined) {
+        props.handleAddTrackDriver(addTrackDriverObj);
+      } else {
+        setEditColNumber(0);
+        if (e.currentTarget.tagName == "INPUT" && e.currentTarget.value != "") {
+          let { ...obj } = addTrackDriverObj;
+          obj.value = e.currentTarget.value;
+          props.handleAddTrackDriver(obj);
+        }
+      }
+    }
   };
   const setValue = (data) => {
     let { ...obj } = addTrackDriverObj;
@@ -86,7 +97,7 @@ export const TrackDraverAddTr = (props) => {
   }, [editColNumber]);
 
   return (
-    <tr className="driverAddTr" onKeyDown={handleEnter}>
+    <tr className="driverAddTr">
       <td className="trackDriverTd">
         {editColNumber == 0 ? (
           <input

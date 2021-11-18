@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
-
-import "./editData.sass";
 import { TrackDraverAddTr } from "./trackDriverAddTr.jsx";
 import { TrackDriverTr } from "./trackDriverTr.jsx";
+import { addData } from "../../actions/editDataAction.js";
+
+import "./editData.sass";
+
 export const TrackDriverTable = (props) => {
+  const dispatch = useDispatch();
   const driversListFull = useSelector((state) => state.oderReducer.driverlist);
   const trackdriversFull = useSelector(
     (state) => state.oderReducer.trackdrivers
@@ -40,7 +43,7 @@ export const TrackDriverTable = (props) => {
     setCurrentId(id);
   };
   const handleAddTrackDriver = (data) => {
-    console.log(data);
+    dispatch(addData(data, "trackdrivers"));
     setShowAddTr(false);
   };
 

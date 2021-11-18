@@ -659,11 +659,15 @@ export const oderReducer = (store = initialStore, action) => {
       console.log(action.dataServer, action.data, action.editTable);
       switch (action.editTable) {
         case "drivers":
-          let [...arr] = store.driverlist;
+          let [...arrDrivers] = store.driverlist;
           action.data._id = action.dataServer.insertId;
-          arr.push(action.data);
-          return { ...store, driverlist: arr };
-
+          arrDrivers.push(action.data);
+          return { ...store, driverlist: arrDrivers };
+        case "trackdrivers":
+          let [...arrTrackDrivers] = store.trackdrivers;
+          action.data._id = action.dataServer.insertId;
+          arrTrackDrivers.push(action.data);
+          return { ...store, trackdrivers: arrTrackDrivers };
         default:
           break;
       }
@@ -671,11 +675,22 @@ export const oderReducer = (store = initialStore, action) => {
       console.log(action.message);
       return { ...store, message: "err" };
     case DEL_DATA_SUCCESS:
-      console.log(action.ia, action.editTable);
-      let [...arr] = store.driverlist;
-      let index = arr.findIndex((elem) => elem._id == action.id);
-      arr.splice(index, 1);
-      return { ...store, driverlist: arr };
+      switch (action.editTable) {
+        case "drivers":
+          let [...arrDrivers] = store.driverlist;
+          let indexDriver = arrDrivers.findIndex(
+            (elem) => elem._id == action.id
+          );
+          arrDrivers.splice(indexDriver, 1);
+          return { ...store, driverlist: arrDrivers };
+        case "trackdrivers":
+          let [...arrTrackDrivers] = store.trackdrivers;
+          let indexTrackDriver = arrTrackDrivers.findIndex(
+            (elem) => elem._id == action.id
+          );
+          arrTrackDrivers.splice(indexTrackDriver, 1);
+          return { ...store, trackdrivers: arrTrackDrivers };
+      }
     case DEL_DATA_FAILURE:
       console.log(action.message);
       return { ...store, message: action.message };

@@ -15,6 +15,7 @@ export const TrackDriverTr = (props) => {
   const [colNumber, setColNumber] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
   const [styleTr, setStyleTr] = useState(null);
+  const [styleTd, setStileTd] = useState("trackDriverTd");
 
   const dateToSqlString = (dateSomeFormate) => {
     let date = new Date(dateSomeFormate);
@@ -27,6 +28,7 @@ export const TrackDriverTr = (props) => {
   const handleClickTr = (e) => {
     props.getCurrentId(elem._id);
     setStyleTr("driverActiveTr");
+    setStileTd("trackDriverTd trackDriverZ10");
   };
   const handleDBLclick = (e) => {
     let column = e.currentTarget.cellIndex;
@@ -80,12 +82,18 @@ export const TrackDriverTr = (props) => {
     dispatch(editData(obj, "trackdrivers"));
     setColNumber(null);
   };
-  const handleClickDelete = () => {};
+  const handleClickDelete = () => {
+    let password = prompt("Подтвердите удаление", "Пароль");
+    if (password == "Пароль") {
+      dispatch(delData(elem._id, "trackdrivers"));
+    }
+  };
 
   useEffect(() => {
     if (props.currentId != elem._id) {
       setColNumber(null);
       setStyleTr(null);
+      setStileTd("trackDriverTd");
     }
   }, [props.currentId]);
   useEffect(() => {
@@ -93,7 +101,7 @@ export const TrackDriverTr = (props) => {
   }, [currentElement]);
   return (
     <tr onClick={handleClickTr} className={styleTr}>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 0 ? (
           <input
             type="text"
@@ -104,7 +112,7 @@ export const TrackDriverTr = (props) => {
           elem.value
         )}
       </td>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 1 ? (
           <input
             type="text"
@@ -115,7 +123,7 @@ export const TrackDriverTr = (props) => {
           elem.name
         )}
       </td>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 2 ? (
           <input
             type="text"
@@ -126,7 +134,7 @@ export const TrackDriverTr = (props) => {
           elem.shortName
         )}
       </td>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 3 ? (
           <input
             type="text"
@@ -137,7 +145,7 @@ export const TrackDriverTr = (props) => {
           elem.passportNumber
         )}
       </td>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 4 ? (
           <input
             type="text"
@@ -148,7 +156,7 @@ export const TrackDriverTr = (props) => {
           elem.department
         )}
       </td>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 5 ? (
           <input
             type="date"
@@ -159,7 +167,7 @@ export const TrackDriverTr = (props) => {
           dateLocal(elem.dateOfIssue)
         )}
       </td>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 6 ? (
           <input
             type="text"
@@ -170,7 +178,7 @@ export const TrackDriverTr = (props) => {
           elem.driverLicense
         )}
       </td>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 7 ? (
           <input
             type="text"
@@ -181,7 +189,7 @@ export const TrackDriverTr = (props) => {
           elem.phoneNumber
         )}
       </td>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 8 ? (
           <div className="trackDriverChoise">
             <ChoiseList
@@ -194,7 +202,7 @@ export const TrackDriverTr = (props) => {
           findValueBy_Id(elem.idOwner, driversListFull).value
         )}
       </td>
-      <td className="trackDriverTd" onDoubleClick={handleDBLclick}>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 9 ? (
           <div className="trackDriverChoise">
             <ChoiseList

@@ -81,7 +81,7 @@ export const delData = (id, editTable) => {
         data: { editTable: editTable },
       })
       .then((res) => {
-        return dispatch(delDataSuccess(id));
+        return dispatch(delDataSuccess(id, editTable));
       })
       .catch((e) => {
         return dispatch(delDataFailure(e.response.data));
