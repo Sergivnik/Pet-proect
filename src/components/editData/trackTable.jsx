@@ -1,0 +1,54 @@
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { ChoiseList } from "../choiseList/choiseList.jsx";
+
+import "./editData.sass";
+
+export const TrackTable = (props) => {
+  const dispatch = useDispatch();
+  const driversListFull = useSelector((state) => state.oderReducer.driverlist);
+  const tracklistFull = useSelector((state) => state.oderReducer.tracklist);
+
+  const [driversList, setDriversList] = useState(driversListFull);
+  const [trackList, setTrackList] = useState(tracklistFull);
+  const [check, setCheck] = useState(true);
+  const [chosenId, setChosenId] = useState(null);
+  const [currentId, setCurrentId] = useState(null);
+  const [showAddTr, setShowAddTr] = useState(false);
+
+  const setValue = (data) => {
+    let arr = tracklistFull.filter((elem) => elem.idOwner == data._id);
+    setTrackList(arr);
+    setChosenId(data._id);
+  };
+  const handleChangeBox = (e) => {
+    if (e.currentTarget.checked) {
+      let [...arr] = driversListFull;
+      setCheck(true);
+      setDriversList(arr.filter((elem) => elem.active == 1));
+    } else {
+      setDriversList(driversListFull);
+      setCheck(false);
+    }
+  };
+  const handleClickAdd = () => {
+    setShowAddTr(true);
+  };
+
+  return (
+    <>
+      <h2 className="driverH2">Таблица автомобилей</h2>
+      <div className="driverFilter">
+        <span>Перевозчик</span>
+        <div className="trackDriverChoise">
+          <ChoiseList name="owner" arrlist={driversList} setValue={setValue} />
+        </div>
+        <span>Активный</span>
+        <input type="checkbox" onChange={handleChangeBox} checked={check} />
+        <button className="driverAddBtn" onClick={handleClickAdd}>
+          Добавить
+        </button>
+      </div>
+    </>
+  );
+};

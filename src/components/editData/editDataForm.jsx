@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { DriverTable } from "./driverTable.jsx";
 import "./editData.sass";
 import { TrackDriverTable } from "./trackDriverTable.jsx";
+import { TrackTable } from "./trackTable.jsx";
 
 export const EditDataForm = (props) => {
   const errMessage = useSelector((state) => state.oderReducer.message);
@@ -20,7 +21,7 @@ export const EditDataForm = (props) => {
         setEditTable(<TrackDriverTable />);
         break;
       case "tracklist":
-        setEditTable(<DriverTable />);
+        setEditTable(<TrackTable />);
         break;
       case "cities":
         setEditTable(<DriverTable />);

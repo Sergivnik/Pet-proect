@@ -56,7 +56,7 @@ export const DriverTable = (props) => {
     setShowAddTr(false);
   };
   return (
-    <div>
+    <>
       <h2 className="driverH2">Таблица перевозчиков</h2>
       <div className="driverFilter">
         <span>Перевозчик</span>
@@ -73,33 +73,35 @@ export const DriverTable = (props) => {
           Добавить
         </button>
       </div>
-      <table className="driverTbl">
-        <thead>
-          <tr>
-            <td className="driverTdHeader">Краткое название</td>
-            <td className="driverTdHeader">Телефон</td>
-            <td className="driverTdHeader">Полное название</td>
-            <td className="driverTdHeader">ИНН</td>
-            <td className="driverTdHeader">Адрес</td>
-            <td className="driverTdHeader">Расчетный счет</td>
-            <td className="driverTdHeader">Договор</td>
-            <td className="driverTdHeader">Активный</td>
-          </tr>
-        </thead>
-        <tbody className="driverTbody">
-          {driversList.map((elem) => {
-            return (
-              <DriverTableTR
-                key={"driver" + elem._id}
-                elem={elem}
-                getCurrentId={getCurrentId}
-                currentId={currentId}
-              />
-            );
-          })}
-          {showAddTr && <DriverAddTr handleAddDriver={handleAddDriver} />}
-        </tbody>
-      </table>
-    </div>
+      <div className="tableDiv">
+        <table className="driverTbl">
+          <thead>
+            <tr>
+              <td className="driverTdHeader">Краткое название</td>
+              <td className="driverTdHeader">Телефон</td>
+              <td className="driverTdHeader">Полное название</td>
+              <td className="driverTdHeader">ИНН</td>
+              <td className="driverTdHeader">Адрес</td>
+              <td className="driverTdHeader">Расчетный счет</td>
+              <td className="driverTdHeader">Договор</td>
+              <td className="driverTdHeader">Активный</td>
+            </tr>
+          </thead>
+          <tbody className="driverTbody">
+            {driversList.map((elem) => {
+              return (
+                <DriverTableTR
+                  key={"driver" + elem._id}
+                  elem={elem}
+                  getCurrentId={getCurrentId}
+                  currentId={currentId}
+                />
+              );
+            })}
+            {showAddTr && <DriverAddTr handleAddDriver={handleAddDriver} />}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };

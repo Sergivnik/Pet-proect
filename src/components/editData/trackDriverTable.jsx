@@ -61,7 +61,7 @@ export const TrackDriverTable = (props) => {
     }
   }, [trackdriversFull, trackdriversFull]);
   return (
-    <div>
+    <>
       <h2 className="driverH2">Таблица водителей</h2>
       <div className="driverFilter">
         <span>Перевозчик</span>
@@ -74,37 +74,39 @@ export const TrackDriverTable = (props) => {
           Добавить
         </button>
       </div>
-      <table className="trackDriverTbl">
-        <thead>
-          <tr>
-            <td className="trackDriverTdHeader">Имя</td>
-            <td className="trackDriverTdHeader">Полное имя</td>
-            <td className="trackDriverTdHeader">Краткое имя</td>
-            <td className="trackDriverTdHeader">Паспорт номер</td>
-            <td className="trackDriverTdHeader">Выдан</td>
-            <td className="trackDriverTdHeader">Дата</td>
-            <td className="trackDriverTdHeader">ВУД</td>
-            <td className="trackDriverTdHeader">Телефон</td>
-            <td className="trackDriverTdHeader">Собственник</td>
-            <td className="trackDriverTdHeader">Номер АМ</td>
-          </tr>
-        </thead>
-        <tbody className="trackDriverTbody">
-          {trackdrivers.map((elem) => {
-            return (
-              <TrackDriverTr
-                key={"trackDriver" + elem._id}
-                elem={elem}
-                getCurrentId={getCurrentId}
-                currentId={currentId}
-              />
-            );
-          })}
-          {showAddTr && (
-            <TrackDraverAddTr handleAddTrackDriver={handleAddTrackDriver} />
-          )}
-        </tbody>
-      </table>
-    </div>
+      <div className="tableDiv">
+        <table className="trackDriverTbl">
+          <thead>
+            <tr>
+              <td className="trackDriverTdHeader">Имя</td>
+              <td className="trackDriverTdHeader">Полное имя</td>
+              <td className="trackDriverTdHeader">Краткое имя</td>
+              <td className="trackDriverTdHeader">Паспорт номер</td>
+              <td className="trackDriverTdHeader">Выдан</td>
+              <td className="trackDriverTdHeader">Дата</td>
+              <td className="trackDriverTdHeader">ВУД</td>
+              <td className="trackDriverTdHeader">Телефон</td>
+              <td className="trackDriverTdHeader">Собственник</td>
+              <td className="trackDriverTdHeader">Номер АМ</td>
+            </tr>
+          </thead>
+          <tbody className="trackDriverTbody">
+            {trackdrivers.map((elem) => {
+              return (
+                <TrackDriverTr
+                  key={"trackDriver" + elem._id}
+                  elem={elem}
+                  getCurrentId={getCurrentId}
+                  currentId={currentId}
+                />
+              );
+            })}
+            {showAddTr && (
+              <TrackDraverAddTr handleAddTrackDriver={handleAddTrackDriver} />
+            )}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
