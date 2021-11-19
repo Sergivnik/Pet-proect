@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 
 import "./editData.sass";
+import { TrackTr } from "./trackTr.jsx";
 
 export const TrackTable = (props) => {
   const dispatch = useDispatch();
@@ -34,20 +35,61 @@ export const TrackTable = (props) => {
   const handleClickAdd = () => {
     setShowAddTr(true);
   };
+  const getCurrentId = (id) => {
+    setCurrentId(id);
+  };
+
+  useEffect(() => {
+    if (chosenId != null) {
+      let arr = trackList.filter((elem) => elem.idOwner == chosenId);
+      setTrackList(arr);
+    } else {
+      setTrackList(tracklistFull);
+    }
+    if (check) {
+      setDriversList(driversListFull.filter((elem) => elem.active == 1));
+    } else {
+      setDriversList(driversListFull);
+    }
+  }, [tracklistFull]);
 
   return (
     <>
       <h2 className="driverH2">Таблица автомобилей</h2>
       <div className="driverFilter">
         <span>Перевозчик</span>
-        <div className="trackDriverChoise">
+        <div className="driverChoise">
           <ChoiseList name="owner" arrlist={driversList} setValue={setValue} />
         </div>
         <span>Активный</span>
         <input type="checkbox" onChange={handleChangeBox} checked={check} />
-        <button className="driverAddBtn" onClick={handleClickAdd}>
+        <button className="trackAddBtn" onClick={handleClickAdd}>
           Добавить
         </button>
+      </div>
+      <div className="tableDiv">
+        <table className="trackTbl">
+          <thead>
+            <tr>
+              <td className="trackTdHeader">Собственник</td>
+              <td className="trackTdHeader">Номер АМ</td>
+              <td className="trackTdHeader">Номер прицепа</td>
+              <td className="trackTdHeader">Марка АМ</td>
+            </tr>
+          </thead>
+          <tbody className="trackDriverTbody">
+            {trackList.map((elem) => {
+              return (
+                <TrackTr
+                  key={"track" + elem._id}
+                  elem={elem}
+                  getCurrentId={getCurrentId}
+                  currentId={currentId}
+                />
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </>
   );

@@ -59,7 +59,7 @@ export const TrackDriverTable = (props) => {
     } else {
       setDriversList(driversListFull);
     }
-  }, [trackdriversFull, trackdriversFull]);
+  }, [trackdriversFull]);
   return (
     <>
       <h2 className="driverH2">Таблица водителей</h2>
