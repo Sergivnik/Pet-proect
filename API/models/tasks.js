@@ -14,7 +14,7 @@ var Tasks = {
     try {
       let [data] = await db.query("SELECT DISTINCT date FROM oderslist");
       allData.date = data;
-      [data] = await db.query("SELECT * FROM cities");
+      [data] = await db.query("SELECT * FROM cities order by value");
       allData.citieslist = data;
       [data] = await db.query("SELECT * FROM drivers");
       allData.driverlist = data;

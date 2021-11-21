@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DriverTable } from "./driverTable.jsx";
-import "./editData.sass";
+import { PointsTable } from "./pointsTable.jsx";
 import { TrackDriverTable } from "./trackDriverTable.jsx";
 import { TrackTable } from "./trackTable.jsx";
+
+import "./editData.sass";
 
 export const EditDataForm = (props) => {
   const errMessage = useSelector((state) => state.oderReducer.message);
@@ -24,7 +26,7 @@ export const EditDataForm = (props) => {
         setEditTable(<TrackTable />);
         break;
       case "cities":
-        setEditTable(<DriverTable />);
+        setEditTable(<PointsTable />);
         break;
       case "oders":
         setEditTable(<DriverTable />);

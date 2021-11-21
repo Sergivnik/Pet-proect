@@ -659,6 +659,13 @@ export const oderReducer = (store = initialStore, action) => {
           );
           arrTrack[indexTrack] = action.newData;
           return { ...store, tracklist: arrTrack };
+        case "cities":
+          let [...arrPoints] = store.citieslist;
+          let indexPoint = arrPoints.findIndex(
+            (elem) => elem._id == action.newData._id
+          );
+          arrPoints[indexPoint] = action.newData;
+          return { ...store, citieslist: arrPoints };
         default:
           break;
       }
@@ -680,6 +687,11 @@ export const oderReducer = (store = initialStore, action) => {
           action.data._id = action.dataServer.insertId;
           arrTrack.push(action.data);
           return { ...store, tracklist: arrTrack };
+        case "cities":
+          let [...arrPoints] = store.citieslist;
+          action.data._id = action.dataServer.insertId;
+          arrPoints.push(action.data);
+          return { ...store, citieslist: arrPoints };
         default:
           break;
       }
@@ -709,6 +721,11 @@ export const oderReducer = (store = initialStore, action) => {
           let indexTrack = arrTrack.findIndex((elem) => elem._id == action.id);
           arrTrack.splice(indexTrack, 1);
           return { ...store, tracklist: arrTrack };
+        case "cities":
+          let [...arrPoints] = store.citieslist;
+          let indexPoint = arrPoints.findIndex((elem) => elem._id == action.id);
+          arrPoints.splice(indexPoint, 1);
+          return { ...store, citieslist: arrPoints };
         default:
           break;
       }
