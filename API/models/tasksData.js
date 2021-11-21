@@ -93,6 +93,30 @@ let TasksDada = {
           callback({ error: err });
         }
         break;
+      case "tracklist":
+        try {
+          let [data] = await db.query(
+            `SELECT * FROM oderslist where idTrack=${id};`
+          );
+          check = data.length;
+          [data] = await db.query(
+            `SELECT * FROM trackdrivers where idTrack=${id};`
+          );
+          check = check + data.length;
+          if (check == 0) {
+            await db.query(`DELETE FROM tracklist WHERE _id=${id}`);
+            callback("success!");
+          } else {
+            callback({
+              error: "Данного перевозчика нельхя удалить",
+              NoErr: "userErr1",
+            });
+          }
+        } catch (err) {
+          console.log(err);
+          callback({ error: err });
+        }
+        break;
     }
     db.end();
   },

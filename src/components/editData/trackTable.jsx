@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { TrackAddTr } from "./trackAddTr.jsx";
+import { TrackTr } from "./trackTr.jsx";
+import { addData } from "../../actions/editDataAction.js";
 
 import "./editData.sass";
-import { TrackTr } from "./trackTr.jsx";
-
 export const TrackTable = (props) => {
   const dispatch = useDispatch();
   const driversListFull = useSelector((state) => state.oderReducer.driverlist);
@@ -37,6 +38,10 @@ export const TrackTable = (props) => {
   };
   const getCurrentId = (id) => {
     setCurrentId(id);
+  };
+  const handleAddTrack = (data) => {
+    dispatch(addData(data, "tracklist"));
+    setShowAddTr(false);
   };
 
   useEffect(() => {
@@ -88,6 +93,7 @@ export const TrackTable = (props) => {
                 />
               );
             })}
+            {showAddTr && <TrackAddTr handleAddTrack={handleAddTrack} />}
           </tbody>
         </table>
       </div>

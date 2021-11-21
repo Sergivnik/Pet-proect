@@ -28,7 +28,7 @@ export const TrackDriverTr = (props) => {
   const handleClickTr = (e) => {
     props.getCurrentId(elem._id);
     setStyleTr("driverActiveTr");
-    setStileTd("trackDriverTd trackDriverZ10");
+    setStileTd("trackDriverTd tdZ10");
   };
   const handleDBLclick = (e) => {
     let column = e.currentTarget.cellIndex;

@@ -652,6 +652,13 @@ export const oderReducer = (store = initialStore, action) => {
           );
           arrTrackDrivers[indexTrackDriver] = action.newData;
           return { ...store, trackdrivers: arrTrackDrivers };
+        case "tracklist":
+          let [...arrTrack] = store.tracklist;
+          let indexTrack = arrTrack.findIndex(
+            (elem) => elem._id == action.newData._id
+          );
+          arrTrack[indexTrack] = action.newData;
+          return { ...store, tracklist: arrTrack };
         default:
           break;
       }
@@ -668,12 +675,19 @@ export const oderReducer = (store = initialStore, action) => {
           action.data._id = action.dataServer.insertId;
           arrTrackDrivers.push(action.data);
           return { ...store, trackdrivers: arrTrackDrivers };
+        case "tracklist":
+          let [...arrTrack] = store.tracklist;
+          action.data._id = action.dataServer.insertId;
+          arrTrack.push(action.data);
+          return { ...store, tracklist: arrTrack };
         default:
           break;
       }
+
     case ADD_DATA_FAILURE:
       console.log(action.message);
       return { ...store, message: "err" };
+
     case DEL_DATA_SUCCESS:
       switch (action.editTable) {
         case "drivers":
@@ -690,7 +704,15 @@ export const oderReducer = (store = initialStore, action) => {
           );
           arrTrackDrivers.splice(indexTrackDriver, 1);
           return { ...store, trackdrivers: arrTrackDrivers };
+        case "tracklist":
+          let [...arrTrack] = store.tracklist;
+          let indexTrack = arrTrack.findIndex((elem) => elem._id == action.id);
+          arrTrack.splice(indexTrack, 1);
+          return { ...store, tracklist: arrTrack };
+        default:
+          break;
       }
+
     case DEL_DATA_FAILURE:
       console.log(action.message);
       return { ...store, message: action.message };
