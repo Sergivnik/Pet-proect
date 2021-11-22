@@ -4,6 +4,7 @@ import { DriverTable } from "./driverTable.jsx";
 import { PointsTable } from "./pointsTable.jsx";
 import { TrackDriverTable } from "./trackDriverTable.jsx";
 import { TrackTable } from "./trackTable.jsx";
+import { CustomerTable } from "./custonerTable.jsx";
 
 import "./editData.sass";
 
@@ -29,7 +30,7 @@ export const EditDataForm = (props) => {
         setEditTable(<PointsTable />);
         break;
       case "oders":
-        setEditTable(<DriverTable />);
+        setEditTable(<CustomerTable />);
         break;
       case "clientmanager":
         setEditTable(<DriverTable />);
