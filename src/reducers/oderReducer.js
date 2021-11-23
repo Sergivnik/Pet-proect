@@ -666,6 +666,13 @@ export const oderReducer = (store = initialStore, action) => {
           );
           arrPoints[indexPoint] = action.newData;
           return { ...store, citieslist: arrPoints };
+        case "oders":
+          let [...arrCustomers] = store.clientList;
+          let indexCustomer = arrCustomers.findIndex(
+            (elem) => elem._id == action.newData._id
+          );
+          arrCustomers[indexCustomer] = action.newData;
+          return { ...store, clientList: arrCustomers };
         default:
           break;
       }
@@ -692,6 +699,11 @@ export const oderReducer = (store = initialStore, action) => {
           action.data._id = action.dataServer.insertId;
           arrPoints.push(action.data);
           return { ...store, citieslist: arrPoints };
+        case "oders":
+          let [...arrCustomers] = store.clientList;
+          action.data._id = action.dataServer.insertId;
+          arrCustomers.push(action.data);
+          return { ...store, clientList: arrCustomers };
         default:
           break;
       }
@@ -726,6 +738,13 @@ export const oderReducer = (store = initialStore, action) => {
           let indexPoint = arrPoints.findIndex((elem) => elem._id == action.id);
           arrPoints.splice(indexPoint, 1);
           return { ...store, citieslist: arrPoints };
+        case "oders":
+          let [...arrCustomers] = store.clientList;
+          let indexCustomer = arrCustomers.findIndex(
+            (elem) => elem._id == action.id
+          );
+          arrCustomers.splice(indexCustomer, 1);
+          return { ...store, clientList: arrCustomers };
         default:
           break;
       }

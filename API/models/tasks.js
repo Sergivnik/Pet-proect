@@ -16,9 +16,9 @@ var Tasks = {
       allData.date = data;
       [data] = await db.query("SELECT * FROM cities order by value");
       allData.citieslist = data;
-      [data] = await db.query("SELECT * FROM drivers");
+      [data] = await db.query("SELECT * FROM drivers order by value");
       allData.driverlist = data;
-      [data] = await db.query("SELECT * FROM oders");
+      [data] = await db.query("SELECT * FROM oders order by value");
       allData.clientList = data;
       [data] = await db.query(
         `(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 5000) ORDER BY date, accountNumber, _id`

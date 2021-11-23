@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { CustomerAddTr } from "./customerAddTr.jsx";
 import { CustomerTr } from "./customerTr.jsx";
+import { addData } from "../../actions/editDataAction.js";
 
 import "./editData.sass";
 
@@ -16,7 +18,9 @@ export const CustomerTable = () => {
   const [showAddTr, setShowAddTr] = useState(false);
 
   const setValue = (data) => {
-    console.log(data);
+    let arr = clientListFull.filter((elem) => elem._id == data._id);
+    setCustomerList(arr);
+    setChosenId(data._id);
   };
   const handleChangeBox = (e) => {
     if (e.currentTarget.checked) {
@@ -33,6 +37,10 @@ export const CustomerTable = () => {
   };
   const handleClickAdd = () => {
     setShowAddTr(true);
+  };
+  const handleAddCustomer = (data) => {
+    dispatch(addData(data, "oders"));
+    setShowAddTr(false);
   };
 
   useEffect(() => {
@@ -96,6 +104,9 @@ export const CustomerTable = () => {
                 />
               );
             })}
+            {showAddTr && (
+              <CustomerAddTr handleAddCustomer={handleAddCustomer} />
+            )}
           </tbody>
         </table>
       </div>
