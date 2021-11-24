@@ -82,6 +82,13 @@ export const TrackDriverTr = (props) => {
     dispatch(editData(obj, "trackdrivers"));
     setColNumber(null);
   };
+  const handleRadio = (e) => {
+    let { ...obj } = elem;
+    obj.dateOfIssue = dateToSqlString(obj.dateOfIssue);
+    obj.fired = e.currentTarget.value;
+    dispatch(editData(obj, "trackdrivers"));
+    setColNumber(null);
+  };
   const handleClickDelete = () => {
     let password = prompt("Подтвердите удаление", "Пароль");
     if (password == "Пароль") {
@@ -213,6 +220,34 @@ export const TrackDriverTr = (props) => {
           </div>
         ) : (
           findValueBy_Id(elem.idTrack, tracklist).value
+        )}
+      </td>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
+        {colNumber == 10 ? (
+          <div>
+            <span>
+              <input
+                type="radio"
+                name="active"
+                value={1}
+                onChange={handleRadio}
+              />
+              Да
+            </span>
+            <span>
+              <input
+                type="radio"
+                name="active"
+                value={0}
+                onChange={handleRadio}
+              />
+              Нет
+            </span>
+          </div>
+        ) : elem.fired == 1 ? (
+          "да"
+        ) : (
+          "нет"
         )}
         {styleTr != null && (
           <div className="customerPaymentTrClose" onClick={handleClickDelete}>

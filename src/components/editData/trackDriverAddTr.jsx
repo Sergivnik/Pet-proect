@@ -86,6 +86,9 @@ export const TrackDraverAddTr = (props) => {
       }
     }
   };
+  const handleClick=(e)=>{
+    setEditColNumber(e.currentTarget.cellIndex);
+  }
 
   useEffect(() => {
     let div = document.querySelector(".EDFTableDiv");
@@ -101,7 +104,7 @@ export const TrackDraverAddTr = (props) => {
 
   return (
     <tr className="driverAddTr">
-      <td className="trackDriverTd">
+      <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 0 ? (
           <input
             type="text"
@@ -113,7 +116,7 @@ export const TrackDraverAddTr = (props) => {
           addTrackDriverObj.value
         )}
       </td>
-      <td className="trackDriverTd">
+      <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 1 ? (
           <input
             type="text"
@@ -125,7 +128,7 @@ export const TrackDraverAddTr = (props) => {
           addTrackDriverObj.name
         )}
       </td>
-      <td className="trackDriverTd">
+      <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 2 ? (
           <input
             type="text"
@@ -149,7 +152,7 @@ export const TrackDraverAddTr = (props) => {
           addTrackDriverObj.passportNumber
         )}
       </td>
-      <td className="trackDriverTd">
+      <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 4 ? (
           <input
             type="text"
@@ -161,7 +164,7 @@ export const TrackDraverAddTr = (props) => {
           addTrackDriverObj.department
         )}
       </td>
-      <td className="trackDriverTd">
+      <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 5 ? (
           <input
             type="date"
@@ -173,7 +176,7 @@ export const TrackDraverAddTr = (props) => {
           dateLocal(addTrackDriverObj.dateOfIssue)
         )}
       </td>
-      <td className="trackDriverTd">
+      <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 6 ? (
           <input
             type="text"
@@ -185,7 +188,7 @@ export const TrackDraverAddTr = (props) => {
           addTrackDriverObj.driverLicense
         )}
       </td>
-      <td className="trackDriverTd">
+      <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 7 ? (
           <input
             type="text"
@@ -197,7 +200,7 @@ export const TrackDraverAddTr = (props) => {
           addTrackDriverObj.phoneNumber
         )}
       </td>
-      <td className="trackDriverTd">
+      <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 8 ? (
           <ChoiseList
             name="owner"
@@ -208,7 +211,7 @@ export const TrackDraverAddTr = (props) => {
           findValueBy_Id(addTrackDriverObj.idOwner, driversListFull).value
         )}
       </td>
-      <td className="trackDriverTd">
+      <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 9 ? (
           <ChoiseList name="track" arrlist={tracklist} setValue={setValue} />
         ) : (

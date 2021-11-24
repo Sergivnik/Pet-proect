@@ -88,6 +88,7 @@ export const TrackDriverTable = (props) => {
               <td className="trackDriverTdHeader">Телефон</td>
               <td className="trackDriverTdHeader">Собственник</td>
               <td className="trackDriverTdHeader">Номер АМ</td>
+              <td className="trackDriverTdHeader">Уволен</td>
             </tr>
           </thead>
           <tbody className="trackDriverTbody">
