@@ -7,6 +7,7 @@ import { TrackTable } from "./trackTable.jsx";
 import { CustomerTable } from "./custonerTable.jsx";
 
 import "./editData.sass";
+import { CustomerManagerTable } from "./customerManagerTable.jsx";
 
 export const EditDataForm = (props) => {
   const errMessage = useSelector((state) => state.oderReducer.message);
@@ -33,7 +34,7 @@ export const EditDataForm = (props) => {
         setEditTable(<CustomerTable />);
         break;
       case "clientmanager":
-        setEditTable(<DriverTable />);
+        setEditTable(<CustomerManagerTable />);
         break;
     }
   };

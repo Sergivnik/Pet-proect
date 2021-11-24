@@ -54,7 +54,10 @@ export const TrackDraverAddTr = (props) => {
   };
   const handleEnter = (e) => {
     if (e.key == "Enter") {
-      if (addTrackDriverObj.value != "" && addTrackDriverObj.value != undefined) {
+      if (
+        addTrackDriverObj.value != "" &&
+        addTrackDriverObj.value != undefined
+      ) {
         props.handleAddTrackDriver(addTrackDriverObj);
       } else {
         setEditColNumber(0);

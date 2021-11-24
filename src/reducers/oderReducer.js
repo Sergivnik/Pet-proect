@@ -673,6 +673,13 @@ export const oderReducer = (store = initialStore, action) => {
           );
           arrCustomers[indexCustomer] = action.newData;
           return { ...store, clientList: arrCustomers };
+        case "clientmanager":
+          let [...arrManagers] = store.clientmanager;
+          let indexManager = arrManagers.findIndex(
+            (elem) => elem._id == action.newData._id
+          );
+          arrManagers[indexManager] = action.newData;
+          return { ...store, clientmanager: arrManagers };
         default:
           break;
       }
@@ -704,6 +711,11 @@ export const oderReducer = (store = initialStore, action) => {
           action.data._id = action.dataServer.insertId;
           arrCustomers.push(action.data);
           return { ...store, clientList: arrCustomers };
+        case "clientmanager":
+          let [...arrManagers] = store.clientmanager;
+          action.data._id = action.dataServer.insertId;
+          arrManagers.push(action.data);
+          return { ...store, clientmanager: arrManagers };
         default:
           break;
       }
@@ -745,6 +757,13 @@ export const oderReducer = (store = initialStore, action) => {
           );
           arrCustomers.splice(indexCustomer, 1);
           return { ...store, clientList: arrCustomers };
+        case "clientmanager":
+          let [...arrManagers] = store.clientmanager;
+          let indexManager = arrManagers.findIndex(
+            (elem) => elem._id == action.id
+          );
+          arrManagers.splice(indexManager, 1);
+          return { ...store, clientmanager: arrManagers };
         default:
           break;
       }
