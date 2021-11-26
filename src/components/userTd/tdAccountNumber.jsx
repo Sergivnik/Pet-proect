@@ -7,6 +7,7 @@ export const TdAccountNumber = (props) => {
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
+  const [showContextMenu, setShowContextMenu] = useState(false);
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -18,14 +19,27 @@ export const TdAccountNumber = (props) => {
     }
   };
   const handleEnter = (e) => {
-   if (e.key == "Enter") {
-     dispatch(editOder(currentId, "accountNumber", e.currentTarget.value));
-     setShowEdit(false);
-     setCurrentId(null);
-     setCurrentElement(null);
-   }
+    if (e.key == "Enter") {
+      dispatch(editOder(currentId, "accountNumber", e.currentTarget.value));
+      setShowEdit(false);
+      setCurrentId(null);
+      setCurrentElement(null);
+    }
+  };
+  const handleContaxtMenu = (e) => {
+    e.preventDefault();
+    setShowContextMenu(true);
+  };
+  const handleBlur = (e) => {
+    setShowContextMenu(false);
   };
 
+  useEffect(() => {
+    if (showContextMenu) {
+      let DivContext = document.querySelector(".divContext");
+      DivContext.focus();
+    }
+  }, [showContextMenu]);
   useEffect(() => {
     if (currentElement) currentElement.firstChild.firstChild.focus();
   }, [currentElement]);
@@ -51,17 +65,23 @@ export const TdAccountNumber = (props) => {
   }, [showEdit]);
 
   return (
-    <td className="odersTd" onDoubleClick={handleDBLClick}>
+    <td
+      className="odersTd"
+      onDoubleClick={handleDBLClick}
+      onContextMenu={handleContaxtMenu}
+      
+    >
       {showEdit ? (
         <div className="divChoise">
-          <input
-            name="accountNumber"
-            type="number"
-            onKeyDown={handleEnter}
-          />
+          <input name="accountNumber" type="number" onKeyDown={handleEnter} />
         </div>
       ) : (
         props.accountNumber
+      )}
+      {showContextMenu && (
+        <div tabIndex="0" className="divContext" onBlur={handleBlur}>
+          Печать
+        </div>
       )}
     </td>
   );
