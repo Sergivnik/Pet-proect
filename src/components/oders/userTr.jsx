@@ -47,6 +47,7 @@ export const UserTr = (props) => {
         <tr
           id={props.elem._id}
           onClick={props.handleClickTR}
+          onContextMenu={props.handleClickTR}
           onMouseDown={(e) => {
             if (e.target.tagName === "TD") e.preventDefault();
           }}
@@ -121,6 +122,7 @@ export const UserTr = (props) => {
           <TdAccountNumber
             accountNumber={props.elem.accountNumber}
             currentTR={props.trId}
+            handleClickPrint={props.handleClickPrint}
             edit={true}
           />
           {/* Button Delete */}

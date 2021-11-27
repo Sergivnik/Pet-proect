@@ -646,7 +646,7 @@ var Tasks = {
         `select * FROM oders WHERE _id=${data[0].idCustomer}`
       );
       [dataById.driver] = await db.query(
-        `select * FROM drivers WHERE _id=${data[0].idDriver}`
+        `select * FROM trackdrivers WHERE _id=${data[0].idTrackDriver}`
       );
 
       callback(dataById);

@@ -281,11 +281,11 @@ module.exports.taskProxy = (req, res) => {
       res.json({ message: data.error });
     } else {
       dataById.id = req.params.id;
-      dataById.driver = data.driver[0].value;
-      dataById.customer = data.customer[0].value;
+      dataById.driver = data.driver[0].name;
+      dataById.customer = data.customer[0].companyName;
       console.log(data.driver[0].value);
       console.log(data.customer[0].value);
-      pdf.create(pdfTemplate(dataById), {}).toFile("result.pdf", (err) => {
+      pdf.create(pdfTemplate(dataById), {}).toFile("./API/public/result.pdf", (err) => {
         if (err) {
           res.send(Promise.reject());
         }

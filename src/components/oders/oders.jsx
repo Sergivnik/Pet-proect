@@ -283,6 +283,15 @@ export const Oders = () => {
   const handleClickWindowClose = () => {
     setShowWindow(false);
   };
+  const handleClickMainDiv = () => {
+    let contextDiv = document.querySelector(".divContext");
+    if (contextDiv != null) {
+      contextDiv.blur();
+    }
+  };
+  const handleClickPrint = (id) => {
+    console.log(id);
+  };
 
   return (
     <React.Fragment>
@@ -342,7 +351,11 @@ export const Oders = () => {
           {children}
         </UserWindow>
       )}
-      <div className="odersDiv" onScroll={onScroll}>
+      <div
+        className="odersDiv"
+        onScroll={onScroll}
+        onClick={handleClickMainDiv}
+      >
         <table className="odersTable">
           <UserThead
             handleClick={handleClick}
@@ -361,6 +374,7 @@ export const Oders = () => {
                   handleClickDelete={handleClickDelete}
                   trId={trId}
                   getCurrentTR={getCurrentTR}
+                  handleClickPrint={handleClickPrint}
                 />
               );
             })}

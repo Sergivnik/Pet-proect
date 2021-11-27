@@ -28,11 +28,15 @@ export const TdAccountNumber = (props) => {
   };
   const handleContaxtMenu = (e) => {
     e.preventDefault();
+    setCurrentId(e.currentTarget.parentElement.id);
     setShowContextMenu(true);
   };
   const handleBlur = (e) => {
     setShowContextMenu(false);
   };
+  const handleClickPrint=()=>{
+    props.handleClickPrint(props.currentTR);
+  }
 
   useEffect(() => {
     if (showContextMenu) {
@@ -47,6 +51,7 @@ export const TdAccountNumber = (props) => {
     if (props.currentTR != currentId) {
       setShowEdit(false);
       setCurrentId(null);
+      setShowContextMenu(false);
     }
   }, [props.currentTR]);
   useEffect(() => {
@@ -69,7 +74,6 @@ export const TdAccountNumber = (props) => {
       className="odersTd"
       onDoubleClick={handleDBLClick}
       onContextMenu={handleContaxtMenu}
-      
     >
       {showEdit ? (
         <div className="divChoise">
@@ -79,7 +83,7 @@ export const TdAccountNumber = (props) => {
         props.accountNumber
       )}
       {showContextMenu && (
-        <div tabIndex="0" className="divContext" onBlur={handleBlur}>
+        <div tabIndex="0" className="divContext" onBlur={handleBlur} onClick={handleClickPrint}>
           Печать
         </div>
       )}
