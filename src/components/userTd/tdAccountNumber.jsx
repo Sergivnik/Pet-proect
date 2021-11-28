@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
+import { DOMENNAME } from "../../middlewares/initialState.js";
 
 export const TdAccountNumber = (props) => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ export const TdAccountNumber = (props) => {
   };
   const handleClickPrint=()=>{
     props.handleClickPrint(props.currentTR);
+    setShowContextMenu(false);
   }
 
   useEffect(() => {
@@ -83,8 +85,8 @@ export const TdAccountNumber = (props) => {
         props.accountNumber
       )}
       {showContextMenu && (
-        <div tabIndex="0" className="divContext" onBlur={handleBlur} onClick={handleClickPrint}>
-          Печать
+        <div tabIndex="0" className="divContext" /* onBlur={handleBlur} */ onClick={handleClickPrint}>
+          <a href={DOMENNAME+"/result"+props.currentTR+".pdf" } target="_blank">Печать</a>
         </div>
       )}
     </td>

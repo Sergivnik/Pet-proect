@@ -285,7 +285,7 @@ module.exports.taskProxy = (req, res) => {
       dataById.customer = data.customer[0].companyName;
       console.log(data.driver[0].value);
       console.log(data.customer[0].value);
-      pdf.create(pdfTemplate(dataById), {}).toFile("./API/public/result.pdf", (err) => {
+      pdf.create(pdfTemplate(dataById), {}).toFile(`./API/public/result${dataById.id}.pdf`, (err) => {
         if (err) {
           res.send(Promise.reject());
         }

@@ -1,5 +1,6 @@
 import axios from "axios";
-export const URL = "http://localhost:3000/API";//develop
+export const DOMENNAME="http://localhost:3000"
+export const URL = DOMENNAME+"/API";//develop
 //export const URL = "http://192.168.0.101:3000/API";//work
 //export const URL = "http://192.168.0.106:3000/API";//home
 //export const GET_DATA = "DATA::GET_DATA";
