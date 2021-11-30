@@ -90,6 +90,14 @@ module.exports.taskAddData = (req, res) => {
     }
   });
 };
+module.exports.taskGetPdf=(req,res)=>{
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  res.sendFile("result38555.pdf", { root: __dirname })
+
+}
 
 module.exports.taskEdit = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");

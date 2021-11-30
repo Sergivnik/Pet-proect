@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import { DOMENNAME } from "../../middlewares/initialState.js";
+import { getPdf } from "../../actions/documentAction.js";
 
 export const TdAccountNumber = (props) => {
   const dispatch = useDispatch();
@@ -35,7 +36,8 @@ export const TdAccountNumber = (props) => {
   const handleBlur = (e) => {
     setShowContextMenu(false);
   };
-  const handleClickPrint=()=>{
+  const handleClickPrint = () => {
+    dispatch(getPdf(35))
     props.handleClickPrint(props.currentTR);
     setShowContextMenu(false);
   }
@@ -86,7 +88,7 @@ export const TdAccountNumber = (props) => {
       )}
       {showContextMenu && (
         <div tabIndex="0" className="divContext" /* onBlur={handleBlur} */ onClick={handleClickPrint}>
-          <a href={DOMENNAME+"/result"+props.currentTR+".pdf" } target="_blank">Печать</a>
+          Печать
         </div>
       )}
     </td>
