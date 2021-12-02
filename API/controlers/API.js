@@ -98,6 +98,7 @@ module.exports.taskGetPdf = (req, res) => {
   let filePath = "/result38555.pdf";
   fs.readFile(__dirname + filePath, function (err, data) {
     res.contentType("application/pdf");
+    res.setHeader('Content-disposition', 'inline; filename="result38555.pdf"')
     res.send(data);
   });
   //res.sendFile("result38555.pdf", { root: __dirname });
