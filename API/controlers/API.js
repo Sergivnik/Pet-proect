@@ -90,14 +90,18 @@ module.exports.taskAddData = (req, res) => {
     }
   });
 };
-module.exports.taskGetPdf=(req,res)=>{
+module.exports.taskGetPdf = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-
-  res.sendFile("result38555.pdf", { root: __dirname })
-
-}
+  fs = require("fs");
+  let filePath = "/result38555.pdf";
+  fs.readFile(__dirname + filePath, function (err, data) {
+    res.contentType("application/pdf");
+    res.send(data);
+  });
+  //res.sendFile("result38555.pdf", { root: __dirname });
+};
 
 module.exports.taskEdit = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -293,13 +297,15 @@ module.exports.taskProxy = (req, res) => {
       dataById.customer = data.customer[0].companyName;
       console.log(data.driver[0].value);
       console.log(data.customer[0].value);
-      pdf.create(pdfTemplate(dataById), {}).toFile(`./API/public/result${dataById.id}.pdf`, (err) => {
-        if (err) {
-          res.send(Promise.reject());
-        }
-        res.send(Promise.resolve());
-        //res.render(pdfTemplate(req.params.id));
-      });
+      pdf
+        .create(pdfTemplate(dataById), {})
+        .toFile(`./API/public/result${dataById.id}.pdf`, (err) => {
+          if (err) {
+            res.send(Promise.reject());
+          }
+          res.send(Promise.resolve());
+          //res.render(pdfTemplate(req.params.id));
+        });
     }
   });
 };
