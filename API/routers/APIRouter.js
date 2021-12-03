@@ -7,6 +7,7 @@ router.get("/data", API.taskGet);
 router.get("/dataPayments", API.taskGetPayments);
 router.get("/dataDriverDebt", API.taskGetDebts);
 router.get("/dataContractors", API.taskGetContractors);
+router.get("/getPdf/:id", API.taskGetPdf);
 
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
@@ -15,7 +16,6 @@ router.post("/filter", API.taskGetFilter);
 router.post("/addOder", API.taskAdd);
 router.post("/proxy/:id", API.taskProxy);
 router.post("/addData", API.taskAddData);
-router.post("/getPdf", API.taskGetPdf)
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);

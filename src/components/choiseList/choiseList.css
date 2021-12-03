@@ -13,12 +13,12 @@
 .selectList {
   z-index: 1;
   padding: 0 0 0 10px;
-  width: 98%;
+  width: 100%;
 }
 
 .inputList {
-  height: 98%;
-  width: 98%;
+  height: 100%;
+  width: 99%;
   border: none;
   padding: 0;
   font-size: 16px;

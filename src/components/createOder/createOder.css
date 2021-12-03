@@ -24,4 +24,245 @@
   margin: 0;
   padding: 0;
 }
+
+.crOderMainDiv {
+  width: 98%;
+  height: 94%;
+  margin: auto;
+  background-color: #d1cbbb;
+}
+
+.H250 {
+  height: 250px;
+}
+
+.crOderCustomerHeader, .crOderDriverHeader {
+  text-align: center;
+  margin: 0 0 .5% 0;
+  height: 5%;
+}
+
+.crOderCustomDiv {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 1px solid #000;
+  width: 100%;
+  height: 45%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.crOderDriverDiv {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 1px solid #000;
+  width: 100%;
+  height: 20%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.crOderDate {
+  border: 1px solid #a19f9f;
+  width: 15%;
+}
+
+.crOderDateInput {
+  width: 98%;
+  font-size: 14px;
+  border: none;
+  height: 20px;
+  padding: 0;
+}
+
+.crOderDateP, .crOderClientP, .crOderManagerP, .crOderPriceP, .crOderOwnerP, .crOderTrackDriverP, .crOderTrackP, .crOderDriverPriceP {
+  text-align: center;
+  font-size: 20px;
+  margin: 0;
+}
+
+.crOderCLient {
+  border: 1px solid #a19f9f;
+  width: 20%;
+}
+
+.crOderCLientContent, .crOderRouteContent {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.crOderClientPart, .crOderLoadPart, .crOderUnloadPart {
+  width: 100%;
+}
+
+.crOderRoute {
+  border: 1px solid #a19f9f;
+  width: 50%;
+}
+
+.crOderOwner {
+  border: 1px solid #a19f9f;
+  width: 25%;
+}
+
+.crOderTrackDriver {
+  border: 1px solid #a19f9f;
+  width: 25%;
+}
+
+.crOderTrack {
+  border: 1px solid #a19f9f;
+  width: 25%;
+}
+
+.crOderCustomHeader, .crOderLoadHeader, .crOderCustomPriceHeader, .crOderUnloadHeader, .crOderOwnerHeader, .crOderTrackDriverHeader, .crOderTrackHeader, .crOderDriverPriceHeader {
+  text-align: center;
+  margin: 0;
+  height: 22px;
+}
+
+.containerInput {
+  margin-top: 22px;
+  border: none;
+}
+
+.containerChoise {
+  height: 20px;
+}
+
+.routeH15px {
+  height: 15px;
+}
+
+.routeH10px {
+  height: 10px;
+}
+
+.crOderPrice {
+  border: 1px solid #a19f9f;
+  width: 15%;
+}
+
+.crOderPriceWrap {
+  width: 100%;
+  margin-top: 22px;
+  height: 20px;
+}
+
+.crOderDriverPriceWrap {
+  width: 100%;
+  height: 20px;
+}
+
+.crOderPriceInput {
+  border: none;
+  width: 100%;
+  padding: 0;
+  height: 100%;
+}
+
+.crOderDriverPriceInput {
+  border: none;
+  width: 100%;
+  padding: 0;
+  height: 100%;
+}
+
+.crOdBtn {
+  float: right;
+  margin: 10px;
+}
+
+.PFmainDiv {
+  border: none;
+}
+
+.PFheader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.PFhtaderH {
+  margin: 0;
+  height: 15px;
+}
+
+.PFContent {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 20px;
+}
+
+.PFBtnWrap {
+  width: 10%;
+  height: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.PFBtn {
+  border: 1px solid #000;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+}
+
+.PFBtnSvg {
+  display: block;
+  height: 14px;
+  width: 14px;
+}
+
+.PFContentPoint {
+  margin: 0;
+  width: 40%;
+}
+
+.PFContentInfo {
+  margin: 0;
+  width: 50%;
+}
+
+.crOderLoadInfo {
+  border: none;
+  padding: 0;
+  height: 20px;
+  width: 100%;
+}
+
+.test {
+  width: 100%;
+  height: 20px;
+  background-color: #fff;
+}
+
+.svg {
+  position: absolute;
+}
 /*# sourceMappingURL=createOder.css.map */

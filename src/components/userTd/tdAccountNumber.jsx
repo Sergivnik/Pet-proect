@@ -37,7 +37,7 @@ export const TdAccountNumber = (props) => {
     setShowContextMenu(false);
   };
   const handleClickPrint = () => {
-    dispatch(getPdf(35))
+    dispatch(getPdf(currentId))
     props.handleClickPrint(props.currentTR);
     setShowContextMenu(false);
   }

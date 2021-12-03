@@ -62,6 +62,15 @@ module.exports.taskGetFilter = (req, res) => {
     }
   });
 };
+module.exports.taskGetPdf = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  console.log(req.params.id);
+  res.sendFile(`result${req.params.id}.pdf`, { root: __dirname });
+};
+
 module.exports.taskAdd = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
@@ -89,19 +98,6 @@ module.exports.taskAddData = (req, res) => {
       res.json(data);
     }
   });
-};
-module.exports.taskGetPdf = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.set("Access-Control-Allow-Headers", "Content-Type");
-  fs = require("fs");
-  let filePath = "/result38555.pdf";
-  fs.readFile(__dirname + filePath, function (err, data) {
-    res.contentType("application/pdf");
-    res.setHeader('Content-disposition', 'inline; filename="result38555.pdf"')
-    res.send(data);
-  });
-  //res.sendFile("result38555.pdf", { root: __dirname });
 };
 
 module.exports.taskEdit = (req, res) => {
@@ -300,7 +296,7 @@ module.exports.taskProxy = (req, res) => {
       console.log(data.customer[0].value);
       pdf
         .create(pdfTemplate(dataById), {})
-        .toFile(`./API/public/result${dataById.id}.pdf`, (err) => {
+        .toFile(`./API/controlers/result${dataById.id}.pdf`, (err) => {
           if (err) {
             res.send(Promise.reject());
           }

@@ -8,7 +8,7 @@
 .odersDiv {
   border: 1px solid #000;
   background-color: #ccc;
-  height: 75vh;
+  height: 94vh;
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -38,7 +38,7 @@
 
 .odersTable {
   border: 1px solid #000;
-  margin: 0 auto;
+  margin: 0 auto 50px auto;
   width: 94%;
   border-collapse: collapse;
 }
@@ -116,7 +116,10 @@
 
 .odersTdBtn {
   width: 96%;
-  margin: 2%;
+  margin: .5%;
+  padding: 0;
+  height: 21px;
+  border-width: 1px;
 }
 
 .divChoise {

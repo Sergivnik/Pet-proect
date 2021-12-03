@@ -14,31 +14,14 @@ export const getPdfFailure = () => ({
 export const getPdf = (id) => {
   return (dispatch) => {
     axios
-      .post(DOMENNAME + "/API/getPdf", {
-        responseType: "application/pdf",
-        body: id,
+      .get(DOMENNAME + "/API/getPdf" + "/" + id, {
+        responseType: "blob",
       })
       .then((res) => {
-        var arrrayBuffer = base64ToArrayBuffer(res.data); 
-        function base64ToArrayBuffer(base64) {
-            var binaryString = atob(base64);
-            var binaryLen = binaryString.length;
-            var bytes = new Uint8Array(binaryLen);
-            for (var i = 0; i < binaryLen; i++) {
-                var ascii = binaryString.charCodeAt(i);
-                bytes[i] = ascii;
-            }
-            return bytes;
-        }
-        var blob = new Blob([arrrayBuffer], {type: "application/pdf"});
-        var link = window.URL.createObjectURL(blob);
-        window.open(link,'', 'height=650,width=840');
-        //let blob = new File([res.data],  "result38555.pdf");
-        //const url = URL.createObjectURL(blob);
-        //let newWin = window.open([res.data]);
-        //let embed = newWin.document.createElement('embed');
-        //embed.setAttribute('src',blob);
-        //newWin.document.body.append(url);
+        let blob = new Blob([res.data], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+        let newWin = window.open();
+        newWin.location.href = url;
       })
       .catch((e) => {
         console.log(e.message);
