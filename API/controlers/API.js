@@ -68,7 +68,7 @@ module.exports.taskGetPdf = (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
   console.log(req.params.id);
-  res.sendFile(`result${req.params.id}.pdf`, { root: __dirname });
+  res.sendFile(`doc${req.params.id}.pdf`, { root: __dirname });
 };
 
 module.exports.taskAdd = (req, res) => {
@@ -305,4 +305,17 @@ module.exports.taskProxy = (req, res) => {
         });
     }
   });
+};
+module.exports.taskAddPdfDoc = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  pdf
+    .create(req.body.body, {})
+    .toFile(`./API/controlers/doc${req.params.id}.pdf`, (err) => {
+      if (err) {
+        res.send(Promise.reject());
+      }
+      res.send(Promise.resolve());
+    });
 };

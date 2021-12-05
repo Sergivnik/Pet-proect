@@ -3,6 +3,8 @@ import { DOMENNAME } from "../middlewares/initialState";
 
 export const GET_PDF_SUCCESS = "GET_PDF_SUCCESS";
 export const GET_PDF_FAILURE = "GET_PDF_FAILURE";
+export const ADD_PDF_DOC_SUCCESS = "ADD_PDF_DOC_SUCCESS";
+export const ADD_PDF_DOC_FAILURE = "ADD_PDF_DOC_FAILURE";
 
 export const getPdfSuccess = (dataServer) => ({
   type: GET_PDF_SUCCESS,
@@ -22,6 +24,27 @@ export const getPdf = (id) => {
         const url = URL.createObjectURL(blob);
         let newWin = window.open();
         newWin.location.href = url;
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(getPdfFailure());
+      });
+  };
+};
+export const addPdfDocSuccess = () => ({
+  type: ADD_PDF_DOC_SUCCESS,
+});
+export const addPdfDocFailure = () => ({
+  type: ADD_PDF_DOC_FAILURE,
+});
+export const addPdfDoc = (docHtml, id) => {
+  return (dispatch) => {
+    axios
+      .post(DOMENNAME + "/API/addPdf" + "/" + id, {
+        body: docHtml,
+      })
+      .then((res) => {
+        return dispatch(addPdfDocSuccess());
       })
       .catch((e) => {
         console.log(e.message);

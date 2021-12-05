@@ -37,10 +37,13 @@ export const TdAccountNumber = (props) => {
     setShowContextMenu(false);
   };
   const handleClickPrint = () => {
-    dispatch(getPdf(currentId))
-    props.handleClickPrint(props.currentTR);
+    dispatch(getPdf(currentId));
     setShowContextMenu(false);
-  }
+  };
+  const handleClickGenerate = () => {
+    props.handleClickGenerate(props.currentTR);
+    setShowContextMenu(false);
+  };
 
   useEffect(() => {
     if (showContextMenu) {
@@ -87,8 +90,15 @@ export const TdAccountNumber = (props) => {
         props.accountNumber
       )}
       {showContextMenu && (
-        <div tabIndex="0" className="divContext" /* onBlur={handleBlur} */ onClick={handleClickPrint}>
-          Печать
+        <div tabIndex="0" className="divContext" /* onBlur={handleBlur} */>
+          <p className="contextmenu" onClick={handleClickGenerate}>
+            Сформировать
+          </p>
+          <hr />
+          <p className="contextmenu" onClick={handleClickPrint}>
+            Печать
+          </p>
+          <hr />
         </div>
       )}
     </td>

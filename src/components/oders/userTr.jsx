@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CreateOderNew } from "../createOder/createOderNew.jsx";
 import { TdDate } from "../userTd/tdDate.jsx";
 import { TdDriver } from "../userTd/tdDriver.jsx";
@@ -25,6 +25,9 @@ export const UserTr = (props) => {
   };
   const trGetId = () => {
     props.getCurrentTR(props.elem._id);
+  };
+  const handleClickGenerate = () => {
+    props.handleClickGenerate(props.elem);
   };
 
   useEffect(() => {
@@ -122,7 +125,7 @@ export const UserTr = (props) => {
           <TdAccountNumber
             accountNumber={props.elem.accountNumber}
             currentTR={props.trId}
-            handleClickPrint={props.handleClickPrint}
+            handleClickGenerate={handleClickGenerate}
             edit={true}
           />
           {/* Button Delete */}

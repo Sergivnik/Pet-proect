@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { delOder } from "../../actions/oderActions.js";
 import { EditDataForm } from "../editData/editDataForm.jsx";
+import { PrintFormBill } from "../printForm/printFormBill.jsx";
 import "./oders.sass";
 
 export const Oders = () => {
@@ -37,10 +38,12 @@ export const Oders = () => {
   const [showWindow, setShowWindow] = useState(false);
   const [windowHeader, setWindowHeader] = useState(null);
   const [windowWidth, setWindowWidth] = useState(1200);
+  const [showPrintForm, setShowPrintForm] = useState(false);
 
   const [trId, setTrId] = useState(null);
   const [addData, setAddData] = useState(0);
   const [currentTR, setCurrentTR] = useState(null);
+  const [currentElem, setCurrentElem] = useState(null);
   const [filterList, setFilterList] = useState({
     date: [],
     driver: [],
@@ -65,7 +68,7 @@ export const Oders = () => {
       0
     );
     let sum =
-      Math.floor((Number(income) - Number(expenses) + addSum + 0.00) * 100) /
+      Math.floor((Number(income) - Number(expenses) + addSum + 0.0) * 100) /
       100;
     setSumAccount(sum);
   }, [income, expenses]);
@@ -289,8 +292,13 @@ export const Oders = () => {
       contextDiv.blur();
     }
   };
-  const handleClickPrint = (id) => {
-    console.log(id);
+  const handleClickGenerate = (elem) => {
+    setCurrentElem(elem);
+    console.log(elem);
+    setShowPrintForm(true);
+  };
+  const handleClosePrintForm = () => {
+    setShowPrintForm(false);
   };
 
   return (
@@ -351,6 +359,12 @@ export const Oders = () => {
           {children}
         </UserWindow>
       )}
+      {showPrintForm && (
+        <PrintFormBill
+          elem={currentElem}
+          closePrintForm={handleClosePrintForm}
+        />
+      )}
       <div
         className="odersDiv"
         onScroll={onScroll}
@@ -374,7 +388,7 @@ export const Oders = () => {
                   handleClickDelete={handleClickDelete}
                   trId={trId}
                   getCurrentTR={getCurrentTR}
-                  handleClickPrint={handleClickPrint}
+                  handleClickGenerate={handleClickGenerate}
                 />
               );
             })}

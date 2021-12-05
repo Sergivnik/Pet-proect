@@ -16,6 +16,7 @@ router.post("/filter", API.taskGetFilter);
 router.post("/addOder", API.taskAdd);
 router.post("/proxy/:id", API.taskProxy);
 router.post("/addData", API.taskAddData);
+router.post("/addPdf/:id", API.taskAddPdfDoc);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);
