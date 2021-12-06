@@ -68,7 +68,7 @@ module.exports.taskGetPdf = (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
   console.log(req.params.id);
-  res.sendFile(`doc${req.params.id}.pdf`, { root: __dirname });
+  res.sendFile(`/Bills/doc${req.params.id}.pdf`, { root: __dirname });
 };
 
 module.exports.taskAdd = (req, res) => {
@@ -312,7 +312,7 @@ module.exports.taskAddPdfDoc = (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
   pdf
     .create(req.body.body, {})
-    .toFile(`./API/controlers/doc${req.params.id}.pdf`, (err) => {
+    .toFile(`./API/controlers/Bills/doc${req.params.id}.pdf`, (err) => {
       if (err) {
         res.send(Promise.reject());
       }
