@@ -115,35 +115,35 @@ export const PrintFormBill = (props) => {
               </tr>
               <tr>
                 <td colSpan="4" style={{ borderBottom: "2px solid black" }}>
-                  <h2>
+                  <h2 style={{ margin: "20px" }}>
                     Счет № {elem.accountNumber} от {dateLocal(elem.date)}
                   </h2>
                 </td>
               </tr>
+            </tbody>
+          </table>
+          <table>
+            <tbody>
               <tr>
-                <td colSpan="4">
-                  <div style={{ display: "flex" }}>
-                    <div style={{ margin: "5px" }}>Поставщик</div>
-                    <div style={{ margin: "5px", fontWeight: "700" }}>
-                      ИП Иванов Сергей Николаевич, свидетельство №
-                      308615401700030 от 17.01.08г. Ростовская область,
-                      Таганрог, Ломакина, д. 108, кв. 2
-                    </div>
-                  </div>
+                <td style={{ margin: "5px", verticalAlign: "top" }}>
+                  Поставщик
+                </td>
+                <td colSpan="3" style={{ margin: "5px", fontWeight: "700" }}>
+                  ИП Иванов Сергей Николаевич, свидетельство № 308615401700030
+                  от 17.01.08г. Ростовская область, Таганрог, Ломакина, д. 108,
+                  кв. 2
                 </td>
               </tr>
               <tr>
-                <td colSpan="4">
-                  <div style={{ display: "flex" }}>
-                    <div style={{ margin: "5px" }}>Покупатель</div>
-                    <div style={{ margin: "5px", fontWeight: "700" }}>
-                      {customer.companyName +
-                        " ИНН " +
-                        customer.TIN +
-                        " " +
-                        customer.address}
-                    </div>
-                  </div>
+                <td style={{ margin: "5px", verticalAlign: "top" }}>
+                  Покупатель
+                </td>
+                <td colSpan="3" style={{ margin: "5px", fontWeight: "700" }}>
+                  {customer.companyName +
+                    " ИНН " +
+                    customer.TIN +
+                    " " +
+                    customer.address}
                 </td>
               </tr>
             </tbody>
