@@ -7,8 +7,20 @@ import "./printFormBill.sass";
 export const PrintFormBill = (props) => {
   const dispatch = useDispatch();
   const clientList = useSelector((state) => state.oderReducer.clientList);
+  const citiesList = useSelector((state) => state.oderReducer.citieslist);
+  const driver = useSelector((state) => state.oderReducer.trackdrivers);
+  const track = useSelector((state) => state.oderReducer.tracklist);
   const elem = props.elem;
   const customer = findValueBy_Id(elem.idCustomer, clientList);
+  const route = elem.idLoadingPoint.concat(elem.idUnloadingPoint);
+  let routeText = "";
+  route.forEach((element) => {
+    let city = findValueBy_Id(element, citiesList).value;
+    routeText = routeText + " - " + city;
+  });
+  routeText = routeText.slice(2);
+  const driverText = findValueBy_Id(elem.idTrackDriver, driver).name;
+  const trackObj = findValueBy_Id(elem.idTrack, track);
   const styleContainer = {
     padding: "20px",
   };
@@ -144,6 +156,131 @@ export const PrintFormBill = (props) => {
                     customer.TIN +
                     " " +
                     customer.address}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table
+            style={{
+              width: "100%",
+              border: "2px solid black",
+              borderCollapse: "collapse",
+            }}
+          >
+            <thead>
+              <tr>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    fontWeight: "700",
+                  }}
+                >
+                  №
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    fontWeight: "700",
+                  }}
+                >
+                  Наименование работы (услуги)
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    fontWeight: "700",
+                  }}
+                >
+                  Кол-во
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    fontWeight: "700",
+                  }}
+                >
+                  Ед.
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    fontWeight: "700",
+                  }}
+                >
+                  Цена
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    fontWeight: "700",
+                  }}
+                >
+                  Сумма
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    padding: "5px",
+                  }}
+                >
+                  1
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "left",
+                    padding: "5px",
+                  }}
+                >
+                  Перевозка по маршруту {routeText} водитель {driverText} а/м{" "}
+                  {trackObj.model} {trackObj.value}
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    padding: "5px",
+                  }}
+                >
+                  1
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    padding: "5px",
+                  }}
+                >
+                  рейс
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    padding: "5px",
+                  }}
+                >
+                  {elem.customerPrice}
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                    padding: "5px",
+                  }}
+                >
+                  {elem.customerPrice}
                 </td>
               </tr>
             </tbody>
