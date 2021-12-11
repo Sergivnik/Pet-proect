@@ -151,11 +151,8 @@ export const PrintFormBill = (props) => {
                   Покупатель
                 </td>
                 <td colSpan="3" style={{ margin: "5px", fontWeight: "700" }}>
-                  {customer.companyName +
-                    " ИНН " +
-                    customer.TIN +
-                    " " +
-                    customer.address}
+                  {customer.companyName + ", ИНН " + customer.TIN + ", "}
+                  <br /> {customer.address}
                 </td>
               </tr>
             </tbody>
