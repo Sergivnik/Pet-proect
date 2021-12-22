@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addPdfDoc } from "../../actions/documentAction.js";
-import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
+import { dateLocal, findValueBy_Id, sumInWords } from "../myLib/myLib.js";
 import "./printFormBill.sass";
 
 export const PrintFormBill = (props) => {
@@ -278,6 +278,43 @@ export const PrintFormBill = (props) => {
                   }}
                 >
                   {elem.customerPrice}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <tbody>
+              <tr>
+                <td
+                  style={{
+                    width: "90%",
+                    margin: "5px",
+                    textAlign: "right",
+                    fontWeight: "700",
+                  }}
+                >
+                  Итого:
+                </td>
+                <td
+                  style={{
+                    width: "10%",
+                    margin: "5px",
+                    textAlign: "right",
+                    fontWeight: "700",
+                  }}
+                >
+                  {elem.customerPrice}
+                </td>
+              </tr>
+              <tr>
+                <td style={{ width: "80%" }}>
+                  Всего наименований 1, на сумму {elem.customerPrice} руб без
+                  НДС
+                </td>
+              </tr>
+              <tr style={{ borderBottom: "2px solid black" }}>
+                <td style={{ width: "80%" }}>
+                  {sumInWords(elem.customerPrice)}
                 </td>
               </tr>
             </tbody>
