@@ -31,8 +31,8 @@ export const findValueBy_Id = (id, arrObj) => {
 };
 export const sumInWords = (sum) => {
   let str = "";
+  let fraction = Math.floor((sum % 1) * Math.pow(10, 2));
   let hundredsThousands = (sum / 100000) | 0;
-  console.log(sum);
   sum = sum - hundredsThousands * 100000;
   let tensThousands = (sum / 10000) | 0;
   sum = sum - tensThousands * 10000;
@@ -43,15 +43,8 @@ export const sumInWords = (sum) => {
   let tens = (sum / 10) | 0;
   sum = sum - tens * 10;
   let units = (sum / 1) | 0;
-  console.log(
-    hundredsThousands,
-    tensThousands,
-    thousands,
-    hundreds,
-    tens,
-    units
-  );
-  switch (tensThousands) {
+
+  switch (hundredsThousands) {
     case 9:
       str = "девятьсот";
       break;
@@ -113,72 +106,114 @@ export const sumInWords = (sum) => {
     case 1:
       switch (thousands) {
         case 9:
-          str = str + " девятнадцать тысяч";
+          str = str + " девятнадцать";
           break;
         case 8:
-          str = str + " восемнадцать тысяч";
+          str = str + " восемнадцать";
           break;
         case 7:
-          str = str + " семнадцать тысяч";
+          str = str + " семнадцать";
           break;
         case 6:
-          str = str + " шестнадцать тысяч";
+          str = str + " шестнадцать";
           break;
         case 5:
-          str = str + " пятнадцать тысяч";
+          str = str + " пятнадцать";
           break;
         case 4:
-          str = str + " четырнадцать тысяч";
+          str = str + " четырнадцать";
           break;
         case 3:
-          str = str + " тринадцать тысяч";
+          str = str + " тринадцать";
           break;
         case 2:
-          str = str + " двенадцать тысяч";
+          str = str + " двенадцать";
           break;
         case 1:
-          str = str + " одиннадцать тысяч";
+          str = str + " одиннадцать";
           break;
         case 0:
-          str = str + " десять тысяч";
+          str = str + " десять";
           break;
         default:
           break;
       }
       break;
     case 0:
-      str = "";
       break;
     default:
       break;
   }
-  switch (thousands) {
+  if (tensThousands != 1)
+    switch (thousands) {
+      case 9:
+        str = str + " девять тысяч";
+        break;
+      case 8:
+        str = str + " восемь тысяч";
+        break;
+      case 7:
+        str = str + " семь тысяч";
+        break;
+      case 6:
+        str = str + " шесть тысяч";
+        break;
+      case 5:
+        str = str + " пять тысяч";
+        break;
+      case 4:
+        str = str + " четыре тысячи";
+        break;
+      case 3:
+        str = str + " три тысячи";
+        break;
+      case 2:
+        str = str + " две тысячи";
+        break;
+      case 1:
+        str = str + " одна тысяча";
+        break;
+      case 0:
+        str = str + "";
+        break;
+      default:
+        break;
+    }
+  if (
+    ((hundredsThousands != 0 || tensThousands != 0) && thousands == 0) ||
+    tensThousands == 1
+  ) {
+    str = str + " тысяч";
+  } else {
+    str = str + "";
+  }
+  switch (hundreds) {
     case 9:
-      str = str + " девять тысяч";
+      str = str + " девятьсот";
       break;
     case 8:
-      str = str + " восемь тысяч";
+      str = str + " восемьсот";
       break;
     case 7:
-      str = str + " семь тысяч";
+      str = str + " семьсот";
       break;
     case 6:
-      str = str + " шесть тысяч";
+      str = str + " шестьсот";
       break;
     case 5:
-      str = str + " пять тысяч";
+      str = str + " пятьсот";
       break;
     case 4:
-      str = str + " четыре тысячи";
+      str = str + " четыреста";
       break;
     case 3:
-      str = str + " три тысячи";
+      str = str + " триста";
       break;
     case 2:
-      str = str + " две тысячи";
+      str = str + " двести";
       break;
     case 1:
-      str = str + " одна тысяча";
+      str = str + " сто";
       break;
     case 0:
       str = str + "";
@@ -186,5 +221,115 @@ export const sumInWords = (sum) => {
     default:
       break;
   }
-  console.log(str);
+  switch (tens) {
+    case 9:
+      str = str + " девяносто";
+      break;
+    case 8:
+      str = str + " восемьдесят";
+      break;
+    case 7:
+      str = str + " семьдесят";
+      break;
+    case 6:
+      str = str + " шестьдесят";
+      break;
+    case 5:
+      str = str + " пятьдесят";
+      break;
+    case 4:
+      str = str + " сорок";
+      break;
+    case 3:
+      str = str + " тридцать";
+      break;
+    case 2:
+      str = str + " двадцать";
+      break;
+    case 1:
+      switch (units) {
+        case 9:
+          str = str + " девятнадцать";
+          break;
+        case 8:
+          str = str + " восемнадцать";
+          break;
+        case 7:
+          str = str + " семнадцать";
+          break;
+        case 6:
+          str = str + " шестнадцать";
+          break;
+        case 5:
+          str = str + " пятнадцать";
+          break;
+        case 4:
+          str = str + " четырнадцать";
+          break;
+        case 3:
+          str = str + " тринадцать";
+          break;
+        case 2:
+          str = str + " двенадцать";
+          break;
+        case 1:
+          str = str + " одиннадцать";
+          break;
+        case 0:
+          str = str + " десять";
+          break;
+        default:
+          break;
+      }
+      break;
+    case 0:
+      str = str + "";
+      break;
+    default:
+      break;
+  }
+  switch (units) {
+    case 9:
+      str = str + " девять рублей";
+      break;
+    case 8:
+      str = str + " восемь рублей";
+      break;
+    case 7:
+      str = str + " семь рублей";
+      break;
+    case 6:
+      str = str + " шесть рублей";
+      break;
+    case 5:
+      str = str + " пять рублей";
+      break;
+    case 4:
+      str = str + " четыре рубля";
+      break;
+    case 3:
+      str = str + " три рубля";
+      break;
+    case 2:
+      str = str + " два рубля";
+      break;
+    case 1:
+      str = str + " один рубль";
+      break;
+    case 0:
+      break;
+    default:
+      break;
+  }
+  if (units == 0 && str != "") {
+    str = str + " рублей";
+  } else {
+    str = str + "";
+  }
+  if (fraction != 0) {
+    str = str + " " + fraction + " коп.";
+  } else {
+    str = str + " 00 коп.";
+  }
+  return str;
 };

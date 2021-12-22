@@ -313,8 +313,8 @@ export const PrintFormBill = (props) => {
                 </td>
               </tr>
               <tr style={{ borderBottom: "2px solid black" }}>
-                <td style={{ width: "80%" }}>
-                  {sumInWords(elem.customerPrice)}
+                <td style={{ width: "80%", fontWeight: "700" }}>
+                  {"(" + sumInWords(elem.customerPrice) + " )"}
                 </td>
               </tr>
             </tbody>
