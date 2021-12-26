@@ -319,6 +319,35 @@ export const PrintFormBill = (props) => {
               </tr>
             </tbody>
           </table>
+          <div style={{ position: "relative", height: "100px" }}>
+            <p style={{ marginTop: "50px" }}>
+              Индивидуальный предпрениматель _____________________________Иванов
+              С.Н.
+            </p>
+            <img
+              style={{
+                position: "absolute",
+                left: "300px",
+                top: "-30px",
+                opacity: "0.7",
+                zIndex: "-2",
+              }}
+              height="150"
+              width="150"
+              src="http://localhost:3000/img/stamp.png"
+            />
+            <img
+              style={{
+                position: "absolute",
+                left: "320px",
+                top: "-45px",
+                zIndex: "-1",
+              }}
+              height="120"
+              width="120"
+              src="http://localhost:3000/img/sign.png"
+            />
+          </div>
         </div>
       </div>
     </div>
