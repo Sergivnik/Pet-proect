@@ -14,6 +14,7 @@ import { delOder } from "../../actions/oderActions.js";
 import { EditDataForm } from "../editData/editDataForm.jsx";
 import { PrintFormBill } from "../printForm/printFormBill.jsx";
 import "./oders.sass";
+import { BillsForm } from "../documents/billsForm.jsx";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -275,6 +276,12 @@ export const Oders = () => {
         setWindowWidth(1200);
         setChildren(<ContractorsPayments />);
       }
+      if (btnClick == "bill") {
+        setWindowHeader("Выставление счета");
+        setShowWindow(true);
+        setWindowWidth(1200);
+        setChildren(<BillsForm />);
+      }
       if (btnClick == "dataEdit") {
         setWindowHeader("Редактирование данных");
         setShowWindow(true);
@@ -340,6 +347,13 @@ export const Oders = () => {
             onClick={handleClickBtnMenu}
           >
             Расходы
+          </button>
+          <button
+            name="bill"
+            className="odersMenuBtn"
+            onClick={handleClickBtnMenu}
+          >
+            Высавление счетов
           </button>
           <button
             name="dataEdit"
