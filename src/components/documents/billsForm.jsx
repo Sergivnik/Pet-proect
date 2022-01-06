@@ -14,7 +14,9 @@ import { DocForm } from "./docForm.jsx";
 
 export const BillsForm = () => {
   const odersList = useSelector((state) => state.oderReducer.odersList);
-  const notBilledList = odersList.filter((elem) => elem.accountNumber == null);
+  const notBilledList = odersList.filter(
+    (elem) => elem.accountNumber == null || elem.accountNumber == ""
+  );
   const [check, setCheck] = useState(false);
   const [billList, setBillList] = useState(notBilledList);
   const [chosenOdersId, setChoisenOdersId] = useState([]);

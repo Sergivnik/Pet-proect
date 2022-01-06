@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { InvoiceForm } from "./invoiceForm.jsx";
+import { ActForm } from "./actForm.jsx";
 
 import "./billsForm.sass";
 
 export const DocForm = (props) => {
   const [tabId, setTabId] = useState("Tab1");
-  const [showInvoice, setShowInvoice] = useState(false);
+  const [showInvoice, setShowInvoice] = useState(true);
   const [showActOfAcceptance, setShowActOfAcceptance] = useState(false);
   const [showApplication, setShowApplication] = useState(false);
   const [id, setId] = useState(null);
@@ -95,8 +96,8 @@ export const DocForm = (props) => {
         })}
       </div>
       <div className="docFormDivContent">
-        {showInvoice && <h3>{`Счет №${id}`}</h3>}
-        {showActOfAcceptance && <h3>{`Акт №${id}`}</h3>}
+        {showInvoice && <InvoiceForm dataDoc={props.dataDoc} />}
+        {showActOfAcceptance && <ActForm dataDoc={props.dataDoc} />}
         {showApplication && (
           <h3>{`Заявка №${props.dataDoc.odersListId[id - 1]}`}</h3>
         )}
