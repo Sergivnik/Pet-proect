@@ -80,6 +80,11 @@ export const BillsForm = () => {
   const handleClickClose = () => {
     setShowDocForm(false);
   };
+  const getNewNumber = (newNumber) => {
+    let { ...obj } = printObj;
+    obj.number = newNumber;
+    setPrintObj(obj);
+  };
 
   const isClassChosen = (id) => {
     if (chosenOdersId.includes(id)) {
@@ -170,7 +175,11 @@ export const BillsForm = () => {
         </button>
       )}
       {showDocForm && (
-        <DocForm dataDoc={printObj} handleClickClose={handleClickClose} />
+        <DocForm
+          dataDoc={printObj}
+          handleClickClose={handleClickClose}
+          getNewNumber={getNewNumber}
+        />
       )}
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { InvoiceForm } from "./invoiceForm.jsx";
 import { ActForm } from "./actForm.jsx";
 
@@ -10,6 +11,7 @@ export const DocForm = (props) => {
   const [showActOfAcceptance, setShowActOfAcceptance] = useState(false);
   const [showApplication, setShowApplication] = useState(false);
   const [id, setId] = useState(null);
+  const [currentApplication, setCurrentApplication] = useState(null);
   const handleClickClose = () => {
     props.handleClickClose();
   };
@@ -40,6 +42,40 @@ export const DocForm = (props) => {
     }
   };
 
+  const handleClickBtn = () => {
+    let tabList = document.querySelector(".tabList").children;
+    let arrTabId = [];
+    for (let elem of tabList) {
+      arrTabId.push(elem.id);
+    }
+    console.log(arrTabId);
+    if (showInvoice) {
+      let htmlDoc = document.querySelector(".invoicePrintForm");
+      console.log(htmlDoc);
+      setTabId(arrTabId[1]);
+      setShowInvoice(false);
+      setShowActOfAcceptance(true);
+      setShowApplication(false);
+    }
+    if (showActOfAcceptance) {
+      let htmlDoc = document.querySelector(".actPrintForm");
+      console.log(htmlDoc);
+      setTabId(arrTabId[2]);
+      setId(1);
+      setShowInvoice(false);
+      setShowActOfAcceptance(false);
+      setShowApplication(true);
+      setCurrentApplication(2);
+    }
+    if (showApplication) {
+      let htmlDoc = document.querySelector(".invoicePrintForm");
+      console.log(htmlDoc);
+      setId(currentApplication);
+      setTabId(arrTabId[currentApplication + 1]);
+      setCurrentApplication(currentApplication + 1);
+    }
+  };
+
   return (
     <div className="docFormMainDiv">
       <header className="docFormHeader">
@@ -61,7 +97,7 @@ export const DocForm = (props) => {
           />
         </svg>
       </header>
-      <div className="docFormDivHeader">
+      <div className="tabList">
         <div
           id="Tab1"
           className={divStyleFn("Tab1")}
@@ -94,10 +130,22 @@ export const DocForm = (props) => {
             </div>
           );
         })}
+        <button className="docFormBtn" onClick={handleClickBtn}>
+          {showInvoice && "Сохранить Счет"}
+          {showActOfAcceptance && "Добавить Акт"}
+          {showApplication && "Добавить Заявку"}
+        </button>
       </div>
       <div className="docFormDivContent">
-        {showInvoice && <InvoiceForm dataDoc={props.dataDoc} />}
-        {showActOfAcceptance && <ActForm dataDoc={props.dataDoc} />}
+        {showInvoice && (
+          <InvoiceForm
+            dataDoc={props.dataDoc}
+            getNewNumber={props.getNewNumber}
+          />
+        )}
+        {showActOfAcceptance && (
+          <ActForm dataDoc={props.dataDoc} getNewNumber={props.getNewNumber} />
+        )}
         {showApplication && (
           <h3>{`Заявка №${props.dataDoc.odersListId[id - 1]}`}</h3>
         )}

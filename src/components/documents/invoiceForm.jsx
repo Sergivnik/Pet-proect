@@ -37,11 +37,17 @@ export const InvoiceForm = (props) => {
     setStrInvoiceNumber(e.currentTarget.value);
   };
   const handleEnter = (e) => {
-    if (e.keyCode == 13) setShowInput(false);
+    if (e.keyCode == 13) {
+      setShowInput(false);
+      let start = strInvoiceNumber.indexOf("№") + 1;
+      let end = strInvoiceNumber.indexOf(" от ", 7);
+      let newNumber = strInvoiceNumber.slice(start, end);
+      props.getNewNumber(newNumber);
+    }
   };
 
   return (
-    <div>
+    <div className="invoicePrintForm">
       <h5
         style={{
           width: "95%",

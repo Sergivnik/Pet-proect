@@ -354,7 +354,7 @@ export const UserThead = (props) => {
         </td>
         <td className=" odersTRheader" style={{ border: "none" }}>
           <button className="odersTdBtn" onClick={props.handleClick}>
-            Саздать
+            Создать
           </button>
         </td>
       </tr>

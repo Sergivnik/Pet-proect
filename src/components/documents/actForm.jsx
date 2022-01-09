@@ -39,7 +39,7 @@ export const ActForm = (props) => {
     if (e.keyCode == 13) setShowInput(false);
   };
   return (
-    <div>
+    <div className="actPrintForm">
       <table
         style={{
           borderCollapse: "collapse",
