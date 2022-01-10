@@ -319,3 +319,19 @@ module.exports.taskAddPdfDoc = (req, res) => {
       res.send(Promise.resolve());
     });
 };
+module.exports.taskCreateDoc = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  pdf
+    .create(req.body.body.html, {})
+    .toFile(
+      `./API/controlers/Bills/${req.body.body.year}/doc${req.body.body.invoiceNumber}.pdf`,
+      (err) => {
+        if (err) {
+          res.send(Promise.reject());
+        }
+        res.send(Promise.resolve());
+      }
+    );
+};

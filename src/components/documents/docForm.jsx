@@ -1,11 +1,26 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { InvoiceForm } from "./invoiceForm.jsx";
 import { ActForm } from "./actForm.jsx";
 
 import "./billsForm.sass";
+import { createNewInvoice } from "../../actions/documentAction.js";
 
 export const DocForm = (props) => {
+  const dispatch = useDispatch();
+
+  const odersList = useSelector((state) => state.oderReducer.odersList);
+  const oders = props.dataDoc.odersListId.map((id) =>
+    odersList.find((elem) => elem._id == id)
+  );
+  const dateOfInvoice = oders.reduce((maxDate, elem) => {
+    if (maxDate < new Date(elem.date)) {
+      maxDate = elem.date;
+    }
+    return maxDate;
+  }, new Date(oders[0].date));
+  const year = dateOfInvoice.getFullYear();
+
   const [tabId, setTabId] = useState("Tab1");
   const [showInvoice, setShowInvoice] = useState(true);
   const [showActOfAcceptance, setShowActOfAcceptance] = useState(false);
@@ -51,7 +66,7 @@ export const DocForm = (props) => {
     console.log(arrTabId);
     if (showInvoice) {
       let htmlDoc = document.querySelector(".invoicePrintForm");
-      console.log(htmlDoc);
+      dispatch(createNewInvoice(htmlDoc.innerHTML, props.dataDoc.number, year));
       setTabId(arrTabId[1]);
       setShowInvoice(false);
       setShowActOfAcceptance(true);
@@ -136,7 +151,7 @@ export const DocForm = (props) => {
           {showApplication && "Добавить Заявку"}
         </button>
       </div>
-      <div className="docFormDivContent">
+      <div>
         {showInvoice && (
           <InvoiceForm
             dataDoc={props.dataDoc}

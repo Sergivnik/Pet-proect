@@ -169,7 +169,7 @@ export const ActForm = (props) => {
           </tr>
           <tr>
             <td style={{ width: "80%" }}>
-              Всего наименований 1, на сумму {sumOders} руб без НДС
+              Всего наименований {oders.length}, на сумму {sumOders} руб без НДС
             </td>
           </tr>
           <tr>

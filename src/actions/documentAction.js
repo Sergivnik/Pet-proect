@@ -5,6 +5,8 @@ export const GET_PDF_SUCCESS = "GET_PDF_SUCCESS";
 export const GET_PDF_FAILURE = "GET_PDF_FAILURE";
 export const ADD_PDF_DOC_SUCCESS = "ADD_PDF_DOC_SUCCESS";
 export const ADD_PDF_DOC_FAILURE = "ADD_PDF_DOC_FAILURE";
+export const CREATE_NEW_INVOICE_SUCCESS = "CREATE_NEW_INVOICE_SUCCESS";
+export const CREATE_NEW_INVOICE_FAILURE = "CREATE_NEW_INVOICE_FAILURE";
 
 export const getPdfSuccess = (dataServer) => ({
   type: GET_PDF_SUCCESS,
@@ -48,7 +50,30 @@ export const addPdfDoc = (docHtml, id) => {
       })
       .catch((e) => {
         console.log(e.message);
-        dispatch(getPdfFailure());
+        dispatch(addPdfDocFailure());
+      });
+  };
+};
+
+export const createNewInvoiceSuccess = (invoiceNumber) => ({
+  type: CREATE_NEW_INVOICE_SUCCESS,
+  invoiceNumber,
+});
+export const createNewInvoiceFailure = () => ({
+  type: CREATE_NEW_INVOICE_FAILURE,
+});
+export const createNewInvoice = (docHtml, invoiceNumber, year) => {
+  return (dispatch) => {
+    axios
+      .post(DOMENNAME + "/API/createDoc", {
+        body: { html: docHtml, year: year, invoiceNumber: invoiceNumber },
+      })
+      .then((res) => {
+        return dispatch(createNewInvoiceSuccess(invoiceNumber));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(createNewInvoiceFailure());
       });
   };
 };
