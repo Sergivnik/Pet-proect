@@ -176,45 +176,79 @@ export const InvoiceForm = (props) => {
                 30101810145250000974
               </td>
             </tr>
-            <tr>
-              <td
-                colSpan="9"
-                onDoubleClick={handleDblClick}
-                style={{ borderBottom: "2px solid black" }}
-              >
-                {showInput ? (
-                  <input
-                    type="text"
-                    className="billsFormNumberInput"
-                    value={strInvoiceNumber}
-                    onChange={handleChange}
-                    onKeyDown={handleEnter}
-                  />
-                ) : (
-                  <h2>{strInvoiceNumber}</h2>
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td style={{ padding: "5px", verticalAlign: "top" }} colSpan="2">
-                Поставщик
-              </td>
-              <td colSpan="7" style={{ padding: "5px", fontWeight: "700" }}>
-                ИП Иванов Сергей Николаевич, свидетельство № 308615401700030 от
-                17.01.08г. Ростовская область, Таганрог, Ломакина, д. 108, кв. 2{" "}
-              </td>
-            </tr>
-            <tr>
-              <td style={{ padding: "5px", verticalAlign: "top" }} colSpan="2">
-                Покупатель
-              </td>
-              <td colSpan="7" style={{ padding: "5px", fontWeight: "700" }}>
-                {customer.companyName + " ИНН " + customer.TIN + ", "}
-                <br /> {customer.address}
-              </td>
-            </tr>
           </tbody>
         </table>
+        <div>
+          <div
+            onDoubleClick={handleDblClick}
+            style={{ borderBottom: "2px solid black", fontSize: "16px" }}
+          >
+            {showInput ? (
+              <input
+                type="text"
+                className="billsFormNumberInput"
+                value={strInvoiceNumber}
+                onChange={handleChange}
+                onKeyDown={handleEnter}
+              />
+            ) : (
+              <h2>{strInvoiceNumber}</h2>
+            )}
+          </div>
+        </div>
+        <div style={{ fontSize: "14px" }}>
+          <div style={{ height: "45px" }}>
+            <div
+              style={{
+                padding: "5px",
+                verticalAlign: "top",
+                float: "left",
+                display: "inline-block",
+                width: "10%",
+              }}
+            >
+              Поставщик
+            </div>
+            <div
+              style={{
+                padding: "5px",
+                fontWeight: "700",
+                float: "right",
+                display: "inline-block",
+                width: "84%",
+              }}
+            >
+              ИП Иванов Сергей Николаевич, свидетельство № 308615401700030 от
+              17.01.08г. Ростовская область, Таганрог, Ломакина, д. 108, кв. 2{" "}
+            </div>
+          </div>
+          <div>
+            <div
+              style={{
+                padding: "5px",
+                verticalAlign: "top",
+                float: "left",
+                display: "inline-block",
+                width: "10%",
+              }}
+            >
+              Покупатель
+            </div>
+            <div
+              style={{
+                padding: "5px",
+                fontWeight: "700",
+                float: "right",
+                display: "inline-block",
+                width: "84%",
+              }}
+            >
+              {customer.companyName + " ИНН " + customer.TIN + ", "}
+              <br /> {customer.address}
+            </div>
+          </div>
+        </div>
+
         <table
           style={{
             borderCollapse: "collapse",
