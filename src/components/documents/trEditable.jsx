@@ -41,13 +41,10 @@ export const TrEditable = (props) => {
   };
 
   return (
-    <tr
-      style={{ textAlign: "center", fontSize: "10", lineHeight: 1 }}
-    >
+    <tr style={{ textAlign: "center", fontSize: "10", lineHeight: 1 }}>
       <td style={{ border: "1px solid black" }}>{index + 1}</td>
       <td
         style={{ border: "1px solid black", textAlign: "left" }}
-        colSpan="3"
         onDoubleClick={handleDblClick}
       >
         {showInput ? (
@@ -62,9 +59,7 @@ export const TrEditable = (props) => {
           strOder
         )}
       </td>
-      <td style={{ border: "1px solid black" }} colSpan="2">
-        1
-      </td>
+      <td style={{ border: "1px solid black" }}>1</td>
       <td style={{ border: "1px solid black" }}>шт</td>
       <td style={{ border: "1px solid black" }}>{elem.customerPrice}</td>
       <td style={{ border: "1px solid black" }}>{elem.customerPrice}</td>

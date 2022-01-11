@@ -56,21 +56,9 @@ export const ActForm = (props) => {
             fontSize: "12px",
           }}
         >
-          <colgroup>
-            <col width="5.7%"></col>
-            <col width="5.7%"></col>
-            <col width="22.9%"></col>
-            <col width="22.8%"></col>
-            <col width="8.6%"></col>
-            <col width="1.1%"></col>
-            <col width="5.6%"></col>
-            <col width="11.4%"></col>
-            <col width="14.3%"></col>
-          </colgroup>
           <tbody>
             <tr>
               <td
-                colSpan="9"
                 onDoubleClick={handleDblClick}
                 style={{ borderBottom: "2px solid black" }}
               >
@@ -97,7 +85,7 @@ export const ActForm = (props) => {
                 verticalAlign: "top",
                 float: "left",
                 display: "inline-block",
-                width: "10%",
+                width: "12%",
               }}
             >
               Исполнитель:
@@ -108,7 +96,7 @@ export const ActForm = (props) => {
                 fontWeight: "700",
                 float: "right",
                 display: "inline-block",
-                width: "84%",
+                width: "82%",
               }}
             >
               ИП Иванов Сергей Николаевич, свидетельство № 308615401700030 от
@@ -122,7 +110,7 @@ export const ActForm = (props) => {
                 verticalAlign: "top",
                 float: "left",
                 display: "inline-block",
-                width: "10%",
+                width: "12%",
               }}
             >
               Заказчик:
@@ -133,7 +121,7 @@ export const ActForm = (props) => {
                 fontWeight: "700",
                 float: "right",
                 display: "inline-block",
-                width: "84%",
+                width: "82%",
               }}
             >
               {customer.companyName + " ИНН " + customer.TIN + ", "}
@@ -150,18 +138,7 @@ export const ActForm = (props) => {
             border: "2px solid black",
           }}
         >
-          <colgroup>
-            <col width="5.7%"></col>
-            <col width="5.7%"></col>
-            <col width="22.9%"></col>
-            <col width="22.8%"></col>
-            <col width="8.6%"></col>
-            <col width="1.1%"></col>
-            <col width="5.6%"></col>
-            <col width="11.4%"></col>
-            <col width="14.3%"></col>
-          </colgroup>
-          <thead>
+           <thead>
             <tr
               style={{
                 lineHeight: 1.8,
@@ -169,16 +146,20 @@ export const ActForm = (props) => {
                 textAlign: "center",
               }}
             >
-              <td style={{ border: "1px solid black" }}>№</td>
-              <td style={{ border: "1px solid black" }} colSpan="3">
-                Товар
+              <td style={{ border: "1px solid black", width: "5.7%" }}>№</td>
+              <td style={{ border: "1px solid black", width: "51.3%" }}>
+                Наимениование работы (услуги)
               </td>
-              <td style={{ border: "1px solid black" }} colSpan="2">
+              <td style={{ border: "1px solid black", width: "9.7%" }}>
                 Кол-во
               </td>
-              <td style={{ border: "1px solid black" }}>Ед.</td>
-              <td style={{ border: "1px solid black" }}>Цена</td>
-              <td style={{ border: "1px solid black" }}>Сумма</td>
+              <td style={{ border: "1px solid black", width: "5.6%" }}>Ед.</td>
+              <td style={{ border: "1px solid black", width: "11.4%" }}>
+                Цена
+              </td>
+              <td style={{ border: "1px solid black", width: "14.3%" }}>
+                Сумма
+              </td>
             </tr>
           </thead>
           <tbody>

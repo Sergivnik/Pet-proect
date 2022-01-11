@@ -89,37 +89,27 @@ export const InvoiceForm = (props) => {
             fontSize: "12px",
           }}
         >
-          <colgroup>
-            <col width="5.7%"></col>
-            <col width="5.7%"></col>
-            <col width="22.9%"></col>
-            <col width="22.8%"></col>
-            <col width="8.6%"></col>
-            <col width="1.1%"></col>
-            <col width="5.6%"></col>
-            <col width="11.4%"></col>
-            <col width="14.3%"></col>
-          </colgroup>
           <tbody>
             <tr style={{ lineHeight: "1" }}>
-              <td style={{ border: "1px solid black" }} colSpan="3">
+              <td style={{ border: "1px solid black", width: "34.3%" }}>
                 ИНН 615408271552
               </td>
-              <td style={{ border: "1px solid black" }} colSpan="2">
-                КПП
-              </td>
+              <td style={{ border: "1px solid black", width: "31.3%" }}>КПП</td>
               <td
-                style={{ border: "1px solid black", borderBottom: "none" }}
-                colSpan="2"
+                style={{
+                  border: "1px solid black",
+                  borderBottom: "none",
+                  width: "6.7%",
+                }}
               >
                 Сч.№
               </td>
-              <td style={{ border: "1px solid black" }} colSpan="2">
+              <td style={{ border: "1px solid black", width: "25.7%" }}>
                 40802810400000367485
               </td>
             </tr>
             <tr style={{ lineHeight: "1" }}>
-              <td style={{ border: "1px solid black" }} colSpan="5">
+              <td style={{ border: "1px solid black" }} colSpan={2}>
                 ИП Иванов Сергей Николаевич
                 <br />
                 <span
@@ -132,17 +122,11 @@ export const InvoiceForm = (props) => {
                   Получатель
                 </span>
               </td>
-              <td
-                style={{ border: "1px solid black", borderTop: "none" }}
-                colSpan="2"
-              ></td>
-              <td
-                style={{ border: "1px solid black", borderTop: "none" }}
-                colSpan="2"
-              ></td>
+              <td style={{ border: "1px solid black", borderTop: "none" }}></td>
+              <td style={{ border: "1px solid black", borderTop: "none" }}></td>
             </tr>
             <tr style={{ lineHeight: "1" }}>
-              <td style={{ border: "1px solid black" }} colSpan="5" rowSpan="2">
+              <td style={{ border: "1px solid black" }} rowSpan="2" colSpan={2}>
                 АО "ТИНЬКОФФ БАНК" 123060 Москва 1-й Волоколамский пр-д, д.10
                 <br />
                 <span
@@ -155,24 +139,14 @@ export const InvoiceForm = (props) => {
                   Банк получателя
                 </span>
               </td>
-              <td style={{ border: "1px solid black" }} colSpan="2">
-                БИК
-              </td>
-              <td
-                style={{ border: "1px solid black", borderBottom: "none" }}
-                colSpan="2"
-              >
+              <td style={{ border: "1px solid black" }}>БИК</td>
+              <td style={{ border: "1px solid black", borderBottom: "none" }}>
                 044525974
               </td>
             </tr>
             <tr>
-              <td style={{ border: "1px solid black" }} colSpan="2">
-                Сч.№
-              </td>
-              <td
-                style={{ border: "1px solid black", borderTop: "none" }}
-                colSpan="2"
-              >
+              <td style={{ border: "1px solid black" }}>Сч.№</td>
+              <td style={{ border: "1px solid black", borderTop: "none" }}>
                 30101810145250000974
               </td>
             </tr>
@@ -204,10 +178,10 @@ export const InvoiceForm = (props) => {
                 verticalAlign: "top",
                 float: "left",
                 display: "inline-block",
-                width: "10%",
+                width: "12%",
               }}
             >
-              Поставщик
+              Поставщик:
             </div>
             <div
               style={{
@@ -215,7 +189,7 @@ export const InvoiceForm = (props) => {
                 fontWeight: "700",
                 float: "right",
                 display: "inline-block",
-                width: "84%",
+                width: "82%",
               }}
             >
               ИП Иванов Сергей Николаевич, свидетельство № 308615401700030 от
@@ -229,10 +203,10 @@ export const InvoiceForm = (props) => {
                 verticalAlign: "top",
                 float: "left",
                 display: "inline-block",
-                width: "10%",
+                width: "12%",
               }}
             >
-              Покупатель
+              Покупатель:
             </div>
             <div
               style={{
@@ -240,7 +214,7 @@ export const InvoiceForm = (props) => {
                 fontWeight: "700",
                 float: "right",
                 display: "inline-block",
-                width: "84%",
+                width: "82%",
               }}
             >
               {customer.companyName + " ИНН " + customer.TIN + ", "}
@@ -257,17 +231,6 @@ export const InvoiceForm = (props) => {
             border: "2px solid black",
           }}
         >
-          <colgroup>
-            <col width="5.7%"></col>
-            <col width="5.7%"></col>
-            <col width="22.9%"></col>
-            <col width="22.8%"></col>
-            <col width="8.6%"></col>
-            <col width="1.1%"></col>
-            <col width="5.6%"></col>
-            <col width="11.4%"></col>
-            <col width="14.3%"></col>
-          </colgroup>
           <thead>
             <tr
               style={{
@@ -276,16 +239,20 @@ export const InvoiceForm = (props) => {
                 textAlign: "center",
               }}
             >
-              <td style={{ border: "1px solid black" }}>№</td>
-              <td style={{ border: "1px solid black" }} colSpan="3">
+              <td style={{ border: "1px solid black", width: "5.7%" }}>№</td>
+              <td style={{ border: "1px solid black", width: "51.3%" }}>
                 Наимениование работы (услуги)
               </td>
-              <td style={{ border: "1px solid black" }} colSpan="2">
+              <td style={{ border: "1px solid black", width: "9.7%" }}>
                 Кол-во
               </td>
-              <td style={{ border: "1px solid black" }}>Ед.</td>
-              <td style={{ border: "1px solid black" }}>Цена</td>
-              <td style={{ border: "1px solid black" }}>Сумма</td>
+              <td style={{ border: "1px solid black", width: "5.6%" }}>Ед.</td>
+              <td style={{ border: "1px solid black", width: "11.4%" }}>
+                Цена
+              </td>
+              <td style={{ border: "1px solid black", width: "14.3%" }}>
+                Сумма
+              </td>
             </tr>
           </thead>
           <tbody>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { InvoiceForm } from "./invoiceForm.jsx";
 import { ActForm } from "./actForm.jsx";
+import { findValueBy_Id } from "../myLib/myLib.js";
 
 import "./billsForm.sass";
 import { createNewInvoice } from "../../actions/documentAction.js";
@@ -10,9 +11,11 @@ export const DocForm = (props) => {
   const dispatch = useDispatch();
 
   const odersList = useSelector((state) => state.oderReducer.odersList);
+  const clientList = useSelector((state) => state.oderReducer.clientList);
   const oders = props.dataDoc.odersListId.map((id) =>
     odersList.find((elem) => elem._id == id)
   );
+  const customer = findValueBy_Id(oders[0].idCustomer, clientList).value;
   const dateOfInvoice = oders.reduce((maxDate, elem) => {
     if (maxDate < new Date(elem.date)) {
       maxDate = elem.date;
@@ -66,7 +69,14 @@ export const DocForm = (props) => {
     console.log(arrTabId);
     if (showInvoice) {
       let htmlDoc = document.querySelector(".invoicePrintForm");
-      dispatch(createNewInvoice(htmlDoc.innerHTML, props.dataDoc.number, year));
+      dispatch(
+        createNewInvoice(
+          htmlDoc.innerHTML,
+          props.dataDoc.number,
+          year,
+          customer
+        )
+      );
       setTabId(arrTabId[1]);
       setShowInvoice(false);
       setShowActOfAcceptance(true);

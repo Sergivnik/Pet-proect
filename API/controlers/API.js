@@ -67,8 +67,10 @@ module.exports.taskGetPdf = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
-  console.log(req.params.id);
-  res.sendFile(`/Bills/doc${req.params.id}.pdf`, { root: __dirname });
+  //res.sendFile(`/Bills/doc${req.params.id}.pdf`, { root: __dirname });
+  const path = require("path");
+  let pathBills = path.join(__dirname, "..", "Bills");
+  res.sendFile(`${pathBills}/doc2056.pdf`);
 };
 
 module.exports.taskAdd = (req, res) => {
@@ -326,7 +328,7 @@ module.exports.taskCreateDoc = (req, res) => {
   pdf
     .create(req.body.body.html, {})
     .toFile(
-      `./API/controlers/Bills/${req.body.body.year}/doc${req.body.body.invoiceNumber}.pdf`,
+      `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
       (err) => {
         if (err) {
           res.send(Promise.reject());

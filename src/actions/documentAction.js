@@ -62,11 +62,16 @@ export const createNewInvoiceSuccess = (invoiceNumber) => ({
 export const createNewInvoiceFailure = () => ({
   type: CREATE_NEW_INVOICE_FAILURE,
 });
-export const createNewInvoice = (docHtml, invoiceNumber, year) => {
+export const createNewInvoice = (docHtml, invoiceNumber, year, customer) => {
   return (dispatch) => {
     axios
       .post(DOMENNAME + "/API/createDoc", {
-        body: { html: docHtml, year: year, invoiceNumber: invoiceNumber },
+        body: {
+          html: docHtml,
+          year: year,
+          invoiceNumber: invoiceNumber,
+          customer: customer,
+        },
       })
       .then((res) => {
         return dispatch(createNewInvoiceSuccess(invoiceNumber));
