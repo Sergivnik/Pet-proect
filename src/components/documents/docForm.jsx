@@ -5,7 +5,7 @@ import { ActForm } from "./actForm.jsx";
 import { findValueBy_Id } from "../myLib/myLib.js";
 
 import "./billsForm.sass";
-import { createNewInvoice } from "../../actions/documentAction.js";
+import { addActToDoc, createNewInvoice } from "../../actions/documentAction.js";
 
 export const DocForm = (props) => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const DocForm = (props) => {
   const customer = findValueBy_Id(oders[0].idCustomer, clientList).value;
   const dateOfInvoice = oders.reduce((maxDate, elem) => {
     if (maxDate < new Date(elem.date)) {
-      maxDate = elem.date;
+      maxDate = new Date(elem.date);
     }
     return maxDate;
   }, new Date(oders[0].date));
@@ -84,7 +84,15 @@ export const DocForm = (props) => {
     }
     if (showActOfAcceptance) {
       let htmlDoc = document.querySelector(".actPrintForm");
-      console.log(htmlDoc);
+      dispatch(
+        addActToDoc(
+          htmlDoc.innerHTML,
+          props.dataDoc.number,
+          year,
+          customer,
+          props.dataDoc.odersListId
+        )
+      );
       setTabId(arrTabId[2]);
       setId(1);
       setShowInvoice(false);

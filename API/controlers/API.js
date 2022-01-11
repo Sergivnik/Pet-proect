@@ -337,3 +337,16 @@ module.exports.taskCreateDoc = (req, res) => {
       }
     );
 };
+module.exports.taskAddActToDoc = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  pdf
+    .create(req.body.body.html, {})
+    .toFile(`./API/Bills/tempDoc.pdf`, (err) => {
+      if (err) {
+        res.send(Promise.reject());
+      }
+      console.log("done");
+    });
+};
