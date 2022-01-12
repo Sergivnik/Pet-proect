@@ -51,24 +51,30 @@ export const InvoiceForm = (props) => {
     <div className="invoicePrintForm">
       <div
         style={{
-          width: "84%",
+          width: "88%",
           display: "block",
           minHeight: "500px",
-          padding: "8%",
+          padding: "4% 4% 0% 8%",
           marginTop: "19px",
+          fontFamily: "arial",
         }}
       >
         <h5
           style={{
             width: "95%",
-            margin: "20px auto 0 auto",
+            margin: "0 auto",
             textAlign: "center",
             fontSize: "11px",
+            lineHeight: "1",
+            fontWeight: 300,
           }}
         >
           Внимание! Оплата данного счета означает согласие с условиями поставки
-          товара. Уведомление об оплате обязательно, в противном случае не
-          гарантируется наличие товара на складе. Товар отпускается по факту
+          товара. Уведомление об оплате
+          <br />
+          обязательно, в противном случае не гарантируется наличие товара на
+          складе. Товар отпускается по факту
+          <br />
           прихода денег на р/с Поставщика, самовывозом, при наличии доверенности
           и паспорта.
         </h5>
@@ -77,7 +83,7 @@ export const InvoiceForm = (props) => {
             width: "95%",
             margin: "20px auto 0 auto",
             textAlign: "center",
-            fontSize: "12px",
+            fontSize: "14px",
           }}
         >
           Образец заполнения платежного поручения
@@ -86,7 +92,7 @@ export const InvoiceForm = (props) => {
           style={{
             borderCollapse: "collapse",
             width: "100%",
-            fontSize: "12px",
+            fontSize: "14px",
           }}
         >
           <tbody>
@@ -114,7 +120,7 @@ export const InvoiceForm = (props) => {
                 <br />
                 <span
                   style={{
-                    fontSize: "10px",
+                    fontSize: "12px",
                     paddingTop: "6px",
                     display: "inline-block",
                   }}
@@ -127,11 +133,11 @@ export const InvoiceForm = (props) => {
             </tr>
             <tr style={{ lineHeight: "1" }}>
               <td style={{ border: "1px solid black" }} rowSpan="2" colSpan={2}>
-                АО "ТИНЬКОФФ БАНК" 123060 Москва 1-й Волоколамский пр-д, д.10
+                АО "ТИНЬКОФФ БАНК" 123060 Москва 1-й Волоколамский пр-д,д.10
                 <br />
                 <span
                   style={{
-                    fontSize: "10px",
+                    fontSize: "12px",
                     paddingTop: "6px",
                     display: "inline-block",
                   }}
@@ -166,7 +172,15 @@ export const InvoiceForm = (props) => {
                 onKeyDown={handleEnter}
               />
             ) : (
-              <h2>{strInvoiceNumber}</h2>
+              <h4
+                style={{
+                  fontWeight: 700,
+                  margin: "17px 0 17px 0",
+                  fontSize: "18px",
+                }}
+              >
+                {strInvoiceNumber}
+              </h4>
             )}
           </div>
         </div>
@@ -319,8 +333,8 @@ export const InvoiceForm = (props) => {
               opacity: "0.7",
               zIndex: "-2",
             }}
-            height="190"
-            width="190"
+            height="170"
+            width="170"
             src="http://localhost:3000/img/stamp.png"
           />
           <img

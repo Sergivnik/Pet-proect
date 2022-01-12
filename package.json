@@ -41,6 +41,7 @@
     "@babel/preset-react": "^7.12.7",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
+    "easy-pdf-merge": "^0.2.6",
     "file-saver": "^2.0.5",
     "html-pdf": "^2.2.0",
     "mongoose": "^5.12.2",

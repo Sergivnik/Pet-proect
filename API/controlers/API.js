@@ -347,6 +347,19 @@ module.exports.taskAddActToDoc = (req, res) => {
       if (err) {
         res.send(Promise.reject());
       }
-      console.log("done");
+      const merge = require("easy-pdf-merge");
+      merge(
+        [
+          `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+          `./API/Bills/tempDoc.pdf`,
+        ],
+        `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+        function (err) {
+          if (err) {
+            return console.log(err);
+          }
+          console.log("Successfully merged!");
+        }
+      );
     });
 };
