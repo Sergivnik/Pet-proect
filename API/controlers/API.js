@@ -4,6 +4,7 @@ var tasksDebt = require("../models/tasksDriverDebts.js");
 var taskPaymentsDriver = require("../models/taskPaymentsDriver.js");
 var taskContractors = require("../models/taskContractor.js");
 var tasksData = require("../models/tasksData.js");
+var tacksDocs = require("../models/taskDocs.js");
 
 module.exports.taskGet = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -359,6 +360,18 @@ module.exports.taskAddActToDoc = (req, res) => {
             return console.log(err);
           }
           console.log("Successfully merged!");
+          tacksDocs.add(
+            req.body.body.arrOrderId,
+            req.body.body.invoiceNumber,
+            (data) => {
+              if (data.error) {
+                res.status(500);
+                res.json({ message: data.error });
+              } else {
+                res.json(data);
+              }
+            }
+          );
         }
       );
     });

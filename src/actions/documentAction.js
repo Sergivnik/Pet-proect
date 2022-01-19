@@ -86,12 +86,12 @@ export const createNewInvoice = (docHtml, invoiceNumber, year, customer) => {
 };
 
 export const addActToDocSuccess = (invoiceNumber, arrOrderId) => ({
-  type: CREATE_NEW_INVOICE_SUCCESS,
+  type: ADD_ACT_TO_DOC_SUCCESS,
   invoiceNumber,
   arrOrderId,
 });
 export const addActToDocFailure = () => ({
-  type: CREATE_NEW_INVOICE_FAILURE,
+  type: ADD_ACT_TO_DOC_FAILURE,
 });
 export const addActToDoc = (
   docHtml,
@@ -112,11 +112,11 @@ export const addActToDoc = (
         },
       })
       .then((res) => {
-        return dispatch(createNewInvoiceSuccess(invoiceNumber, arrOrderId));
+        return dispatch(addActToDocSuccess(invoiceNumber, arrOrderId));
       })
       .catch((e) => {
         console.log(e.message);
-        dispatch(createNewInvoiceFailure());
+        dispatch(addActToDocFailure());
       });
   };
 };

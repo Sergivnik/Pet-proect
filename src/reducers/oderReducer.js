@@ -42,6 +42,10 @@ import {
   DEL_DATA_SUCCESS,
   DEL_DATA_FAILURE,
 } from "../actions/editDataAction.js";
+import {
+  ADD_ACT_TO_DOC_SUCCESS,
+  ADD_ACT_TO_DOC_FAILURE,
+} from "../actions/documentAction.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
@@ -771,6 +775,23 @@ export const oderReducer = (store = initialStore, action) => {
     case DEL_DATA_FAILURE:
       console.log(action.message);
       return { ...store, message: action.message };
+
+    case ADD_ACT_TO_DOC_SUCCESS: {
+      let [...arr] = store.odersList;
+      let docNumber = action.invoiceNumber;
+      if (!isNaN(docNumber)) {
+        if (docNumber < 10 && docNumber > 0) docNumber = "000" + docNumber;
+        if (docNumber < 100 && docNumber > 9) docNumber = "00" + docNumber;
+        if (docNumber < 1000 && docNumber > 99) docNumber = "0" + docNumber;
+        if (docNumber < 10000 && docNumber > 999) docNumber = "" + docNumber;
+      }
+      action.arrOrderId.forEach((id) => {
+        let index = arr.findIndex((elem) => elem._id == id);
+        arr[index].accountNumber = docNumber;
+      });
+      return { ...store, odersList: arr };
+    }
+
     default:
       return store;
   }
