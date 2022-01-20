@@ -355,8 +355,31 @@ export const oderReducer = (store = initialStore, action) => {
         }
         i++;
       });
+      let ordersList = action.dataServer.odersList.sort((a, b) => {
+        if (a.date < b.date) return -1;
+        if (a.date > b.date) return 1;
+        if (a.date == b.date) {
+          let condotion =
+            (b.accountNumber == null || b.accountNumber == "") &&
+            (a.accountNumber);
+          if (condotion) return -1;
+          if (
+            (b.accountNumber == null || b.accountNumber == "") &&
+            (a.accountNumber == null || a.accountNumber == "")
+          ) {
+            if (a._id < b._id) return -1;
+            if (a._id > b._id) return 1;
+          }
+          if (a.accountNumber < b.accountNumber) return -1;
+          if (a.accountNumber > b.accountNumber) return 1;
+          if (a.accountNumber == b.accountNumber) {
+            if (a._id < b._id) return -1;
+            if (a._id > b._id) return 1;
+          }
+        }
+      });
       let clone = [];
-      action.dataServer.odersList.forEach((elem) => {
+      ordersList.forEach((elem) => {
         clone.push(Object.assign({}, elem));
       });
       return {
@@ -370,7 +393,7 @@ export const oderReducer = (store = initialStore, action) => {
         filteredDrivers: action.dataServer.driverlist,
         clientList: action.dataServer.clientList,
         filteredClients: action.dataServer.clientList,
-        odersList: action.dataServer.odersList,
+        odersList: ordersList,
         clientmanager: action.dataServer.clientmanager,
         trackdrivers: action.dataServer.trackdrivers,
         tracklist: action.dataServer.tracklist,
