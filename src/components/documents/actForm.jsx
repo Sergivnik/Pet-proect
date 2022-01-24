@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { dateLocal, findValueBy_Id, sumInWords } from "../myLib/myLib.js";
 import { TrEditable } from "./trEditable.jsx";
+import { DOMENNAME } from "../../middlewares/initialState.js";
 
 import "./billsForm.sass";
 
@@ -252,7 +253,7 @@ export const ActForm = (props) => {
             }}
             height="120"
             width="120"
-            src="http://localhost:3000/img/stamp.png"
+            src={`${DOMENNAME}/img/stamp.png`}
           />
           <img
             style={{
@@ -263,7 +264,7 @@ export const ActForm = (props) => {
             }}
             height="120"
             width="120"
-            src="http://localhost:3000/img/sign.png"
+            src={`${DOMENNAME}/img/sign.png`}
           />
         </div>
       </div>

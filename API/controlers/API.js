@@ -67,11 +67,22 @@ module.exports.taskGetPdf = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-
-  //res.sendFile(`/Bills/doc${req.params.id}.pdf`, { root: __dirname });
   const path = require("path");
-  let pathBills = path.join(__dirname, "..", "Bills");
-  res.sendFile(`${pathBills}/doc2056.pdf`);
+  tasks.getDataById(req.params.id, "oderslist", (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      let Year = data.date.getFullYear();
+      let customer = data.customer[0].value;
+      let pathBills = path.join(__dirname, "..", "Bills");
+      let accountNumber = Number(data.accountNumber);
+      if (isNaN(accountNumber)) {
+        accountNumber = data.accountNumber;
+      }
+      res.sendFile(`${pathBills}/${Year}/${customer}/doc${accountNumber}.pdf`);
+    }
+  });
 };
 
 module.exports.taskAdd = (req, res) => {

@@ -408,7 +408,6 @@ var Tasks = {
     db.end();
   },
   editNew: async function (data, callback) {
-    
     dateToSqlString(data.dateOfSubmission);
     console.log(data.date);
     let newData = {
@@ -499,10 +498,7 @@ var Tasks = {
             partialPaymentAmount: null,
           };
         }
-        if (
-          newdata.newValue == 6 ||
-          newdata.newValue == 8
-        ) {
+        if (newdata.newValue == 6 || newdata.newValue == 8) {
           change = {
             customerPayment: newdata.newValue,
             dateOfPromise: null,
@@ -642,6 +638,8 @@ var Tasks = {
     let dataById = {};
     try {
       let [data] = await db.query(`select * FROM ${table} WHERE _id=${id}`);
+      dataById.date = data[0].date;
+      dataById.accountNumber = data[0].accountNumber;
       [dataById.customer] = await db.query(
         `select * FROM oders WHERE _id=${data[0].idCustomer}`
       );
