@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const APIRouter = require("./APIRouter.js");
-const APIMongoDBRouter = require("./APIMongoDBRouter.js");
+//const APIMongoDBRouter = require("./APIMongoDBRouter.js");
 
 router.options("*", (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -12,6 +12,6 @@ router.options("*", (req, res) => {
 });
 router.use("/oders", APIRouter);
 router.use("/API", APIRouter);
-router.use("/API_MONGODB", APIMongoDBRouter);
+//router.use("/API_MONGODB", APIMongoDBRouter);
 
 module.exports = router;

@@ -369,17 +369,6 @@ module.exports.taskCreateDoc = (req, res) => {
 
     await browser.close();
   })();
-  // pdf
-  //   .create(req.body.body.html, { zoomFactor: 0.5 })
-  //   .toFile(
-  //     `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
-  //     (err) => {
-  //       if (err) {
-  //         res.send(Promise.reject());
-  //       }
-  //       res.send(Promise.resolve());
-  //     }
-  //   );
 };
 module.exports.taskAddActToDoc = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -426,38 +415,4 @@ module.exports.taskAddActToDoc = (req, res) => {
       }
     );
   })();
-
-  // pdf
-  //   .create(req.body.body.html, { zoomFactor: 0.2 })
-  //   .toFile(`./API/Bills/tempDoc.pdf`, (err) => {
-  //     if (err) {
-  //       res.send(Promise.reject());
-  //     }
-  //     const merge = require("easy-pdf-merge");
-  //     merge(
-  //       [
-  //         `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
-  //         `./API/Bills/tempDoc.pdf`,
-  //       ],
-  //       `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
-  //       function (err) {
-  //         if (err) {
-  //           return console.log(err);
-  //         }
-  //         console.log("Successfully merged!");
-  //         tacksDocs.add(
-  //           req.body.body.arrOrderId,
-  //           req.body.body.invoiceNumber,
-  //           (data) => {
-  //             if (data.error) {
-  //               res.status(500);
-  //               res.json({ message: data.error });
-  //             } else {
-  //               res.json(data);
-  //             }
-  //           }
-  //         );
-  //       }
-  //     );
-  //   });
 };
