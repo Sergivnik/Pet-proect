@@ -337,53 +337,127 @@ module.exports.taskCreateDoc = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-  pdf
-    .create(req.body.body.html, {})
-    .toFile(
-      `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
-      (err) => {
-        if (err) {
-          res.send(Promise.reject());
-        }
-        res.send(Promise.resolve());
-      }
+  const puppeteer = require("puppeteer");
+  var fs = require("fs");
+  try {
+    const exists = fs.existsSync(
+      `./API/Bills/${req.body.body.year}/${req.body.body.customer}`
     );
+    if (!exists) {
+      fs.mkdirSync(
+        `./API/Bills/${req.body.body.year}/${req.body.body.customer}`,
+        { recursive: true }
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  fs.writeFileSync(
+    `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+    "utf8"
+  );
+  (async () => {
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox"],
+    });
+    const page = await browser.newPage();
+    await page.setContent(req.body.body.html);
+    await page.pdf({
+      path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+      format: "a4",
+    });
+
+    await browser.close();
+  })();
+  // pdf
+  //   .create(req.body.body.html, { zoomFactor: 0.5 })
+  //   .toFile(
+  //     `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+  //     (err) => {
+  //       if (err) {
+  //         res.send(Promise.reject());
+  //       }
+  //       res.send(Promise.resolve());
+  //     }
+  //   );
 };
 module.exports.taskAddActToDoc = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-  pdf
-    .create(req.body.body.html, {})
-    .toFile(`./API/Bills/tempDoc.pdf`, (err) => {
-      if (err) {
-        res.send(Promise.reject());
-      }
-      const merge = require("easy-pdf-merge");
-      merge(
-        [
-          `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
-          `./API/Bills/tempDoc.pdf`,
-        ],
-        `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
-        function (err) {
-          if (err) {
-            return console.log(err);
-          }
-          console.log("Successfully merged!");
-          tacksDocs.add(
-            req.body.body.arrOrderId,
-            req.body.body.invoiceNumber,
-            (data) => {
-              if (data.error) {
-                res.status(500);
-                res.json({ message: data.error });
-              } else {
-                res.json(data);
-              }
-            }
-          );
-        }
-      );
+  const puppeteer = require("puppeteer");
+
+  (async () => {
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox"],
     });
+    const page = await browser.newPage();
+    await page.setContent(req.body.body.html);
+    await page.pdf({
+      path: `./API/Bills/tempDoc.pdf`,
+      format: "a4",
+    });
+
+    await browser.close();
+    const merge = require("easy-pdf-merge");
+    merge(
+      [
+        `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+        `./API/Bills/tempDoc.pdf`,
+      ],
+      `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+      function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("Successfully merged!");
+        tacksDocs.add(
+          req.body.body.arrOrderId,
+          req.body.body.invoiceNumber,
+          (data) => {
+            if (data.error) {
+              res.status(500);
+              res.json({ message: data.error });
+            } else {
+              res.json(data);
+            }
+          }
+        );
+      }
+    );
+  })();
+
+  // pdf
+  //   .create(req.body.body.html, { zoomFactor: 0.2 })
+  //   .toFile(`./API/Bills/tempDoc.pdf`, (err) => {
+  //     if (err) {
+  //       res.send(Promise.reject());
+  //     }
+  //     const merge = require("easy-pdf-merge");
+  //     merge(
+  //       [
+  //         `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+  //         `./API/Bills/tempDoc.pdf`,
+  //       ],
+  //       `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+  //       function (err) {
+  //         if (err) {
+  //           return console.log(err);
+  //         }
+  //         console.log("Successfully merged!");
+  //         tacksDocs.add(
+  //           req.body.body.arrOrderId,
+  //           req.body.body.invoiceNumber,
+  //           (data) => {
+  //             if (data.error) {
+  //               res.status(500);
+  //               res.json({ message: data.error });
+  //             } else {
+  //               res.json(data);
+  //             }
+  //           }
+  //         );
+  //       }
+  //     );
+  //   });
 };
