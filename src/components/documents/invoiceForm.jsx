@@ -193,7 +193,7 @@ export const InvoiceForm = (props) => {
                 verticalAlign: "top",
                 float: "left",
                 display: "inline-block",
-                width: "12%",
+                width: "10%",
               }}
             >
               Поставщик:
@@ -204,7 +204,7 @@ export const InvoiceForm = (props) => {
                 fontWeight: "700",
                 float: "right",
                 display: "inline-block",
-                width: "82%",
+                width: "86%",
               }}
             >
               ИП Иванов Сергей Николаевич, свидетельство № 308615401700030 от
@@ -218,7 +218,7 @@ export const InvoiceForm = (props) => {
                 verticalAlign: "top",
                 float: "left",
                 display: "inline-block",
-                width: "12%",
+                width: "10%",
               }}
             >
               Покупатель:
@@ -229,7 +229,7 @@ export const InvoiceForm = (props) => {
                 fontWeight: "700",
                 float: "right",
                 display: "inline-block",
-                width: "82%",
+                width: "86%",
               }}
             >
               {customer.companyName + " ИНН " + customer.TIN + ", "}
@@ -341,8 +341,8 @@ export const InvoiceForm = (props) => {
           <img
             style={{
               position: "absolute",
-              left: "320px",
-              top: "-45px",
+              left: "330px",
+              top: "-80px",
               zIndex: "-1",
             }}
             height="120"
