@@ -43,18 +43,19 @@ export const ActForm = (props) => {
     <div className="actPrintForm">
       <div
         style={{
-          width: "84%",
+          width: "88%",
           display: "block",
           minHeight: "500px",
-          padding: "8%",
+          padding: "4% 4% 0% 8%",
           marginTop: "19px",
+          fontFamily: "arial",
         }}
       >
         <table
           style={{
             borderCollapse: "collapse",
             width: "100%",
-            fontSize: "12px",
+            fontSize: "14px",
           }}
         >
           <tbody>
@@ -97,7 +98,7 @@ export const ActForm = (props) => {
                 fontWeight: "700",
                 float: "right",
                 display: "inline-block",
-                width: "82%",
+                width: "85%",
               }}
             >
               ИП Иванов Сергей Николаевич, свидетельство № 308615401700030 от
@@ -122,7 +123,7 @@ export const ActForm = (props) => {
                 fontWeight: "700",
                 float: "right",
                 display: "inline-block",
-                width: "82%",
+                width: "85%",
               }}
             >
               {customer.companyName + " ИНН " + customer.TIN + ", "}
@@ -139,7 +140,7 @@ export const ActForm = (props) => {
             border: "2px solid black",
           }}
         >
-           <thead>
+          <thead>
             <tr
               style={{
                 lineHeight: 1.8,
@@ -234,32 +235,33 @@ export const ActForm = (props) => {
           <p style={{ marginTop: "50px", fontSize: "12px" }}>
             Исполнитель{" "}
             <span style={{ textDecoration: "underline" }}>
-              &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Иванов
-              С.Н.&emsp;&emsp;
+              &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+              Иванов С.Н.&emsp;&emsp;
             </span>
             &emsp;&emsp;Заказчик{" "}
             <span style={{ textDecoration: "underline" }}>
               &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-              &emsp;&emsp;&emsp;&emsp; &emsp;&emsp;
+              &emsp;&emsp;&emsp;&emsp; &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+              &emsp;&emsp;
             </span>{" "}
           </p>
           <img
             style={{
               position: "absolute",
               left: "60px",
-              top: "-50px",
+              top: "-70px",
               opacity: "0.7",
               zIndex: "-2",
             }}
-            height="120"
-            width="120"
+            height="170"
+            width="170"
             src={`${DOMENNAME}/img/stamp.png`}
           />
           <img
             style={{
               position: "absolute",
-              left: "70px",
-              top: "-55px",
+              left: "90px",
+              top: "-80px",
               zIndex: "-1",
             }}
             height="120"
