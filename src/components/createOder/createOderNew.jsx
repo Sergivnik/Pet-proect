@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { PointsForm } from "./pointsForm.jsx";
 import { addOder, editOderNew } from "../../actions/oderActions.js";
-import { dateLocal } from "../myLib/myLib.js";
+import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
 import "./createOder.sass";
 
 export const CreateOderNew = (props) => {
@@ -157,6 +157,9 @@ export const CreateOderNew = (props) => {
     if (e.target.className == "crOderTrackP") {
       setShowTrackInput(true);
     }
+    if (e.target.className == "crOderDriverPriceP") {
+      setShowDriverPrice(true);
+    }
   };
   const setValue = (value, e) => {
     let { ...obj } = odersData;
@@ -216,6 +219,12 @@ export const CreateOderNew = (props) => {
       obj.idTrackDriver = value._id;
       obj.valueTrackDriver = value.value;
       setShowTrackDriverInput(false);
+      let trackId = findValueBy_Id(value._id, trackdrivers).idTrack;
+      if (trackId != null) {
+        obj.idTrack = trackId;
+        obj.valueTrack = findValueBy_Id(trackId, tracks).value;
+        setShowTrackInput(false);
+      }
       /* let nextFocus = document.querySelector(".PFContentPoint").firstChild;
       nextFocus.focus(); */
     }
