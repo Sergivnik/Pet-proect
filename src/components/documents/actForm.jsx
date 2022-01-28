@@ -176,14 +176,15 @@ export const ActForm = (props) => {
           style={{
             width: "100%",
             borderCollapse: "collapse",
-            fontSize: "12px",
+            fontSize: "14px",
+            marginTop: "10px",
           }}
         >
           <tbody>
             <tr>
               <td
                 style={{
-                  width: "90%",
+                  width: "84%",
                   margin: "5px",
                   textAlign: "right",
                   fontWeight: "700",
@@ -193,8 +194,9 @@ export const ActForm = (props) => {
               </td>
               <td
                 style={{
-                  width: "10%",
+                  width: "14%",
                   margin: "5px",
+                  paddingRight: "10px",
                   textAlign: "right",
                   fontWeight: "700",
                 }}
@@ -261,8 +263,9 @@ export const ActForm = (props) => {
             style={{
               position: "absolute",
               left: "90px",
-              top: "-80px",
+              top: "-75px",
               zIndex: "-1",
+              transform: "rotate(15deg)",
             }}
             height="120"
             width="120"
