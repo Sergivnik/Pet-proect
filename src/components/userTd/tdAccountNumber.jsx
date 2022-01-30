@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import { DOMENNAME } from "../../middlewares/initialState.js";
 import { getPdf } from "../../actions/documentAction.js";
+import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 
 export const TdAccountNumber = (props) => {
   const dispatch = useDispatch();
@@ -10,6 +11,8 @@ export const TdAccountNumber = (props) => {
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
   const [showContextMenu, setShowContextMenu] = useState(false);
+  const [showInputFile, setShowInputFile] = useState(false);
+  const [currentTD, setCurrentTD] = useState(null);
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -42,6 +45,12 @@ export const TdAccountNumber = (props) => {
   };
   const handleClickGenerate = () => {
     props.handleClickGenerate(props.currentTR);
+    setShowContextMenu(false);
+  };
+  const handleClickAddDoc = (e) => {
+    let TD = e.currentTarget.parentElement.parentElement;
+    setCurrentTD(TD);
+    setShowInputFile(true);
     setShowContextMenu(false);
   };
 
@@ -99,8 +108,13 @@ export const TdAccountNumber = (props) => {
             Печать
           </p>
           <hr />
+          <p className="contextmenu" onClick={handleClickAddDoc}>
+            Добавить ТТН
+          </p>
+          <hr />
         </div>
       )}
+      {showInputFile && <FormAddDoc TD={currentTD} />}
     </td>
   );
 };
