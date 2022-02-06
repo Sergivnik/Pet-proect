@@ -116,6 +116,13 @@ export const CreateOderNew = (props) => {
     let { ...obj } = odersData;
     console.log(e.target.value);
     if (e.target.className == "crOderDateInput") {
+      let now = new Date();
+      let date = new Date(e.target.value);
+      if (date > now) {
+        obj.completed = false;
+      } else {
+        obj.completed = true;
+      }
       obj.date = e.target.value;
       if (e.target.value != "") {
         setShowDateInput(false);

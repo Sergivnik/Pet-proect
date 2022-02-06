@@ -3,6 +3,17 @@ const router = express.Router();
 const path = require("path");
 const API = require("../controlers/API.js");
 
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./API/Bills/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, "tempDoc.pdf");
+  },
+});
+const upload = multer({ storage: storage });
+
 router.get("/data", API.taskGet);
 router.get("/dataPayments", API.taskGetPayments);
 router.get("/dataDriverDebt", API.taskGetDebts);
@@ -19,6 +30,11 @@ router.post("/addData", API.taskAddData);
 router.post("/addPdf/:id", API.taskAddPdfDoc);
 router.post("/createDoc", API.taskCreateDoc);
 router.post("/addActToDoc", API.taskAddActToDoc);
+router.post(
+  "/addConsignmentNote/:id",
+  upload.single("fileData"),
+  API.taskAddConsignmentNote
+);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);

@@ -68,6 +68,7 @@ export const oderReducer = (store = initialStore, action) => {
               idManager: action.data.idManager,
               loadingInfo: action.data.loadingInfo,
               unloadingInfo: action.data.unloadingInfo,
+              completed: action.data.completed,
             },
           },
         },
@@ -318,9 +319,32 @@ export const oderReducer = (store = initialStore, action) => {
             store.accountList.find((elem) => elem.value == item.accountNumber)
           );
       });
+      let ordersList = action.dataServer.odersList.sort((a, b) => {
+        if (a.date < b.date) return -1;
+        if (a.date > b.date) return 1;
+        if (a.date == b.date) {
+          let condotion =
+            (b.accountNumber == null || b.accountNumber == "") &&
+            a.accountNumber;
+          if (condotion) return -1;
+          if (
+            (b.accountNumber == null || b.accountNumber == "") &&
+            (a.accountNumber == null || a.accountNumber == "")
+          ) {
+            if (a._id < b._id) return -1;
+            if (a._id > b._id) return 1;
+          }
+          if (a.accountNumber < b.accountNumber) return -1;
+          if (a.accountNumber > b.accountNumber) return 1;
+          if (a.accountNumber == b.accountNumber) {
+            if (a._id < b._id) return -1;
+            if (a._id > b._id) return 1;
+          }
+        }
+      });
       return {
         ...store,
-        odersList: action.dataServer.odersList,
+        odersList: ordersList,
         filteredDateList: action.dataServer.date,
         filteredLoading: filteredLoadinglist,
         filteredUnloading: filteredUnloadinglist,
@@ -361,7 +385,7 @@ export const oderReducer = (store = initialStore, action) => {
         if (a.date == b.date) {
           let condotion =
             (b.accountNumber == null || b.accountNumber == "") &&
-            (a.accountNumber);
+            a.accountNumber;
           if (condotion) return -1;
           if (
             (b.accountNumber == null || b.accountNumber == "") &&

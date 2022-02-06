@@ -395,6 +395,7 @@ var Tasks = {
       idTrack: data.idTrack,
       loadingInfo: JSON.stringify(data.loadingInfo),
       unloadingInfo: JSON.stringify(data.unloadingInfo),
+      completed: data.completed,
     };
     if (oder.customerPrice === "") oder.customerPrice = null;
     if (oder.driverPrice === "") oder.driverPrice = null;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
-import { DOMENNAME } from "../../middlewares/initialState.js";
 import { getPdf } from "../../actions/documentAction.js";
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 
@@ -53,6 +52,9 @@ export const TdAccountNumber = (props) => {
     setShowInputFile(true);
     setShowContextMenu(false);
   };
+  const handleClickClose = () => {
+    setShowInputFile(false);
+  };
 
   useEffect(() => {
     if (showContextMenu) {
@@ -98,23 +100,29 @@ export const TdAccountNumber = (props) => {
       ) : (
         props.accountNumber
       )}
-      {showContextMenu && (
+      {showContextMenu ? (
         <div tabIndex="0" className="divContext" /* onBlur={handleBlur} */>
           <p className="contextmenu" onClick={handleClickGenerate}>
             Сформировать
           </p>
-          <hr />
+          <hr/>
           <p className="contextmenu" onClick={handleClickPrint}>
             Печать
           </p>
-          <hr />
+          <hr/>
           <p className="contextmenu" onClick={handleClickAddDoc}>
             Добавить ТТН
           </p>
-          <hr />
+          <hr/>
         </div>
-      )}
-      {showInputFile && <FormAddDoc TD={currentTD} />}
+      ) : null}
+      {showInputFile ? (
+        <FormAddDoc
+          TD={currentTD}
+          currentId={currentId}
+          handleClickClose={handleClickClose}
+        />
+      ) : null}
     </td>
   );
 };

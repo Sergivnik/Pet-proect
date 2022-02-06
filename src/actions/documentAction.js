@@ -9,6 +9,8 @@ export const CREATE_NEW_INVOICE_SUCCESS = "CREATE_NEW_INVOICE_SUCCESS";
 export const CREATE_NEW_INVOICE_FAILURE = "CREATE_NEW_INVOICE_FAILURE";
 export const ADD_ACT_TO_DOC_SUCCESS = "ADD_ACT_TO_DOC_SUCCESS";
 export const ADD_ACT_TO_DOC_FAILURE = "ADD_ACT_TO_DOC_FAILURE";
+export const ADD_CONSIGNMENT_NOTE_SUCCESS = "ADD_CONSIGNMENT_NOTE_SUCCESS";
+export const ADD_CONSIGNMENT_NOTE_FAILURE = "ADD_CONSIGNMENT_NOTE_FAILURE";
 
 export const getPdfSuccess = (dataServer) => ({
   type: GET_PDF_SUCCESS,
@@ -117,6 +119,32 @@ export const addActToDoc = (
       .catch((e) => {
         console.log(e.message);
         dispatch(addActToDocFailure());
+      });
+  };
+};
+
+export const addConsignmentNoteSuccess = () => ({
+  type: ADD_CONSIGNMENT_NOTE_SUCCESS,
+});
+export const addConsignmentNoteFailure = () => ({
+  type: ADD_CONSIGNMENT_NOTE_FAILURE,
+});
+export const addConsignmentNote = (id, file) => {
+  var formData = new FormData();
+  formData.set('fileData', file, "fileData");
+  return (dispatch) => {
+    axios
+      .post(DOMENNAME + "/API/addConsignmentNote" + "/" + id, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        return dispatch(addConsignmentNoteSuccess());
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(addConsignmentNoteFailure());
       });
   };
 };

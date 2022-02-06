@@ -416,3 +416,32 @@ module.exports.taskAddActToDoc = (req, res) => {
     );
   })();
 };
+module.exports.taskAddConsignmentNote = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+
+  const dataById = {};
+  tasks.getDataById(req.params.id, "oderslist", (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      let Year = data.date.getFullYear();
+      let customer = data.customer[0].value;
+      let accountNumber = Number(data.accountNumber);
+      const merge = require("easy-pdf-merge");
+      merge(
+        [
+          `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
+          `./API/Bills/tempDoc.pdf`,
+        ],
+        `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
+        function (err) {
+          if (err) {
+            return console.log(err);
+          }
+          console.log("Successfully merged!");
+        }
+      );
+    }
+  });
+};
