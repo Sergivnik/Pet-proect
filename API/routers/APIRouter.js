@@ -19,6 +19,7 @@ router.get("/dataPayments", API.taskGetPayments);
 router.get("/dataDriverDebt", API.taskGetDebts);
 router.get("/dataContractors", API.taskGetContractors);
 router.get("/getPdf/:id", API.taskGetPdf);
+router.get("/sendEmail/:id", API.taskSendEmail);
 
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));

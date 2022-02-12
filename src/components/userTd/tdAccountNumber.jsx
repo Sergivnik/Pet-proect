@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
-import { getPdf } from "../../actions/documentAction.js";
+import { getPdf, sendEmail } from "../../actions/documentAction.js";
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 
 export const TdAccountNumber = (props) => {
@@ -51,6 +51,10 @@ export const TdAccountNumber = (props) => {
     setCurrentTD(TD);
     setShowInputFile(true);
     setShowContextMenu(false);
+  };
+  const handleClickSendDoc = () => {
+    dispatch(sendEmail(currentId));
+    setShowContextMenu(false)
   };
   const handleClickClose = () => {
     setShowInputFile(false);
@@ -105,15 +109,19 @@ export const TdAccountNumber = (props) => {
           <p className="contextmenu" onClick={handleClickGenerate}>
             Сформировать
           </p>
-          <hr/>
+          <hr />
           <p className="contextmenu" onClick={handleClickPrint}>
             Печать
           </p>
-          <hr/>
+          <hr />
           <p className="contextmenu" onClick={handleClickAddDoc}>
             Добавить ТТН
           </p>
-          <hr/>
+          <hr />
+          <p className="contextmenu" onClick={handleClickSendDoc}>
+            Отправить Email
+          </p>
+          <hr />
         </div>
       ) : null}
       {showInputFile ? (

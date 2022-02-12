@@ -11,6 +11,8 @@ export const ADD_ACT_TO_DOC_SUCCESS = "ADD_ACT_TO_DOC_SUCCESS";
 export const ADD_ACT_TO_DOC_FAILURE = "ADD_ACT_TO_DOC_FAILURE";
 export const ADD_CONSIGNMENT_NOTE_SUCCESS = "ADD_CONSIGNMENT_NOTE_SUCCESS";
 export const ADD_CONSIGNMENT_NOTE_FAILURE = "ADD_CONSIGNMENT_NOTE_FAILURE";
+export const SEND_EMAIL_SUCCESS = "SEND_EMAIL_SUCCESS";
+export const SEND_EMAIL_FAILURE = "SEND_EMAIL_FAILURE";
 
 export const getPdfSuccess = (dataServer) => ({
   type: GET_PDF_SUCCESS,
@@ -131,7 +133,7 @@ export const addConsignmentNoteFailure = () => ({
 });
 export const addConsignmentNote = (id, file) => {
   var formData = new FormData();
-  formData.set('fileData', file, "fileData");
+  formData.set("fileData", file, "fileData");
   return (dispatch) => {
     axios
       .post(DOMENNAME + "/API/addConsignmentNote" + "/" + id, formData, {
@@ -145,6 +147,27 @@ export const addConsignmentNote = (id, file) => {
       .catch((e) => {
         console.log(e.message);
         dispatch(addConsignmentNoteFailure());
+      });
+  };
+};
+export const sendEmailSuccess = (id) => ({
+  type: SEND_EMAIL_SUCCESS,
+  id,
+});
+export const sendEmailFailure = () => ({
+  type: SEND_EMAIL_FAILURE,
+});
+export const sendEmail = (id) => {
+  return (dispatch) => {
+    axios
+      .get(DOMENNAME + "/API/sendEmail" + "/" + id)
+      .then((res) => {
+        console.log(res.data);
+        return dispatch(sendEmailSuccess(id));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(addPdfDocFailure());
       });
   };
 };

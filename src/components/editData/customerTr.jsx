@@ -43,7 +43,7 @@ export const CustomerTr = (props) => {
           obj.address = e.currentTarget.value;
           break;
         case 4:
-          obj.currentAccount = e.currentTarget.value;
+          obj.email = e.currentTarget.value;
           break;
         case 5:
           obj.phone = e.currentTarget.value;
@@ -136,7 +136,7 @@ export const CustomerTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          elem.currentAccount
+          elem.email
         )}
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>
