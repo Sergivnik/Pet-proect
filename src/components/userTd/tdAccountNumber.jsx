@@ -12,6 +12,7 @@ export const TdAccountNumber = (props) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [showInputFile, setShowInputFile] = useState(false);
   const [currentTD, setCurrentTD] = useState(null);
+  const [showContextEmail, setShowContextEmail] = useState(true);
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -54,7 +55,7 @@ export const TdAccountNumber = (props) => {
   };
   const handleClickSendDoc = () => {
     dispatch(sendEmail(currentId));
-    setShowContextMenu(false)
+    setShowContextMenu(false);
   };
   const handleClickClose = () => {
     setShowInputFile(false);
@@ -63,6 +64,16 @@ export const TdAccountNumber = (props) => {
   useEffect(() => {
     if (showContextMenu) {
       let DivContext = document.querySelector(".divContext");
+      let customerPayment = props.customerPayment;
+      if (
+        customerPayment == "Нет" ||
+        customerPayment == "Печать" ||
+        customerPayment == "Мыло"
+      ) {
+        setShowContextEmail(true);
+      } else {
+        setShowContextEmail(false);
+      }
       DivContext.focus();
     }
   }, [showContextMenu]);
@@ -118,10 +129,11 @@ export const TdAccountNumber = (props) => {
             Добавить ТТН
           </p>
           <hr />
-          <p className="contextmenu" onClick={handleClickSendDoc}>
-            Отправить Email
-          </p>
-          <hr />
+          {showContextEmail && (
+            <p className="contextmenu" onClick={handleClickSendDoc}>
+              Отправить Email
+            </p>
+          )}
         </div>
       ) : null}
       {showInputFile ? (

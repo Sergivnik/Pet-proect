@@ -124,6 +124,7 @@ export const UserTr = (props) => {
           />
           <TdAccountNumber
             accountNumber={props.elem.accountNumber}
+            customerPayment={props.elem.customerPayment}
             currentTR={props.trId}
             handleClickGenerate={handleClickGenerate}
             edit={true}
