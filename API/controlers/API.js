@@ -458,7 +458,7 @@ module.exports.taskSendEmail = (req, res) => {
       let accountNumber = Number(data.accountNumber);
       let driver = data.driver[0].shortName;
       const nodemailer = require("nodemailer");
-
+      console.log(driver);
       async function main() {
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
@@ -487,7 +487,24 @@ module.exports.taskSendEmail = (req, res) => {
       }
 
       main()
-        .then(res.json({ message: "success" }))
+        .then(() => {
+          tasks.edit(
+            {
+              field: "customerPayment",
+              newValue: 3,
+              id: Number(req.params.id),
+            },
+            (data) => {
+              if (data.error) {
+                res.status(500);
+                res.json({ message: data.error });
+              } else {
+                console.log("Ok");
+                res.json(data);
+              }
+            }
+          );
+        })
         .catch(console.error);
     }
   });

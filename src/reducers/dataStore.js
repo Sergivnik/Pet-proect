@@ -15,7 +15,6 @@ export const initialStore = {
   statusCustomerPay: [
     { _id: 1, value: "Ок" },
     { _id: 2, value: "Нет" },
-    { _id: 3, value: "Мыло" },
     { _id: 4, value: "Печать" },
     { _id: 5, value: "Почта" },
     { _id: 6, value: "Обещал оплату" },
