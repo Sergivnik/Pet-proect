@@ -13,6 +13,12 @@ export const dateLocal = (date) => {
     return date.toLocaleDateString();
   }
 };
+export const dateTimeLocal = (date) => {
+  if (date != null) {
+    date = new Date(date);
+    return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+  }
+};
 export const findValueById = (id, arrObj) => {
   let value = arrObj.find((elem) => elem.id == id);
   if (value != undefined) {

@@ -45,6 +45,8 @@ import {
 import {
   ADD_ACT_TO_DOC_SUCCESS,
   ADD_ACT_TO_DOC_FAILURE,
+  SEND_EMAIL_SUCCESS,
+  SEND_EMAIL_FAILURE,
 } from "../actions/documentAction.js";
 
 export const oderReducer = (store = initialStore, action) => {
@@ -837,6 +839,30 @@ export const oderReducer = (store = initialStore, action) => {
         arr[index].accountNumber = docNumber;
       });
       return { ...store, odersList: arr };
+    }
+    case SEND_EMAIL_SUCCESS: {
+      let index = store.odersList.findIndex(
+        (item) => item._id == Number(action.id)
+      );
+      let originIndex = store.originOdersList.findIndex(
+        (item) => item._id == action.id
+      );
+      let newOder = store.odersList[index];
+      if (
+        newOder.customerPayment == "Нет" ||
+        newOder.customerPayment == "Печать"
+      ) {
+        newOder.customerPayment = "Мыло";
+        newOder.dateOfPromise = new Date();
+      }
+      return update(store, {
+        odersList: {
+          $merge: { [index]: newOder },
+        },
+        originOdersList: {
+          $merge: { [originIndex]: newOder },
+        },
+      });
     }
 
     default:

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
-import { dateLocal } from "../myLib/myLib.js";
+import { dateLocal, dateTimeLocal } from "../myLib/myLib.js";
 
 export const TdCustomerPayment = (props) => {
   const dispatch = useDispatch();
@@ -107,7 +107,11 @@ export const TdCustomerPayment = (props) => {
         props.customerPayment
       )}
       {showDetails && (
-        <div className="oderTdTooltip">{dateLocal(props.dateOfPromise)}</div>
+        <div className="oderTdTooltip">
+          {props.customerPayment == "Мыло"
+            ? dateTimeLocal(props.dateOfPromise)
+            : dateLocal(props.dateOfPromise)}
+        </div>
       )}
       {getDate && (
         <div className="oderTdTooltip">
