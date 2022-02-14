@@ -95,7 +95,10 @@ export const UserTrNew = (props) => {
         customerPayment={props.elem.customerPayment}
         dateOfPromise={props.elem.dateOfPromise}
       />
-      <TdAccountNumber accountNumber={props.elem.accountNumber} />
+      <TdAccountNumber
+        accountNumber={props.elem.accountNumber}
+        customerPayment={props.elem.customerPayment}
+      />
     </tr>
   );
 };

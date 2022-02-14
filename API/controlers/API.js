@@ -445,3 +445,67 @@ module.exports.taskAddConsignmentNote = (req, res) => {
     }
   });
 };
+module.exports.taskSendEmail = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  tasks.getDataById(req.params.id, "oderslist", (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      let Year = data.date.getFullYear();
+      let customer = data.customer[0].value;
+      let email = data.customer[0].email;
+      let accountNumber = Number(data.accountNumber);
+      let driver = data.driver[0].shortName;
+      const nodemailer = require("nodemailer");
+      console.log(driver);
+      async function main() {
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+          host: "smtp.mail.ru",
+          port: 465,
+          secure: true, // true for 465, false for other ports
+          auth: {
+            user: "sergivnik@mail.ru", // generated ethereal user
+            pass: "ltlvjhe,bcyt", // generated ethereal password
+          },
+        });
+
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+          from: '"ИП Иванов Сергей" <sergivnik@mail.ru>', // sender address
+          to: email, // list of receivers
+          subject: `Счет ${accountNumber} за перевозку водитель ${driver}`, // Subject line
+
+          html: "<b>ИП Иванов С.Н. тел. +7-991-366-13-66</b>", // html body
+          attachments: [
+            {
+              path: `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
+            },
+          ],
+        });
+      }
+
+      main()
+        .then(() => {
+          tasks.edit(
+            {
+              field: "customerPayment",
+              newValue: 3,
+              id: Number(req.params.id),
+            },
+            (data) => {
+              if (data.error) {
+                res.status(500);
+                res.json({ message: data.error });
+              } else {
+                console.log("Ok");
+                res.json(data);
+              }
+            }
+          );
+        })
+        .catch(console.error);
+    }
+  });
+};

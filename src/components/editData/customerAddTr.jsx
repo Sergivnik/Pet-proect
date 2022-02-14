@@ -26,7 +26,7 @@ export const CustomerAddTr = (props) => {
         setEditColNumber(editColNumber + 1);
         break;
       case 4:
-        obj.currentAccount = e.currentTarget.value;
+        obj.email = e.currentTarget.value;
         setEditColNumber(editColNumber + 1);
         break;
       case 5:
@@ -134,7 +134,7 @@ export const CustomerAddTr = (props) => {
             onKeyDown={handleEnter}
           />
         ) : (
-          addCustomerObj.currentAccount
+          addCustomerObj.email
         )}
       </td>
       <td className="customerTd">
