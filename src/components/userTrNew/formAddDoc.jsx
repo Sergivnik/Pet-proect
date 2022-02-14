@@ -78,7 +78,7 @@ export const FormAddDoc = (props) => {
         />
       )}
       {showBtn && <button onClick={handleClickSave}>Добавить</button>}
-      <embed src={hrefFile} width="100%" height="100%" />
+      <embed type="application/pdf" src={hrefFile} width="100%" height="100%" />
     </div>
   );
 };
