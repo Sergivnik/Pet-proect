@@ -292,6 +292,7 @@ module.exports.taskDeletePayments = (req, res) => {
 const pdfTemplate = require("../documents/powerOfAttorney.js");
 
 const pdf = require("html-pdf");
+const Mail = require("nodemailer/lib/mailer");
 module.exports.taskProxy = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
@@ -454,11 +455,27 @@ module.exports.taskSendEmail = (req, res) => {
     } else {
       let Year = data.date.getFullYear();
       let customer = data.customer[0].value;
-      let email = data.customer[0].email;
+      let email = "sergivnik@mail.ru";
+      if (data.customer[0].email != "" && data.customer[0].email != null) {
+        email = email + ", " + data.customer[0].email;
+      }
+      if (data.manager != undefined) {
+        if (data.manager[0].email != "" && data.manager[0].email != null) {
+          email = email + ", " + data.manager[0].email;
+        }
+      }
       let accountNumber = Number(data.accountNumber);
       let driver = data.driver[0].shortName;
       const nodemailer = require("nodemailer");
-      console.log(driver);
+      let subject = "";
+      if (email == "sergivnik@mail.ru") {
+        subject = `Счет ${accountNumber} заказчику ${data.customer[0].companyName} не отправлен`;
+      } else {
+        subject = `Счет ${accountNumber} от ${data.date.toLocaleDateString()} за перевозку водитель ${driver} заказчик ${
+          data.customer[0].companyName
+        }`;
+      }
+      console.log(email);
       async function main() {
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
@@ -475,7 +492,7 @@ module.exports.taskSendEmail = (req, res) => {
         let info = await transporter.sendMail({
           from: '"ИП Иванов Сергей" <sergivnik@mail.ru>', // sender address
           to: email, // list of receivers
-          subject: `Счет ${accountNumber} за перевозку водитель ${driver}`, // Subject line
+          subject: subject, // Subject line
 
           html: "<b>ИП Иванов С.Н. тел. +7-991-366-13-66</b>", // html body
           attachments: [

@@ -647,6 +647,11 @@ var Tasks = {
       [dataById.driver] = await db.query(
         `select * FROM trackdrivers WHERE _id=${data[0].idTrackDriver}`
       );
+      if (data[0].idManager != null && data[0].idManager != "") {
+        [dataById.manager] = await db.query(
+          `select * FROM clientmanager WHERE _id=${data[0].idManager}`
+        );
+      }
 
       callback(dataById);
     } catch (err) {
