@@ -292,7 +292,6 @@ module.exports.taskDeletePayments = (req, res) => {
 const pdfTemplate = require("../documents/powerOfAttorney.js");
 
 const pdf = require("html-pdf");
-const Mail = require("nodemailer/lib/mailer");
 module.exports.taskProxy = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
@@ -420,7 +419,6 @@ module.exports.taskAddActToDoc = (req, res) => {
 module.exports.taskAddConsignmentNote = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
 
-  const dataById = {};
   tasks.getDataById(req.params.id, "oderslist", (data) => {
     if (data.error) {
       res.status(500);
