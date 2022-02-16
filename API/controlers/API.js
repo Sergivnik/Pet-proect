@@ -482,7 +482,7 @@ module.exports.taskSendEmail = (req, res) => {
           secure: true, // true for 465, false for other ports
           auth: {
             user: "sergivnik@mail.ru", // generated ethereal user
-            pass: "ltlvjhe,bcyt", // generated ethereal password
+            pass: "LtlVjhE,bCyt", // generated ethereal password
           },
         });
 
