@@ -6,5 +6,5 @@ const email = {
     user: "sergivnik@mail.ru", // generated ethereal user
     pass: "LtlVjhE,bCyt", // generated ethereal password
   },
-};//gggggg
+};
 module.exports = email;
