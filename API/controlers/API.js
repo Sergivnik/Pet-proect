@@ -446,6 +446,8 @@ module.exports.taskAddConsignmentNote = (req, res) => {
 };
 module.exports.taskSendEmail = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
+
+  const email = require("../models/configEmail.js");
   tasks.getDataById(req.params.id, "oderslist", (data) => {
     if (data.error) {
       res.status(500);
@@ -476,15 +478,7 @@ module.exports.taskSendEmail = (req, res) => {
       console.log(email);
       async function main() {
         // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport({
-          host: "smtp.mail.ru",
-          port: 465,
-          secure: true, // true for 465, false for other ports
-          auth: {
-            user: "sergivnik@mail.ru", // generated ethereal user
-            pass: "LtlVjhE,bCyt", // generated ethereal password
-          },
-        });
+        let transporter = nodemailer.createTransport(email);
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
