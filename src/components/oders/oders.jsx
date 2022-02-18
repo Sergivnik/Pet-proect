@@ -21,6 +21,8 @@ export const Oders = () => {
 
   useEffect(() => {
     dispatch(getData());
+    setShowEdit(true);
+    setAddData(0);
   }, [dispatch]);
 
   const odersList = useSelector((state) => state.oderReducer.odersList);
@@ -60,9 +62,13 @@ export const Oders = () => {
     driverPayment: [],
     accountList: [],
   });
-  const [showLast, setShowLast] = useState(false);
+  const [showLast, setShowLast] = useState(true);
 
   const [sumAccount, setSumAccount] = useState(0);
+  useEffect(() => {
+    setShowEdit(true);
+    setAddData(0);
+  }, []);
   useEffect(() => {
     let addSum = clientList.reduce(
       (s, item) => s + Number(item.extraPayments),
@@ -97,12 +103,6 @@ export const Oders = () => {
   }, [trId, showDelete, showWindow]);
 
   useEffect(() => {
-    if (showLast) {
-      let div = document.getElementsByClassName("odersDiv")[0];
-      div.scrollTop = div.scrollHeight;
-      setAddData(0);
-      setShowLast(false);
-    }
     let length = odersList.length;
     console.log(length);
     if (length > 100) {
@@ -111,6 +111,13 @@ export const Oders = () => {
       setOders(odersList);
     }
   }, [odersList, addData]);
+
+  useEffect(() => {
+    if (showLast) {
+      let div = document.getElementsByClassName("odersDiv")[0];
+      div.scrollTop = div.scrollHeight + 300;
+    }
+  }, [oders]);
 
   const writeFilterList = (chosenList, name) => {
     let { ...arr } = filterList;
@@ -202,8 +209,14 @@ export const Oders = () => {
       oders.length > 90
     ) {
       setAddData(addData - 10);
-      event.target.scrollTop = 1800;
+      if (addData != 0) {
+        event.target.scrollTop = 1800;
+      } else {
+        let div = document.getElementsByClassName("odersDiv")[0];
+        div.scrollTop = div.scrollHeight;
+      }
     }
+    if (addData != 0) setShowLast(false);
   };
 
   const handleClick = () => {
@@ -217,6 +230,7 @@ export const Oders = () => {
   const addOder = () => {
     setShowWindow(false);
     setShowCreateOder(false);
+    setAddData(0);
     setShowLast(true);
   };
 
