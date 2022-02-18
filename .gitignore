@@ -1,5 +1,5 @@
 node_modules
 .env
 package-lock.json
-API\models\config.js
-API\models\configEmail.js
+\API\models\config.js
+\API\models\configEmail.js
