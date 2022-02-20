@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
-import { getPdf, sendEmail } from "../../actions/documentAction.js";
+import {
+  getPdf,
+  getWithoutStampPdf,
+  sendEmail,
+} from "../../actions/documentAction.js";
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 
 export const TdAccountNumber = (props) => {
@@ -41,6 +45,10 @@ export const TdAccountNumber = (props) => {
   };
   const handleClickPrint = () => {
     dispatch(getPdf(currentId));
+    setShowContextMenu(false);
+  };
+  const handleClickPrintWithoutStamp = () => {
+    dispatch(getWithoutStampPdf(currentId));
     setShowContextMenu(false);
   };
   const handleClickGenerate = () => {
@@ -123,6 +131,10 @@ export const TdAccountNumber = (props) => {
           <hr />
           <p className="contextmenu" onClick={handleClickPrint}>
             Печать
+          </p>
+          <hr />
+          <p className="contextmenu" onClick={handleClickPrintWithoutStamp}>
+            Печать без штампа
           </p>
           <hr />
           <p className="contextmenu" onClick={handleClickAddDoc}>

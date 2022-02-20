@@ -84,6 +84,29 @@ module.exports.taskGetPdf = (req, res) => {
     }
   });
 };
+module.exports.taskGetPdfWithoutStamp = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  const path = require("path");
+  tasks.getDataById(req.params.id, "oderslist", (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      let Year = data.date.getFullYear();
+      let customer = data.customer[0].value;
+      let pathBills = path.join(__dirname, "..", "Bills");
+      let accountNumber = Number(data.accountNumber);
+      if (isNaN(accountNumber)) {
+        accountNumber = data.accountNumber;
+      }
+      res.sendFile(
+        `${pathBills}/${Year}/${customer}/docWithoutStamp${accountNumber}.pdf`
+      );
+    }
+  });
+};
 
 module.exports.taskAdd = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -364,6 +387,43 @@ module.exports.taskCreateDoc = (req, res) => {
     await page.setContent(req.body.body.html);
     await page.pdf({
       path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+      format: "a4",
+    });
+
+    await browser.close();
+  })();
+};
+module.exports.taskCreateDocWithoutStamp = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  const puppeteer = require("puppeteer");
+  var fs = require("fs");
+  try {
+    const exists = fs.existsSync(
+      `./API/Bills/${req.body.body.year}/${req.body.body.customer}`
+    );
+    if (!exists) {
+      fs.mkdirSync(
+        `./API/Bills/${req.body.body.year}/${req.body.body.customer}`,
+        { recursive: true }
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  fs.writeFileSync(
+    `./API/Bills/${req.body.body.year}/${req.body.body.customer}/docWithoutStamp${req.body.body.invoiceNumber}.pdf`,
+    "utf8"
+  );
+  (async () => {
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox"],
+    });
+    const page = await browser.newPage();
+    await page.setContent(req.body.body.html);
+    await page.pdf({
+      path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/docWithoutStamp${req.body.body.invoiceNumber}.pdf`,
       format: "a4",
     });
 

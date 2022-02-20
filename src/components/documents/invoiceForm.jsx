@@ -26,10 +26,15 @@ export const InvoiceForm = (props) => {
   const [showInput, setShowInput] = useState(false);
 
   const customer = findValueBy_Id(oders[0].idCustomer, clientList);
-  const sumOders = oders.reduce(
+  let sumOders = oders.reduce(
     (sum, elem) => sum + Number(elem.customerPrice),
     0
   );
+  if (sumOders - Math.floor(sumOders) == 0) {
+    sumOders = sumOders + ".00";
+  } else {
+    sumOders = Math.floor(sumOders * 100) / 100;
+  }
 
   const handleDblClick = () => {
     setShowInput(true);
@@ -49,7 +54,7 @@ export const InvoiceForm = (props) => {
   };
 
   return (
-    <div className="invoicePrintForm">
+    <div className="invoicePrintForm" style={{ pageBreakAfter: "always" }}>
       <div
         style={{
           width: "88%",
@@ -159,7 +164,7 @@ export const InvoiceForm = (props) => {
             </tr>
           </tbody>
         </table>
-        <div>
+        <div /*style={{pageBreakAfter:"always"}}*/>
           <div
             onDoubleClick={handleDblClick}
             style={{ borderBottom: "2px solid black", fontSize: "16px" }}
@@ -328,30 +333,34 @@ export const InvoiceForm = (props) => {
             Индивидуальный предпрениматель _____________________________Иванов
             С.Н.
           </p>
-          <img
-            style={{
-              position: "absolute",
-              left: "300px",
-              top: "-65px",
-              opacity: "0.7",
-              zIndex: "-2",
-            }}
-            height="170"
-            width="170"
-            src={`${DOMENNAME}/img/stamp.png`}
-          />
-          <img
-            style={{
-              position: "absolute",
-              left: "330px",
-              top: "-75px",
-              zIndex: "-1",
-              transform: "rotate(15deg)",
-            }}
-            height="120"
-            width="120"
-            src={`${DOMENNAME}/img/sign.png`}
-          />
+          {props.stamp && (
+            <img
+              style={{
+                position: "absolute",
+                left: "300px",
+                top: "-65px",
+                opacity: "0.7",
+                zIndex: "-2",
+              }}
+              height="170"
+              width="170"
+              src={`${DOMENNAME}/img/stamp.png`}
+            />
+          )}
+          {props.stamp && (
+            <img
+              style={{
+                position: "absolute",
+                left: "330px",
+                top: "-75px",
+                zIndex: "-1",
+                transform: "rotate(15deg)",
+              }}
+              height="120"
+              width="120"
+              src={`${DOMENNAME}/img/sign.png`}
+            />
+          )}
         </div>
       </div>
     </div>

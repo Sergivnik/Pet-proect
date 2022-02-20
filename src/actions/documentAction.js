@@ -13,6 +13,12 @@ export const ADD_CONSIGNMENT_NOTE_SUCCESS = "ADD_CONSIGNMENT_NOTE_SUCCESS";
 export const ADD_CONSIGNMENT_NOTE_FAILURE = "ADD_CONSIGNMENT_NOTE_FAILURE";
 export const SEND_EMAIL_SUCCESS = "SEND_EMAIL_SUCCESS";
 export const SEND_EMAIL_FAILURE = "SEND_EMAIL_FAILURE";
+export const CREATE_DOC_WITHOUT_STAMP_SUCCESS =
+  "CREATE_DOC_WITHOUT_STAMP_SUCCESS";
+export const CREATE_DOC_WITHOUT_STAMP_FAILURE =
+  "CREATE_DOC_WITHOUT_STAMP_FAILURE";
+export const GET_PDF_WITHOUT_STAMP_SUCCESS = "GET_PDF_WITHOUT_STAMP_SUCCESS";
+export const GET_PDF_WITHOUT_STAMP_FAILURE = "GET_PDF_WITHOUT_STAMP_FAILURE";
 
 export const getPdfSuccess = (dataServer) => ({
   type: GET_PDF_SUCCESS,
@@ -36,6 +42,31 @@ export const getPdf = (id) => {
       .catch((e) => {
         console.log(e.message);
         dispatch(getPdfFailure());
+      });
+  };
+};
+export const getPdfWithoutStampSuccess = (dataServer) => ({
+  type: GET_PDF_WITHOUT_STAMP_SUCCESS,
+  dataServer,
+});
+export const getPdfWithoutStampFailure = () => ({
+  type: GET_PDF_WITHOUT_STAMP_FAILURE,
+});
+export const getWithoutStampPdf = (id) => {
+  return (dispatch) => {
+    axios
+      .get(DOMENNAME + "/API/getPdfWithoutStamp" + "/" + id, {
+        responseType: "blob",
+      })
+      .then((res) => {
+        let blob = new Blob([res.data], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+        let newWin = window.open();
+        newWin.location.href = url;
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(getPdfWithoutStampFailure());
       });
   };
 };
@@ -168,6 +199,38 @@ export const sendEmail = (id) => {
       .catch((e) => {
         console.log(e.message);
         dispatch(addPdfDocFailure());
+      });
+  };
+};
+export const createDocWithoutStampSuccess = (invoiceNumber) => ({
+  type: CREATE_DOC_WITHOUT_STAMP_SUCCESS,
+  invoiceNumber,
+});
+export const createDocWithoutStampFailure = () => ({
+  type: CREATE_DOC_WITHOUT_STAMP_FAILURE,
+});
+export const createDocWithoutStamp = (
+  docHtml,
+  invoiceNumber,
+  year,
+  customer
+) => {
+  return (dispatch) => {
+    axios
+      .post(DOMENNAME + "/API/createDocWithoutStamp", {
+        body: {
+          html: docHtml,
+          year: year,
+          invoiceNumber: invoiceNumber,
+          customer: customer,
+        },
+      })
+      .then((res) => {
+        return dispatch(createDocWithoutStampSuccess(invoiceNumber));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(createDocWithoutStampFailure());
       });
   };
 };

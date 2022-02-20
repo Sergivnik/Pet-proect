@@ -5,7 +5,7 @@ import { ActForm } from "./actForm.jsx";
 import { findValueBy_Id } from "../myLib/myLib.js";
 
 import "./billsForm.sass";
-import { addActToDoc, createNewInvoice } from "../../actions/documentAction.js";
+import { addActToDoc, createDocWithoutStamp, createNewInvoice } from "../../actions/documentAction.js";
 
 export const DocForm = (props) => {
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ export const DocForm = (props) => {
   const [tabId, setTabId] = useState("Tab1");
   const [showInvoice, setShowInvoice] = useState(true);
   const [showActOfAcceptance, setShowActOfAcceptance] = useState(false);
+  const [showDocWithoutStamp, setShowDocWithoutStamp] = useState(false);
   const [showApplication, setShowApplication] = useState(false);
   const [id, setId] = useState(null);
   const [currentApplication, setCurrentApplication] = useState(null);
@@ -40,16 +41,25 @@ export const DocForm = (props) => {
       setShowInvoice(true);
       setShowActOfAcceptance(false);
       setShowApplication(false);
+      setShowDocWithoutStamp(false);
     }
     if (typeOfTab == "actOfAcceptance") {
       setShowInvoice(false);
       setShowActOfAcceptance(true);
       setShowApplication(false);
+      setShowDocWithoutStamp(false);
+    }
+    if (typeOfTab == "docWithoutStamp") {
+      setShowInvoice(false);
+      setShowActOfAcceptance(false);
+      setShowApplication(false);
+      setShowDocWithoutStamp(true);
     }
     if (typeOfTab == "application") {
       setShowInvoice(false);
       setShowActOfAcceptance(false);
       setShowApplication(true);
+      setShowDocWithoutStamp(false);
     }
   };
   const divStyleFn = (id) => {
@@ -81,6 +91,7 @@ export const DocForm = (props) => {
       setShowInvoice(false);
       setShowActOfAcceptance(true);
       setShowApplication(false);
+      setShowDocWithoutStamp(false);
     }
     if (showActOfAcceptance) {
       let htmlDoc = document.querySelector(".actPrintForm");
@@ -94,9 +105,24 @@ export const DocForm = (props) => {
         )
       );
       setTabId(arrTabId[2]);
+      setShowInvoice(false);
+      setShowActOfAcceptance(false);
+      setShowApplication(false);
+      setShowDocWithoutStamp(true);
+    }
+    if (showDocWithoutStamp) {
+      let htmlDoc = document.querySelector(".docWithoutStamp");
+      dispatch(createDocWithoutStamp(
+        htmlDoc.innerHTML,
+          props.dataDoc.number,
+          year,
+          customer
+      ))
+      setTabId(arrTabId[3]);
       setId(1);
       setShowInvoice(false);
       setShowActOfAcceptance(false);
+      setShowDocWithoutStamp(false);
       setShowApplication(true);
       setCurrentApplication(2);
     }
@@ -149,6 +175,15 @@ export const DocForm = (props) => {
         >
           Акт
         </div>
+        <div
+          id="Tab3"
+          className={divStyleFn("Tab3")}
+          onClick={(e) => {
+            handleClickTab(props.dataDoc.number, e, "docWithoutStamp");
+          }}
+        >
+          Счет
+        </div>
         {props.dataDoc.odersListId.map((elem, index) => {
           return (
             <div
@@ -166,18 +201,43 @@ export const DocForm = (props) => {
         <button className="docFormBtn" onClick={handleClickBtn}>
           {showInvoice && "Сохранить Счет"}
           {showActOfAcceptance && "Добавить Акт"}
+          {showDocWithoutStamp && "Соранить без печати"}
           {showApplication && "Добавить Заявку"}
         </button>
       </div>
-      <div>
+      <div className="docPrintDiv">
         {showInvoice && (
           <InvoiceForm
             dataDoc={props.dataDoc}
             getNewNumber={props.getNewNumber}
+            stamp={true}
           />
         )}
         {showActOfAcceptance && (
-          <ActForm dataDoc={props.dataDoc} getNewNumber={props.getNewNumber} />
+          <ActForm
+            dataDoc={props.dataDoc}
+            getNewNumber={props.getNewNumber}
+            stamp={true}
+          />
+        )}
+        {showDocWithoutStamp && (
+          <div className="docWithoutStamp">
+            <InvoiceForm
+              dataDoc={props.dataDoc}
+              getNewNumber={props.getNewNumber}
+              stamp={false}
+            />
+            <ActForm
+              dataDoc={props.dataDoc}
+              getNewNumber={props.getNewNumber}
+              stamp={false}
+            />
+            <ActForm
+              dataDoc={props.dataDoc}
+              getNewNumber={props.getNewNumber}
+              stamp={false}
+            />
+          </div>
         )}
         {showApplication && (
           <h3>{`Заявка №${props.dataDoc.odersListId[id - 1]}`}</h3>

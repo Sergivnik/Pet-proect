@@ -19,6 +19,7 @@ router.get("/dataPayments", API.taskGetPayments);
 router.get("/dataDriverDebt", API.taskGetDebts);
 router.get("/dataContractors", API.taskGetContractors);
 router.get("/getPdf/:id", API.taskGetPdf);
+router.get("/getPdfWithoutStamp/:id", API.taskGetPdfWithoutStamp);
 router.get("/sendEmail/:id", API.taskSendEmail);
 
 router.get("/*", (req, res) => {
@@ -30,6 +31,7 @@ router.post("/proxy/:id", API.taskProxy);
 router.post("/addData", API.taskAddData);
 router.post("/addPdf/:id", API.taskAddPdfDoc);
 router.post("/createDoc", API.taskCreateDoc);
+router.post("/createDocWithoutStamp", API.taskCreateDocWithoutStamp);
 router.post("/addActToDoc", API.taskAddActToDoc);
 router.post(
   "/addConsignmentNote/:id",

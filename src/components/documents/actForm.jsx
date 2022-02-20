@@ -40,7 +40,7 @@ export const ActForm = (props) => {
     if (e.keyCode == 13) setShowInput(false);
   };
   return (
-    <div className="actPrintForm">
+    <div className="actPrintForm" style={{ pageBreakAfter: "always" }}>
       <div
         style={{
           width: "88%",
@@ -247,30 +247,34 @@ export const ActForm = (props) => {
               &emsp;&emsp;
             </span>{" "}
           </p>
-          <img
-            style={{
-              position: "absolute",
-              left: "60px",
-              top: "-70px",
-              opacity: "0.7",
-              zIndex: "-2",
-            }}
-            height="170"
-            width="170"
-            src={`${DOMENNAME}/img/stamp.png`}
-          />
-          <img
-            style={{
-              position: "absolute",
-              left: "90px",
-              top: "-75px",
-              zIndex: "-1",
-              transform: "rotate(15deg)",
-            }}
-            height="120"
-            width="120"
-            src={`${DOMENNAME}/img/sign.png`}
-          />
+          {props.stamp && (
+            <img
+              style={{
+                position: "absolute",
+                left: "60px",
+                top: "-70px",
+                opacity: "0.7",
+                zIndex: "-2",
+              }}
+              height="170"
+              width="170"
+              src={`${DOMENNAME}/img/stamp.png`}
+            />
+          )}
+          {props.stamp && (
+            <img
+              style={{
+                position: "absolute",
+                left: "90px",
+                top: "-75px",
+                zIndex: "-1",
+                transform: "rotate(15deg)",
+              }}
+              height="120"
+              width="120"
+              src={`${DOMENNAME}/img/sign.png`}
+            />
+          )}
         </div>
       </div>
     </div>
