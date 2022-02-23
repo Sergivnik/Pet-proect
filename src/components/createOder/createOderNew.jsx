@@ -45,15 +45,17 @@ export const CreateOderNew = (props) => {
   const [btnName, setBtnName] = useState("Добавить");
 
   useEffect(() => {
+    if (props.clickSave) setMainDivStyle("crOderMainDiv H250");
     if (props.elem) {
-      setMainDivStyle("crOderMainDiv H250");
       let { ...obj } = props.elem;
       obj.valueLoadingPoint = [];
       obj.valueUnloadingPoint = [];
       if (obj.loadingInfo == null) obj.loadingInfo = [];
       if (obj.unloadingInfo == null) obj.unloadingInfo = [];
-      if (obj.date != null) {
-        setShowDateInput(false);
+      if (props.clickSave) {
+        if (obj.date != null) {
+          setShowDateInput(false);
+        }
       }
       if (obj.idCustomer != null) {
         setShowClientInput(false);
@@ -98,7 +100,7 @@ export const CreateOderNew = (props) => {
         });
       }
       setOdersData(obj);
-      setBtnName("Сохранить");
+      if (props.clickSave) setBtnName("Сохранить");
       setShowClientPrice(false);
       setShowDriverPrice(false);
     }
@@ -126,9 +128,11 @@ export const CreateOderNew = (props) => {
       obj.date = e.target.value;
       if (e.target.value != "") {
         setShowDateInput(false);
-        let nextFocus =
-          document.querySelectorAll(".containerChoise")[0].firstChild;
-        nextFocus.focus();
+        let emptyElem = document.querySelectorAll(".containerChoise");
+        if (emptyElem.length > 0) {
+          let nextFocus = emptyElem[0].firstChild;
+          nextFocus.focus();
+        }
       }
     }
     if (e.target.className == "crOderPriceInput") {

@@ -86,6 +86,7 @@ export const Oders = () => {
         if (currentTR) currentTR.style.backgroundColor = "#FFF";
         setShowDelete(false);
         setShowEdit(false);
+        setTrId(null);
         if (showWindow === true) {
           setShowWindow(false);
           dispatch(filterData(filterList));
@@ -220,11 +221,15 @@ export const Oders = () => {
   };
 
   const handleClick = () => {
+    let currentElem;
+    if (trId != null) {
+      currentElem = oders.find((elem) => elem._id == trId);
+    }
     setShowCreateOder(!showCreateOder);
     setWindowWidth(1400);
     setShowWindow(true);
     setWindowHeader("Добавить заказ");
-    setChildren(<CreateOderNew addOder={addOder} />);
+    setChildren(<CreateOderNew addOder={addOder} elem={currentElem} />);
   };
 
   const addOder = () => {
@@ -232,6 +237,7 @@ export const Oders = () => {
     setShowCreateOder(false);
     setAddData(0);
     setShowLast(true);
+    setTrId(null);
   };
 
   const getCurrentTR = (id) => {
@@ -255,6 +261,7 @@ export const Oders = () => {
   };
   const handleClickDelete = () => {
     dispatch(delOder(trId));
+    setTrId(null);
   };
   const [children, setChildren] = useState(null);
   const handleClickBtnMenu = (e) => {
@@ -403,6 +410,7 @@ export const Oders = () => {
             handleClick={handleClick}
             filterList={filterList}
             writeFilterList={writeFilterList}
+            trId={trId}
           />
           <tbody className="odersTbody">
             {oders.map((elem) => {
