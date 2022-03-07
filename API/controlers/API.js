@@ -389,7 +389,18 @@ module.exports.taskCreateDoc = (req, res) => {
       path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
       format: "a4",
     });
-
+    tacksDocs.add(
+      req.body.body.arrOrderId,
+      req.body.body.invoiceNumber,
+      (data) => {
+        if (data.error) {
+          res.status(500);
+          res.json({ message: data.error });
+        } else {
+          res.json(data);
+        }
+      }
+    );
     await browser.close();
   })();
 };

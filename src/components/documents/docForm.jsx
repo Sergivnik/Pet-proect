@@ -5,7 +5,11 @@ import { ActForm } from "./actForm.jsx";
 import { findValueBy_Id } from "../myLib/myLib.js";
 
 import "./billsForm.sass";
-import { addActToDoc, createDocWithoutStamp, createNewInvoice } from "../../actions/documentAction.js";
+import {
+  addActToDoc,
+  createDocWithoutStamp,
+  createNewInvoice,
+} from "../../actions/documentAction.js";
 
 export const DocForm = (props) => {
   const dispatch = useDispatch();
@@ -78,20 +82,21 @@ export const DocForm = (props) => {
     }
     console.log(arrTabId);
     if (showInvoice) {
-      let htmlDoc = document.querySelector(".invoicePrintForm");
+      let htmlDoc = document.querySelector(".docWithStamp");
       dispatch(
         createNewInvoice(
           htmlDoc.innerHTML,
           props.dataDoc.number,
           year,
-          customer
+          customer,
+          props.dataDoc.odersListId
         )
       );
       setTabId(arrTabId[1]);
       setShowInvoice(false);
-      setShowActOfAcceptance(true);
+      setShowActOfAcceptance(false);
       setShowApplication(false);
-      setShowDocWithoutStamp(false);
+      setShowDocWithoutStamp(true);
     }
     if (showActOfAcceptance) {
       let htmlDoc = document.querySelector(".actPrintForm");
@@ -112,12 +117,14 @@ export const DocForm = (props) => {
     }
     if (showDocWithoutStamp) {
       let htmlDoc = document.querySelector(".docWithoutStamp");
-      dispatch(createDocWithoutStamp(
-        htmlDoc.innerHTML,
+      dispatch(
+        createDocWithoutStamp(
+          htmlDoc.innerHTML,
           props.dataDoc.number,
           year,
           customer
-      ))
+        )
+      );
       setTabId(arrTabId[3]);
       setId(1);
       setShowInvoice(false);
@@ -166,7 +173,7 @@ export const DocForm = (props) => {
         >
           Счет
         </div>
-        <div
+        {/* <div
           id="Tab2"
           className={divStyleFn("Tab2")}
           onClick={(e) => {
@@ -174,7 +181,7 @@ export const DocForm = (props) => {
           }}
         >
           Акт
-        </div>
+        </div> */}
         <div
           id="Tab3"
           className={divStyleFn("Tab3")}
@@ -200,26 +207,33 @@ export const DocForm = (props) => {
         })}
         <button className="docFormBtn" onClick={handleClickBtn}>
           {showInvoice && "Сохранить Счет"}
-          {showActOfAcceptance && "Добавить Акт"}
+          {/*showActOfAcceptance && "Добавить Акт"*/}
           {showDocWithoutStamp && "Соранить без печати"}
           {showApplication && "Добавить Заявку"}
         </button>
       </div>
       <div className="docPrintDiv">
         {showInvoice && (
-          <InvoiceForm
-            dataDoc={props.dataDoc}
-            getNewNumber={props.getNewNumber}
-            stamp={true}
-          />
+          <div className="docWithStamp">
+            <InvoiceForm
+              dataDoc={props.dataDoc}
+              getNewNumber={props.getNewNumber}
+              stamp={true}
+            />
+            <ActForm
+              dataDoc={props.dataDoc}
+              getNewNumber={props.getNewNumber}
+              stamp={true}
+            />
+          </div>
         )}
-        {showActOfAcceptance && (
+        {/* {showActOfAcceptance && (
           <ActForm
             dataDoc={props.dataDoc}
             getNewNumber={props.getNewNumber}
             stamp={true}
           />
-        )}
+        )} */}
         {showDocWithoutStamp && (
           <div className="docWithoutStamp">
             <InvoiceForm

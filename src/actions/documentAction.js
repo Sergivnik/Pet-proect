@@ -92,14 +92,21 @@ export const addPdfDoc = (docHtml, id) => {
   };
 };
 
-export const createNewInvoiceSuccess = (invoiceNumber) => ({
+export const createNewInvoiceSuccess = (invoiceNumber, arrOrderId) => ({
   type: CREATE_NEW_INVOICE_SUCCESS,
   invoiceNumber,
+  arrOrderId,
 });
 export const createNewInvoiceFailure = () => ({
   type: CREATE_NEW_INVOICE_FAILURE,
 });
-export const createNewInvoice = (docHtml, invoiceNumber, year, customer) => {
+export const createNewInvoice = (
+  docHtml,
+  invoiceNumber,
+  year,
+  customer,
+  arrOrderId
+) => {
   return (dispatch) => {
     axios
       .post(DOMENNAME + "/API/createDoc", {
@@ -108,10 +115,11 @@ export const createNewInvoice = (docHtml, invoiceNumber, year, customer) => {
           year: year,
           invoiceNumber: invoiceNumber,
           customer: customer,
+          arrOrderId: arrOrderId,
         },
       })
       .then((res) => {
-        return dispatch(createNewInvoiceSuccess(invoiceNumber));
+        return dispatch(createNewInvoiceSuccess(invoiceNumber, arrOrderId));
       })
       .catch((e) => {
         console.log(e.message);

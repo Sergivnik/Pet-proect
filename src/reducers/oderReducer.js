@@ -43,8 +43,8 @@ import {
   DEL_DATA_FAILURE,
 } from "../actions/editDataAction.js";
 import {
-  ADD_ACT_TO_DOC_SUCCESS,
-  ADD_ACT_TO_DOC_FAILURE,
+  CREATE_NEW_INVOICE_SUCCESS,
+  CREATE_NEW_INVOICE_FAILURE,
   SEND_EMAIL_SUCCESS,
   SEND_EMAIL_FAILURE,
 } from "../actions/documentAction.js";
@@ -825,7 +825,7 @@ export const oderReducer = (store = initialStore, action) => {
       console.log(action.message);
       return { ...store, message: action.message };
 
-    case ADD_ACT_TO_DOC_SUCCESS: {
+    case CREATE_NEW_INVOICE_SUCCESS: {
       let [...arr] = store.odersList;
       let docNumber = action.invoiceNumber;
       if (!isNaN(docNumber)) {
