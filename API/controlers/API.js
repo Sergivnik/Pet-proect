@@ -441,52 +441,7 @@ module.exports.taskCreateDocWithoutStamp = (req, res) => {
     await browser.close();
   })();
 };
-module.exports.taskAddActToDoc = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
-  res.set("Access-Control-Allow-Headers", "Content-Type");
-  const puppeteer = require("puppeteer");
 
-  (async () => {
-    const browser = await puppeteer.launch({
-      args: ["--no-sandbox"],
-    });
-    const page = await browser.newPage();
-    await page.setContent(req.body.body.html);
-    await page.pdf({
-      path: `./API/Bills/tempDoc.pdf`,
-      format: "a4",
-    });
-
-    await browser.close();
-    const merge = require("easy-pdf-merge");
-    merge(
-      [
-        `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
-        `./API/Bills/tempDoc.pdf`,
-      ],
-      `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
-      function (err) {
-        if (err) {
-          return console.log(err);
-        }
-        console.log("Successfully merged!");
-        tacksDocs.add(
-          req.body.body.arrOrderId,
-          req.body.body.invoiceNumber,
-          (data) => {
-            if (data.error) {
-              res.status(500);
-              res.json({ message: data.error });
-            } else {
-              res.json(data);
-            }
-          }
-        );
-      }
-    );
-  })();
-};
 module.exports.taskAddConsignmentNote = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
 
@@ -589,3 +544,51 @@ module.exports.taskSendEmail = (req, res) => {
     }
   });
 };
+
+
+// module.exports.taskAddActToDoc = (req, res) => {
+//   res.set("Access-Control-Allow-Origin", "*");
+//   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+//   res.set("Access-Control-Allow-Headers", "Content-Type");
+//   const puppeteer = require("puppeteer");
+
+//   (async () => {
+//     const browser = await puppeteer.launch({
+//       args: ["--no-sandbox"],
+//     });
+//     const page = await browser.newPage();
+//     await page.setContent(req.body.body.html);
+//     await page.pdf({
+//       path: `./API/Bills/tempDoc.pdf`,
+//       format: "a4",
+//     });
+
+//     await browser.close();
+//     const merge = require("easy-pdf-merge");
+//     merge(
+//       [
+//         `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+//         `./API/Bills/tempDoc.pdf`,
+//       ],
+//       `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
+//       function (err) {
+//         if (err) {
+//           return console.log(err);
+//         }
+//         console.log("Successfully merged!");
+//         tacksDocs.add(
+//           req.body.body.arrOrderId,
+//           req.body.body.invoiceNumber,
+//           (data) => {
+//             if (data.error) {
+//               res.status(500);
+//               res.json({ message: data.error });
+//             } else {
+//               res.json(data);
+//             }
+//           }
+//         );
+//       }
+//     );
+//   })();
+// };

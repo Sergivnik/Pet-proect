@@ -6,7 +6,7 @@ import { findValueBy_Id } from "../myLib/myLib.js";
 
 import "./billsForm.sass";
 import {
-  addActToDoc,
+  // addActToDoc,
   createDocWithoutStamp,
   createNewInvoice,
 } from "../../actions/documentAction.js";
@@ -30,7 +30,7 @@ export const DocForm = (props) => {
 
   const [tabId, setTabId] = useState("Tab1");
   const [showInvoice, setShowInvoice] = useState(true);
-  const [showActOfAcceptance, setShowActOfAcceptance] = useState(false);
+  // const [showActOfAcceptance, setShowActOfAcceptance] = useState(false);
   const [showDocWithoutStamp, setShowDocWithoutStamp] = useState(false);
   const [showApplication, setShowApplication] = useState(false);
   const [id, setId] = useState(null);
@@ -43,25 +43,16 @@ export const DocForm = (props) => {
     setId(number);
     if (typeOfTab == "invoice") {
       setShowInvoice(true);
-      setShowActOfAcceptance(false);
-      setShowApplication(false);
-      setShowDocWithoutStamp(false);
-    }
-    if (typeOfTab == "actOfAcceptance") {
-      setShowInvoice(false);
-      setShowActOfAcceptance(true);
       setShowApplication(false);
       setShowDocWithoutStamp(false);
     }
     if (typeOfTab == "docWithoutStamp") {
       setShowInvoice(false);
-      setShowActOfAcceptance(false);
       setShowApplication(false);
       setShowDocWithoutStamp(true);
     }
     if (typeOfTab == "application") {
       setShowInvoice(false);
-      setShowActOfAcceptance(false);
       setShowApplication(true);
       setShowDocWithoutStamp(false);
     }
@@ -94,24 +85,6 @@ export const DocForm = (props) => {
       );
       setTabId(arrTabId[1]);
       setShowInvoice(false);
-      setShowActOfAcceptance(false);
-      setShowApplication(false);
-      setShowDocWithoutStamp(true);
-    }
-    if (showActOfAcceptance) {
-      let htmlDoc = document.querySelector(".actPrintForm");
-      dispatch(
-        addActToDoc(
-          htmlDoc.innerHTML,
-          props.dataDoc.number,
-          year,
-          customer,
-          props.dataDoc.odersListId
-        )
-      );
-      setTabId(arrTabId[2]);
-      setShowInvoice(false);
-      setShowActOfAcceptance(false);
       setShowApplication(false);
       setShowDocWithoutStamp(true);
     }
@@ -128,7 +101,6 @@ export const DocForm = (props) => {
       setTabId(arrTabId[3]);
       setId(1);
       setShowInvoice(false);
-      setShowActOfAcceptance(false);
       setShowDocWithoutStamp(false);
       setShowApplication(true);
       setCurrentApplication(2);
@@ -173,15 +145,6 @@ export const DocForm = (props) => {
         >
           Счет
         </div>
-        {/* <div
-          id="Tab2"
-          className={divStyleFn("Tab2")}
-          onClick={(e) => {
-            handleClickTab(props.dataDoc.number, e, "actOfAcceptance");
-          }}
-        >
-          Акт
-        </div> */}
         <div
           id="Tab3"
           className={divStyleFn("Tab3")}
@@ -189,7 +152,7 @@ export const DocForm = (props) => {
             handleClickTab(props.dataDoc.number, e, "docWithoutStamp");
           }}
         >
-          Счет
+          Счет без печати
         </div>
         {props.dataDoc.odersListId.map((elem, index) => {
           return (
@@ -207,7 +170,6 @@ export const DocForm = (props) => {
         })}
         <button className="docFormBtn" onClick={handleClickBtn}>
           {showInvoice && "Сохранить Счет"}
-          {/*showActOfAcceptance && "Добавить Акт"*/}
           {showDocWithoutStamp && "Соранить без печати"}
           {showApplication && "Добавить Заявку"}
         </button>
@@ -227,13 +189,7 @@ export const DocForm = (props) => {
             />
           </div>
         )}
-        {/* {showActOfAcceptance && (
-          <ActForm
-            dataDoc={props.dataDoc}
-            getNewNumber={props.getNewNumber}
-            stamp={true}
-          />
-        )} */}
+        
         {showDocWithoutStamp && (
           <div className="docWithoutStamp">
             <InvoiceForm

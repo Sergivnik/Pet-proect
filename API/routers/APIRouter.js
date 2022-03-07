@@ -32,7 +32,6 @@ router.post("/addData", API.taskAddData);
 router.post("/addPdf/:id", API.taskAddPdfDoc);
 router.post("/createDoc", API.taskCreateDoc);
 router.post("/createDocWithoutStamp", API.taskCreateDocWithoutStamp);
-router.post("/addActToDoc", API.taskAddActToDoc);
 router.post(
   "/addConsignmentNote/:id",
   upload.single("fileData"),

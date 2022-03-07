@@ -7,8 +7,6 @@ export const ADD_PDF_DOC_SUCCESS = "ADD_PDF_DOC_SUCCESS";
 export const ADD_PDF_DOC_FAILURE = "ADD_PDF_DOC_FAILURE";
 export const CREATE_NEW_INVOICE_SUCCESS = "CREATE_NEW_INVOICE_SUCCESS";
 export const CREATE_NEW_INVOICE_FAILURE = "CREATE_NEW_INVOICE_FAILURE";
-export const ADD_ACT_TO_DOC_SUCCESS = "ADD_ACT_TO_DOC_SUCCESS";
-export const ADD_ACT_TO_DOC_FAILURE = "ADD_ACT_TO_DOC_FAILURE";
 export const ADD_CONSIGNMENT_NOTE_SUCCESS = "ADD_CONSIGNMENT_NOTE_SUCCESS";
 export const ADD_CONSIGNMENT_NOTE_FAILURE = "ADD_CONSIGNMENT_NOTE_FAILURE";
 export const SEND_EMAIL_SUCCESS = "SEND_EMAIL_SUCCESS";
@@ -124,42 +122,6 @@ export const createNewInvoice = (
       .catch((e) => {
         console.log(e.message);
         dispatch(createNewInvoiceFailure());
-      });
-  };
-};
-
-export const addActToDocSuccess = (invoiceNumber, arrOrderId) => ({
-  type: ADD_ACT_TO_DOC_SUCCESS,
-  invoiceNumber,
-  arrOrderId,
-});
-export const addActToDocFailure = () => ({
-  type: ADD_ACT_TO_DOC_FAILURE,
-});
-export const addActToDoc = (
-  docHtml,
-  invoiceNumber,
-  year,
-  customer,
-  arrOrderId
-) => {
-  return (dispatch) => {
-    axios
-      .post(DOMENNAME + "/API/addActToDoc", {
-        body: {
-          html: docHtml,
-          year: year,
-          invoiceNumber: invoiceNumber,
-          customer: customer,
-          arrOrderId: arrOrderId,
-        },
-      })
-      .then((res) => {
-        return dispatch(addActToDocSuccess(invoiceNumber, arrOrderId));
-      })
-      .catch((e) => {
-        console.log(e.message);
-        dispatch(addActToDocFailure());
       });
   };
 };
