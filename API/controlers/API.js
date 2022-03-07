@@ -453,20 +453,30 @@ module.exports.taskAddConsignmentNote = (req, res) => {
       let Year = data.date.getFullYear();
       let customer = data.customer[0].value;
       let accountNumber = Number(data.accountNumber);
-      const merge = require("easy-pdf-merge");
-      merge(
-        [
-          `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
-          `./API/Bills/tempDoc.pdf`,
-        ],
-        `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
-        function (err) {
-          if (err) {
-            return console.log(err);
-          }
-          console.log("Successfully merged!");
+      let fs = require("fs");
+      fs.copyFile(
+        `./API/Bills/tempDoc.pdf`,
+        `./API/Bills/${Year}/${customer}/ttn${accountNumber}.pdf`,
+        (err) => {
+          if (err) throw err; // не удалось скопировать файл
+          console.log("Файл успешно скопирован");
         }
       );
+
+      // const merge = require("easy-pdf-merge");
+      // merge(
+      //   [
+      //     `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
+      //     `./API/Bills/tempDoc.pdf`,
+      //   ],
+      //   `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
+      //   function (err) {
+      //     if (err) {
+      //       return console.log(err);
+      //     }
+      //     console.log("Successfully merged!");
+      //   }
+      // );
     }
   });
 };
@@ -517,6 +527,9 @@ module.exports.taskSendEmail = (req, res) => {
             {
               path: `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
             },
+            {
+              path: `./API/Bills/${Year}/${customer}/ttn${accountNumber}.pdf`,
+            },
           ],
         });
       }
@@ -544,7 +557,6 @@ module.exports.taskSendEmail = (req, res) => {
     }
   });
 };
-
 
 // module.exports.taskAddActToDoc = (req, res) => {
 //   res.set("Access-Control-Allow-Origin", "*");
