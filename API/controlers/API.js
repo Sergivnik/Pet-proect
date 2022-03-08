@@ -68,6 +68,7 @@ module.exports.taskGetPdf = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   const path = require("path");
+  console.log(req.params);
   tasks.getDataById(req.params.id, "oderslist", (data) => {
     if (data.error) {
       res.status(500);
@@ -80,7 +81,9 @@ module.exports.taskGetPdf = (req, res) => {
       if (isNaN(accountNumber)) {
         accountNumber = data.accountNumber;
       }
-      res.sendFile(`${pathBills}/${Year}/${customer}/doc${accountNumber}.pdf`);
+      res.sendFile(
+        `${pathBills}/${Year}/${customer}/${req.params.typeDoc}${accountNumber}.pdf`
+      );
     }
   });
 };

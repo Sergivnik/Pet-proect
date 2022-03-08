@@ -44,7 +44,11 @@ export const TdAccountNumber = (props) => {
     setShowContextMenu(false);
   };
   const handleClickPrint = () => {
-    dispatch(getPdf(currentId));
+    dispatch(getPdf(currentId, "doc"));
+    setShowContextMenu(false);
+  };
+  const handleClickPrintTTN = () => {
+    dispatch(getPdf(currentId, "ttn"));
     setShowContextMenu(false);
   };
   const handleClickPrintWithoutStamp = () => {
@@ -139,6 +143,10 @@ export const TdAccountNumber = (props) => {
           <hr />
           <p className="contextmenu" onClick={handleClickAddDoc}>
             Добавить ТТН
+          </p>
+          <hr />
+          <p className="contextmenu" onClick={handleClickPrintTTN}>
+            Печать ТТН
           </p>
           <hr />
           {showContextEmail && (

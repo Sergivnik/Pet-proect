@@ -25,10 +25,10 @@ export const getPdfSuccess = (dataServer) => ({
 export const getPdfFailure = () => ({
   type: GET_PDF_FAILURE,
 });
-export const getPdf = (id) => {
+export const getPdf = (id, typeDoc) => {
   return (dispatch) => {
     axios
-      .get(DOMENNAME + "/API/getPdf" + "/" + id, {
+      .get(DOMENNAME + "/API/getPdf/" + id + "/" + typeDoc, {
         responseType: "blob",
       })
       .then((res) => {
