@@ -520,20 +520,33 @@ module.exports.taskSendEmail = (req, res) => {
         let transporter = nodemailer.createTransport(configEmail);
 
         // send mail with defined transport object
+        let attachmentFiles = [
+          {
+            path: `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
+          },
+        ];
+        const fs = require("fs");
+
+        try {
+          if (
+            fs.existsSync(
+              `./API/Bills/${Year}/${customer}/ttn${accountNumber}.pdf`
+            )
+          ) {
+            attachmentFiles.push({
+              path: `./API/Bills/${Year}/${customer}/ttn${accountNumber}.pdf`,
+            });
+          }
+        } catch (err) {
+          console.error(err);
+        }
         let info = await transporter.sendMail({
           from: '"ИП Иванов Сергей" <sergivnik@mail.ru>', // sender address
           to: email, // list of receivers
           subject: subject, // Subject line
 
           html: "<b>ИП Иванов С.Н. тел. +7-991-366-13-66</b>", // html body
-          attachments: [
-            {
-              path: `./API/Bills/${Year}/${customer}/doc${accountNumber}.pdf`,
-            },
-            {
-              path: `./API/Bills/${Year}/${customer}/ttn${accountNumber}.pdf`,
-            },
-          ],
+          attachments: attachmentFiles,
         });
       }
 
