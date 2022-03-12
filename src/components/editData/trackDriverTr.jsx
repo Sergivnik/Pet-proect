@@ -16,6 +16,7 @@ export const TrackDriverTr = (props) => {
   const [currentElement, setCurrentElement] = useState(null);
   const [styleTr, setStyleTr] = useState(null);
   const [styleTd, setStileTd] = useState("trackDriverTd");
+  const [valueInput, setValueInput] = useState(null);
 
   const dateToSqlString = (dateSomeFormate) => {
     let date = new Date(dateSomeFormate);
@@ -33,6 +34,34 @@ export const TrackDriverTr = (props) => {
   const handleDBLclick = (e) => {
     let column = e.currentTarget.cellIndex;
     setColNumber(column);
+    switch (column) {
+      case 0:
+        setValueInput(elem.value);
+        break;
+      case 1:
+        setValueInput(elem.name);
+        break;
+      case 2:
+        setValueInput(elem.shortName);
+        break;
+      case 3:
+        setValueInput(elem.passportNumber);
+        break;
+      case 4:
+        setValueInput(elem.department);
+        break;
+      case 5:
+        setValueInput(elem.dateOfIssue);
+        break;
+      case 6:
+        setValueInput(elem.driverLicense);
+        break;
+      case 7:
+        setValueInput(elem.phoneNumber);
+        break;
+      default:
+        break;
+    }
     props.getCurrentId(elem._id);
     e.currentTarget.width = e.currentTarget.offsetWidth - 2 + "px";
     e.currentTarget.height = e.currentTarget.offsetHeight - 2 + "px";
@@ -95,6 +124,9 @@ export const TrackDriverTr = (props) => {
       dispatch(delData(elem._id, "trackdrivers"));
     }
   };
+  const handleChange = (e) => {
+    setValueInput(e.currentTarget.value);
+  };
 
   useEffect(() => {
     if (props.currentId != elem._id) {
@@ -114,6 +146,8 @@ export const TrackDriverTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.value
@@ -125,6 +159,8 @@ export const TrackDriverTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.name
@@ -136,6 +172,8 @@ export const TrackDriverTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.shortName
@@ -147,6 +185,8 @@ export const TrackDriverTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.passportNumber
@@ -158,6 +198,8 @@ export const TrackDriverTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.department
@@ -169,6 +211,8 @@ export const TrackDriverTr = (props) => {
             type="date"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           dateLocal(elem.dateOfIssue)
@@ -180,6 +224,8 @@ export const TrackDriverTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.driverLicense
@@ -191,6 +237,8 @@ export const TrackDriverTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.phoneNumber

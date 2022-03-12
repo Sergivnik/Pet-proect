@@ -15,6 +15,7 @@ export const TrackTr = (props) => {
   const [currentElement, setCurrentElement] = useState(null);
   const [styleTr, setStyleTr] = useState(null);
   const [styleTd, setStileTd] = useState("trackTd");
+  const [valueInput, setValueInput] = useState(null);
 
   const handleClickTr = (e) => {
     props.getCurrentId(elem._id);
@@ -24,6 +25,19 @@ export const TrackTr = (props) => {
   const handleDBLclick = (e) => {
     let column = e.currentTarget.cellIndex;
     setColNumber(column);
+    switch (column) {
+      case 1:
+        setValueInput(elem.value);
+        break;
+      case 2:
+        setValueInput(elem.trackTrailerLicensePlate);
+        break;
+      case 3:
+        setValueInput(elem.model);
+        break;
+      default:
+        break;
+    }
     props.getCurrentId(elem._id);
     e.currentTarget.width = e.currentTarget.offsetWidth - 2 + "px";
     e.currentTarget.height = e.currentTarget.offsetHeight - 2 + "px";
@@ -61,6 +75,9 @@ export const TrackTr = (props) => {
       dispatch(delData(elem._id, "tracklist"));
     }
   };
+  const handleChange = (e) => {
+    setValueInput(e.currentTarget.value);
+  };
 
   useEffect(() => {
     if (props.currentId != elem._id) {
@@ -90,21 +107,39 @@ export const TrackTr = (props) => {
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 1 ? (
-          <input type="text" className="trackTrInput" onKeyDown={handleEnter} />
+          <input
+            type="text"
+            className="trackTrInput"
+            onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
+          />
         ) : (
           elem.value
         )}
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 2 ? (
-          <input type="text" className="trackTrInput" onKeyDown={handleEnter} />
+          <input
+            type="text"
+            className="trackTrInput"
+            onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
+          />
         ) : (
           elem.trackTrailerLicensePlate
         )}
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 3 ? (
-          <input type="text" className="trackTrInput" onKeyDown={handleEnter} />
+          <input
+            type="text"
+            className="trackTrInput"
+            onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
+          />
         ) : (
           elem.model
         )}

@@ -10,9 +10,36 @@ export const DriverTableTR = (props) => {
   const [colNumber, setColNumber] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
   const [styleTr, setStyleTr] = useState(null);
+  const [valueInput, setValueInput] = useState(null);
 
   const handleDBLclick = (e) => {
-    setColNumber(e.currentTarget.cellIndex);
+    let column = e.currentTarget.cellIndex;
+    setColNumber(column);
+    switch (column) {
+      case 0:
+        setValueInput(elem.value);
+        break;
+      case 1:
+        setValueInput(elem.phone);
+        break;
+      case 2:
+        setValueInput(elem.compfnyName);
+        break;
+      case 3:
+        setValueInput(elem.TIN);
+        break;
+      case 4:
+        setValueInput(elem.address);
+        break;
+      case 5:
+        setValueInput(elem.currentAccount);
+        break;
+      case 6:
+        setValueInput(elem.contract);
+        break;
+      default:
+        break;
+    }
     props.getCurrentId(elem._id);
     e.currentTarget.width = e.currentTarget.offsetWidth - 2 + "px";
     e.currentTarget.height = e.currentTarget.offsetHeight - 2 + "px";
@@ -69,6 +96,9 @@ export const DriverTableTR = (props) => {
       dispatch(delData(elem._id, "drivers"));
     }
   };
+  const handleChange = (e) => {
+    setValueInput(e.currentTarget.value);
+  };
 
   useEffect(() => {
     if (props.currentId != elem._id) {
@@ -87,6 +117,8 @@ export const DriverTableTR = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.value
@@ -98,6 +130,8 @@ export const DriverTableTR = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.phone
@@ -109,6 +143,8 @@ export const DriverTableTR = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.compfnyName
@@ -120,6 +156,8 @@ export const DriverTableTR = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.TIN
@@ -131,6 +169,8 @@ export const DriverTableTR = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.address
@@ -142,6 +182,8 @@ export const DriverTableTR = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.currentAccount
@@ -153,6 +195,8 @@ export const DriverTableTR = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.contract

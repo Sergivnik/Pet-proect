@@ -15,6 +15,7 @@ export const CustomerManagerTr = (props) => {
   const [currentElement, setCurrentElement] = useState(null);
   const [styleTr, setStyleTr] = useState(null);
   const [styleTd, setStileTd] = useState("customerManagerTd");
+  const [valueInput, setValueInput] = useState(null);
 
   const handleClickTr = (e) => {
     props.getCurrentId(elem._id);
@@ -24,6 +25,22 @@ export const CustomerManagerTr = (props) => {
   const handleDBLclick = (e) => {
     let column = e.currentTarget.cellIndex;
     setColNumber(column);
+    switch (column) {
+      case 0:
+        setValueInput(elem.value);
+        break;
+      case 1:
+        setValueInput(elem.name);
+        break;
+      case 2:
+        setValueInput(elem.phone);
+        break;
+      case 3:
+        setValueInput(elem.email);
+        break;
+      default:
+        break;
+    }
     props.getCurrentId(elem._id);
     e.currentTarget.width = e.currentTarget.offsetWidth - 2 + "px";
     e.currentTarget.height = e.currentTarget.offsetHeight - 2 + "px";
@@ -59,11 +76,14 @@ export const CustomerManagerTr = (props) => {
     setColNumber(null);
   };
   const handleClickDelete = () => {
-   let password = prompt("Подтвердите удаление", "Пароль");
-   if (password == "Пароль") {
-     dispatch(delData(elem._id, "clientmanager"));
-   }
- };
+    let password = prompt("Подтвердите удаление", "Пароль");
+    if (password == "Пароль") {
+      dispatch(delData(elem._id, "clientmanager"));
+    }
+  };
+  const handleChange = (e) => {
+    setValueInput(e.currentTarget.value);
+  };
 
   useEffect(() => {
     if (props.currentId != elem._id) {
@@ -84,6 +104,8 @@ export const CustomerManagerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.value
@@ -95,6 +117,8 @@ export const CustomerManagerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.name
@@ -106,6 +130,8 @@ export const CustomerManagerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.phone
@@ -117,6 +143,8 @@ export const CustomerManagerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
           />
         ) : (
           elem.email

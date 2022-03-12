@@ -42,6 +42,14 @@ export const CustomerTable = () => {
     dispatch(addData(data, "oders"));
     setShowAddTr(false);
   };
+  const handleClickClear = () => {
+    setChosenId(null);
+    if (check) {
+      setCustomerList(clientListFull.filter((elem) => elem.active == 1));
+    } else {
+      setCustomerList(clientListFull);
+    }
+  };
 
   useEffect(() => {
     let [...arr] = clientListFull.filter((elem) => elem.active == 1);
@@ -52,12 +60,11 @@ export const CustomerTable = () => {
       let arr = clientListFull.filter((elem) => elem._id == chosenId);
       setCustomerList(arr);
     } else {
-      setCustomerList(clientListFull);
-    }
-    if (check) {
-      setCustomerList(clientListFull.filter((elem) => elem.active == 1));
-    } else {
-      setCustomerList(clientListFull);
+      if (check) {
+        setCustomerList(clientListFull.filter((elem) => elem.active == 1));
+      } else {
+        setCustomerList(clientListFull);
+      }
     }
   }, [clientListFull]);
 
@@ -73,6 +80,9 @@ export const CustomerTable = () => {
             setValue={setValue}
           />
         </div>
+        <button className="driverAddBtn" onClick={handleClickClear}>
+          Сброс
+        </button>
         <span>Активный</span>
         <input type="checkbox" onChange={handleChangeBox} checked={check} />
         <button className="driverAddBtn" onClick={handleClickAdd}>

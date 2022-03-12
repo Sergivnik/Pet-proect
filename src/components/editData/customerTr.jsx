@@ -12,6 +12,7 @@ export const CustomerTr = (props) => {
   const [currentElement, setCurrentElement] = useState(null);
   const [styleTr, setStyleTr] = useState(null);
   const [styleTd, setStileTd] = useState("customerTd");
+  const [value, setValue] = useState(null);
 
   const handleClickTr = () => {
     props.getCurrentId(elem._id);
@@ -21,10 +22,38 @@ export const CustomerTr = (props) => {
   const handleDBLclick = (e) => {
     let column = e.currentTarget.cellIndex;
     setColNumber(column);
+    switch (column) {
+      case 0:
+        setValue(elem.value);
+        break;
+      case 1:
+        setValue(elem.companyName);
+        break;
+      case 2:
+        setValue(elem.TIN);
+        break;
+      case 3:
+        setValue(elem.address);
+        break;
+      case 4:
+        setValue(elem.email);
+        break;
+      case 5:
+        setValue(elem.phone);
+        break;
+      case 5:
+        setValue(elem.contract);
+        break;
+      default:
+        break;
+    }
     props.getCurrentId(elem._id);
     e.currentTarget.width = e.currentTarget.offsetWidth - 2 + "px";
     e.currentTarget.height = e.currentTarget.offsetHeight - 2 + "px";
     setCurrentElement(e.currentTarget);
+  };
+  const handleChange = (e) => {
+    setValue(e.currentTarget.value);
   };
   const handleEnter = (e) => {
     if (e.key == "Enter") {
@@ -90,6 +119,8 @@ export const CustomerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={value}
           />
         ) : (
           elem.value
@@ -101,6 +132,8 @@ export const CustomerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={value}
           />
         ) : (
           elem.companyName
@@ -112,6 +145,8 @@ export const CustomerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={value}
           />
         ) : (
           elem.TIN
@@ -123,6 +158,8 @@ export const CustomerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={value}
           />
         ) : (
           elem.address
@@ -134,6 +171,8 @@ export const CustomerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={value}
           />
         ) : (
           elem.email
@@ -145,6 +184,8 @@ export const CustomerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={value}
           />
         ) : (
           elem.phone
@@ -156,6 +197,8 @@ export const CustomerTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={value}
           />
         ) : (
           elem.contract
