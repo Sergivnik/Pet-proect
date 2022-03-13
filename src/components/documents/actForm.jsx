@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { dateLocal, findValueBy_Id, sumInWords } from "../myLib/myLib.js";
 import { TrEditable } from "./trEditable.jsx";
 import { DOMENNAME } from "../../middlewares/initialState.js";
+import { AddTr } from "./addTr.jsx";
 
 import "./billsForm.sass";
 
@@ -29,7 +30,7 @@ export const ActForm = (props) => {
     (sum, elem) => sum + Number(elem.customerPrice),
     0
   );
-
+  const [sumOrders, setSumOrder] = useState(sumOders);
   const handleDblClick = () => {
     setShowInput(true);
   };
@@ -39,6 +40,14 @@ export const ActForm = (props) => {
   const handleEnter = (e) => {
     if (e.keyCode == 13) setShowInput(false);
   };
+  useEffect(() => {
+    if (props.addStrObj != null) {
+      setSumOrder(
+        Number(sumOrders) +
+          props.addStrObj.numberServices * props.addStrObj.unitPrice
+      );
+    }
+  }, [props.addStrObj]);
   return (
     <div className="actPrintForm" style={{ pageBreakAfter: "always" }}>
       <div
@@ -176,6 +185,13 @@ export const ActForm = (props) => {
                 />
               );
             })}
+            {props.showAddStr && (
+              <AddTr
+                numberStr={oders.length + 1}
+                getAddStr={props.getAddStr}
+                addStrObj={props.addStrObj}
+              />
+            )}
           </tbody>
         </table>
         <table
@@ -207,18 +223,18 @@ export const ActForm = (props) => {
                   fontWeight: "700",
                 }}
               >
-                {sumOders}
+                {sumOrders}
               </td>
             </tr>
             <tr>
               <td style={{ width: "80%" }}>
-                Всего наименований {oders.length}, на сумму {sumOders} руб без
+                Всего наименований {oders.length}, на сумму {sumOrders} руб без
                 НДС
               </td>
             </tr>
             <tr>
               <td style={{ width: "80%", fontWeight: "700" }}>
-                {"(" + sumInWords(sumOders) + " )"}
+                {"(" + sumInWords(sumOrders) + " )"}
               </td>
             </tr>
             <tr>
@@ -226,7 +242,7 @@ export const ActForm = (props) => {
                 style={{ width: "80%", fontStyle: "italic", padding: "10px 0" }}
               >
                 {"Всего оказано услуг на сумму: " +
-                  sumInWords(sumOders) +
+                  sumInWords(sumOrders) +
                   " без НДС"}
               </td>
             </tr>

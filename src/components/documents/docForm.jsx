@@ -36,6 +36,7 @@ export const DocForm = (props) => {
   const [id, setId] = useState(null);
   const [currentApplication, setCurrentApplication] = useState(null);
   const [strObj, setStrObj] = useState(null);
+  const [addStrObj, setAddStrObj] = useState(null);
   const [showAddStr, setShowAddStr] = useState(false);
 
   const handleClickClose = () => {
@@ -122,6 +123,9 @@ export const DocForm = (props) => {
   const handleClickBtnAdd = () => {
     setShowAddStr(!showAddStr);
   };
+  const getAddStr = (obj) => {
+    setAddStrObj(obj);
+  };
 
   return (
     <div className="docFormMainDiv">
@@ -196,6 +200,8 @@ export const DocForm = (props) => {
               getStrText={getStrText}
               strObj={strObj}
               showAddStr={showAddStr}
+              getAddStr={getAddStr}
+              addStrObj={addStrObj}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -204,6 +210,8 @@ export const DocForm = (props) => {
               getStrText={getStrText}
               strObj={strObj}
               showAddStr={showAddStr}
+              getAddStr={getAddStr}
+              addStrObj={addStrObj}
             />
           </div>
         )}
@@ -216,6 +224,9 @@ export const DocForm = (props) => {
               stamp={false}
               getStrText={getStrText}
               strObj={strObj}
+              showAddStr={showAddStr}
+              getAddStr={getAddStr}
+              addStrObj={addStrObj}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -223,6 +234,9 @@ export const DocForm = (props) => {
               stamp={false}
               getStrText={getStrText}
               strObj={strObj}
+              showAddStr={showAddStr}
+              getAddStr={getAddStr}
+              addStrObj={addStrObj}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -230,6 +244,9 @@ export const DocForm = (props) => {
               stamp={false}
               getStrText={getStrText}
               strObj={strObj}
+              showAddStr={showAddStr}
+              getAddStr={getAddStr}
+              addStrObj={addStrObj}
             />
           </div>
         )}
