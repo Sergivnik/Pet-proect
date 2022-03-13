@@ -5,6 +5,7 @@ import { TrEditable } from "./trEditable.jsx";
 import { DOMENNAME } from "../../middlewares/initialState.js";
 
 import "./billsForm.sass";
+import { AddTr } from "./addTr.jsx";
 
 export const InvoiceForm = (props) => {
   const odersList = useSelector((state) => state.oderReducer.odersList);
@@ -278,9 +279,16 @@ export const InvoiceForm = (props) => {
           <tbody>
             {oders.map((elem, index) => {
               return (
-                <TrEditable key={`str${elem._id}`} elem={elem} index={index} />
+                <TrEditable
+                  key={`str${elem._id}`}
+                  elem={elem}
+                  index={index}
+                  getStrText={props.getStrText}
+                  strObj={props.strObj}
+                />
               );
             })}
+            {props.showAddStr && <AddTr numberStr={oders.length + 1} />}
           </tbody>
         </table>
         <table

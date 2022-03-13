@@ -35,6 +35,9 @@ export const DocForm = (props) => {
   const [showApplication, setShowApplication] = useState(false);
   const [id, setId] = useState(null);
   const [currentApplication, setCurrentApplication] = useState(null);
+  const [strObj, setStrObj] = useState(null);
+  const [showAddStr, setShowAddStr] = useState(false);
+
   const handleClickClose = () => {
     props.handleClickClose();
   };
@@ -113,6 +116,12 @@ export const DocForm = (props) => {
       setCurrentApplication(currentApplication + 1);
     }
   };
+  const getStrText = (obj) => {
+    setStrObj(obj);
+  };
+  const handleClickBtnAdd = () => {
+    setShowAddStr(!showAddStr);
+  };
 
   return (
     <div className="docFormMainDiv">
@@ -168,6 +177,9 @@ export const DocForm = (props) => {
             </div>
           );
         })}
+        <button className="docFormBtnAdd" onClick={handleClickBtnAdd}>
+          {showAddStr ? "Удалить строку" : "Добавить строку"}
+        </button>
         <button className="docFormBtn" onClick={handleClickBtn}>
           {showInvoice && "Сохранить Счет"}
           {showDocWithoutStamp && "Соранить без печати"}
@@ -181,31 +193,43 @@ export const DocForm = (props) => {
               dataDoc={props.dataDoc}
               getNewNumber={props.getNewNumber}
               stamp={true}
+              getStrText={getStrText}
+              strObj={strObj}
+              showAddStr={showAddStr}
             />
             <ActForm
               dataDoc={props.dataDoc}
               getNewNumber={props.getNewNumber}
               stamp={true}
+              getStrText={getStrText}
+              strObj={strObj}
+              showAddStr={showAddStr}
             />
           </div>
         )}
-        
+
         {showDocWithoutStamp && (
           <div className="docWithoutStamp">
             <InvoiceForm
               dataDoc={props.dataDoc}
               getNewNumber={props.getNewNumber}
               stamp={false}
+              getStrText={getStrText}
+              strObj={strObj}
             />
             <ActForm
               dataDoc={props.dataDoc}
               getNewNumber={props.getNewNumber}
               stamp={false}
+              getStrText={getStrText}
+              strObj={strObj}
             />
             <ActForm
               dataDoc={props.dataDoc}
               getNewNumber={props.getNewNumber}
               stamp={false}
+              getStrText={getStrText}
+              strObj={strObj}
             />
           </div>
         )}

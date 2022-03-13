@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dateLocal, findValueBy_Id, sumInWords } from "../myLib/myLib.js";
 
@@ -12,7 +12,8 @@ export const TrEditable = (props) => {
   const driver = useSelector((state) => state.oderReducer.trackdrivers);
   const track = useSelector((state) => state.oderReducer.tracklist);
 
-  const [showInput, setShowInput] = useState(false);
+  const [showInputRoute, setshowInputRoute] = useState(false);
+  const [showInputNumber, setShowInputNumber] = useState(false);
 
   let route = elem.idLoadingPoint.concat(elem.idUnloadingPoint);
   let routeText = "";
@@ -24,21 +25,44 @@ export const TrEditable = (props) => {
   let driverText = findValueBy_Id(elem.idTrackDriver, driver).name;
   if (driverText == undefined) driverText = "";
   const trackObj = findValueBy_Id(elem.idTrack, track);
-  const [strOder, setStrOder] = useState(
-    `Перевозка по маршруту ${routeText} водитель ${driverText} ${
+  const [strOder, setStrOder] = useState({
+    strRoute: `Перевозка по маршруту ${routeText} водитель ${driverText} ${
       trackObj.model ? " а/м " + trackObj.model : ""
-    } ${trackObj.value ? trackObj.value : ""}`
-  );
+    } ${trackObj.value ? trackObj.value : ""}`,
+    numberOfShipments: 1,
+  });
 
-  const handleDblClick = () => {
-    setShowInput(true);
+  const handleDblClick = (e) => {
+    console.log(e.currentTarget.cellIndex);
+    if (e.currentTarget.cellIndex == 1) {
+      setshowInputRoute(true);
+      setShowInputNumber(false);
+    }
+    if (e.currentTarget.cellIndex == 2) {
+      setshowInputRoute(false);
+      setShowInputNumber(true);
+    }
   };
   const handleChange = (e) => {
-    setStrOder(e.currentTarget.value);
+    let obj = { ...strOder };
+    if (showInputRoute) obj.strRoute = e.currentTarget.value;
+    if (showInputNumber) obj.numberOfShipments = Number(e.currentTarget.value);
+    setStrOder(obj);
   };
   const handleEnter = (e) => {
-    if (e.keyCode == 13) setShowInput(false);
+    if (e.keyCode == 13) {
+      setshowInputRoute(false);
+      setShowInputNumber(false);
+      props.getStrText(strOder);
+    }
   };
+  useEffect(() => {
+    if (props.strObj != null) {
+      let obj = { ...strOder };
+      obj = props.strObj;
+      setStrOder(obj);
+    }
+  }, [props.strObj]);
 
   return (
     <tr style={{ textAlign: "center", fontSize: "10", lineHeight: 1 }}>
@@ -47,21 +71,35 @@ export const TrEditable = (props) => {
         style={{ border: "1px solid black", textAlign: "left" }}
         onDoubleClick={handleDblClick}
       >
-        {showInput ? (
+        {showInputRoute ? (
           <input
             type="text"
             className="billsFormInvoiceInput"
-            value={strOder}
+            value={strOder.strRoute}
             onChange={handleChange}
             onKeyDown={handleEnter}
           />
         ) : (
-          strOder
+          strOder.strRoute
         )}
       </td>
-      <td style={{ border: "1px solid black" }}>1</td>
+      <td style={{ border: "1px solid black" }} onDoubleClick={handleDblClick}>
+        {showInputNumber ? (
+          <input
+            type="text"
+            className="billsFormInvoiceInput"
+            value={strOder.numberOfShipments}
+            onChange={handleChange}
+            onKeyDown={handleEnter}
+          />
+        ) : (
+          strOder.numberOfShipments
+        )}
+      </td>
       <td style={{ border: "1px solid black" }}>шт</td>
-      <td style={{ border: "1px solid black" }}>{elem.customerPrice}</td>
+      <td style={{ border: "1px solid black" }}>
+        {Number(elem.customerPrice) / strOder.numberOfShipments}
+      </td>
       <td style={{ border: "1px solid black" }}>{elem.customerPrice}</td>
     </tr>
   );

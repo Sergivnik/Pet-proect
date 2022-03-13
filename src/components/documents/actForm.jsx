@@ -167,7 +167,13 @@ export const ActForm = (props) => {
           <tbody>
             {oders.map((elem, index) => {
               return (
-                <TrEditable key={`str${elem._id}`} elem={elem} index={index} />
+                <TrEditable
+                  key={`str${elem._id}`}
+                  elem={elem}
+                  index={index}
+                  getStrText={props.getStrText}
+                  strObj={props.strObj}
+                />
               );
             })}
           </tbody>
