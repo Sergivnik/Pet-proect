@@ -36,12 +36,15 @@ export const CustomerTr = (props) => {
         setValue(elem.address);
         break;
       case 4:
+        setValue(elem.postAddress);
+        break;
+      case 5:
         setValue(elem.email);
         break;
-      case 5:
+      case 6:
         setValue(elem.phone);
         break;
-      case 5:
+      case 7:
         setValue(elem.contract);
         break;
       default:
@@ -72,12 +75,15 @@ export const CustomerTr = (props) => {
           obj.address = e.currentTarget.value;
           break;
         case 4:
-          obj.email = e.currentTarget.value;
+          obj.postAddress = e.currentTarget.value;
           break;
         case 5:
-          obj.phone = e.currentTarget.value;
+          obj.email = e.currentTarget.value;
           break;
         case 6:
+          obj.phone = e.currentTarget.value;
+          break;
+        case 7:
           obj.contract = e.currentTarget.value;
           break;
         default:
@@ -175,7 +181,7 @@ export const CustomerTr = (props) => {
             value={value}
           />
         ) : (
-          elem.email
+          elem.postAddress
         )}
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>
@@ -188,7 +194,7 @@ export const CustomerTr = (props) => {
             value={value}
           />
         ) : (
-          elem.phone
+          elem.email
         )}
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>
@@ -201,11 +207,24 @@ export const CustomerTr = (props) => {
             value={value}
           />
         ) : (
-          elem.contract
+          elem.phone
         )}
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 7 ? (
+          <input
+            type="text"
+            className="customerTrInput"
+            onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={value}
+          />
+        ) : (
+          elem.contract
+        )}
+      </td>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
+        {colNumber == 8 ? (
           <div>
             <span>
               <input

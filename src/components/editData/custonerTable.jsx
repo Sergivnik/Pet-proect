@@ -97,6 +97,7 @@ export const CustomerTable = () => {
               <td className="customerTdHeader">Полное название</td>
               <td className="customerTdHeader">ИНН</td>
               <td className="customerTdHeader">Адрес</td>
+              <td className="customerTdHeader">Почтовый адрес</td>
               <td className="customerTdHeader">E-mail</td>
               <td className="customerTdHeader">Телефон</td>
               <td className="customerTdHeader">Договор</td>
