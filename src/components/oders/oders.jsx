@@ -15,6 +15,7 @@ import { EditDataForm } from "../editData/editDataForm.jsx";
 import { PrintFormBill } from "../printForm/printFormBill.jsx";
 import "./oders.sass";
 import { BillsForm } from "../documents/billsForm.jsx";
+import { Report } from "../reports/reports.jsx";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -309,6 +310,12 @@ export const Oders = () => {
         setWindowWidth(1200);
         setChildren(<EditDataForm />);
       }
+      if (btnClick == "reports") {
+        setWindowHeader("Отчеты");
+        setShowWindow(true);
+        setWindowWidth(1200);
+        setChildren(<Report />);
+      }
     }
   };
   const handleClickWindowClose = () => {
@@ -382,6 +389,13 @@ export const Oders = () => {
             onClick={handleClickBtnMenu}
           >
             Внесение данных
+          </button>
+          <button
+            name="reports"
+            className="odersMenuBtn"
+            onClick={handleClickBtnMenu}
+          >
+            Отчеты
           </button>
         </div>
       </div>
