@@ -14,6 +14,7 @@ export const DriverReport = () => {
   const [idDriver, setIdDriver] = useState(null);
 
   const [reportList, setReportList] = useState([]);
+  const [idTrackDriverList, setIdTrackDriverList] = useState([]);
 
   const getValue = (id, arrObj) => {
     if (id) {
@@ -64,7 +65,7 @@ export const DriverReport = () => {
         arrTrackDriver.forEach((trackDriver, index) => {
           arr2[index] = arr.filter((elem) => elem.idTrackDriver == trackDriver);
         });
-        console.log(arr2);
+        setIdTrackDriverList(arrTrackDriver);
         setReportList(arr2);
       } else {
         alert("Нет данных в указанном периоде");
@@ -121,10 +122,15 @@ export const DriverReport = () => {
       </header>
       <main>
         {reportList.length != 0 &&
-          reportList.map((arrTrackDriver) => {
-            return arrTrackDriver.map((elem) => {
-              return <p>{elem.date}</p>;
-            });
+          reportList.map((arrTrackDriver, index) => {
+            return (
+              <div>
+                {`Водитель ${idTrackDriverList[index]}`}
+                {arrTrackDriver.map((elem) => {
+                  return <p>{elem.date}</p>;
+                })}
+              </div>
+            );
           })}
       </main>
     </div>
