@@ -13,6 +13,8 @@ export const DriverReport = () => {
   const [dateEnd, setDateEnd] = useState(null);
   const [idDriver, setIdDriver] = useState(null);
 
+  const [reportList, setReportList] = useState([]);
+
   const getValue = (id, arrObj) => {
     if (id) {
       let value = arrObj.find((elem) => elem._id == id);
@@ -30,6 +32,45 @@ export const DriverReport = () => {
       let date = new Date(e.currentTarget.value);
       if (e.currentTarget.name == "dateBegin") setDateBegin(date);
       if (e.currentTarget.name == "dateEnd") setDateEnd(date);
+    }
+  };
+  const handleBlur = (e) => {
+    if (e.currentTarget.value != "") {
+      let date = new Date(e.currentTarget.value);
+      if (e.currentTarget.name == "dateBegin") setDateBegin(date);
+      if (e.currentTarget.name == "dateEnd") setDateEnd(date);
+    }
+  };
+  const handleClick = () => {
+    if (idDriver == null || dateBegin == null || dateEnd == null) {
+      alert("Ввведены не все данные");
+    } else {
+      let arr = fullOrderList.filter((elem) => {
+        let dateElem = new Date(elem.date);
+        return (
+          dateElem >= dateBegin &&
+          dateElem <= dateEnd &&
+          elem.idDriver == idDriver
+        );
+      });
+      if (arr.length != 0) {
+        let arrTrackDriver = [];
+        let arr2 = [];
+        arr.forEach((elem) => {
+          if (!arrTrackDriver.includes(elem.idTrackDriver)) {
+            arrTrackDriver.push(elem.idTrackDriver);
+          }
+        });
+        arrTrackDriver.forEach((trackDriver, index) => {
+          arr2[index] = arr.filter((elem) => elem.idTrackDriver == trackDriver);
+        });
+        console.log(arr2);
+        setReportList(arr2);
+      } else {
+        alert("Нет данных в указанном периоде");
+        setDateBegin(null);
+        setDateEnd(null);
+      }
     }
   };
 
@@ -51,7 +92,12 @@ export const DriverReport = () => {
         <p>Дата с </p>
         {dateBegin == null ? (
           <div className="divDriverChoise">
-            <input name="dateBegin" type="date" onKeyDown={handleEnter} />
+            <input
+              name="dateBegin"
+              type="date"
+              onKeyDown={handleEnter}
+              onBlur={handleBlur}
+            />
           </div>
         ) : (
           <p>{dateBegin.toLocaleDateString()}</p>
@@ -59,12 +105,28 @@ export const DriverReport = () => {
         <p> по</p>
         {dateEnd == null ? (
           <div className="divDriverChoise">
-            <input name="dateEnd" type="date" onKeyDown={handleEnter} />
+            <input
+              name="dateEnd"
+              type="date"
+              onKeyDown={handleEnter}
+              onBlur={handleBlur}
+            />
           </div>
         ) : (
           <p>{dateEnd.toLocaleDateString()}</p>
         )}
+        <button className="driverReportBtn" onClick={handleClick}>
+          Отчет
+        </button>
       </header>
+      <main>
+        {reportList.length != 0 &&
+          reportList.map((arrTrackDriver) => {
+            return arrTrackDriver.map((elem) => {
+              return <p>{elem.date}</p>;
+            });
+          })}
+      </main>
     </div>
   );
 };
