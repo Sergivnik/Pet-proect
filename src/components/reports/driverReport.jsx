@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
-
+import { TdDate } from "../userTd/tdDate.jsx";
+import { TdDriverPrice } from "../userTd/tdDriverPrice.jsx";
+import { TdLoadingPoint } from "../userTd/tdLoadingPoint.jsx";
+import { TdUnoadingPoint } from "../userTd/tdUnloadingPoint.jsx";
+import { dateLocal } from "../myLib/myLib.js";
 import "./reports.sass";
+import { TdDriverPayment } from "../userTd/tdDriverPayment.jsx";
 
 export const DriverReport = () => {
   const fullOrderList = useSelector((state) => state.oderReducer.odersList);
@@ -67,6 +72,7 @@ export const DriverReport = () => {
         });
         setIdTrackDriverList(arrTrackDriver);
         setReportList(arr2);
+        console.log(arr2);
       } else {
         alert("Нет данных в указанном периоде");
         setDateBegin(null);
@@ -120,16 +126,55 @@ export const DriverReport = () => {
           Отчет
         </button>
       </header>
-      <main>
+      <main className="driveReportTableContainer">
         {reportList.length != 0 &&
           reportList.map((arrTrackDriver, index) => {
             return (
-              <div>
-                {`Водитель ${idTrackDriverList[index]}`}
-                {arrTrackDriver.map((elem) => {
-                  return <p>{elem.date}</p>;
-                })}
-              </div>
+              <table
+                key={`driver${arrTrackDriver}`}
+                className="driveReportTable"
+              >
+                <thead>
+                  <tr>
+                    <td>{`Водитель ${idTrackDriverList[index]}`}</td>
+                  </tr>
+                  <tr>
+                    <td>Дата</td>
+                    <td>Загрузка</td>
+                    <td>Вгрузка</td>
+                    <td>Цена</td>
+                    <td>Документы</td>
+                    <td>Оплата</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {arrTrackDriver.map((elem) => {
+                    return (
+                      <tr key={`order${elem._id}`}>
+                        <TdDate date={elem.date} />
+                        <TdLoadingPoint
+                          idLoadingPoint={elem.idLoadingPoint}
+                          loadingInfo={elem.loadingInfo}
+                        />
+                        <TdUnoadingPoint
+                          idUnloadingPoint={elem.idUnloadingPoint}
+                          unLoadingInfo={elem.unloadingInfo}
+                        />
+                        <TdDriverPrice
+                          driverPrice={elem.driverPrice}
+                          driverPayment={elem.driverPayment}
+                        />
+                        <td className="driverReportTd">
+                          {elem.document == "Нет"
+                            ? "нет"
+                            : dateLocal(elem.dateOfSubmission)}
+                        </td>
+                        <TdDriverPayment driverPayment={elem.driverPayment} />
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             );
           })}
       </main>
