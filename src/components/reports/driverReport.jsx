@@ -5,13 +5,17 @@ import { TdDate } from "../userTd/tdDate.jsx";
 import { TdDriverPrice } from "../userTd/tdDriverPrice.jsx";
 import { TdLoadingPoint } from "../userTd/tdLoadingPoint.jsx";
 import { TdUnoadingPoint } from "../userTd/tdUnloadingPoint.jsx";
-import { dateLocal } from "../myLib/myLib.js";
-import "./reports.sass";
 import { TdDriverPayment } from "../userTd/tdDriverPayment.jsx";
+
+import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
+import "./reports.sass";
 
 export const DriverReport = () => {
   const fullOrderList = useSelector((state) => state.oderReducer.odersList);
   const driversList = useSelector((state) => state.oderReducer.driverlist);
+  const trackDriverList = useSelector(
+    (state) => state.oderReducer.trackdrivers
+  );
 
   const [showDriver, setShowDriver] = useState(true);
   const [dateBegin, setDateBegin] = useState(null);
@@ -145,15 +149,18 @@ export const DriverReport = () => {
               >
                 <thead>
                   <tr>
-                    <td>{`Водитель ${idTrackDriverList[index]}`}</td>
+                    <td colSpan={6}>{`Водитель ${
+                      findValueBy_Id(idTrackDriverList[index], trackDriverList)
+                        .name
+                    }`}</td>
                   </tr>
                   <tr>
-                    <td>Дата</td>
-                    <td>Загрузка</td>
-                    <td>Вгрузка</td>
-                    <td>Цена</td>
-                    <td>Документы</td>
-                    <td>Оплата</td>
+                    <td className="driverReportTd">Дата</td>
+                    <td className="driverReportTd">Загрузка</td>
+                    <td className="driverReportTd">Вгрузка</td>
+                    <td className="driverReportTd">Цена</td>
+                    <td className="driverReportTd">Документы</td>
+                    <td className="driverReportTd">Оплата</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -183,6 +190,16 @@ export const DriverReport = () => {
                     );
                   })}
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <td>
+                      {arrTrackDriver.reduce(
+                        (sum, order) => sum + Number(order.driverPrice),
+                        0
+                      )}
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             );
           })}
