@@ -80,6 +80,12 @@ export const DriverReport = () => {
       }
     }
   };
+  const handleClickPrint = () => {
+    let printReport = document.querySelector(".driveReportTableContainer");
+    let printWindow = window.open();
+    printWindow.document.body.append(printReport);
+    printWindow.print();
+  };
 
   return (
     <div className="driverReportMainDiv">
@@ -124,6 +130,9 @@ export const DriverReport = () => {
         )}
         <button className="driverReportBtn" onClick={handleClick}>
           Отчет
+        </button>
+        <button className="driverReportBtn" onClick={handleClickPrint}>
+          Печать
         </button>
       </header>
       <main className="driveReportTableContainer">
