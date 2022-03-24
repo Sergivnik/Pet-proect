@@ -88,6 +88,11 @@ export const DriverReport = () => {
     let printReport = document.querySelector(".driveReportTableContainer");
     let printWindow = window.open();
     printWindow.document.body.append(printReport);
+    let allTd = printReport.querySelectorAll("td");
+    allTd.forEach((elem) => {
+      elem.style.cssText = "border: 1px solid #000; text-align: center;";
+    });
+    console.log(allTd);
     printWindow.print();
   };
 
@@ -145,22 +150,81 @@ export const DriverReport = () => {
             return (
               <table
                 key={`driver${arrTrackDriver}`}
-                className="driveReportTable"
+                style={{
+                  width: "98%",
+                  borderCollapse: "collapse",
+                  margin: "0 1%",
+                }}
               >
                 <thead>
                   <tr>
-                    <td colSpan={6}>{`Водитель ${
+                    <td
+                      colSpan={6}
+                      style={{
+                        textAlign: "center",
+                        border: "1px solid #000",
+                        fontSize: "22px",
+                      }}
+                    >{`Водитель: ${
                       findValueBy_Id(idTrackDriverList[index], trackDriverList)
                         .name
                     }`}</td>
                   </tr>
                   <tr>
-                    <td className="driverReportTd">Дата</td>
-                    <td className="driverReportTd">Загрузка</td>
-                    <td className="driverReportTd">Вгрузка</td>
-                    <td className="driverReportTd">Цена</td>
-                    <td className="driverReportTd">Документы</td>
-                    <td className="driverReportTd">Оплата</td>
+                    <td
+                      style={{
+                        border: "1px solid #000",
+                        textAlign: "center",
+                        fontSize: "18px",
+                      }}
+                    >
+                      Дата
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid #000",
+                        textAlign: "center",
+                        fontSize: "18px",
+                      }}
+                    >
+                      Загрузка
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid #000",
+                        textAlign: "center",
+                        fontSize: "18px",
+                      }}
+                    >
+                      Вгрузка
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid #000",
+                        textAlign: "center",
+                        fontSize: "18px",
+                      }}
+                    >
+                      Цена
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid #000",
+                        textAlign: "center",
+                        fontSize: "18px",
+                      }}
+                    >
+                      Документы
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid #000",
+                        textAlign: "center",
+                        fontSize: "18px",
+                      }}
+                    >
+                      Оплата
+                    </td>
                   </tr>
                 </thead>
                 <tbody>
@@ -192,12 +256,14 @@ export const DriverReport = () => {
                 </tbody>
                 <tfoot>
                   <tr>
+                    <td colSpan={3}></td>
                     <td>
                       {arrTrackDriver.reduce(
                         (sum, order) => sum + Number(order.driverPrice),
                         0
                       )}
                     </td>
+                    <td colSpan={2}></td>
                   </tr>
                 </tfoot>
               </table>
