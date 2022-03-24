@@ -24,6 +24,7 @@ export const DriverReport = () => {
 
   const [reportList, setReportList] = useState([]);
   const [idTrackDriverList, setIdTrackDriverList] = useState([]);
+  const [btnValue, setBtnValue] = useState("Отчет");
 
   const getValue = (id, arrObj) => {
     if (id) {
@@ -52,47 +53,61 @@ export const DriverReport = () => {
     }
   };
   const handleClick = () => {
-    if (idDriver == null || dateBegin == null || dateEnd == null) {
-      alert("Ввведены не все данные");
-    } else {
-      let arr = fullOrderList.filter((elem) => {
-        let dateElem = new Date(elem.date);
-        return (
-          dateElem >= dateBegin &&
-          dateElem <= dateEnd &&
-          elem.idDriver == idDriver
-        );
-      });
-      if (arr.length != 0) {
-        let arrTrackDriver = [];
-        let arr2 = [];
-        arr.forEach((elem) => {
-          if (!arrTrackDriver.includes(elem.idTrackDriver)) {
-            arrTrackDriver.push(elem.idTrackDriver);
-          }
-        });
-        arrTrackDriver.forEach((trackDriver, index) => {
-          arr2[index] = arr.filter((elem) => elem.idTrackDriver == trackDriver);
-        });
-        setIdTrackDriverList(arrTrackDriver);
-        setReportList(arr2);
-        console.log(arr2);
+    if (btnValue == "Отчет") {
+      if (idDriver == null || dateBegin == null || dateEnd == null) {
+        alert("Ввведены не все данные");
       } else {
-        alert("Нет данных в указанном периоде");
-        setDateBegin(null);
-        setDateEnd(null);
+        let arr = fullOrderList.filter((elem) => {
+          let dateElem = new Date(elem.date);
+          return (
+            dateElem >= dateBegin &&
+            dateElem <= dateEnd &&
+            elem.idDriver == idDriver
+          );
+        });
+        if (arr.length != 0) {
+          let arrTrackDriver = [];
+          let arr2 = [];
+          arr.forEach((elem) => {
+            if (!arrTrackDriver.includes(elem.idTrackDriver)) {
+              arrTrackDriver.push(elem.idTrackDriver);
+            }
+          });
+          arrTrackDriver.forEach((trackDriver, index) => {
+            arr2[index] = arr.filter(
+              (elem) => elem.idTrackDriver == trackDriver
+            );
+          });
+          setIdTrackDriverList(arrTrackDriver);
+          setReportList(arr2);
+          setBtnValue("Сброс");
+        } else {
+          alert("Нет данных в указанном периоде");
+          setDateBegin(null);
+          setDateEnd(null);
+        }
       }
+    } else {
+      setShowDriver(true);
+      setDateBegin(null);
+      setDateEnd(null);
+      setIdDriver(null);
+      setReportList([]);
+      setIdTrackDriverList([]);
+      setBtnValue("Отчет");
     }
   };
   const handleClickPrint = () => {
     let printReport = document.querySelector(".driveReportTableContainer");
     let printWindow = window.open();
-    printWindow.document.body.append(printReport);
-    let allTd = printReport.querySelectorAll("td");
-    allTd.forEach((elem) => {
-      elem.style.cssText = "border: 1px solid #000; text-align: center;";
+    printWindow.document.body.innerHTML = printReport.innerHTML;
+    let allTbody = printWindow.document.querySelectorAll(".tbodyDriverTable");
+    allTbody.forEach((tbodyTable) => {
+      let tdOfTbody = tbodyTable.querySelectorAll("td");
+      tdOfTbody.forEach((elem) => {
+        elem.style.cssText = "border: 1px solid #000; text-align: center;";
+      });
     });
-    console.log(allTd);
     printWindow.print();
   };
 
@@ -138,7 +153,7 @@ export const DriverReport = () => {
           <p>{dateEnd.toLocaleDateString()}</p>
         )}
         <button className="driverReportBtn" onClick={handleClick}>
-          Отчет
+          {btnValue}
         </button>
         <button className="driverReportBtn" onClick={handleClickPrint}>
           Печать
@@ -227,7 +242,7 @@ export const DriverReport = () => {
                     </td>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="tbodyDriverTable">
                   {arrTrackDriver.map((elem) => {
                     return (
                       <tr key={`order${elem._id}`}>
@@ -256,14 +271,27 @@ export const DriverReport = () => {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colSpan={3}></td>
-                    <td>
+                    <td
+                      colSpan={3}
+                      style={{ textAlign: "end", border: "1px solid #000" }}
+                    >
+                      Итого:{" "}
+                    </td>
+                    <td
+                      style={{ textAlign: "center", border: "1px solid #000" }}
+                    >
                       {arrTrackDriver.reduce(
                         (sum, order) => sum + Number(order.driverPrice),
                         0
                       )}
                     </td>
-                    <td colSpan={2}></td>
+                    <td
+                      colSpan={2}
+                      style={{ textAlign: "center", border: "1px solid #000" }}
+                    ></td>
+                  </tr>
+                  <tr>
+                    <td style={{ height: "20px" }}></td>
                   </tr>
                 </tfoot>
               </table>
