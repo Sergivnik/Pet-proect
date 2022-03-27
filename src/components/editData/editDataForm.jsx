@@ -33,9 +33,9 @@ export const EditDataForm = (props) => {
       case "oders":
         setEditTable(<CustomerTable />);
         break;
-      case "clientmanager":
-        setEditTable(<CustomerManagerTable />);
-        break;
+      // case "clientmanager":
+      //   setEditTable(<CustomerManagerTable />);
+      //   break;
     }
   };
   useEffect(() => {
@@ -83,13 +83,13 @@ export const EditDataForm = (props) => {
         >
           Заказчик
         </button>
-        <button
+        {/* <button
           name="clientmanager"
           className="EDFMenuBtn"
           onClick={handleClickBtnMenu}
         >
           Менеджер
-        </button>
+        </button> */}
       </div>
       {/* {showErrDiv && <div>{errMessage.error}</div>} */}
       <div className="EDFTableDiv">{editTable}</div>

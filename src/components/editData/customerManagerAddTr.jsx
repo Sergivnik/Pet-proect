@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { findValueBy_Id, dateLocal } from "../myLib/myLib.js";
+import { findValueBy_Id } from "../myLib/myLib.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 
 import "./editData.sass";
@@ -11,31 +11,7 @@ export const CustomerManagerAddTr = (props) => {
   const [editColNumber, setEditColNumber] = useState(0);
   const [addManagerObj, setManagerObj] = useState({});
 
-  const handleInputBlur = (e) => {
-    let { ...obj } = addManagerObj;
-    switch (editColNumber) {
-      case 0:
-        obj.value = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 1:
-        obj.name = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 2:
-        obj.phone = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 3:
-        obj.email = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      default:
-        break;
-    }
-    setManagerObj(obj);
-  };
-  const handleEnter = (e) => {
+  const handleEnterTab = (e) => {
     if (e.key == "Enter") {
       if (addManagerObj.value != "" && addManagerObj.value != undefined) {
         props.handleAddManager(addManagerObj);
@@ -48,23 +24,56 @@ export const CustomerManagerAddTr = (props) => {
         }
       }
     }
-  };
-  const setValue = (data) => {
-    let { ...obj } = addManagerObj;
-    if (editColNumber == 4) {
-      if (obj.value != "") {
-        obj.odersId = data._id;
-        setEditColNumber(null);
-        props.handleAddManager(obj);
-      } else {
-        setEditColNumber(0);
+    if (e.key == "Tab") {
+      let { ...obj } = addManagerObj;
+      switch (editColNumber) {
+        case 0:
+          obj.value = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 1:
+          obj.name = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 2:
+          obj.phone = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 3:
+          obj.email = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber);
+          }
+          break;
+        default:
+          break;
       }
+      setManagerObj(obj);
     }
   };
 
   useEffect(() => {
     let div = document.querySelector(".EDFTableDiv");
     div.scrollTop = div.scrollHeight;
+    if (props.customerId != null) {
+      let { ...obj } = addManagerObj;
+      obj.odersId = props.customerId;
+      setManagerObj(obj);
+    }
   }, []);
   useEffect(() => {
     if (editColNumber < 4 && editColNumber != null) {
@@ -80,9 +89,8 @@ export const CustomerManagerAddTr = (props) => {
         {editColNumber == 0 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
-            onKeyDown={handleEnter}
+            onKeyDown={handleEnterTab}
           />
         ) : (
           addManagerObj.value
@@ -92,9 +100,8 @@ export const CustomerManagerAddTr = (props) => {
         {editColNumber == 1 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
-            onKeyDown={handleEnter}
+            onKeyDown={handleEnterTab}
           />
         ) : (
           addManagerObj.name
@@ -104,9 +111,8 @@ export const CustomerManagerAddTr = (props) => {
         {editColNumber == 2 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
-            onKeyDown={handleEnter}
+            onKeyDown={handleEnterTab}
           />
         ) : (
           addManagerObj.phone
@@ -116,24 +122,15 @@ export const CustomerManagerAddTr = (props) => {
         {editColNumber == 3 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
-            onKeyDown={handleEnter}
+            onKeyDown={handleEnterTab}
           />
         ) : (
           addManagerObj.email
         )}
       </td>
       <td className="customerManagerTd">
-        {editColNumber == 4 ? (
-          <ChoiseList
-            name="owner"
-            arrlist={clientListFull}
-            setValue={setValue}
-          />
-        ) : (
-          findValueBy_Id(addManagerObj.value, clientListFull)
-        )}
+        {findValueBy_Id(addManagerObj.odersId, clientListFull).value}
       </td>
     </tr>
   );

@@ -82,6 +82,7 @@ export const ChoiseList = (props) => {
       setShowSelect(true);
       setList(props.arrlist);
     }
+    if (props.reset) setText("");
   }, [props]);
 
   return (
