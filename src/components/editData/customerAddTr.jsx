@@ -4,44 +4,8 @@ import "./editData.sass";
 
 export const CustomerAddTr = (props) => {
   const [editColNumber, setEditColNumber] = useState(0);
-  const [addCustomerObj, setAddCustomerObj] = useState({});
+  const [addCustomerObj, setAddCustomerObj] = useState({ active: 1 });
 
-  const handleInputBlur = (e) => {
-    let { ...obj } = addCustomerObj;
-    switch (editColNumber) {
-      case 0:
-        obj.value = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 1:
-        obj.companyName = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 2:
-        obj.TIN = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 3:
-        obj.address = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 4:
-        obj.email = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 5:
-        obj.phone = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 6:
-        obj.contract = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      default:
-        break;
-    }
-    setAddCustomerObj(obj);
-  };
   const handleEnter = (e) => {
     if (e.key == "Enter") {
       if (addCustomerObj.value != "" && addCustomerObj.value != undefined) {
@@ -54,6 +18,78 @@ export const CustomerAddTr = (props) => {
           props.handleAddCustomer(obj);
         }
       }
+    }
+    if (e.key == "Tab") {
+      let { ...obj } = addCustomerObj;
+      switch (editColNumber) {
+        case 0:
+          obj.value = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 1:
+          obj.companyName = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 2:
+          obj.TIN = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 3:
+          obj.address = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 4:
+          obj.postAddress = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 5:
+          obj.email = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 6:
+          obj.phone = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 7:
+          obj.contract = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        default:
+          break;
+      }
+      setAddCustomerObj(obj);
     }
   };
   const handleRadio = (e) => {
@@ -81,7 +117,6 @@ export const CustomerAddTr = (props) => {
         {editColNumber == 0 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
             onKeyDown={handleEnter}
           />
@@ -93,7 +128,6 @@ export const CustomerAddTr = (props) => {
         {editColNumber == 1 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
             onKeyDown={handleEnter}
           />
@@ -105,7 +139,6 @@ export const CustomerAddTr = (props) => {
         {editColNumber == 2 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
             onKeyDown={handleEnter}
           />
@@ -117,7 +150,6 @@ export const CustomerAddTr = (props) => {
         {editColNumber == 3 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
             onKeyDown={handleEnter}
           />
@@ -129,7 +161,17 @@ export const CustomerAddTr = (props) => {
         {editColNumber == 4 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
+            className="customerTrInput"
+            onKeyDown={handleEnter}
+          />
+        ) : (
+          addCustomerObj.postAddress
+        )}
+      </td>
+      <td className="customerTd">
+        {editColNumber == 5 ? (
+          <input
+            type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
           />
@@ -138,10 +180,9 @@ export const CustomerAddTr = (props) => {
         )}
       </td>
       <td className="customerTd">
-        {editColNumber == 5 ? (
+        {editColNumber == 6 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
             onKeyDown={handleEnter}
           />
@@ -150,10 +191,9 @@ export const CustomerAddTr = (props) => {
         )}
       </td>
       <td className="customerTd">
-        {editColNumber == 6 ? (
+        {editColNumber == 7 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="customerTrInput"
             onKeyDown={handleEnter}
           />
@@ -162,7 +202,7 @@ export const CustomerAddTr = (props) => {
         )}
       </td>
       <td className="customerTd">
-        {editColNumber == 7 ? (
+        {editColNumber == 8 ? (
           <div>
             <span>
               <input
