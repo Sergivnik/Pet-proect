@@ -28,7 +28,9 @@ export const TrEditable = (props) => {
   const [strOder, setStrOder] = useState({
     strRoute: `Перевозка по маршруту ${routeText} водитель ${driverText} ${
       trackObj.model ? " а/м " + trackObj.model : ""
-    } ${trackObj.value ? trackObj.value : ""}`,
+    } ${trackObj.value ? trackObj.value : ""} ${
+      trackObj.trackTrailerLicensePlate ? " прицеп "+ trackObj.trackTrailerLicensePlate : ""
+    }`,
     numberOfShipments: 1,
   });
 
