@@ -18,53 +18,6 @@ export const DriverAddTr = (props) => {
     }
   }, [editColNumber]);
 
-  const handleInputBlur = (e) => {
-    let { ...obj } = addDriverObj;
-    switch (editColNumber) {
-      case 0:
-        obj.value = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 1:
-        obj.phone = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 2:
-        obj.compfnyName = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 3:
-        if (e.currentTarget.value != "") {
-          obj.TIN = e.currentTarget.value;
-        } else {
-          obj.TIN = null;
-        }
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 4:
-        obj.address = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 5:
-        obj.currentAccount = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 6:
-        obj.contract = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 7:
-        obj.active = e.currentTarget.value;
-        if (obj.value != "") {
-          props.handleAddDriver(obj);
-        } else {
-          setEditColNumber(0);
-        }
-      default:
-        break;
-    }
-    setAddDriverObj(obj);
-  };
   const handleEnter = (e) => {
     if (e.key == "Enter") {
       if (addDriverObj.value != "" && addDriverObj.value != undefined) {
@@ -78,15 +31,90 @@ export const DriverAddTr = (props) => {
         }
       }
     }
+    if (e.key == "Tab") {
+      let { ...obj } = addDriverObj;
+      console.log(e.currentTarget);
+      switch (editColNumber) {
+        case 0:
+          obj.value = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 1:
+          obj.phone = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 2:
+          obj.compfnyName = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 3:
+          if (e.currentTarget.value != "") {
+            obj.TIN = e.currentTarget.value;
+          } else {
+            obj.TIN = null;
+          }
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 4:
+          obj.address = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 5:
+          obj.currentAccount = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 6:
+          obj.contract = e.currentTarget.value;
+          if (e.shiftKey) {
+            setEditColNumber(editColNumber - 1);
+          } else {
+            setEditColNumber(editColNumber + 1);
+          }
+          break;
+        case 7:
+          obj.active = e.currentTarget.value;
+          if (obj.value != "") {
+            props.handleAddDriver(obj);
+          } else {
+            setEditColNumber(0);
+          }
+        default:
+          break;
+      }
+      setAddDriverObj(obj);
+    }
   };
 
   return (
-    <tr className="driverAddTr" onKeyDown={handleEnter}>
+    <tr className="driverAddTr">
       <td className="driverTd">
         {editColNumber == 0 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="driverTrInput"
             onKeyDown={handleEnter}
           />
@@ -98,8 +126,8 @@ export const DriverAddTr = (props) => {
         {editColNumber == 1 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="driverTrInput"
+            onKeyDown={handleEnter}
           />
         ) : (
           addDriverObj.phone
@@ -109,7 +137,7 @@ export const DriverAddTr = (props) => {
         {editColNumber == 2 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
+            onKeyDown={handleEnter}
             className="driverTrInput"
           />
         ) : (
@@ -120,7 +148,7 @@ export const DriverAddTr = (props) => {
         {editColNumber == 3 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
+            onKeyDown={handleEnter}
             className="driverTrInput"
           />
         ) : (
@@ -131,7 +159,7 @@ export const DriverAddTr = (props) => {
         {editColNumber == 4 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
+            onKeyDown={handleEnter}
             className="driverTrInput"
           />
         ) : (
@@ -142,7 +170,7 @@ export const DriverAddTr = (props) => {
         {editColNumber == 5 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
+            onKeyDown={handleEnter}
             className="driverTrInput"
           />
         ) : (
@@ -153,7 +181,7 @@ export const DriverAddTr = (props) => {
         {editColNumber == 6 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
+            onKeyDown={handleEnter}
             className="driverTrInput"
           />
         ) : (
@@ -168,7 +196,8 @@ export const DriverAddTr = (props) => {
                 type="radio"
                 name="active"
                 value={1}
-                onChange={handleInputBlur}
+                onChange={handleEnter}
+                onKeyDown={handleEnter}
               />
               Да
             </span>
@@ -177,7 +206,7 @@ export const DriverAddTr = (props) => {
                 type="radio"
                 name="active"
                 value={0}
-                onChange={handleInputBlur}
+                onChange={handleEnter}
               />
               Нет
             </span>
