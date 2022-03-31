@@ -278,14 +278,23 @@ export const CreateOderNew = (props) => {
     setOdersData(obj);
   };
   const handleClick = () => {
-    if (btnName == "Добавить") {
-      dispatch(addOder(odersData));
-      props.addOder();
+    let check = true;
+    if (
+      Number(odersData.customerPrice) * 0.95 <
+      Number(odersData.driverPrice)
+    ) {
+      check = confirm("Наценка меньше 5 % !! Продолжить?");
     }
-    if (btnName == "Сохранить") {
-      console.log(odersData);
-      dispatch(editOderNew(odersData));
-      props.clickSave();
+    if (check) {
+      if (btnName == "Добавить") {
+        dispatch(addOder(odersData));
+        props.addOder();
+      }
+      if (btnName == "Сохранить") {
+        console.log(odersData);
+        dispatch(editOderNew(odersData));
+        props.clickSave();
+      }
     }
   };
 
