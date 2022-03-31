@@ -4,6 +4,7 @@ import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { DriverAddTr } from "./driverAddTr.jsx";
 import { DriverTableTR } from "./driverTableTR.jsx";
 import { TrackDriverTr } from "./trackDriverTr.jsx";
+import { TrackDraverAddTr } from "./trackDriverAddTr.jsx";
 import { addData } from "../../actions/editDataAction.js";
 
 import "./editData.sass";
@@ -26,6 +27,8 @@ export const DriverTable = (props) => {
   const [reset, setReset] = useState(false);
   const [nameAddBtn, setNameAddBtn] = useState("Добавить водителя");
   const [activeMarker, setActiveMarker] = useState("driver");
+  const [currentTrackDriverId, setCurrentTrackDriverId] = useState(null);
+  const [showAddTrackDriverTr, setShowAddTrackDriverTr] = useState(false);
 
   useEffect(() => {
     if (chosenId != null) {
@@ -39,6 +42,14 @@ export const DriverTable = (props) => {
   useEffect(() => {
     setReset(false);
   }, [reset]);
+  useEffect(() => {
+    if (chosenId != null) {
+      let arr = trackdriversFull.filter((elem) => elem.idOwner == chosenId);
+      setTrackDrivers(arr);
+    } else {
+      setTrackDrivers(trackdriversFull.filter((elem) => elem.active));
+    }
+  }, [trackdriversFull]);
 
   const handleChangeBox = (e) => {
     if (e.currentTarget.checked) {
@@ -98,6 +109,18 @@ export const DriverTable = (props) => {
     } else {
       return "divMarker";
     }
+  };
+  const getCurrentTrackDriverId = (id) => {
+    setCurrentTrackDriverId(id);
+  };
+  const handleClickAddInfo = () => {
+    if (activeMarker == "driver") {
+      setShowAddTrackDriverTr(true);
+    }
+  };
+  const handleAddTrackDriver = (data) => {
+    dispatch(addData(data, "trackdrivers"));
+    setShowAddTrackDriverTr(false);
   };
   return (
     <>
@@ -168,7 +191,9 @@ export const DriverTable = (props) => {
                   Автомобиль
                 </div>
               </div>
-              <button className="driverAddBtn">{nameAddBtn}</button>
+              <button className="driverAddBtn" onClick={handleClickAddInfo}>
+                {nameAddBtn}
+              </button>
             </header>
             <div className="driverInfoContent">
               {activeMarker == "driver" && (
@@ -194,16 +219,17 @@ export const DriverTable = (props) => {
                         <TrackDriverTr
                           key={"trackDriver" + elem._id}
                           elem={elem}
-                          // getCurrentId={getCurrentId}
-                          // currentId={currentId}
+                          getCurrentId={getCurrentTrackDriverId}
+                          currentId={currentTrackDriverId}
                         />
                       );
                     })}
-                    {/* {showAddTr && (
+                    {showAddTrackDriverTr && (
                       <TrackDraverAddTr
                         handleAddTrackDriver={handleAddTrackDriver}
+                        driverId={chosenId}
                       />
-                    )} */}
+                    )}
                   </tbody>
                 </table>
               )}

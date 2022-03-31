@@ -7,51 +7,12 @@ import "./editData.sass";
 
 export const TrackDraverAddTr = (props) => {
   const driversListFull = useSelector((state) => state.oderReducer.driverlist);
-  const tracklist = useSelector((state) => state.oderReducer.tracklist);
+  const tracklistFull = useSelector((state) => state.oderReducer.tracklist);
 
   const [editColNumber, setEditColNumber] = useState(0);
   const [addTrackDriverObj, setAddTrackDriverObj] = useState({});
+  const [tracklist, setTracklist] = useState(tracklistFull);
 
-  const handleInputBlur = (e) => {
-    let { ...obj } = addTrackDriverObj;
-    switch (editColNumber) {
-      case 0:
-        obj.value = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 1:
-        obj.name = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 2:
-        obj.shortName = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 3:
-        obj.passportNumber = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 4:
-        obj.department = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 5:
-        obj.dateOfIssue = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 6:
-        obj.driverLicense = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      case 7:
-        obj.phoneNumber = e.currentTarget.value;
-        setEditColNumber(editColNumber + 1);
-        break;
-      default:
-        break;
-    }
-    setAddTrackDriverObj(obj);
-  };
   const handleEnter = (e) => {
     if (e.key == "Enter") {
       if (
@@ -67,6 +28,46 @@ export const TrackDraverAddTr = (props) => {
           props.handleAddTrackDriver(obj);
         }
       }
+    }
+    if (e.key == "Tab") {
+      let { ...obj } = addTrackDriverObj;
+      switch (editColNumber) {
+        case 0:
+          obj.value = e.currentTarget.value;
+          setEditColNumber(editColNumber + 1);
+          break;
+        case 1:
+          obj.name = e.currentTarget.value;
+          setEditColNumber(editColNumber + 1);
+          break;
+        case 2:
+          obj.shortName = e.currentTarget.value;
+          setEditColNumber(editColNumber + 1);
+          break;
+        case 3:
+          obj.passportNumber = e.currentTarget.value;
+          setEditColNumber(editColNumber + 1);
+          break;
+        case 4:
+          obj.department = e.currentTarget.value;
+          setEditColNumber(editColNumber + 1);
+          break;
+        case 5:
+          obj.dateOfIssue = e.currentTarget.value;
+          setEditColNumber(editColNumber + 1);
+          break;
+        case 6:
+          obj.driverLicense = e.currentTarget.value;
+          setEditColNumber(editColNumber + 1);
+          break;
+        case 7:
+          obj.phoneNumber = e.currentTarget.value;
+          setEditColNumber(editColNumber + 2);
+          break;
+        default:
+          break;
+      }
+      setAddTrackDriverObj(obj);
     }
   };
   const setValue = (data) => {
@@ -86,13 +87,20 @@ export const TrackDraverAddTr = (props) => {
       }
     }
   };
-  const handleClick=(e)=>{
+  const handleClick = (e) => {
     setEditColNumber(e.currentTarget.cellIndex);
-  }
+  };
 
   useEffect(() => {
     let div = document.querySelector(".EDFTableDiv");
     div.scrollTop = div.scrollHeight;
+    if (props.driverId != null) {
+      let arr = tracklistFull.filter((elem) => elem.idOwner == props.driverId);
+      let { ...obj } = addTrackDriverObj;
+      obj.idOwner = props.driverId;
+      setAddTrackDriverObj(obj);
+      setTracklist(arr);
+    }
   }, []);
   useEffect(() => {
     if (editColNumber < 8 && editColNumber != null) {
@@ -108,7 +116,6 @@ export const TrackDraverAddTr = (props) => {
         {editColNumber == 0 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="driverTrInput"
             onKeyDown={handleEnter}
           />
@@ -120,7 +127,6 @@ export const TrackDraverAddTr = (props) => {
         {editColNumber == 1 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="driverTrInput"
             onKeyDown={handleEnter}
           />
@@ -132,7 +138,6 @@ export const TrackDraverAddTr = (props) => {
         {editColNumber == 2 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="driverTrInput"
             onKeyDown={handleEnter}
           />
@@ -144,7 +149,6 @@ export const TrackDraverAddTr = (props) => {
         {editColNumber == 3 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="driverTrInput"
             onKeyDown={handleEnter}
           />
@@ -156,7 +160,6 @@ export const TrackDraverAddTr = (props) => {
         {editColNumber == 4 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="driverTrInput"
             onKeyDown={handleEnter}
           />
@@ -168,7 +171,6 @@ export const TrackDraverAddTr = (props) => {
         {editColNumber == 5 ? (
           <input
             type="date"
-            onBlur={handleInputBlur}
             className="driverTrInput"
             onKeyDown={handleEnter}
           />
@@ -180,7 +182,6 @@ export const TrackDraverAddTr = (props) => {
         {editColNumber == 6 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="driverTrInput"
             onKeyDown={handleEnter}
           />
@@ -192,7 +193,6 @@ export const TrackDraverAddTr = (props) => {
         {editColNumber == 7 ? (
           <input
             type="text"
-            onBlur={handleInputBlur}
             className="driverTrInput"
             onKeyDown={handleEnter}
           />
@@ -201,15 +201,7 @@ export const TrackDraverAddTr = (props) => {
         )}
       </td>
       <td className="trackDriverTd" onClick={handleClick}>
-        {editColNumber == 8 ? (
-          <ChoiseList
-            name="owner"
-            arrlist={driversListFull}
-            setValue={setValue}
-          />
-        ) : (
-          findValueBy_Id(addTrackDriverObj.idOwner, driversListFull).value
-        )}
+        {findValueBy_Id(addTrackDriverObj.idOwner, driversListFull).value}
       </td>
       <td className="trackDriverTd" onClick={handleClick}>
         {editColNumber == 9 ? (
