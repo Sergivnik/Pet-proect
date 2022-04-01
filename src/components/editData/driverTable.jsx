@@ -5,6 +5,8 @@ import { DriverAddTr } from "./driverAddTr.jsx";
 import { DriverTableTR } from "./driverTableTR.jsx";
 import { TrackDriverTr } from "./trackDriverTr.jsx";
 import { TrackDraverAddTr } from "./trackDriverAddTr.jsx";
+import { TrackTr } from "./trackTr.jsx";
+import { TrackAddTr } from "./trackAddTr.jsx";
 import { addData } from "../../actions/editDataAction.js";
 
 import "./editData.sass";
@@ -15,9 +17,11 @@ export const DriverTable = (props) => {
   const trackdriversFull = useSelector(
     (state) => state.oderReducer.trackdrivers
   );
+  const tracklistFull = useSelector((state) => state.oderReducer.tracklist);
 
   const [driversList, setDriversList] = useState(driversListFull);
   const [driverListChoise, setDriverListChoise] = useState(driversListFull);
+  const [trackList, setTrackList] = useState(tracklistFull);
   const [trackdrivers, setTrackDrivers] = useState(null);
   const [check, setCheck] = useState(true);
   const [currentId, setCurrentId] = useState(null);
@@ -28,12 +32,13 @@ export const DriverTable = (props) => {
   const [nameAddBtn, setNameAddBtn] = useState("Добавить водителя");
   const [activeMarker, setActiveMarker] = useState("driver");
   const [currentTrackDriverId, setCurrentTrackDriverId] = useState(null);
+  const [currentTrackId, setCurrentTrackId] = useState(null);
   const [showAddTrackDriverTr, setShowAddTrackDriverTr] = useState(false);
+  const [showAddTrackTr, setShowAddTrackTr] = useState(false);
 
   useEffect(() => {
     if (chosenId != null) {
-      let arr = driversListFull.filter((elem) => elem._id == chosenId);
-      setDriversList(arr);
+      setDriversList(driversListFull.filter((elem) => elem._id == chosenId));
     } else {
       setDriversList(driversListFull.filter((elem) => elem.active));
       setDriverListChoise(driversListFull.filter((elem) => elem.active));
@@ -50,6 +55,14 @@ export const DriverTable = (props) => {
       setTrackDrivers(trackdriversFull.filter((elem) => elem.active));
     }
   }, [trackdriversFull]);
+  useEffect(() => {
+    if (chosenId != null) {
+      let arr = tracklistFull.filter((elem) => elem.idOwner == chosenId);
+      setTrackList(arr);
+    } else {
+      setTrackList(trackdriversFull.filter((elem) => elem.active));
+    }
+  }, [tracklistFull]);
 
   const handleChangeBox = (e) => {
     if (e.currentTarget.checked) {
@@ -71,6 +84,7 @@ export const DriverTable = (props) => {
     setTrackDrivers(
       trackdriversFull.filter((elem) => elem.idOwner == data._id)
     );
+    setTrackList(tracklistFull.filter((elem) => elem.idOwner == data._id));
   };
   const getCurrentId = (id) => {
     setCurrentId(id);
@@ -113,15 +127,26 @@ export const DriverTable = (props) => {
   const getCurrentTrackDriverId = (id) => {
     setCurrentTrackDriverId(id);
   };
+  const getCurrentTrackId = (id) => {
+    setCurrentTrackId(id);
+  };
   const handleClickAddInfo = () => {
     if (activeMarker == "driver") {
       setShowAddTrackDriverTr(true);
+    }
+    if (activeMarker == "track") {
+      setShowAddTrackTr(true);
     }
   };
   const handleAddTrackDriver = (data) => {
     dispatch(addData(data, "trackdrivers"));
     setShowAddTrackDriverTr(false);
   };
+  const handleAddTrack = (data) => {
+    dispatch(addData(data, "tracklist"));
+    setShowAddTrackTr(false);
+  };
+
   return (
     <>
       <h2 className="driverH2">Таблица перевозчиков</h2>
@@ -243,6 +268,24 @@ export const DriverTable = (props) => {
                       <td className="trackTdHeader">Марка АМ</td>
                     </tr>
                   </thead>
+                  <tbody className="trackDriverTbody">
+                    {trackList.map((elem) => {
+                      return (
+                        <TrackTr
+                          key={"track" + elem._id}
+                          elem={elem}
+                          getCurrentId={getCurrentTrackId}
+                          currentId={currentTrackId}
+                        />
+                      );
+                    })}
+                    {showAddTrackTr && (
+                      <TrackAddTr
+                        handleAddTrack={handleAddTrack}
+                        driverId={chosenId}
+                      />
+                    )}
+                  </tbody>
                 </table>
               )}
             </div>
