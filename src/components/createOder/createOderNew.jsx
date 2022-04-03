@@ -42,6 +42,7 @@ export const CreateOderNew = (props) => {
   const [showTrackDriverInput, setShowTrackDriverInput] = useState(true);
   const [showTrackInput, setShowTrackInput] = useState(true);
   const [showDriverPrice, setShowDriverPrice] = useState(true);
+  const [checkBox, setCheckBox] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
   const [btnName, setBtnName] = useState("Добавить");
 
@@ -102,6 +103,9 @@ export const CreateOderNew = (props) => {
           let pointValue = pointList.find((item) => item._id == elem).value;
           obj.valueUnloadingPoint.push(pointValue);
         });
+      }
+      if (obj.colorTR == "Blue") {
+        setCheckBox(true);
       }
       setOdersData(obj);
       if (props.clickSave) setBtnName("Сохранить");
@@ -285,6 +289,17 @@ export const CreateOderNew = (props) => {
       obj.idUnloadingPoint.push(data.id);
       obj.valueUnloadingPoint.push(data.value);
       obj.unloadingInfo.push(data.info);
+    }
+    setOdersData(obj);
+  };
+  const handleCheck = (e) => {
+    let { ...obj } = odersData;
+    if (e.currentTarget.checked) {
+      obj.colorTR = "Blue";
+      setCheckBox(true);
+    } else {
+      obj.colorTR = "Black";
+      setCheckBox(false);
     }
     setOdersData(obj);
   };
@@ -546,11 +561,17 @@ export const CreateOderNew = (props) => {
           </div>
         </div>
       </div>
-      {showBtn && (
-        <button className="crOdBtn" onClick={handleClick}>
-          {btnName}
-        </button>
-      )}
+      <div className="footer">
+        <div className="footerCheckBox">
+          Выделить цветом{" "}
+          <input type="checkbox" onChange={handleCheck} checked={checkBox} />
+        </div>
+        {showBtn && (
+          <button className="crOdBtn" onClick={handleClick}>
+            {btnName}
+          </button>
+        )}
+      </div>
     </div>
   );
 };

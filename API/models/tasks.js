@@ -410,7 +410,7 @@ var Tasks = {
   },
   editNew: async function (data, callback) {
     dateToSqlString(data.dateOfSubmission);
-    console.log(data.date);
+    console.log(data);
     let newData = {
       date: dateToSqlString(data.date),
       idDriver: data.idDriver,
@@ -431,6 +431,7 @@ var Tasks = {
       idTrack: data.idTrack,
       idManager: data.idManager,
       applicationNumber: data.applicationNumber,
+      colorTR: data.colorTR,
       loadingInfo: JSON.stringify(data.loadingInfo),
       unloadingInfo: JSON.stringify(data.unloadingInfo),
     };
