@@ -430,6 +430,7 @@ var Tasks = {
       idTrackDriver: data.idTrackDriver,
       idTrack: data.idTrack,
       idManager: data.idManager,
+      applicationNumber: data.applicationNumber,
       loadingInfo: JSON.stringify(data.loadingInfo),
       unloadingInfo: JSON.stringify(data.unloadingInfo),
     };

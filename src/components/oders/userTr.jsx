@@ -65,6 +65,7 @@ export const UserTr = (props) => {
           <TdCustomer
             idCustomer={props.elem.idCustomer}
             idManager={props.elem.idManager}
+            applycation={props.elem.applicationNumber}
             currentTR={props.trId}
             edit={true}
           />

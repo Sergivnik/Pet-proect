@@ -35,6 +35,13 @@ export const TdAccountNumber = (props) => {
       setCurrentElement(null);
     }
   };
+  const handleDeleteBill = () => {
+    dispatch(editOder(currentId, "accountNumber", null));
+    setShowEdit(false);
+    setCurrentId(null);
+    setCurrentElement(null);
+    setShowContextMenu(false);
+  };
   const handleContaxtMenu = (e) => {
     e.preventDefault();
     setCurrentId(e.currentTarget.parentElement.id);
@@ -154,6 +161,11 @@ export const TdAccountNumber = (props) => {
               Отправить Email
             </p>
           )}
+          <hr />
+          <p className="contextmenu" onClick={handleDeleteBill}>
+            Удалить счет
+          </p>
+          <hr />
         </div>
       ) : null}
       {showInputFile ? (
