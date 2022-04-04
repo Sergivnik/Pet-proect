@@ -5,12 +5,14 @@ var TasksPayments = {
   list: async function (callback) {
     const db = mysql.createPool(options).promise();
     try {
-      let [data] = await db.query("SELECT * FROM customerpayment order by date");
+      let [data] = await db.query(
+        "SELECT * FROM customerpayment order by date"
+      );
       callback(data);
-      db.end();
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
   taskDeletePayments: async function (id, callback) {
     const db = mysql.createPool(options).promise();
@@ -87,11 +89,11 @@ var TasksPayments = {
           } WHERE _id=${PaymentsData[0].idCustomer}`
         );
       }
-      db.end();
       callback("success");
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
 };
 

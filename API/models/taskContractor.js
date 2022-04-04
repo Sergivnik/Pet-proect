@@ -16,6 +16,7 @@ var TasksContractors = {
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
   add: async function (data, callback) {
     console.log(data);

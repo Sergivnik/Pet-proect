@@ -379,6 +379,7 @@ var Tasks = {
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
   add: async function (data, callback) {
     data = JSON.parse(data);

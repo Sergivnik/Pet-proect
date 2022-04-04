@@ -7,10 +7,10 @@ var TaskDebts = {
     try {
       let [data] = await db.query("SELECT * FROM driverdebts order by date");
       callback(data);
-      db.end();
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
   makeDriverDebt: async function (data, callback) {
     let debt = {
@@ -44,6 +44,7 @@ var TaskDebts = {
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
   del: async function (id, callback) {
     console.log(id);

@@ -3,3 +3,4 @@ node_modules
 package-lock.json
 /API/models/config.js
 /API/models/configEmail.js
+API/documents/img/stamp1.png

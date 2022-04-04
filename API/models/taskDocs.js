@@ -16,11 +16,11 @@ var TaskDocs = {
           `UPDATE oderslist SET accountNumber="${docNumber}" WHERE _id=${id}`
         );
       }
-      db.end();
       callback("success");
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
 };
 
