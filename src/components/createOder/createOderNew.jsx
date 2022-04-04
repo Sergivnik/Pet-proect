@@ -36,11 +36,13 @@ export const CreateOderNew = (props) => {
   const [showDateInput, setShowDateInput] = useState(true);
   const [showClientInput, setShowClientInput] = useState(true);
   const [showManagerInput, setShowManagerInput] = useState(true);
+  const [showAppInput, setShowAppInput] = useState(true);
   const [showClientPrice, setShowClientPrice] = useState(true);
   const [showOwnerInput, setShowOwnerInput] = useState(true);
   const [showTrackDriverInput, setShowTrackDriverInput] = useState(true);
   const [showTrackInput, setShowTrackInput] = useState(true);
   const [showDriverPrice, setShowDriverPrice] = useState(true);
+  const [checkBox, setCheckBox] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
   const [btnName, setBtnName] = useState("Добавить");
 
@@ -68,6 +70,9 @@ export const CreateOderNew = (props) => {
         obj.valueManager = clientManagerFull.find(
           (elem) => elem._id == obj.idManager
         ).value;
+      }
+      if (obj.applicationNumber != null) {
+        setShowAppInput(false);
       }
       if (obj.idDriver != null) {
         setShowOwnerInput(false);
@@ -98,6 +103,9 @@ export const CreateOderNew = (props) => {
           let pointValue = pointList.find((item) => item._id == elem).value;
           obj.valueUnloadingPoint.push(pointValue);
         });
+      }
+      if (obj.colorTR == "Blue") {
+        setCheckBox(true);
       }
       setOdersData(obj);
       if (props.clickSave) setBtnName("Сохранить");
@@ -135,6 +143,10 @@ export const CreateOderNew = (props) => {
         }
       }
     }
+    if (e.target.className == "crOderApplication") {
+      obj.applicationNumber = e.target.value;
+      if (e.target.value != "") setShowAppInput(false);
+    }
     if (e.target.className == "crOderPriceInput") {
       obj.customerPrice = e.target.value;
       if (e.target.value != "") setShowClientPrice(false);
@@ -155,6 +167,9 @@ export const CreateOderNew = (props) => {
     }
     if (e.target.className == "crOderManagerP") {
       setShowManagerInput(true);
+    }
+    if (e.target.className == "crOderApplicationP") {
+      setShowAppInput(true);
     }
     if (e.target.className == "crOderPriceP") {
       setShowClientPrice(true);
@@ -277,6 +292,17 @@ export const CreateOderNew = (props) => {
     }
     setOdersData(obj);
   };
+  const handleCheck = (e) => {
+    let { ...obj } = odersData;
+    if (e.currentTarget.checked) {
+      obj.colorTR = "Blue";
+      setCheckBox(true);
+    } else {
+      obj.colorTR = "Black";
+      setCheckBox(false);
+    }
+    setOdersData(obj);
+  };
   const handleClick = () => {
     let check = true;
     if (
@@ -375,6 +401,27 @@ export const CreateOderNew = (props) => {
                 </p>
               )}
             </div>
+          </div>
+          <div className="applicationContainer">
+            <h5 className="appHeader">Заявка</h5>
+            {showAppInput ? (
+              <input
+                type="text"
+                className="crOderApplication"
+                onBlur={handleLostFocus}
+              />
+            ) : (
+              <p
+                className="crOderApplicationP"
+                onDoubleClick={handleDblClick}
+                onMouseDown={(e) => {
+                  if (e.target.className == "crOderApplicationP")
+                    e.preventDefault();
+                }}
+              >
+                {odersData.applicationNumber}
+              </p>
+            )}
           </div>
         </div>
         <div className="crOderRoute">
@@ -514,11 +561,17 @@ export const CreateOderNew = (props) => {
           </div>
         </div>
       </div>
-      {showBtn && (
-        <button className="crOdBtn" onClick={handleClick}>
-          {btnName}
-        </button>
-      )}
+      <div className="footer">
+        <div className="footerCheckBox">
+          Выделить цветом{" "}
+          <input type="checkbox" onChange={handleCheck} checked={checkBox} />
+        </div>
+        {showBtn && (
+          <button className="crOdBtn" onClick={handleClick}>
+            {btnName}
+          </button>
+        )}
+      </div>
     </div>
   );
 };

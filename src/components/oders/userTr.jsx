@@ -29,7 +29,9 @@ export const UserTr = (props) => {
   const handleClickGenerate = () => {
     props.handleClickGenerate(props.elem);
   };
-
+  const setFontColor = () => {
+    return { color: props.elem.colorTR };
+  };
   useEffect(() => {
     const onKeypress = (e) => {
       if (e.code == "Escape") {
@@ -49,6 +51,7 @@ export const UserTr = (props) => {
       {showEdit ? (
         <tr
           id={props.elem._id}
+          style={setFontColor()}
           onClick={props.handleClickTR}
           onContextMenu={props.handleClickTR}
           onMouseDown={(e) => {
@@ -65,6 +68,7 @@ export const UserTr = (props) => {
           <TdCustomer
             idCustomer={props.elem.idCustomer}
             idManager={props.elem.idManager}
+            applycation={props.elem.applicationNumber}
             currentTR={props.trId}
             edit={true}
           />

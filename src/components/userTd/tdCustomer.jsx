@@ -19,7 +19,7 @@ export const TdCustomer = (props) => {
     }
   };
   const handleMouseOver = () => {
-    if (props.idManager) setShowDetails(true);
+    if (props.idManager || props.applycation) setShowDetails(true);
   };
   const handleMouseLeave = () => {
     setShowDetails(false);
@@ -74,10 +74,17 @@ export const TdCustomer = (props) => {
       {showDetails && (
         <div className="oderTdTooltip">
           <p className="userPTooltip">
-            {getValue(props.idManager, clientmanager).value}
+            {props.idManager
+              ? getValue(props.idManager, clientmanager).value
+              : null}
           </p>
           <p className="userPTooltip">
-            {getValue(props.idManager, clientmanager).phone}
+            {props.idManager
+              ? getValue(props.idManager, clientmanager).phone
+              : null}
+          </p>
+          <p className="userPTooltip">
+            {props.applycation && "Заявка № " + props.applycation}
           </p>
         </div>
       )}
