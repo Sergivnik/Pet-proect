@@ -23,9 +23,9 @@ var TaskPaymentsDriver = {
     try {
       await db.query("INSERT INTO driverpayment SET ?", paymentString);
       for (let oderId of data.chosenOders) {
-        await db.query(
-          `UPDATE oderslist SET driverPayment="Ок" WHERE _id=${oderId}`
-        );
+        await db.query(`UPDATE oderslist SET ? WHERE _id=${oderId}`, [
+          { driverPayment: "Ок", dateOfPayment: paymentString.date },
+        ]);
       }
       for (let debt of data.chosenDebts) {
         let [chosenDebt] = await db.query(

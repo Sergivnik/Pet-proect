@@ -2,13 +2,29 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { dateLocal } from "../myLib/myLib.js";
 
 export const TdDriverPayment = (props) => {
   const dispatch = useDispatch();
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
 
+  let mouseOut = true;
+
+  const handleMouseOver = () => {
+    mouseOut = false;
+    setTimeout(() => {
+      if (!mouseOut) {
+        if (props.dateOfPayment) setShowDetails(true);
+      }
+    }, 500);
+  };
+  const handleMouseLeave = () => {
+    mouseOut = true;
+    setShowDetails(false);
+  };
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
     if (props.edit) {
@@ -50,7 +66,12 @@ export const TdDriverPayment = (props) => {
   }, [showEdit]);
 
   return (
-    <td className="odersTd" onDoubleClick={handleDBLClick}>
+    <td
+      className="odersTd"
+      onDoubleClick={handleDBLClick}
+      onMouseOver={handleMouseOver}
+      onMouseLeave={handleMouseLeave}
+    >
       {showEdit ? (
         <div className="divChoise">
           <ChoiseList
@@ -65,6 +86,13 @@ export const TdDriverPayment = (props) => {
         </div>
       ) : (
         props.driverPayment
+      )}
+      {showDetails && (
+        <div className="oderTdTooltip">
+          <p className="userPTooltip">
+            {props.dateOfPayment ? dateLocal(props.dateOfPayment) : null}
+          </p>
+        </div>
       )}
     </td>
   );

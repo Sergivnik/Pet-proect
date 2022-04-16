@@ -213,29 +213,7 @@ export const UserThead = (props) => {
             />
           )}
         </td>
-        <td className=" odersTRheader">
-          <span className="odersTheadSpan">Дов-ть</span>
-          <button className="theadBtnFilter" onClick={handleClickFilter}>
-            <svg width="100%" height="20">
-              <polygon
-                points="5 5, 25 5, 15 15, 5 5 "
-                fill={props.filterList.proxy.length > 0 ? "blue" : "black"}
-              />
-            </svg>
-          </button>
-          {showFilter && colNumber === 7 && (
-            <FilterList
-              name="Proxy"
-              arrlist={[
-                { _id: 1, value: "Ок" },
-                { _id: 0, value: "Нет" },
-              ]}
-              filterList={props.filterList.proxy}
-              closeFilter={closeFilter}
-              writeFilterList={props.writeFilterList}
-            />
-          )}
-        </td>
+        
         <td className=" odersTRheader">
           <span className="odersTheadSpan">Выполнен</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
@@ -246,7 +224,7 @@ export const UserThead = (props) => {
               />
             </svg>
           </button>
-          {showFilter && colNumber === 8 && (
+          {showFilter && colNumber === 7 && (
             <FilterList
               name="Completed"
               arrlist={[
@@ -269,7 +247,7 @@ export const UserThead = (props) => {
               />
             </svg>
           </button>
-          {showFilter && colNumber === 9 && (
+          {showFilter && colNumber === 8 && (
             <FilterList
               name="Documents"
               arrlist={[
@@ -295,7 +273,7 @@ export const UserThead = (props) => {
               />
             </svg>
           </button>
-          {showFilter && colNumber === 10 && (
+          {showFilter && colNumber === 9 && (
             <FilterList
               name="CustomerPayment"
               arrlist={statusCustomerPay}
@@ -317,7 +295,7 @@ export const UserThead = (props) => {
               />
             </svg>
           </button>
-          {showFilter && colNumber === 11 && (
+          {showFilter && colNumber === 10 && (
             <FilterList
               name="DriverPayment"
               arrlist={[
@@ -342,7 +320,7 @@ export const UserThead = (props) => {
               />
             </svg>
           </button>
-          {showFilter && colNumber === 12 && (
+          {showFilter && colNumber === 11 && (
             <FilterList
               name="AccountList"
               arrlist={filteredAccountList}

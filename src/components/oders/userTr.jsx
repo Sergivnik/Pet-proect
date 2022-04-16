@@ -99,11 +99,6 @@ export const UserTr = (props) => {
             currentTR={props.trId}
             edit={true}
           />
-          <TdProxy
-            proxy={props.elem.proxy}
-            currentTR={props.trId}
-            edit={true}
-          />
           <TdCompleted
             completed={props.elem.completed}
             currentTR={props.trId}
@@ -123,6 +118,7 @@ export const UserTr = (props) => {
           />
           <TdDriverPayment
             driverPayment={props.elem.driverPayment}
+            dateOfPayment={props.elem.dateOfPayment}
             currentTR={props.trId}
             edit={true}
           />
