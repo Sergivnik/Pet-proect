@@ -640,11 +640,14 @@ export const oderReducer = (store = initialStore, action) => {
       let [...arrDebts] = store.driverDebtList;
       let expenses = Number(store.expenses);
       let sum = 0;
+      let now = new Date();
       action.chosenOders.forEach((elem) => {
         let index = arrOriginOders.findIndex((oder) => oder._id == elem);
         arrOriginOders[index].driverPayment = "Ок";
+        arrOriginOders[index].dateOfPayment = now;
         index = arrOders.findIndex((oder) => oder._id == elem);
         arrOders[index].driverPayment = "Ок";
+        arrOders[index].dateOfPayment = now;
       });
       action.chosenDebts.forEach((elem) => {
         let index = arrDebts.findIndex((debt) => debt.id == elem.id);
