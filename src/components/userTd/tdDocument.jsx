@@ -11,16 +11,22 @@ export const TdDocument = (props) => {
     { _id: 3, value: "Факс" },
   ];
   const dispatch = useDispatch();
-  
+
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
 
+  let mouseOut = true;
+
   const handleMouseOver = () => {
-    if (props.dateOfSubmission) setShowDetails(true);
+    mouseOut = false;
+    setTimeout(() => {
+      if (!mouseOut) if (props.dateOfSubmission) setShowDetails(true);
+    }, 500);
   };
   const handleMouseLeave = () => {
+    mouseOut = true;
     setShowDetails(false);
   };
   const handleDBLClick = (e) => {

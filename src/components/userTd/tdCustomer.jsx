@@ -12,6 +12,9 @@ export const TdCustomer = (props) => {
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
+  
+  let mouseOut = true;
+
   const getValue = (id, arrObj) => {
     if (id) {
       let value = arrObj.find((elem) => elem._id == id);
@@ -19,9 +22,17 @@ export const TdCustomer = (props) => {
     }
   };
   const handleMouseOver = () => {
-    if (props.idManager || props.applycation) setShowDetails(true);
+    mouseOut = false;
+    setTimeout(() => {
+      if (!mouseOut) {
+        if (props.idManager || props.applycation) {
+          setShowDetails(true);
+        }
+      }
+    }, 500);
   };
   const handleMouseLeave = () => {
+    mouseOut = true;
     setShowDetails(false);
   };
   const handleDBLClick = (e) => {

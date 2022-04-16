@@ -18,10 +18,16 @@ export const TdCustomerPayment = (props) => {
   const [getSum, setGetSum] = useState(false);
   const [getDate, setGetDate] = useState(false);
 
+  let mouseOut = true;
+
   const handleMouseOver = () => {
-    if (props.dateOfPromise) setShowDetails(true);
+    mouseOut = false;
+    setTimeout(() => {
+      if (!mouseOut) if (props.dateOfPromise) setShowDetails(true);
+    }, 500);
   };
   const handleMouseLeave = () => {
+    mouseOut = true;
     setShowDetails(false);
   };
   const handleDBLClick = (e) => {
