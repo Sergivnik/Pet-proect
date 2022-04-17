@@ -84,6 +84,10 @@ export const ChoiseList = (props) => {
     }
     if (props.reset) setText("");
   }, [props]);
+  useEffect(() => {
+    let optionEl = document.querySelector(".optionClass");
+    if (optionEl) optionEl.selected = true;
+  }, [list]);
 
   return (
     <React.Fragment>
@@ -108,9 +112,14 @@ export const ChoiseList = (props) => {
           className="selectList"
           name="select"
         >
-          {list.map((elem) => {
+          {list.map((elem, index) => {
             return (
-              <option key={elem._id} value={elem._id}>
+              <option
+                key={elem._id}
+                value={elem._id}
+                className="optionClass"
+                //selected={index == 0 ? true : false}
+              >
                 {elem.value}
               </option>
             );
