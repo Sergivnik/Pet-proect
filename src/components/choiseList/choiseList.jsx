@@ -17,7 +17,7 @@ export const ChoiseList = (props) => {
     let arr = props.arrlist.filter((elem) => regtext.test(elem.value));
     setList(arr);
   };
-  const handleKeyUp = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key == "Enter") {
       e.preventDefault();
       e.stopPropagation();
@@ -92,7 +92,7 @@ export const ChoiseList = (props) => {
         id={props.name}
         onClick={handleClickInput}
         onChange={getText}
-        onKeyUp={handleKeyUp}
+        onKeyDown={handleKeyDown}
         value={text}
         className="inputList"
         autoComplete="off"
@@ -106,6 +106,7 @@ export const ChoiseList = (props) => {
           onKeyUp={handleChoiseEnter}
           onClick={handleClick}
           className="selectList"
+          name="select"
         >
           {list.map((elem) => {
             return (

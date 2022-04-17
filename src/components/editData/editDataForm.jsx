@@ -55,7 +55,7 @@ export const EditDataForm = (props) => {
         >
           Перевозчики
         </button>
-        <button
+        {/* <button
           name="trackdrivers"
           className="EDFMenuBtn"
           onClick={handleClickBtnMenu}
@@ -68,7 +68,7 @@ export const EditDataForm = (props) => {
           onClick={handleClickBtnMenu}
         >
           Автомобиль
-        </button>
+        </button> */}
         <button
           name="cities"
           className="EDFMenuBtn"
