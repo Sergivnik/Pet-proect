@@ -17,8 +17,8 @@ export const ContractorsPayments = () => {
     (state) => state.oderReducer.contractorsPayments
   );
   const [contractorsPayments, setContractorsPayments] = useState([]);
-
   const [showAddForm, setShowAddForm] = useState(false);
+  const [currentId, setCurrentId] = useState(null);
 
   useEffect(() => {
     dispatch(getDataContractors());
@@ -151,7 +151,16 @@ export const ContractorsPayments = () => {
           </thead>
           <tbody>
             {contractorsPayments.map((elem) => {
-              return <ContractorPaymentTr key={elem.id} paymentData={elem} />;
+              return (
+                <ContractorPaymentTr
+                  key={elem.id}
+                  paymentData={elem}
+                  currentId={currentId}
+                  getCurrentId={(id) => {
+                    setCurrentId(id);
+                  }}
+                />
+              );
             })}
           </tbody>
         </table>

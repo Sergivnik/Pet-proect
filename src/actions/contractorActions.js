@@ -9,6 +9,10 @@ export const ADD_DATA_CONTRACTORS_SUCCESS =
   "DATA::ADD_DATA_CONTRACTORS_SUCCESS";
 export const ADD_DATA_CONTRACTORS_FAILURE =
   "DATA::ADD_DATA_CONTRACTORS_FAILURE";
+export const DEL_DATA_CONTRACTORS_SUCCESS =
+  "DATA::DEL_DATA_CONTRACTORS_SUCCESS";
+export const DEL_DATA_CONTRACTORS_FAILURE =
+  "DATA::DEL_DATA_CONTRACTORS_FAILURE";
 
 export const getDataContractorsSuccess = (dataServer) => ({
   type: GET_DATA_CONTRACTORS_SUCCESS,
@@ -54,6 +58,29 @@ export const addDataContractorPayment = (data) => {
       .catch((e) => {
         console.log(e.message);
         return dispatch(addDataContractorsFailure());
+      });
+  };
+};
+export const delDataContractorPaymentSuccess = (id) => ({
+  type: DEL_DATA_CONTRACTORS_SUCCESS,
+  id,
+});
+export const delDataContractorPaymentFailure = (message) => ({
+  type: delDataContractorPaymentFailure,
+  message,
+});
+export const delDataContractorPayment = (id) => {
+  console.log(id);
+  return (dispatch) => {
+    axios
+      .delete(URL + "/deleteContractorPayment/" + id, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        return dispatch(delDataContractorPaymentSuccess(id));
+      })
+      .catch((e) => {
+        return dispatch(delDataContractorPaymentFailure(e.response.data));
       });
   };
 };
