@@ -33,6 +33,20 @@ var TasksContractors = {
     }
     db.end();
   },
+  delete: async function (id, callback) {
+    console.log(id);
+    const db = mysql.createPool(options).promise();
+    try {
+      let [data] = await db.query(
+        `DELETE FROM contractorspayments WHERE id=${id}`
+      );
+      callback("success!");
+    } catch (err) {
+      console.log(err);
+      callback({ error: err });
+    }
+    db.end();
+  },
 };
 
 module.exports = TasksContractors;

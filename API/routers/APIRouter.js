@@ -51,5 +51,6 @@ router.delete("/:id", API.taskDel);
 router.delete("/deleteDataPatmenrs/:id", API.taskDeletePayments);
 router.delete("/deletedriverDebt/:id", API.taskDeleteDebt);
 router.delete("/deleteData/:id", API.taskDeleteData);
+router.delete("/deleteContractorPayment/:id", API.deleteContractorPayment);
 
 module.exports = router;

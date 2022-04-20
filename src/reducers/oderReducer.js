@@ -33,6 +33,8 @@ import {
   GET_DATA_CONTRACTORS_FAILURE,
   ADD_DATA_CONTRACTORS_SUCCESS,
   ADD_DATA_CONTRACTORS_FAILURE,
+  DEL_DATA_CONTRACTORS_SUCCESS,
+  DEL_DATA_CONTRACTORS_FAILURE,
 } from "../actions/contractorActions.js";
 import {
   EDIT_DATA_SUCCESS,
@@ -827,6 +829,22 @@ export const oderReducer = (store = initialStore, action) => {
     case DEL_DATA_FAILURE:
       console.log(action.message);
       return { ...store, message: action.message };
+
+    case DEL_DATA_CONTRACTORS_SUCCESS: {
+      console.log(action.id);
+      let expenses = Number(store.expenses);
+      let [...arrContractorsPayment] = store.contractorsPayments;
+      let index = arrContractorsPayment.findIndex(
+        (elem) => elem.id == action.id
+      );
+      expenses = Number(expenses) - Number(arrContractorsPayment[index].sum);
+      arrContractorsPayment.splice(index, 1);
+      return {
+        ...store,
+        expenses: expenses,
+        contractorsPayments: arrContractorsPayment,
+      };
+    }
 
     case CREATE_NEW_INVOICE_SUCCESS: {
       let [...arr] = store.odersList;
