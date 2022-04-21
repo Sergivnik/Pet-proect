@@ -21,32 +21,43 @@ var TaskPaymentsDriver = {
     const db = mysql.createPool(options).promise();
     console.log(paymentString);
     try {
-      await db.query("INSERT INTO driverpayment SET ?", paymentString);
+      let check = true;
       for (let oderId of data.chosenOders) {
-        await db.query(`UPDATE oderslist SET ? WHERE _id=${oderId}`, [
-          { driverPayment: "Ок", dateOfPayment: paymentString.date },
-        ]);
-      }
-      for (let debt of data.chosenDebts) {
-        let [chosenDebt] = await db.query(
-          `SELECT sumOfDebt, paidPartOfDebt from driverdebts WHERE id=${debt.id} `
+        let [data] = await db.query(
+          `SELECT * FROM oderslist WHERE _id=${oderId}`
         );
-        let sumOfDebt = Number(chosenDebt[0].sumOfDebt);
-        let paidPart = Number(chosenDebt[0].paidPartOfDebt);
-        if (sumOfDebt - paidPart == debt.sum) {
-          await db.query(
-            `UPDATE driverdebts SET paidPartOfDebt=0, debtClosed="Ок" WHERE id=${debt.id}`
-          );
-        } else {
-          await db.query(
-            `UPDATE driverdebts SET paidPartOfDebt=${
-              paidPart + debt.sum
-            }, debtClosed="частично" WHERE id=${debt.id}`
-          );
-        }
-        console.log(chosenDebt[0], debt.sum);
+        if (data[0].driverPayment == "Ок") check = false;
       }
-      callback(data);
+      if (check) {
+        await db.query("INSERT INTO driverpayment SET ?", paymentString);
+        for (let oderId of data.chosenOders) {
+          await db.query(`UPDATE oderslist SET ? WHERE _id=${oderId}`, [
+            { driverPayment: "Ок", dateOfPayment: paymentString.date },
+          ]);
+        }
+        for (let debt of data.chosenDebts) {
+          let [chosenDebt] = await db.query(
+            `SELECT sumOfDebt, paidPartOfDebt from driverdebts WHERE id=${debt.id} `
+          );
+          let sumOfDebt = Number(chosenDebt[0].sumOfDebt);
+          let paidPart = Number(chosenDebt[0].paidPartOfDebt);
+          if (sumOfDebt - paidPart == debt.sum) {
+            await db.query(
+              `UPDATE driverdebts SET paidPartOfDebt=0, debtClosed="Ок" WHERE id=${debt.id}`
+            );
+          } else {
+            await db.query(
+              `UPDATE driverdebts SET paidPartOfDebt=${
+                paidPart + debt.sum
+              }, debtClosed="частично" WHERE id=${debt.id}`
+            );
+          }
+          console.log(chosenDebt[0], debt.sum);
+        }
+        callback(data);
+      } else {
+        callback({ message: "err" });
+      }
     } catch (err) {
       console.log(err);
       callback({ error: err });
