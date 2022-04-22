@@ -292,7 +292,7 @@ module.exports.makePaymentDriver = (req, res) => {
   taskPaymentsDriver.add(req.body.body, (data) => {
     if (data.error) {
       res.status(500);
-      res.json({ message: data.error });
+      res.json({ message: data.error.message });
     } else {
       res.json(data);
     }

@@ -56,7 +56,9 @@ var TaskPaymentsDriver = {
         }
         callback(data);
       } else {
-        callback({ message: "err" });
+        throw new Error(
+          "Некоторые заказы уже оплачены обновите страницу"
+        );
       }
     } catch (err) {
       console.log(err);

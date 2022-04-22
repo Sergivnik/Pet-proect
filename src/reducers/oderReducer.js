@@ -27,6 +27,7 @@ import {
   DEL_DATA_DRIVER_DEBT_SUCCESS,
   EDIT_DATA_DRIVER_DEBT_SUCCESS,
   MAKE_PAYMENT_DRIVER_SUCCESS,
+  MAKE_PAYMENT_DRIVER_FAILURE,
 } from "../actions/driverActions.js";
 import {
   GET_DATA_CONTRACTORS_SUCCESS,
@@ -672,6 +673,10 @@ export const oderReducer = (store = initialStore, action) => {
         driverDebtList: arrDebts,
         expenses: expenses,
       };
+    }
+    case MAKE_PAYMENT_DRIVER_FAILURE: {
+      alert(action.message.message);
+      return store;
     }
     case GET_DATA_CONTRACTORS_SUCCESS: {
       return {

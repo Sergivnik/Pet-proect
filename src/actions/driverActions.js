@@ -143,7 +143,7 @@ export const makePaymentDriver = (
         );
       })
       .catch((e) => {
-        console.log(e.message);
+        return dispatch(makePaymentDriverFailure(e.response.data));
       });
 };
 export const makePaymentDriverSuccess = (
@@ -158,6 +158,7 @@ export const makePaymentDriverSuccess = (
   chosenDebts,
   currentDriverSumOfOders,
 });
-export const makePaymentDriverFailure = () => ({
+export const makePaymentDriverFailure = (message) => ({
   type: MAKE_PAYMENT_DRIVER_FAILURE,
+  message,
 });
