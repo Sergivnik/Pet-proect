@@ -13,7 +13,7 @@ export const MAKE_PAYMENT_CUSTOMER = "MAKE_PAYMENT_CUSTOMER";
 export const MAKE_PAYMENT_CUSTOMER_SUCCESS =
   "DATA::MAKE_PAYMENT_CUSTOMER_SUCCESS";
 export const MAKE_PAYMENT_CUSTOMER_FAILURE =
-  "DATA::MAKE_PAYMENT_CUSTOMER_SUCCESS";
+  "DATA::MAKE_PAYMENT_CUSTOMER_FAILURE";
 
 export const addOder = (data) => {
   return (dispatch) =>
@@ -109,7 +109,8 @@ export const makePaymentCustomer = (
         );
       })
       .catch((e) => {
-        console.log(e.message);
+        console.log(e.response.data);
+        return dispatch(makePaymentCustomerFailure(e.response.data));
       });
 };
 
@@ -126,6 +127,7 @@ export const makePaymentCustomerSuccess = (
   arr,
 });
 
-export const makePaymentCustomerFailure = () => ({
+export const makePaymentCustomerFailure = (message) => ({
   type: MAKE_PAYMENT_CUSTOMER_FAILURE,
+  message,
 });

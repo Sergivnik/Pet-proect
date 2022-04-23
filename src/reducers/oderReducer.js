@@ -8,6 +8,7 @@ import {
   EDIT_ODER_NEW_FAILURE,
   SET_PROXY,
   MAKE_PAYMENT_CUSTOMER_SUCCESS,
+  MAKE_PAYMENT_CUSTOMER_FAILURE,
 } from "../actions/oderActions.js";
 import {
   GET_DATA_SUCCESS,
@@ -502,6 +503,10 @@ export const oderReducer = (store = initialStore, action) => {
         income: sum,
         clientList: arrCustomer,
       };
+    }
+    case MAKE_PAYMENT_CUSTOMER_FAILURE: {
+      alert(action.message.message);
+      return store;
     }
     case GET_PAYMENTS_DATA_SUCCESS: {
       return {

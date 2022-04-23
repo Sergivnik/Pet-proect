@@ -539,7 +539,7 @@ var Tasks = {
     db.end();
   },
 
-  makePaymentCustomer: async function (data, callBack) {
+  makePaymentCustomer: async function (data, callback) {
     console.log(data);
     let sumChosenOders = data.arr.reduce(
       (sum, item) => sum + item.customerPrice,
@@ -557,6 +557,13 @@ var Tasks = {
     const db = mysql.createPool(options).promise();
 
     try {
+      let [dataelem] = await db.query(
+        `select * FROM pet_proect.oderslist where _id in (${idList})`
+      );
+      for (const elem of dataelem) {
+        if (elem.customerPayment == "Ок")
+          throw new Error("Некоторые заказы уже оплачены обновите страницу");
+      }
       let [dataOder] = await db.query(
         `select * FROM pet_proect.oderslist where _id=${data.arr[0].id}`
       );
@@ -574,9 +581,6 @@ var Tasks = {
           } WHERE _id=${customerId}`
         );
       }
-      let [dataelem] = await db.query(
-        `select * FROM pet_proect.oderslist where _id in (${idList})`
-      );
       for (let i = 0; i < data.arr.length; i++) {
         let index = data.arr.findIndex(
           (element) => element.id == dataelem[i]._id
@@ -629,7 +633,7 @@ var Tasks = {
       let [dataChanged] = await db.query(
         `select * FROM pet_proect.oderslist where _id in (${idList})`
       );
-      callBack(dataChanged);
+      callback(dataChanged);
     } catch (err) {
       console.log(err);
       callback({ error: err });

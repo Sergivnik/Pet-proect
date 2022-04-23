@@ -191,7 +191,7 @@ module.exports.makePaymentCustomer = (req, res) => {
   tasks.makePaymentCustomer(req.body.body, (data) => {
     if (data.error) {
       res.status(500);
-      res.json({ message: data.error });
+      res.json({ message: data.error.message });
     } else {
       res.json(data);
     }
@@ -254,20 +254,20 @@ module.exports.taskDeleteData = (req, res) => {
     }
   });
 };
-module.exports.deleteContractorPayment=(req,res)=>{
+module.exports.deleteContractorPayment = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
-  taskContractors.delete(req.params.id, (data)=>{
+  taskContractors.delete(req.params.id, (data) => {
     if (data.error) {
       res.status(500);
       res.json(data);
     } else {
       res.json(data);
     }
-  })
-}
+  });
+};
 
 module.exports.editDriverDebt = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
