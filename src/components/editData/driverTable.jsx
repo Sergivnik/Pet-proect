@@ -8,7 +8,7 @@ import { TrackDraverAddTr } from "./trackDriverAddTr.jsx";
 import { TrackTr } from "./trackTr.jsx";
 import { TrackAddTr } from "./trackAddTr.jsx";
 import { addData } from "../../actions/editDataAction.js";
-
+import { dateLocal } from "../myLib/myLib.js";
 import "./editData.sass";
 
 export const DriverTable = (props) => {
@@ -146,6 +146,27 @@ export const DriverTable = (props) => {
     dispatch(addData(data, "tracklist"));
     setShowAddTrackTr(false);
   };
+  const handleClickClipboard = () => {
+    let trackdriver = trackdrivers.find(
+      (elem) => elem._id == currentTrackDriverId
+    );
+    let bufferText = `
+    ${trackdriver.name}
+    паспорт: ${trackdriver.passportNumber} выдан ${
+      trackdriver.department
+    } ${dateLocal(trackdriver.dateOfIssue)}
+    водительское удостоверение: ${trackdriver.driverLicense}
+    телефон: ${trackdriver.phoneNumber}`;
+    console.log(bufferText);
+    navigator.clipboard
+      .writeText(bufferText)
+      .then(() => {
+        // Получилось!
+      })
+      .catch((err) => {
+        console.log("Something went wrong", err);
+      });
+  };
 
   return (
     <>
@@ -216,6 +237,11 @@ export const DriverTable = (props) => {
                   Автомобиль
                 </div>
               </div>
+              {currentTrackDriverId !== null && (
+                <button className="driverAddBtn" onClick={handleClickClipboard}>
+                  Копировать в буфер обмена
+                </button>
+              )}
               <button className="driverAddBtn" onClick={handleClickAddInfo}>
                 {nameAddBtn}
               </button>

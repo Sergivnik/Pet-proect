@@ -292,6 +292,18 @@ export const CreateOderNew = (props) => {
     }
     setOdersData(obj);
   };
+  const editPoint = (data, name, index) => {
+    let { ...obj } = odersData;
+    if (name == "LoadingPoint") {
+      console.log(obj, data, name, index);
+      obj.loadingInfo[index] = data;
+    }
+    if (name == "UnloadingPoint") {
+      console.log(obj, data, name, index);
+      obj.unloadingInfo[index] = data;
+    }
+    setOdersData(obj);
+  };
   const handleCheck = (e) => {
     let { ...obj } = odersData;
     if (e.currentTarget.checked) {
@@ -435,6 +447,7 @@ export const CreateOderNew = (props) => {
                 infoList={odersData.loadingInfo}
                 delPoint={delPoint}
                 addPoint={addPoint}
+                editPoint={editPoint}
               />
             </div>
             <div className="crOderUnloadPart">
@@ -445,6 +458,7 @@ export const CreateOderNew = (props) => {
                 infoList={odersData.unloadingInfo}
                 delPoint={delPoint}
                 addPoint={addPoint}
+                editPoint={editPoint}
               />
             </div>
           </div>

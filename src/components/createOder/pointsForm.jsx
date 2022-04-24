@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { InputText } from "../myLib/inputText.jsx";
 import "./createOder.sass";
 
 export const PointsForm = (props) => {
@@ -8,6 +9,8 @@ export const PointsForm = (props) => {
 
   const [showAddPoint, setShowAddPoint] = useState(true);
   const [pointData, setPointData] = useState({});
+  const [editPoint, setEditPoint] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   useEffect(() => {
     if (props.pointsList.length != 0) setShowAddPoint(false);
@@ -33,6 +36,14 @@ export const PointsForm = (props) => {
     props.addPoint(obj, props.name);
     setPointData({});
     setShowAddPoint(false);
+  };
+  const handleDblClikcInfo = (index) => {
+    setEditPoint(true);
+    setSelectedIndex(index);
+  };
+  const getText = (name, text) => {
+    props.editPoint(text, props.name, selectedIndex);
+    setEditPoint(false);
   };
 
   return (
@@ -63,7 +74,22 @@ export const PointsForm = (props) => {
               </svg>
             </div>
             <p className="PFContentPoint">{elem}</p>
-            <p className="PFContentInfo">{props.infoList[index]}</p>
+            {editPoint && selectedIndex == index ? (
+              <div style={{ width: "55%" }}>
+                <InputText
+                  name="pointInfo"
+                  text={props.infoList[index]}
+                  getText={getText}
+                />
+              </div>
+            ) : (
+              <p
+                onDoubleClick={() => handleDblClikcInfo(index)}
+                className="PFContentInfo"
+              >
+                {props.infoList[index]}
+              </p>
+            )}
           </div>
         );
       })}
