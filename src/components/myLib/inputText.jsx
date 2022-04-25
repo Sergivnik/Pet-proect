@@ -13,6 +13,7 @@ export const InputText = (props) => {
   useEffect(() => {
     let input = document.querySelector(".inputText");
     input.style.width = "100%";
+    input.style.boxSizing = "border-box";
     input.focus();
   }, []);
   return (
