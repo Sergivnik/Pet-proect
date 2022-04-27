@@ -9,8 +9,13 @@ export const TrEditable = (props) => {
   const index = props.index;
 
   const citiesList = useSelector((state) => state.oderReducer.citieslist);
+  const clientList = useSelector((state) => state.oderReducer.clientList);
   const driver = useSelector((state) => state.oderReducer.trackdrivers);
   const track = useSelector((state) => state.oderReducer.tracklist);
+  const customerContract = findValueBy_Id(
+    elem.idCustomer,
+    clientList
+  ).contract;
 
   const [showInputRoute, setshowInputRoute] = useState(false);
   const [showInputNumber, setShowInputNumber] = useState(false);
@@ -28,9 +33,7 @@ export const TrEditable = (props) => {
   const [strOder, setStrOder] = useState({
     strRoute: `Перевозка по маршруту ${routeText} водитель ${driverText} ${
       trackObj.model ? " а/м " + trackObj.model : ""
-    } ${trackObj.value ? trackObj.value : ""} ${
-      trackObj.trackTrailerLicensePlate ? " прицеп "+ trackObj.trackTrailerLicensePlate : ""
-    }`,
+    } ${trackObj.value ? trackObj.value : ""} `,
     numberOfShipments: 1,
   });
 
@@ -65,6 +68,26 @@ export const TrEditable = (props) => {
       setStrOder(obj);
     }
   }, [props.strObj]);
+  useEffect(() => {
+    console.log(strOder);
+    let { ...obj } = strOder;
+    obj.strRoute = `Перевозка по маршруту ${routeText} водитель ${driverText} ${
+      trackObj.model ? " а/м " + trackObj.model : ""
+    } ${trackObj.value ? trackObj.value : ""}  ${
+      trackObj.trackTrailerLicensePlate && props.addData.trackTrailer
+        ? " прицеп " + trackObj.trackTrailerLicensePlate
+        : ""
+    } ${
+      elem.applicationNumber !== null && props.addData.aplication
+        ? "по заявке № " + elem.applicationNumber
+        : ""
+    } ${props.addData.wayBill ? "ТТН № " + props.addData.wayBillNumber : ""} ${
+      props.addData.contract && customerContract !== null
+        ? " по договору № " + customerContract
+        : ""
+    }`;
+    setStrOder(obj);
+  }, [props.addData]);
 
   return (
     <tr style={{ textAlign: "center", fontSize: "10", lineHeight: 1 }}>

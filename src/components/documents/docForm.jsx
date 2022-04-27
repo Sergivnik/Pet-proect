@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { InvoiceForm } from "./invoiceForm.jsx";
 import { ActForm } from "./actForm.jsx";
 import { findValueBy_Id } from "../myLib/myLib.js";
+import { InputText } from "../myLib/inputText.jsx";
 
 import "./billsForm.sass";
 import {
@@ -20,6 +21,7 @@ export const DocForm = (props) => {
     odersList.find((elem) => elem._id == id)
   );
   const customer = findValueBy_Id(oders[0].idCustomer, clientList).value;
+  
   const dateOfInvoice = oders.reduce((maxDate, elem) => {
     if (maxDate < new Date(elem.date)) {
       maxDate = new Date(elem.date);
@@ -38,6 +40,14 @@ export const DocForm = (props) => {
   const [strObj, setStrObj] = useState(null);
   const [addStrObj, setAddStrObj] = useState(null);
   const [showAddStr, setShowAddStr] = useState(false);
+  const [addData, setAddData] = useState({
+    wayBill: false,
+    contract: false,
+    aplication: false,
+    trackTrailer: false,
+    wayBillNumber: "",
+  });
+  const [showWayBill, setShowWayBill] = useState(false);
 
   const handleClickClose = () => {
     props.handleClickClose();
@@ -126,6 +136,33 @@ export const DocForm = (props) => {
   const getAddStr = (obj) => {
     setAddStrObj(obj);
   };
+  const handleClickCheckBox = (e) => {
+    let { ...obj } = addData;
+    switch (e.currentTarget.name) {
+      case "wayBill":
+        obj.wayBill = !obj.wayBill;
+        setShowWayBill(true);
+        break;
+      case "contract":
+        obj.contract = !obj.contract;
+        break;
+      case "aplication":
+        obj.aplication = !obj.aplication;
+        break;
+      case "trackTrailer":
+        obj.trackTrailer = !obj.trackTrailer;
+        break;
+      default:
+        break;
+    }
+    setAddData(obj);
+  };
+  const getText = (name, text) => {
+    let { ...obj } = addData;
+    obj.wayBillNumber = text;
+    setAddData(obj);
+    setShowWayBill(false);
+  };
 
   return (
     <div className="docFormMainDiv">
@@ -148,6 +185,50 @@ export const DocForm = (props) => {
           />
         </svg>
       </header>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <span>ТТН </span>
+        <input
+          type="checkbox"
+          name="wayBill"
+          checked={addData.wayBill}
+          onChange={handleClickCheckBox}
+        />
+        {showWayBill ? (
+          <>
+            <span>№</span>
+            <div style={{ width: "100px" }}>
+              <InputText
+                name="wayBillNumber"
+                getText={getText}
+                text={addData.wayBillNumber}
+              />
+            </div>
+          </>
+        ) : (
+          <span>{addData.wayBillNumber}</span>
+        )}
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;Договор</span>
+        <input
+          type="checkbox"
+          name="contract"
+          checked={addData.contract}
+          onChange={handleClickCheckBox}
+        />
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;Заявка</span>
+        <input
+          type="checkbox"
+          name="aplication"
+          checked={addData.aplication}
+          onChange={handleClickCheckBox}
+        />
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;Прицеп</span>
+        <input
+          type="checkbox"
+          name="trackTrailer"
+          checked={addData.waytrackTrailerBill}
+          onChange={handleClickCheckBox}
+        />
+      </div>
       <div className="tabList">
         <div
           id="Tab1"
@@ -181,14 +262,16 @@ export const DocForm = (props) => {
             </div>
           );
         })}
-        <button className="docFormBtnAdd" onClick={handleClickBtnAdd}>
-          {showAddStr ? "Удалить строку" : "Добавить строку"}
-        </button>
-        <button className="docFormBtn" onClick={handleClickBtn}>
-          {showInvoice && "Сохранить Счет"}
-          {showDocWithoutStamp && "Соранить без печати"}
-          {showApplication && "Добавить Заявку"}
-        </button>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <button className="docFormBtnAdd" onClick={handleClickBtnAdd}>
+            {showAddStr ? "Удалить строку" : "Добавить строку"}
+          </button>
+          <button className="docFormBtn" onClick={handleClickBtn}>
+            {showInvoice && "Сохранить Счет"}
+            {showDocWithoutStamp && "Соранить без печати"}
+            {showApplication && "Добавить Заявку"}
+          </button>
+        </div>
       </div>
       <div className="docPrintDiv">
         {showInvoice && (
@@ -202,6 +285,7 @@ export const DocForm = (props) => {
               showAddStr={showAddStr}
               getAddStr={getAddStr}
               addStrObj={addStrObj}
+              addData={addData}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -212,6 +296,7 @@ export const DocForm = (props) => {
               showAddStr={showAddStr}
               getAddStr={getAddStr}
               addStrObj={addStrObj}
+              addData={addData}
             />
           </div>
         )}
@@ -227,6 +312,7 @@ export const DocForm = (props) => {
               showAddStr={showAddStr}
               getAddStr={getAddStr}
               addStrObj={addStrObj}
+              addData={addData}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -237,6 +323,7 @@ export const DocForm = (props) => {
               showAddStr={showAddStr}
               getAddStr={getAddStr}
               addStrObj={addStrObj}
+              addData={addData}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -247,6 +334,7 @@ export const DocForm = (props) => {
               showAddStr={showAddStr}
               getAddStr={getAddStr}
               addStrObj={addStrObj}
+              addData={addData}
             />
           </div>
         )}

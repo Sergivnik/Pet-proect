@@ -150,36 +150,31 @@ export const DriverTable = (props) => {
     let trackdriver = trackdrivers.find(
       (elem) => elem._id == currentTrackDriverId
     );
+    let track = tracklistFull.find((elem) => elem._id == trackdriver.idTrack);
     let bufferText = `
     ${trackdriver.name}
     паспорт: ${trackdriver.passportNumber} выдан ${
       trackdriver.department
     } ${dateLocal(trackdriver.dateOfIssue)}
     водительское удостоверение: ${trackdriver.driverLicense}
-    телефон: ${trackdriver.phoneNumber}`;
+    телефон: ${trackdriver.phoneNumber}
+    А/М ${track.model} номер ${track.value}
+    прицеп номер ${track.trackTrailerLicensePlate}`;
     console.log(bufferText);
     let textArea = document.createElement("textarea");
-        textArea.value = bufferText;
-        // make the textarea out of viewport
-        textArea.style.position = "fixed";
-        textArea.style.left = "-999999px";
-        textArea.style.top = "-999999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        return new Promise((res, rej) => {
-            // here the magic happens
-            document.execCommand('copy') ? res() : rej();
-            textArea.remove();
-        });
-    // window.navigator.clipboard
-    //   .writeText(bufferText)
-    //   .then(() => {
-    //     console.log(bufferText);
-    //   })
-    //   .catch((err) => {
-    //     console.log("Something went wrong", err);
-    //   });
+    textArea.value = bufferText;
+    // make the textarea out of viewport
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    return new Promise((res, rej) => {
+      // here the magic happens
+      document.execCommand("copy") ? res() : rej();
+      textArea.remove();
+    });
   };
 
   return (

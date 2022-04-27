@@ -182,6 +182,7 @@ export const ActForm = (props) => {
                   index={index}
                   getStrText={props.getStrText}
                   strObj={props.strObj}
+                  addData={props.addData}
                 />
               );
             })}
