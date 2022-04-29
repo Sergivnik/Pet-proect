@@ -182,6 +182,8 @@ export const CreateOderNew = (props) => {
     }
     if (e.target.className == "crOderTrackP") {
       setShowTrackInput(true);
+      let arr = tracksFull.filter((elem) => elem.idOwner == odersData.idDriver);
+      setTracks(arr);
     }
     if (e.target.className == "crOderDriverPriceP") {
       setShowDriverPrice(true);
