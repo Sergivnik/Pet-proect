@@ -21,6 +21,7 @@ router.get("/dataContractors", API.taskGetContractors);
 router.get("/getPdf/:id/:typeDoc", API.taskGetPdf);
 router.get("/getPdfWithoutStamp/:id", API.taskGetPdfWithoutStamp);
 router.get("/sendEmail/:id", API.taskSendEmail);
+router.post("/getReportData", API.taskGetReport);
 
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));

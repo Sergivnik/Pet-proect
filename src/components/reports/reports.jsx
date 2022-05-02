@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DriverReport } from "./driverReport.jsx";
+import { ReconciliationAct } from "./reconciliationAct.jsx";
 
 import "./reports.sass";
 export const Report = () => {
@@ -12,7 +13,7 @@ export const Report = () => {
         setCurrentReport(<DriverReport />);
         break;
       case "reconciliationAct":
-        setCurrentReport(<div></div>);
+        setCurrentReport(<ReconciliationAct/>);
         break;
       case "taxesReport":
         setCurrentReport(<div></div>);

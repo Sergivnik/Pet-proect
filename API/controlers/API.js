@@ -5,6 +5,7 @@ var taskPaymentsDriver = require("../models/taskPaymentsDriver.js");
 var taskContractors = require("../models/taskContractor.js");
 var tasksData = require("../models/tasksData.js");
 var tacksDocs = require("../models/taskDocs.js");
+var taskReports = require("../models/taskReports.js");
 
 module.exports.taskGet = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -63,6 +64,18 @@ module.exports.taskGetFilter = (req, res) => {
     }
   });
 };
+module.exports.taskGetReport = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  taskReports.reconciliation(req.body.body, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
+
 module.exports.taskGetPdf = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
