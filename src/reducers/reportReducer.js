@@ -14,14 +14,13 @@ export const reportReducer = (store = reportDataStore, action) => {
       if (action.data.name == "customer") {
         let i = 1;
         let sumOrder = 0;
+        let dateEnd = new Date(action.data.dateEnd);
         action.dataServer.orders.forEach((elem) => {
-          let dateEnd = new Date(action.data.dateEnd);
           let date = new Date(elem.date);
           if (date > dateEnd) sumOrder = sumOrder + Number(elem.customerPrice);
         });
         let sumPayment = 0;
         action.dataServer.payments.forEach((elem) => {
-          let dateEnd = new Date(action.data.dateEnd);
           let date = new Date(elem.date);
           if (date > dateEnd)
             sumPayment = sumPayment + Number(elem.sumOfPayment);
@@ -35,11 +34,10 @@ export const reportReducer = (store = reportDataStore, action) => {
             Number(action.dataServer.partDebt[0].debt) +
             Number(sumPayment) -
             Number(sumOrder),
-          type: "inCome",
+          type: "outCome",
         });
         sumOrder = 0;
         action.dataServer.orders.forEach((elem) => {
-          let dateEnd = new Date(action.data.dateEnd);
           let date = new Date(elem.date);
           if (dateEnd >= date) {
             sumOrder = sumOrder + Number(elem.customerPrice);
@@ -48,13 +46,12 @@ export const reportReducer = (store = reportDataStore, action) => {
               date: elem.date,
               textInfo: `Акт № ${elem.accountNumber}`,
               sum: elem.customerPrice,
-              type: "inCome",
+              type: "outCome",
             });
           }
         });
         sumPayment = 0;
         action.dataServer.payments.forEach((elem) => {
-          let dateEnd = new Date(action.data.dateEnd);
           let date = new Date(elem.date);
           if (dateEnd >= date) {
             sumPayment = sumPayment + Number(elem.sumOfPayment);
@@ -63,7 +60,7 @@ export const reportReducer = (store = reportDataStore, action) => {
               date: elem.date,
               textInfo: `Платеж от ${dateLocal(elem.date)}`,
               sum: elem.sumOfPayment,
-              type: "outCome",
+              type: "inCome",
             });
           }
         });
@@ -73,11 +70,11 @@ export const reportReducer = (store = reportDataStore, action) => {
           if (a.date == b.date) return 0;
         });
         orderSum.push({
-          id: 0,
+          id: i++,
           date: action.data.dateEnd,
           textInfo: `Долг на ${dateLocal(action.data.dateEnd)}`,
           sum: orderSum[0].sum,
-          type: "inCome",
+          type: "outCome",
         });
         orderSum[0].sum = orderSum[0].sum - sumOrder + sumPayment;
         console.log(orderSum);
