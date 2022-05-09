@@ -78,6 +78,7 @@ export const ReconciliationAct = () => {
     }
     if (btnName == "Отправить Email") {
       let email = customerList.find((elem) => elem._id == reqData.id).email;
+      if (email == null) email = "";
       let regexp = /[-.\w]+@([\w-]+\.)+[\w-]+/g;
       if (email.match(regexp) != null) {
         dispatch(sendReportEmail(email));
