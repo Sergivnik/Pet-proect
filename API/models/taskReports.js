@@ -1,5 +1,7 @@
 const mysql = require("mysql2");
+const Mail = require("nodemailer/lib/mailer");
 const options = require("./config.js");
+const email = require("./configEmail.js");
 
 let TasksReports = {
   reconciliation: async function (data, callBack) {
@@ -48,6 +50,51 @@ let TasksReports = {
       callback({ error: err });
     }
     db.end();
+  },
+  reconciliationSavePdf: async (data, callBack) => {
+    console.log("save report to pdf");
+    const puppeteer = require("puppeteer");
+    let fs = require("fs");
+    try {
+      (async () => {
+        const browser = await puppeteer.launch({
+          args: ["--no-sandbox"],
+        });
+        const page = await browser.newPage();
+        await page.setContent(data);
+        await page.pdf({ path: `./API/Bills/tempDoc.pdf`, format: "a4" });
+        await browser.close();
+        callBack("success!");
+      })();
+    } catch (err) {
+      callBack({ error: err });
+    }
+  },
+  sendEmail: async (email, callBack) => {
+    console.log("send report to Email");
+    const configEmail = require("../models/configEmail.js");
+    const nodemailer = require("nodemailer");
+    try {
+      async function main() {
+        let transporter = nodemailer.createTransport(configEmail);
+        let attachmentFiles = [
+          {
+            path: `./API/Bills/tempDoc.pdf`,
+          },
+        ];
+        let info = await transporter.sendMail({
+          from: '"ИП Иванов Сергей" <sergivnik@mail.ru>', // sender address
+          to: email, // list of receivers
+          subject: "Акт сверки ИП Иванов С.Н.", // Subject line
+
+          html: "<b>ИП Иванов С.Н. тел. +7-991-366-13-66</b>", // html body
+          attachments: attachmentFiles,
+        });
+      }
+      main().then(callBack("success!"));
+    } catch (err) {
+      callBack({ error: err });
+    }
   },
 };
 

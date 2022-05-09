@@ -168,7 +168,7 @@ export const sendEmail = (id) => {
       })
       .catch((e) => {
         console.log(e.message);
-        dispatch(addPdfDocFailure());
+        return dispatch(sendEmailFailure());
       });
   };
 };

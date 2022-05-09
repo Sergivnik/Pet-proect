@@ -21,7 +21,7 @@ router.get("/dataContractors", API.taskGetContractors);
 router.get("/getPdf/:id/:typeDoc", API.taskGetPdf);
 router.get("/getPdfWithoutStamp/:id", API.taskGetPdfWithoutStamp);
 router.get("/sendEmail/:id", API.taskSendEmail);
-router.post("/getReportData", API.taskGetReport);
+router.get("/sendReportEmail/:email", API.taskSendReportEmail);
 
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
@@ -38,6 +38,8 @@ router.post(
   upload.single("fileData"),
   API.taskAddConsignmentNote
 );
+router.post("/getReportData", API.taskGetReport);
+router.post("/saveReportPdf", API.taskSaveReport);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);
