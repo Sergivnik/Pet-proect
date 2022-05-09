@@ -397,6 +397,7 @@ var Tasks = {
       loadingInfo: JSON.stringify(data.loadingInfo),
       unloadingInfo: JSON.stringify(data.unloadingInfo),
       completed: data.completed,
+      applicationNumber: data.applicationNumber,
     };
     if (oder.customerPrice === "") oder.customerPrice = null;
     if (oder.driverPrice === "") oder.driverPrice = null;

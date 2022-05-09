@@ -489,6 +489,8 @@ module.exports.taskCreateDocWithoutStamp = (req, res) => {
 
 module.exports.taskAddConsignmentNote = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
 
   tasks.getDataById(req.params.id, "oderslist", (data) => {
     if (data.error) {
