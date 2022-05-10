@@ -100,6 +100,14 @@ module.exports.taskGetPdf = (req, res) => {
     }
   });
 };
+module.exports.taskGetReportPdf = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  const path = require("path");
+  let pathBills = path.join(__dirname, "..", "Bills");
+  res.sendFile(`${pathBills}/tempDoc.pdf`);
+};
 module.exports.taskGetPdfWithoutStamp = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");

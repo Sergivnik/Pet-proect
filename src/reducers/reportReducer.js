@@ -11,20 +11,29 @@ export const reportReducer = (store = reportDataStore, action) => {
     case GET_REPORT_DATA_SUCCESS: {
       console.log(action);
       let orderSum = [];
-      if (action.data.name == "customer") {
-        let i = 1;
-        let sumOrder = 0;
-        let dateEnd = new Date(action.data.dateEnd);
-        action.dataServer.orders.forEach((elem) => {
+      const getSumOfOrdersAfterDateEnd = (arr, dateEnd) => {
+        let sum = 0;
+        arr.forEach((elem) => {
           let date = new Date(elem.date);
-          if (date > dateEnd) sumOrder = sumOrder + Number(elem.customerPrice);
+          if (date > dateEnd) {
+            if (action.data.name == "customer")
+              sum = sum + Number(elem.customerPrice);
+            if (action.data.name == "driver")
+              sum = sum + Number(elem.driverPrice);
+          }
         });
-        let sumPayment = 0;
-        action.dataServer.payments.forEach((elem) => {
+        return sum;
+      };
+      const getSumOfPaymentAfterDateEnd = (arr, dateEnd) => {
+        let sum = 0;
+        arr.forEach((elem) => {
           let date = new Date(elem.date);
-          if (date > dateEnd)
-            sumPayment = sumPayment + Number(elem.sumOfPayment);
+          if (date > dateEnd) sum = sum + Number(elem.sumOfPayment);
         });
+        return sum;
+      };
+      const fillOrderFromBeginToEndAndGetSumOrder = (arr, dateEnd) => {
+        let sum = 0;
         orderSum.push({
           id: 0,
           date: action.data.dateBegin,
@@ -32,53 +41,87 @@ export const reportReducer = (store = reportDataStore, action) => {
           sum:
             Number(action.dataServer.clearDebt[0].debt) -
             Number(action.dataServer.partDebt[0].debt) +
-            Number(sumPayment) -
-            Number(sumOrder),
+            Number(sumPaymentAfterDateEnd) -
+            Number(sumOrderAfterDateEnd),
           type: "outCome",
         });
-        sumOrder = 0;
-        action.dataServer.orders.forEach((elem) => {
+        arr.forEach((elem) => {
           let date = new Date(elem.date);
           if (dateEnd >= date) {
-            sumOrder = sumOrder + Number(elem.customerPrice);
+            if (action.data.name == "customer")
+              sum = sum + Number(elem.customerPrice);
+            if (action.data.name == "driver")
+              sum = sum + Number(elem.driverPrice);
             orderSum.push({
               id: i++,
               date: elem.date,
               textInfo: `Акт № ${elem.accountNumber}`,
-              sum: elem.customerPrice,
+              sum:
+                action.data.name == "customer"
+                  ? elem.customerPrice
+                  : elem.driverPrice,
               type: "outCome",
             });
           }
         });
-        sumPayment = 0;
-        action.dataServer.payments.forEach((elem) => {
+        return sum;
+      };
+      const fillPaymentFromBeginToEndAndGetSumPayment = (arr, dateEnd) => {
+        let sum = 0;
+        arr.forEach((elem) => {
           let date = new Date(elem.date);
           if (dateEnd >= date) {
-            sumPayment = sumPayment + Number(elem.sumOfPayment);
+            sum = sum + Number(elem.sumOfPayment);
             orderSum.push({
               id: i++,
               date: elem.date,
               textInfo: `Платеж от ${dateLocal(elem.date)}`,
               sum: elem.sumOfPayment,
+              sumOfDebts: elem.sumOfDebts,
               type: "inCome",
             });
           }
         });
-        orderSum.sort((a, b) => {
-          if (a.date > b.date) return 1;
-          if (a.date < b.date) return -1;
-          if (a.date == b.date) return 0;
-        });
-        orderSum.push({
-          id: i++,
-          date: action.data.dateEnd,
-          textInfo: `Долг на ${dateLocal(action.data.dateEnd)}`,
-          sum: orderSum[0].sum,
-          type: "outCome",
-        });
-        orderSum[0].sum = orderSum[0].sum - sumOrder + sumPayment;
-        console.log(orderSum);
-      }
+        return sum;
+      };
+
+      let i = 1;
+      let sumOrderAfterDateEnd = 0;
+      let sumOrder = 0;
+      let sumPaymentAfterDateEnd = 0;
+      let sumPayment = 0;
+      let dateEnd = new Date(action.data.dateEnd);
+      sumOrderAfterDateEnd = getSumOfOrdersAfterDateEnd(
+        action.dataServer.orders,
+        dateEnd
+      );
+      sumPaymentAfterDateEnd = getSumOfPaymentAfterDateEnd(
+        action.dataServer.payments,
+        dateEnd
+      );
+      sumOrder = fillOrderFromBeginToEndAndGetSumOrder(
+        action.dataServer.orders,
+        dateEnd
+      );
+      sumPayment = fillPaymentFromBeginToEndAndGetSumPayment(
+        action.dataServer.payments,
+        dateEnd
+      );
+
+      orderSum.sort((a, b) => {
+        if (a.date > b.date) return 1;
+        if (a.date < b.date) return -1;
+        if (a.date == b.date) return 0;
+      });
+      orderSum.push({
+        id: i++,
+        date: action.data.dateEnd,
+        textInfo: `Долг на ${dateLocal(action.data.dateEnd)}`,
+        sum: orderSum[0].sum,
+        type: "outCome",
+      });
+      orderSum[0].sum = orderSum[0].sum - sumOrder + sumPayment;
+      console.log(orderSum);
       return { ...store, reconciliation: orderSum };
     }
     default:

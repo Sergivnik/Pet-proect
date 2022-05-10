@@ -5,6 +5,7 @@ import {
   getReportData,
   saveReportPdf,
   sendReportEmail,
+  getReportPdf,
 } from "../../actions/reportActions.js";
 import { dateLocal } from "../myLib/myLib.js";
 import { DOMENNAME } from "../../middlewares/initialState.js";
@@ -90,6 +91,21 @@ export const ReconciliationAct = () => {
   const handleChecked = () => {
     setStamp(!stamp);
   };
+  const handleReset = () => {
+    setShowChoise(true);
+    setShowReport(false);
+    setBtnName("Отчет");
+    setReqData({
+      name: null,
+      id: null,
+      dateBegin: null,
+      dateEnd: null,
+      value: null,
+    });
+  };
+  const handlePrint = () => {
+    dispatch(getReportPdf());
+  };
   return (
     <div className="reconciliationDiv">
       <header style={{ height: "25%" }}>
@@ -112,12 +128,17 @@ export const ReconciliationAct = () => {
             </div>
           </div>
           <div className="btnContainer">
+            <button className="reconciliationBtn" onClick={handleReset}>
+              Сброс
+            </button>
             <span>С печатью </span>
             <input type="checkbox" checked={stamp} onChange={handleChecked} />
             <button className="reconciliationBtn" onClick={handleClickReport}>
               {btnName}
             </button>
-            <button className="reconciliationBtn">Печать</button>
+            <button className="reconciliationBtn" onClick={handlePrint}>
+              Печать
+            </button>
           </div>
         </div>
         <div className="divParamSearch">
@@ -166,7 +187,10 @@ export const ReconciliationAct = () => {
             <h4 style={{ textAlign: "center" }}>{`C ${dateLocal(
               reqData.dateBegin
             )} по ${dateLocal(reqData.dateEnd)} контрагент ${
-              customerList.find((elem) => elem._id == reqData.id).companyName
+              reqData.name == "customer"
+                ? customerList.find((elem) => elem._id == reqData.id)
+                    .companyName
+                : driversList.find((elem) => elem._id == reqData.id).compfnyName
             }`}</h4>
             <table
               style={{
@@ -203,8 +227,14 @@ export const ReconciliationAct = () => {
                   }
                   if (elem.type == "inCome") {
                     debt = debt - Number(elem.sum);
-                    if (index != 0 && index != lengthArr - 1)
-                      income = income + Number(elem.sum);
+                    if (index != 0 && index != lengthArr - 1) {
+                      if (reqData.name == "customer") {
+                        income = income + Number(elem.sum);
+                      } else {
+                        income =
+                          income + Number(elem.sum) - Number(elem.sumOfDebts);
+                      }
+                    }
                   }
                   return (
                     <tr key={"reconciliation" + elem.id} style={styleTr(index)}>
@@ -217,7 +247,15 @@ export const ReconciliationAct = () => {
                         {elem.textInfo}
                       </td>
                       <td style={{ border: "1px solid black" }}>
-                        {elem.type == "inCome" ? elem.sum : ""}
+                        {elem.type == "inCome"
+                          ? `${
+                              reqData.name == "customer"
+                                ? elem.sum
+                                : `${elem.sum - elem.sumOfDebts} (${
+                                    elem.sumOfDebts
+                                  })`
+                            }`
+                          : ""}
                       </td>
                       <td style={{ border: "1px solid black" }}>
                         {elem.type == "outCome" ? elem.sum : ""}

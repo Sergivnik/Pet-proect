@@ -44,6 +44,7 @@ let TasksReports = {
           `SELECT SUM(driverPrice) as "debt" FROM oderslist where ${idFilter} and driverPayment!="Ок"`
         );
         obj.clearDebt = debt;
+        obj.partDebt = [{ debt: 0 }];
       }
       callBack(obj);
     } catch (err) {
