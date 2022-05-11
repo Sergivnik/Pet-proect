@@ -122,6 +122,20 @@ export const CreateOderNew = (props) => {
     );
   }, [odersData]);
 
+  useEffect(() => {
+    const secretKey = (e) => {
+      if (e.code == "NumpadAdd" && e.ctrlKey) {
+        e.preventDefault();
+        let div = document.querySelector("#createOrderDiv");
+        div.style.height = "500px";
+      }
+    };
+    document.addEventListener("keydown", secretKey);
+    return () => {
+      document.removeEventListener("keydown", secretKey);
+    };
+  }, []);
+
   const handleLostFocus = (e) => {
     let { ...obj } = odersData;
     console.log(e.target.value);
@@ -339,7 +353,7 @@ export const CreateOderNew = (props) => {
   };
 
   return (
-    <div className={mainDivStyle}>
+    <div className={mainDivStyle} id="createOrderDiv">
       <h4 className="crOderCustomerHeader">Информация о заказе</h4>
       <div className="crOderCustomDiv">
         <div className="crOderDate">

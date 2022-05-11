@@ -93,10 +93,6 @@ export const Oders = () => {
           dispatch(filterData(filterList));
         }
       }
-      if (e.code == "NumpadAdd" && e.ctrlKey) {
-        e.preventDefault();
-        alert("Works!!");
-      }
     };
     document.addEventListener("keydown", onKeypress);
     return () => {
