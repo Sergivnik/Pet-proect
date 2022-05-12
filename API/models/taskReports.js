@@ -38,6 +38,10 @@ let TasksReports = {
           `SELECT SUM(partialPaymentAmount) as "debt" FROM oderslist where ${idFilter} and customerPayment="Частично оплачен"`
         );
         obj.partDebt = debt;
+        [debt] = await db.query(
+          `SELECT SUM(extraPayments) as "debt"  FROM oders where _id=${data.id}`
+        );
+        obj.extraPayments = debt;
       }
       if (data.name == "driver") {
         let [debt] = await db.query(
@@ -45,6 +49,7 @@ let TasksReports = {
         );
         obj.clearDebt = debt;
         obj.partDebt = [{ debt: 0 }];
+        obj.extraPayments = [{ debt: 0 }];
       }
       callBack(obj);
     } catch (err) {

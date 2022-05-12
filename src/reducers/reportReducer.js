@@ -40,6 +40,7 @@ export const reportReducer = (store = reportDataStore, action) => {
           textInfo: `Начальный долг`,
           sum:
             Number(action.dataServer.clearDebt[0].debt) -
+            Number(action.dataServer.extraPayments[0].debt) -
             Number(action.dataServer.partDebt[0].debt) +
             Number(sumPaymentAfterDateEnd) -
             Number(sumOrderAfterDateEnd),
