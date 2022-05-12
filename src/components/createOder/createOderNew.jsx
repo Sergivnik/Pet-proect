@@ -45,6 +45,7 @@ export const CreateOderNew = (props) => {
   const [checkBox, setCheckBox] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
   const [btnName, setBtnName] = useState("Добавить");
+  const [showAddFields, setShowAddFields] = useState(false);
 
   useEffect(() => {
     if (props.clickSave) setMainDivStyle("crOderMainDiv H250");
@@ -127,7 +128,8 @@ export const CreateOderNew = (props) => {
       if (e.code == "NumpadAdd" && e.ctrlKey) {
         e.preventDefault();
         let div = document.querySelector("#createOrderDiv");
-        div.style.height = "500px";
+        div.style.height = "400px";
+        setShowAddFields(true);
       }
     };
     document.addEventListener("keydown", secretKey);
@@ -602,6 +604,14 @@ export const CreateOderNew = (props) => {
           </button>
         )}
       </div>
+      {showAddFields && (
+        <div className="addFields">
+          <span>еще цена</span>
+          <input type="number" />
+          <span>проц</span>
+          <input type="number"/>
+        </div>
+      )}
     </div>
   );
 };
