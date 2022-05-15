@@ -78,6 +78,7 @@ export const PointsForm = (props) => {
               <div style={{ width: "55%" }}>
                 <InputText
                   name="pointInfo"
+                  typeInput="text"
                   text={props.infoList[index]}
                   getText={getText}
                 />

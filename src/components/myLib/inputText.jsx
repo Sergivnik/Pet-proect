@@ -10,6 +10,9 @@ export const InputText = (props) => {
       props.getText(props.name, text);
     }
   };
+  const handleBlur=()=>{
+    props.getText(props.name, text);
+  }
   useEffect(() => {
     let input = document.querySelector(".inputText");
     input.style.width = "100%";
@@ -20,9 +23,10 @@ export const InputText = (props) => {
     <React.Fragment>
       <input
         className="inputText"
-        type="text"
+        type={props.typeInput}
         value={text}
         onChange={handleChange}
+        onBlur={handleBlur}
         onKeyDown={handleKey}
       />
     </React.Fragment>

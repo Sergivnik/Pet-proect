@@ -5,6 +5,7 @@ import { PointsForm } from "./pointsForm.jsx";
 import { addOder, editOderNew } from "../../actions/oderActions.js";
 import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
 import "./createOder.sass";
+import { InputText } from "../myLib/inputText.jsx";
 
 export const CreateOderNew = (props) => {
   const driverlist = useSelector((state) => state.oderReducer.driverlist);
@@ -17,6 +18,7 @@ export const CreateOderNew = (props) => {
   );
   const pointList = useSelector((state) => state.oderReducer.citieslist);
   const tracksFull = useSelector((state) => state.oderReducer.tracklist);
+  const addtable = useSelector((state) => state.oderReducer.addtable);
   const dispatch = useDispatch();
 
   const [mainDivStyle, setMainDivStyle] = useState("crOderMainDiv");
@@ -28,6 +30,8 @@ export const CreateOderNew = (props) => {
     valueUnloadingPoint: [],
     loadingInfo: [],
     unloadingInfo: [],
+    price: 0,
+    interest: 10,
   });
 
   const [clientManager, setClientManager] = useState(clientManagerFull);
@@ -48,7 +52,7 @@ export const CreateOderNew = (props) => {
   const [showAddFields, setShowAddFields] = useState(false);
 
   useEffect(() => {
-    if (props.clickSave) setMainDivStyle("crOderMainDiv H250");
+    if (props.clickSave) setMainDivStyle("crOderMainDiv");
     if (props.elem) {
       let { ...obj } = props.elem;
       obj.valueLoadingPoint = [];
@@ -108,6 +112,11 @@ export const CreateOderNew = (props) => {
       if (obj.colorTR == "Blue") {
         setCheckBox(true);
       }
+      if (obj.colorTR == "hotpink") {
+        let addInfo = addtable.find((elem) => elem.orderId == obj._id);
+        obj.price = addInfo.sum;
+        obj.interest = addInfo.interest;
+      }
       setOdersData(obj);
       if (props.clickSave) setBtnName("Сохранить");
       setShowClientPrice(false);
@@ -127,8 +136,8 @@ export const CreateOderNew = (props) => {
     const secretKey = (e) => {
       if (e.code == "NumpadAdd" && e.ctrlKey) {
         e.preventDefault();
-        let div = document.querySelector("#createOrderDiv");
-        div.style.height = "400px";
+        // let div = document.querySelector("#createOrderDiv");
+        // div.style.height = "400px";
         setShowAddFields(true);
       }
     };
@@ -347,11 +356,17 @@ export const CreateOderNew = (props) => {
         props.addOder();
       }
       if (btnName == "Сохранить") {
-        console.log(odersData);
         dispatch(editOderNew(odersData));
         props.clickSave();
       }
     }
+  };
+  const getText = (name, text) => {
+    let { ...obj } = odersData;
+    obj.colorTR = "hotpink";
+    if (name == "price") obj.price = text;
+    if (name == "interest") obj.interest = text;
+    setOdersData(obj);
   };
 
   return (
@@ -594,6 +609,28 @@ export const CreateOderNew = (props) => {
         </div>
       </div>
       <div className="footer">
+        {showAddFields && (
+          <div className="addFields">
+            <span>еще цена</span>
+            <div className="wrapInput">
+              <InputText
+                name="price"
+                typeInput="number"
+                text={odersData.price}
+                getText={getText}
+              />
+            </div>
+            <span>проц</span>
+            <div className="wrapInput">
+              <InputText
+                name="interest"
+                typeInput="number"
+                text={odersData.interest}
+                getText={getText}
+              />
+            </div>
+          </div>
+        )}
         <div className="footerCheckBox">
           Выделить цветом{" "}
           <input type="checkbox" onChange={handleCheck} checked={checkBox} />
@@ -604,14 +641,6 @@ export const CreateOderNew = (props) => {
           </button>
         )}
       </div>
-      {showAddFields && (
-        <div className="addFields">
-          <span>еще цена</span>
-          <input type="number" />
-          <span>проц</span>
-          <input type="number"/>
-        </div>
-      )}
     </div>
   );
 };

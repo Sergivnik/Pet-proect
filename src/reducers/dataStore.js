@@ -40,4 +40,5 @@ export const initialStore = {
   tracklist: [],
   clientmanager: [],
   message: null,
+  addtable: [],
 };

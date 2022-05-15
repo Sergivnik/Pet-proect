@@ -21,7 +21,7 @@ export const DocForm = (props) => {
     odersList.find((elem) => elem._id == id)
   );
   const customer = findValueBy_Id(oders[0].idCustomer, clientList).value;
-  
+
   const dateOfInvoice = oders.reduce((maxDate, elem) => {
     if (maxDate < new Date(elem.date)) {
       maxDate = new Date(elem.date);
@@ -199,6 +199,7 @@ export const DocForm = (props) => {
             <div style={{ width: "100px" }}>
               <InputText
                 name="wayBillNumber"
+                typeInput="text"
                 getText={getText}
                 text={addData.wayBillNumber}
               />

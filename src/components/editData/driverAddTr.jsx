@@ -52,7 +52,7 @@ export const DriverAddTr = (props) => {
           }
           break;
         case 2:
-          obj.compfnyName = e.currentTarget.value;
+          obj.companyName = e.currentTarget.value;
           if (e.shiftKey) {
             setEditColNumber(editColNumber - 1);
           } else {
@@ -141,7 +141,7 @@ export const DriverAddTr = (props) => {
             className="driverTrInput"
           />
         ) : (
-          addDriverObj.compfnyName
+          addDriverObj.companyName
         )}
       </td>
       <td className="driverTd">

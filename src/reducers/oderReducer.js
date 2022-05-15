@@ -75,6 +75,7 @@ export const oderReducer = (store = initialStore, action) => {
               loadingInfo: action.data.loadingInfo,
               unloadingInfo: action.data.unloadingInfo,
               completed: action.data.completed,
+              colorTR: action.data.colorTR,
             },
           },
         },
@@ -84,15 +85,33 @@ export const oderReducer = (store = initialStore, action) => {
       let index = store.odersList.findIndex(
         (item) => item._id == action.data._id
       );
-      console.log(index);
-      return update(store, {
-        odersList: {
-          $merge: { [index]: action.data },
-        },
-        originOdersList: {
-          $merge: { [index]: action.data },
-        },
-      });
+      if (store.odersList[index].colorTR == "hotpink") {
+        let addIndex = store.addtable.findIndex(
+          (elem) => elem.orderId == action.data._id
+        );
+        let { ...addObj } = store.addtable[addIndex];
+        addObj.sum = action.data.price;
+        addObj.interest = action.data.interest;
+        return update(store, {
+          odersList: {
+            $merge: { [index]: action.data },
+          },
+          originOdersList: {
+            $merge: { [index]: action.data },
+          },
+          addtable: {
+            $merge: { [addIndex]: addObj },
+          },
+        });
+      } else
+        return update(store, {
+          odersList: {
+            $merge: { [index]: action.data },
+          },
+          originOdersList: {
+            $merge: { [index]: action.data },
+          },
+        });
     }
     case EDIT_ODER: {
       let index = store.odersList.findIndex((item) => item._id == action.id);
@@ -442,6 +461,7 @@ export const oderReducer = (store = initialStore, action) => {
         income: action.dataServer.income,
         expenses: action.dataServer.expenses,
         customerWithoutPayment: action.dataServer.customerWithoutPayment,
+        addtable: action.dataServer.addtable,
         request: {
           status: "SUCCESS",
           error: null,

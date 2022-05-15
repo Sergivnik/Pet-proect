@@ -80,6 +80,8 @@ var Tasks = {
       allData.trackdrivers = data;
       [data] = await db.query(`SELECT * FROM tracklist order by value`);
       allData.tracklist = data;
+      [data] = await db.query(`SELECT * FROM addtable order by orderId`);
+      allData.addtable = data;
       callback(allData);
       db.end();
     } catch (err) {
@@ -400,11 +402,19 @@ var Tasks = {
       applicationNumber: data.applicationNumber,
       colorTR: data.colorTR,
     };
+    let addData = {
+      customerId: data.idCustomer,
+      sum: data.price,
+      interest: data.interest,
+      orderId: null,
+    };
     if (oder.customerPrice === "") oder.customerPrice = null;
     if (oder.driverPrice === "") oder.driverPrice = null;
     const db = mysql.createPool(options).promise();
     try {
       let [data] = await db.query("INSERT INTO oderslist SET ?", oder);
+      addData.orderId = data.insertId;
+      await db.query(`INSERT INTO addtable SET ?`, addData);
       callback(data);
     } catch (err) {
       callback({ error: err });
@@ -414,6 +424,7 @@ var Tasks = {
   editNew: async function (data, callback) {
     dateToSqlString(data.dateOfSubmission);
     console.log(data);
+    let addData;
     let newData = {
       date: dateToSqlString(data.date),
       idDriver: data.idDriver,
@@ -439,9 +450,31 @@ var Tasks = {
       unloadingInfo: JSON.stringify(data.unloadingInfo),
     };
     console.log(newData);
+    if (data.colorTR == "hotpink") {
+      addData = {
+        customerId: data.idCustomer,
+        sum: data.price,
+        interest: data.interest,
+        orderId: data._id,
+      };
+    }
+
     const db = mysql.createPool(options).promise();
     try {
       await db.query(`UPDATE oderslist SET ? WHERE _id=?`, [newData, data._id]);
+      if (data.colorTR == "hotpink") {
+        let [q] = await db.query(
+          `SELECT * FROM addtable where orderId=${data._id}`
+        );
+        if (q.length) {
+          await db.query(`UPDATE addtable SET ? WHERE orderId=?`, [
+            addData,
+            data._id,
+          ]);
+        } else {
+          await db.query(`INSERT INTO addtable SET ?`, addData);
+        }
+      }
       callback(data);
     } catch (err) {
       console.log(err);

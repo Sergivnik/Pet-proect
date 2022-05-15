@@ -190,7 +190,7 @@ export const ReconciliationAct = () => {
               reqData.name == "customer"
                 ? customerList.find((elem) => elem._id == reqData.id)
                     .companyName
-                : driversList.find((elem) => elem._id == reqData.id).compfnyName
+                : driversList.find((elem) => elem._id == reqData.id).companyName
             }`}</h4>
             <table
               style={{

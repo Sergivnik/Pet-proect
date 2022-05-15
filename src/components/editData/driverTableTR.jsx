@@ -23,7 +23,7 @@ export const DriverTableTR = (props) => {
         setValueInput(elem.phone);
         break;
       case 2:
-        setValueInput(elem.compfnyName);
+        setValueInput(elem.companyName);
         break;
       case 3:
         setValueInput(elem.TIN);
@@ -56,7 +56,7 @@ export const DriverTableTR = (props) => {
           obj.phone = e.currentTarget.value;
           break;
         case 2:
-          obj.compfnyName = e.currentTarget.value;
+          obj.companyName = e.currentTarget.value;
           break;
         case 3:
           obj.TIN = e.currentTarget.value;
@@ -147,7 +147,7 @@ export const DriverTableTR = (props) => {
             value={valueInput}
           />
         ) : (
-          elem.compfnyName
+          elem.companyName
         )}
       </td>
       <td className="driverTd" onDoubleClick={handleDBLclick}>
