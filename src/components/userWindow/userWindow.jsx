@@ -14,7 +14,7 @@ export const UserWindow = (props) => {
     }
   };
   const handleMouseMove = (e) => {
-    let userObj = document.getElementsByClassName("userWindowDiv")[0];
+    let userObj = document.querySelector(`#${props.windowId}`);
     userObj.style.left = userObj.offsetLeft - startX + e.clientX + "px";
     userObj.style.top = userObj.offsetTop - startY + e.clientY + "px";
     startX = e.clientX;
@@ -24,12 +24,12 @@ export const UserWindow = (props) => {
     document.removeEventListener("mousemove", handleMouseMove);
   };
   const handleClickClose = () => {
-    let div = document.getElementsByClassName("userWindowDiv")[0];
+    let div = document.querySelector(`#${props.windowId}`);
     div.style.opacity = 0.1;
     setTimeout(props.handleClickWindowClose, 1000);
   };
   const handleClickFullSize = (e) => {
-    let div = document.getElementsByClassName("userWindowDiv")[0];
+    let div = document.querySelector(`#${props.windowId}`);
     console.log(e);
     if (!fullSeze) {
       div.style.width = "100%";
@@ -46,13 +46,13 @@ export const UserWindow = (props) => {
     }
   };
   useEffect(() => {
-    let div = document.getElementsByClassName("userWindowDiv")[0];
+    let div = document.querySelector(`#${props.windowId}`);
     div.style.opacity = 0.95;
     if (props.width) div.style.width = props.width + "px";
   }, [props]);
 
   return (
-    <div className="userWindowDiv">
+    <div className="userWindowDiv" id={props.windowId}>
       <header
         className="userWindowHeader"
         onMouseDown={handleMouseDown}

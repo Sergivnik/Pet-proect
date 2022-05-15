@@ -13,9 +13,10 @@ import { getData, filterData } from "../../middlewares/initialState.js";
 import { delOder } from "../../actions/oderActions.js";
 import { EditDataForm } from "../editData/editDataForm.jsx";
 import { PrintFormBill } from "../printForm/printFormBill.jsx";
-import "./oders.sass";
 import { BillsForm } from "../documents/billsForm.jsx";
 import { Report } from "../reports/reports.jsx";
+import { SpecialTable } from "../specialTable/specialTable.jsx";
+import "./oders.sass";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ export const Oders = () => {
   const [windowHeader, setWindowHeader] = useState(null);
   const [windowWidth, setWindowWidth] = useState(1200);
   const [showPrintForm, setShowPrintForm] = useState(false);
+  const [showSecretTable, setShowSecretTable] = useState(false);
 
   const [trId, setTrId] = useState(null);
   const [addData, setAddData] = useState(0);
@@ -92,6 +94,10 @@ export const Oders = () => {
           setShowWindow(false);
           dispatch(filterData(filterList));
         }
+      }
+      if (e.ctrlKey && e.code == "KeyK") {
+        e.preventDefault();
+        setShowSecretTable(true);
       }
     };
     document.addEventListener("keydown", onKeypress);
@@ -317,6 +323,9 @@ export const Oders = () => {
   const handleClickWindowClose = () => {
     setShowWindow(false);
   };
+  const handleClickSecretWindowClose = () => {
+    setShowSecretTable(false);
+  };
   const handleClickMainDiv = () => {
     let contextDiv = document.querySelector(".divContext");
     if (contextDiv != null) {
@@ -400,6 +409,7 @@ export const Oders = () => {
           header={windowHeader}
           width={windowWidth}
           handleClickWindowClose={handleClickWindowClose}
+          windowId="commonWindow"
         >
           {children}
         </UserWindow>
@@ -409,6 +419,16 @@ export const Oders = () => {
           elem={currentElem}
           closePrintForm={handleClosePrintForm}
         />
+      )}
+      {showSecretTable && (
+        <UserWindow
+          header="Secret Table"
+          width={1400}
+          handleClickWindowClose={handleClickSecretWindowClose}
+          windowId="secretWindow"
+        >
+          <SpecialTable/>
+        </UserWindow>
       )}
       <div
         className="odersDiv"
