@@ -414,7 +414,9 @@ var Tasks = {
     try {
       let [data] = await db.query("INSERT INTO oderslist SET ?", oder);
       addData.orderId = data.insertId;
-      await db.query(`INSERT INTO addtable SET ?`, addData);
+      if (oder.colorTR == "hotpink") {
+        await db.query(`INSERT INTO addtable SET ?`, addData);
+      }
       callback(data);
     } catch (err) {
       callback({ error: err });
