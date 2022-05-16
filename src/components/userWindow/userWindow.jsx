@@ -45,6 +45,18 @@ export const UserWindow = (props) => {
       setFullSize(false);
     }
   };
+  const handleDivClick = () => {
+    let divs = document.querySelectorAll(".userWindowDiv");
+    console.log(divs, props.windowId);
+    divs.forEach((div) => {
+      console.log(div.id);
+      if (div.id == props.windowId) {
+        div.style.zIndex = 30;
+      } else {
+        div.style.zIndex = 25;
+      }
+    });
+  };
   useEffect(() => {
     let div = document.querySelector(`#${props.windowId}`);
     div.style.opacity = 0.95;
@@ -52,7 +64,7 @@ export const UserWindow = (props) => {
   }, [props]);
 
   return (
-    <div className="userWindowDiv" id={props.windowId}>
+    <div className="userWindowDiv" id={props.windowId} onClick={handleDivClick}>
       <header
         className="userWindowHeader"
         onMouseDown={handleMouseDown}
