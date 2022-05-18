@@ -6,7 +6,7 @@ import { CustomerTr } from "./customerTr.jsx";
 import { CustomerManagerTr } from "./customerManagerTr.jsx";
 import { CustomerManagerAddTr } from "./customerManagerAddTr.jsx";
 import { addData } from "../../actions/editDataAction.js";
-
+import { ChoiseTwoList } from "../choiseList/choiseTwoList.jsx";
 import "./editData.sass";
 
 export const CustomerTable = () => {
@@ -71,7 +71,6 @@ export const CustomerTable = () => {
     setShowAddManagerTr(true);
   };
   const handleAddManager = (data) => {
-    console.log(data);
     dispatch(addData(data, "clientmanager"));
     setShowAddManagerTr(false);
   };
@@ -110,12 +109,20 @@ export const CustomerTable = () => {
       <div className="customerFilter">
         <span>Заказчик</span>
         <div className="customerChoise">
-          <ChoiseList
+          <ChoiseTwoList
+            arr1={clientListFull}
+            arr2={clientManagerFull}
+            field1="phone"
+            field2="phone"
+            fieldSearch="odersId"
+            setValue={setValue}
+          />
+          {/* <ChoiseList
             name="customer"
             arrlist={customerList}
             setValue={setValue}
             reset={reset}
-          />
+          /> */}
         </div>
         <button className="driverAddBtn" onClick={handleClickClear}>
           Сброс
