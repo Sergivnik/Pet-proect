@@ -5,6 +5,7 @@ export const ChoiseTwoList = (props) => {
   const [text, setText] = useState("");
   const [showSelect, setShowSelect] = useState(false);
   const [list, setList] = useState([]);
+  const [fullList, setFullList] = useState([]);
 
   useEffect(() => {
     let [...arr] = list;
@@ -24,7 +25,7 @@ export const ChoiseTwoList = (props) => {
         });
       });
     setList(arr);
-    console.log(arr);
+    setFullList(arr);
   }, []);
 
   const getText = (e) => {
@@ -32,7 +33,7 @@ export const ChoiseTwoList = (props) => {
     let test = e.currentTarget.value;
     setText(test);
     let regtext = new RegExp(test, "i");
-    let arr = list.filter((elem) => regtext.test(elem.value));
+    let arr = fullList.filter((elem) => regtext.test(elem.value));
     setList(arr);
   };
   const handleKeyDown = (e) => {
@@ -47,6 +48,17 @@ export const ChoiseTwoList = (props) => {
     props.setValue({ _id: id });
     let elem = list.find((elem) => (elem.id = id));
     setText(elem.value);
+    setShowSelect(false);
+  };
+  const handleEnter = (e) => {
+    console.log(e.key);
+    if (e.key == "Enter") {
+      let id = e.currentTarget.value;
+      props.setValue({ _id: id });
+      let elem = list.find((elem) => (elem.id = id));
+      setText(elem.value);
+      setShowSelect(false);
+    }
   };
   return (
     <React.Fragment>
@@ -64,6 +76,7 @@ export const ChoiseTwoList = (props) => {
           size="5"
           name="select"
           id="choiseListSelect"
+          onKeyDown={handleEnter}
         >
           {list.map((elem) => {
             return (
