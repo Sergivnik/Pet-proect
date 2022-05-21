@@ -25,7 +25,6 @@ export const CustomerTable = () => {
   const [showManagerTable, setShowManagerTable] = useState(false);
   const [showAddManagerTr, setShowAddManagerTr] = useState(false);
   const [reset, setReset] = useState(false);
-  const [phoneSearch, setPhoneSerch] = useState(false);
 
   const setValue = (data) => {
     let arr = clientListFull.filter((elem) => elem._id == data._id);
@@ -75,9 +74,6 @@ export const CustomerTable = () => {
     dispatch(addData(data, "clientmanager"));
     setShowAddManagerTr(false);
   };
-  const handleChoisePhone = () => {
-    setPhoneSerch(!phoneSearch);
-  };
 
   useEffect(() => {
     let [...arr] = clientListFull.filter((elem) => elem.active == 1);
@@ -113,32 +109,17 @@ export const CustomerTable = () => {
       <div className="customerFilter">
         <span>Заказчик</span>
         <div className="customerChoise">
-          {phoneSearch ? (
-            <ChoiseTwoList
-              arr1={clientListFull}
-              arr2={clientManagerFull}
-              field1="phone"
-              field2="phone"
-              fieldSearch="odersId"
-              setValue={setValue}
-            />
-          ) : (
-            <ChoiseList
-              name="customer"
-              arrlist={customerList}
-              setValue={setValue}
-              reset={reset}
-            />
-          )}
-        </div>
-        <label>
-          Поиск по телефону
-          <input
-            type="checkbox"
-            checked={phoneSearch}
-            onChange={handleChoisePhone}
+          <ChoiseTwoList
+            arr1={customerList}
+            arr2={clientManagerFull}
+            field1="phone"
+            field2="phone"
+            field3="value"
+            fieldSearch="odersId"
+            setValue={setValue}
+            reset={reset}
           />
-        </label>
+        </div>
         <button className="driverAddBtn" onClick={handleClickClear}>
           Сброс
         </button>

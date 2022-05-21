@@ -8,15 +8,16 @@ export const ChoiseTwoList = (props) => {
   const [fullList, setFullList] = useState([]);
 
   useEffect(() => {
-    let [...arr] = list;
+    let arr = [];
     props.arr1.forEach((elem) => {
       arr.push({
         keyId: `arr1-${elem._id}`,
         value: elem[props.field1],
+        value2: elem[props.field3],
         id: elem._id,
       });
     });
-    if (props.arr2)
+    if (props.arr2) {
       props.arr2.forEach((elem) => {
         arr.push({
           keyId: `arr2-${elem._id}`,
@@ -24,16 +25,25 @@ export const ChoiseTwoList = (props) => {
           id: elem[props.fieldSearch],
         });
       });
+    }
+    if (props.reset) {
+      setText("");
+    }
     setList(arr);
     setFullList(arr);
-  }, []);
+  }, [props]);
+  useEffect(() => {
+    if (text == "") setShowSelect(false);
+  }, [text]);
 
   const getText = (e) => {
     setShowSelect(true);
     let test = e.currentTarget.value;
     setText(test);
     let regtext = new RegExp(test, "i");
-    let arr = fullList.filter((elem) => regtext.test(elem.value));
+    let arr = fullList.filter((elem) => {
+      if (regtext.test(elem.value) || regtext.test(elem.value2)) return elem;
+    });
     setList(arr);
   };
   const handleKeyDown = (e) => {
@@ -44,19 +54,20 @@ export const ChoiseTwoList = (props) => {
     }
   };
   const handleOptionClick = (e) => {
+    console.log(e.currentTarget);
     let id = e.currentTarget.value;
     props.setValue({ _id: id });
-    let elem = list.find((elem) => (elem.id = id));
-    setText(elem.value);
+    let elem = list.find((elem) => (elem.id == id));
+    setText(elem.value2 != undefined ? elem.value2 : elem.value);
     setShowSelect(false);
   };
   const handleEnter = (e) => {
-    console.log(e.key);
+    console.log(e.currentTarget);
     if (e.key == "Enter") {
       let id = e.currentTarget.value;
       props.setValue({ _id: id });
-      let elem = list.find((elem) => (elem.id = id));
-      setText(elem.value);
+      let elem = list.find((elem) => (elem.id == id));
+      setText(elem.value2 != undefined ? elem.value2 : elem.value);
       setShowSelect(false);
     }
   };
@@ -86,7 +97,9 @@ export const ChoiseTwoList = (props) => {
                 value={elem.id}
                 onClick={handleOptionClick}
               >
-                {elem.value}
+                {`${elem.value2 != undefined ? elem.value2 : ""} ${
+                  elem.value != null ? elem.value : ""
+                }`}
               </option>
             );
           })}
