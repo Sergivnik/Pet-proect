@@ -7,7 +7,14 @@ import { SpecialTableHeaderTr } from "./specilTableHeaderTr.jsx";
 
 export const SpecialTable = () => {
   const tableData = useSelector((state) => state.oderReducer.addtable);
-  
+
+  const [currentId, setCurrentId] = useState(null);
+
+  const getCurrentId = (id) => {
+    console.log(id);
+    setCurrentId(id);
+  };
+
   return (
     <div className="specialTableMainDiv">
       <table className="specialTableMainTable">
@@ -17,7 +24,12 @@ export const SpecialTable = () => {
         <tbody className="specialTableBody">
           {tableData.map((elem) => {
             return (
-              <SpecialTableTr key={elem.id} elem={elem} />
+              <SpecialTableTr
+                key={elem.id}
+                elem={elem}
+                currentId={currentId}
+                getCurrentId={getCurrentId}
+              />
             );
           })}
         </tbody>

@@ -17,6 +17,7 @@ export const addDataReducer = (store = initialStore, action) => {
     }
     case EDIT_ADDDATA_FAILURE: {
       console.log(action, store.request);
+      alert("Shit happens!")
       return {
         ...store,
         request: {
