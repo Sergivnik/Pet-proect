@@ -379,10 +379,7 @@ export const oderReducer = (store = initialStore, action) => {
         filteredDriverPrice: action.dataServer.filteredDriverPrice,
         filteredStatusCustomerPayment: filteredCustomerpayment,
         filteredAccountList: filteredAccountNumber,
-        request: {
-          status: "SUCCESS",
-          error: null,
-        },
+        request: { status: "SUCCESS", error: null },
       };
     }
     case GET_FILTER_FAILURE: {

@@ -41,6 +41,7 @@ router.post(
 );
 router.post("/getReportData", API.taskGetReport);
 router.post("/saveReportPdf", API.taskSaveReport);
+router.post("/editAddData", API.taskEditAddData);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);

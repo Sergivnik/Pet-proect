@@ -29,10 +29,7 @@ export const initialStore = {
   customerPaymentsList: [],
   income: 0,
   expenses: 0,
-  request: {
-    status: "IDLE",
-    error: null,
-  },
+  request: {},
   driverDebtList: [],
   contractorsList: [],
   contractorsPayments: [],

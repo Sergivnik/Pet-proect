@@ -6,6 +6,7 @@ var taskContractors = require("../models/taskContractor.js");
 var tasksData = require("../models/tasksData.js");
 var tacksDocs = require("../models/taskDocs.js");
 var taskReports = require("../models/taskReports.js");
+var tasksAddData = require("../models/tasksAddData.js");
 
 module.exports.taskGet = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -448,6 +449,20 @@ module.exports.taskSaveReport = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   taskReports.reconciliationSavePdf(req.body.body, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
+
+module.exports.taskEditAddData = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  tasksAddData.editData(req.body.body, (data) => {
     if (data.error) {
       res.status(500);
       res.json({ message: data.error });
