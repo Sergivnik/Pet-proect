@@ -52,6 +52,12 @@ import {
   SEND_EMAIL_SUCCESS,
   SEND_EMAIL_FAILURE,
 } from "../actions/documentAction.js";
+import {
+  EDIT_ADDDATA_SUCCESS,
+  EDIT_ADDDATA_FAILURE,
+  DELETE_ADDDATE_SUCCESS,
+  DELETE_ADDDATE_FAILURE,
+} from "../actions/specialAction.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
@@ -911,6 +917,31 @@ export const oderReducer = (store = initialStore, action) => {
           $merge: { [originIndex]: newOder },
         },
       });
+    }
+    case DELETE_ADDDATE_SUCCESS: {
+      let [...arr] = store.addtable;
+      console.log(arr);
+      arr = store.addtable.filter((elem) => elem.id != action.id);
+      return { ...store, addtable: arr };
+    }
+    case EDIT_ADDDATA_SUCCESS: {
+      console.log(action);
+      let index = store.addtable.findIndex((elem) => elem.id == action.data.id);
+      return update(store, {
+        addtable: { $merge: { [index]: action.data } },
+        request: { $merge: { status: "SUCCESS", error: null } },
+      });
+    }
+    case EDIT_ADDDATA_FAILURE: {
+      console.log(action, store.request);
+      alert("Shit happens!");
+      return {
+        ...store,
+        request: {
+          status: "FAILURE",
+          error: true,
+        },
+      };
     }
 
     default:

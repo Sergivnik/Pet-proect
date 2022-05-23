@@ -114,8 +114,10 @@ export const CreateOderNew = (props) => {
       }
       if (obj.colorTR == "hotpink") {
         let addInfo = addtable.find((elem) => elem.orderId == obj._id);
-        obj.price = addInfo.sum;
-        obj.interest = addInfo.interest;
+        if (addInfo != undefined) {
+          obj.price = addInfo.sum;
+          obj.interest = addInfo.interest;
+        }
       }
       setOdersData(obj);
       if (props.clickSave) setBtnName("Сохранить");

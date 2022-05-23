@@ -291,6 +291,21 @@ module.exports.deleteContractorPayment = (req, res) => {
   });
 };
 
+module.exports.deleteAddData = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  tasksAddData.delete(req.params.id, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json(data);
+    } else {
+      res.json(data);
+    }
+  });
+};
+
 module.exports.editDriverDebt = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");

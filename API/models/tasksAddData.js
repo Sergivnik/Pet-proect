@@ -22,5 +22,17 @@ let TasksAddData = {
     }
     db.end();
   },
+  delete: async (id, callBack) => {
+    console.log(id);
+    const db = mysql.createPool(options).promise();
+    try {
+      await db.query(`DELETE FROM addtable WHERE id=${id}`);
+      callBack("success!");
+    } catch (err) {
+      console.log(err);
+      callBack({ error: err });
+    }
+    db.end();
+  },
 };
 module.exports = TasksAddData;
