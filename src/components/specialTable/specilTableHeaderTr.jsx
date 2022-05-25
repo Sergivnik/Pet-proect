@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./specialTable.sass";
 
-export const SpecialTableHeaderTr = () => {
+export const SpecialTableHeaderTr = (props) => {
+  console.log(props.filterData);
   return (
     <tr>
       <td className="specialTableHeaderTd">Клиент</td>
