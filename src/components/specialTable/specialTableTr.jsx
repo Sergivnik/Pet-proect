@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editAddData, deleteAddData } from "../../actions/specialAction";
 import { dateLocal, findValueBy_Id } from "../myLib/myLib";
-import { TdWithList } from "../myTd/tdWithList.jsx";
+import { TdWithList } from "../myLib/myTd/tdWithList.jsx"; 
 import "./specialTable.sass";
 
 export const SpecialTableTr = (props) => {

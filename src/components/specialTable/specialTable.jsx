@@ -11,7 +11,13 @@ export const SpecialTable = () => {
 
   const [currentId, setCurrentId] = useState(null);
   const [tableData, setTableData] = useState([]);
-  const [filterData, setFilterData] = useState({});
+  const [filterData, setFilterData] = useState({
+    customerId: [],
+    safe: null,
+    card: null,
+    customerPayment: null,
+    returnPayment: null,
+  });
 
   const getCurrentId = (id) => {
     console.log(id);
