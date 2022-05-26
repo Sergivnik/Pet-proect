@@ -4,7 +4,7 @@ import { DriverTable } from "./driverTable.jsx";
 import { PointsTable } from "./pointsTable.jsx";
 import { TrackDriverTable } from "./trackDriverTable.jsx";
 import { TrackTable } from "./trackTable.jsx";
-import { CustomerTable } from "./custonerTable.jsx";
+import { CustomerTable } from "./customerTable.jsx";
 
 import "./editData.sass";
 import { CustomerManagerTable } from "./customerManagerTable.jsx";

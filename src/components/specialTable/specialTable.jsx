@@ -13,10 +13,10 @@ export const SpecialTable = () => {
   const [tableData, setTableData] = useState([]);
   const [filterData, setFilterData] = useState({
     customerId: [],
-    safe: null,
-    card: null,
-    customerPayment: null,
-    returnPayment: null,
+    safe: [],
+    card: [],
+    customerPayment: [],
+    returnPayment: [],
   });
 
   const getCurrentId = (id) => {
@@ -35,15 +35,16 @@ export const SpecialTable = () => {
     setTableData(arr);
     let ordersIdList = [];
     arr.forEach((elem) => {
-      if (ordersIdList.indexOf(elem.customerId) === -1)
+      if (ordersIdList.indexOf(elem.customerId) === -1) {
         ordersIdList.push(elem.customerId);
+      }
     });
     setFilterData({
       customerId: ordersIdList,
-      safe: null,
-      card: null,
-      customerPayment: null,
-      returnPayment: null,
+      safe: [0, 1],
+      card: [0, 1],
+      customerPayment: [0, 1],
+      returnPayment: [0, 1],
     });
   }, [addTable]);
 
