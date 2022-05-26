@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { findValueBy_Id } from "../myLib/myLib";
+import { useSelector } from "react-redux";
 import { SpecialTableTr } from "./specialTableTr.jsx";
 import "./specialTable.sass";
 import { SpecialTableHeaderTr } from "./specilTableHeaderTr.jsx";
@@ -8,8 +7,10 @@ import { SpecialTableHeaderTr } from "./specilTableHeaderTr.jsx";
 export const SpecialTable = () => {
   const addTable = useSelector((state) => state.oderReducer.addtable);
   const ordersList = useSelector((state) => state.oderReducer.odersList);
+  const customerList = useSelector((state) => state.oderReducer.clientList);
 
   const [currentId, setCurrentId] = useState(null);
+  const [tableDataOrigin, setTableDataOrigin] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [filterData, setFilterData] = useState({
     customerId: [],
@@ -23,6 +24,11 @@ export const SpecialTable = () => {
     console.log(id);
     setCurrentId(id);
   };
+
+  const getFilteredList = (list) => {
+    console.log("getFilteredList", list);
+  };
+
   useEffect(() => {
     let [...arr] = addTable;
     arr.sort((a, b) => {
@@ -32,19 +38,37 @@ export const SpecialTable = () => {
       if (aOrder.accountNumber == bOrder.accountNumber) return 0;
       if (aOrder.accountNumber < bOrder.accountNumber) return -1;
     });
+    setTableDataOrigin(arr);
     setTableData(arr);
+    let idList = [];
     let ordersIdList = [];
     arr.forEach((elem) => {
-      if (ordersIdList.indexOf(elem.customerId) === -1) {
-        ordersIdList.push(elem.customerId);
+      if (idList.indexOf(elem.customerId) === -1) {
+        idList.push(elem.customerId);
       }
+    });
+    idList.forEach((elem) => {
+      let value = customerList.find((customer) => customer._id == elem).value;
+      ordersIdList.push({ id: elem, value: value, checked: true });
     });
     setFilterData({
       customerId: ordersIdList,
-      safe: [0, 1],
-      card: [0, 1],
-      customerPayment: [0, 1],
-      returnPayment: [0, 1],
+      safe: [
+        { id: 0, value: "нет", checked: true },
+        { id: 1, value: "Ок", checked: true },
+      ],
+      card: [
+        { id: 0, value: "нет", checked: true },
+        { id: 1, value: "Ок", checked: true },
+      ],
+      customerPayment: [
+        { id: 0, value: "нет", checked: true },
+        { id: 1, value: "Ок", checked: true },
+      ],
+      returnPayment: [
+        { id: 0, value: "нет", checked: true },
+        { id: 1, value: "Ок", checked: true },
+      ],
     });
   }, [addTable]);
 
@@ -52,7 +76,10 @@ export const SpecialTable = () => {
     <div className="specialTableMainDiv">
       <table className="specialTableMainTable">
         <thead className="specialTableThead">
-          <SpecialTableHeaderTr filterData={filterData} />
+          <SpecialTableHeaderTr
+            filterData={filterData}
+            getFilteredList={getFilteredList}
+          />
         </thead>
         <tbody className="specialTableBody">
           {tableData.map((elem) => {

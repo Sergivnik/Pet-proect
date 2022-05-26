@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { InputText } from "../inputText.jsx";
 import "./filterTd.sass";
 
 export const FilterTdList = (props) => {
@@ -7,17 +6,18 @@ export const FilterTdList = (props) => {
   const [listIdValue, setListIdValue] = useState([]);
   const [filteredList, setFilteredLest] = useState([]);
   const [text, setText] = useState("");
+  const [btnText, setBtnText] = useState("Очистить всё");
 
   useEffect(() => {
-    let arr = [];
-    props.listId.forEach((id) => {
-      let value = props.listElem.find((elem) => elem[props.fieldId] == id)[
-        props.fieldValue
-      ];
-      arr.push({ id: id, value: value, checked: true });
-    });
-    setListIdValue(arr);
-    setFilteredLest(arr);
+    // let arr = [];
+    // props.listId.forEach((id) => {
+    //   let value = props.listElem.find((elem) => elem[props.fieldId] == id)[
+    //     props.fieldValue
+    //   ];
+    //   arr.push({ id: id, value: value, checked: true });
+    // });
+    setListIdValue(props.listId);
+    setFilteredLest(props.listId);
   }, [props.listId]);
 
   const getText = (e) => {
@@ -32,11 +32,34 @@ export const FilterTdList = (props) => {
   const handleClickFilter = () => {
     setShowList(!showList);
   };
-  const handleClickCheck = (e) => {};
-  console.log(listIdValue);
+  const handleClickCheck = (e) => {
+    let id = e.currentTarget.id;
+    let [...arr] = filteredList;
+    let elemId = arr.find((elem) => elem.id == id);
+    elemId.checked = !elemId.checked;
+    setFilteredLest(arr);
+  };
+  const handleSelectAll = () => {
+    let [...arr] = listIdValue;
+    if (btnText == "Очистить всё") {
+      setBtnText("Выделить всё");
+      arr.forEach((elem) => (elem.checked = false));
+    } else {
+      setBtnText("Очистить всё");
+      arr.forEach((elem) => (elem.checked = true));
+    }
+  };
+  const handleClickOk = () => {
+    let arr = [];
+    filteredList.forEach((elem) => {
+      if (elem.checked) arr.push(elem.id);
+    });
+    props.getFilteredList(arr);
+    setShowList(false);
+  };
   return (
     <td className="filterTd">
-      {props.name}
+      {props.title}
       <button
         className="filterBtnOpen"
         onClick={handleClickFilter}
@@ -57,6 +80,7 @@ export const FilterTdList = (props) => {
               return (
                 <label key={elem.id}>
                   <input
+                    id={elem.id}
                     type="checkbox"
                     checked={elem.checked}
                     onChange={handleClickCheck}
@@ -67,9 +91,15 @@ export const FilterTdList = (props) => {
             })}
           </div>
           <div className="filterBtnDiv">
-            <button className="filterBottomBtn">Выделить всё</button>
-            <button className="filterBottomBtn">Ок</button>
-            <button className="filterBottomBtn">Отмена</button>
+            <button className="filterBottomBtn" onClick={handleSelectAll}>
+              {btnText}
+            </button>
+            <button className="filterBottomBtn" onClick={handleClickOk}>
+              Ок
+            </button>
+            <button className="filterBottomBtn" onClick={handleClickFilter}>
+              Отмена
+            </button>
           </div>
         </div>
       )}

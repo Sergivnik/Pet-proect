@@ -9,53 +9,36 @@ export const SpecialTableHeaderTr = (props) => {
   return (
     <tr>
       <FilterTdList
-        name="Клиент"
+        name="customer"
+        title="Клиент"
         listId={props.filterData.customerId}
-        listElem={customerList}
-        fieldValue="value"
-        fieldId="_id"
+        getFilteredList={props.getFilteredList}
       />
       <td className="specialTableHeaderTd">Сумма</td>
       <FilterTdList
-        name="Сейф"
+        name="safe"
+        title="Сейф"
         listId={props.filterData.safe}
-        listElem={[
-          { id: 0, value: "нет" },
-          { id: 1, value: "да" },
-        ]}
-        fieldValue="value"
-        fieldId="id"
+        getFilteredList={props.getFilteredList}
       />
       <FilterTdList
-        name="Карта"
+        name="card"
+        title="Карта"
         listId={props.filterData.card}
-        listElem={[
-          { id: 0, value: "нет" },
-          { id: 1, value: "да" },
-        ]}
-        fieldValue="value"
-        fieldId="id"
+        getFilteredList={props.getFilteredList}
       />
       <td className="specialTableHeaderTd">Счет</td>
       <FilterTdList
-        name="Оплата заказа"
+        name="customerPayment"
+        title="Оплата заказа"
         listId={props.filterData.customerPayment}
-        listElem={[
-          { id: 0, value: "нет" },
-          { id: 1, value: "да" },
-        ]}
-        fieldValue="value"
-        fieldId="id"
+        getFilteredList={props.getFilteredList}
       />
       <FilterTdList
-        name="Оплата клиенту"
+        name="returnPayment"
+        title="Оплата клиенту"
         listId={props.filterData.returnPayment}
-        listElem={[
-          { id: 0, value: "нет" },
-          { id: 1, value: "да" },
-        ]}
-        fieldValue="value"
-        fieldId="id"
+        getFilteredList={props.getFilteredList}
       />
       <td className="specialTableHeaderTd">Дата</td>
     </tr>
