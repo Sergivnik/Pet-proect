@@ -37,6 +37,7 @@ export const SpecialTable = () => {
     customerPayment: [],
     returnPayment: [],
   });
+  const [sum, setSum] = useState(0);
 
   const getCurrentId = (id) => {
     setCurrentId(id);
@@ -74,7 +75,7 @@ export const SpecialTable = () => {
     setTableData(arrTable);
 
     let newFilter = {};
-    for(let key in objFilter){
+    for (let key in objFilter) {
       let filterObjKey = {};
       for (let key in objFilter) {
         filterObjKey[key] = [];
@@ -89,7 +90,7 @@ export const SpecialTable = () => {
         isCondition(filterObjKey, elem)
       );
       newFilter[key] = getUniqueKey(arrTableKey, objFilter, key);
-    };
+    }
     setFilterData(newFilter);
     console.log("test", newFilter);
   };
@@ -139,6 +140,16 @@ export const SpecialTable = () => {
     setFilterData(cloneFilter(objFilter));
   }, [addTable]);
 
+  useEffect(() => {
+    let sum = 0;
+    tableData.forEach((elem) => {
+      let price = ordersList.find(
+        (order) => order._id == elem.orderId
+      ).customerPrice;
+      sum = sum + ((price - elem.sum) * (100 - elem.interest)) / 100;
+    });
+    setSum(sum);
+  }, [tableData]);
   return (
     <div className="specialTableMainDiv">
       <table className="specialTableMainTable">
@@ -160,6 +171,13 @@ export const SpecialTable = () => {
             );
           })}
         </tbody>
+        <tfoot className="specialTableBody">
+          <tr>
+            <td></td>
+            <td>{sum}</td>
+            <td colSpan={6}></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   );
