@@ -5,6 +5,17 @@ import "./specialTable.sass";
 import { SpecialTableHeaderTr } from "./specilTableHeaderTr.jsx";
 
 export const SpecialTable = () => {
+  const cloneFilter = (objFikter) => {
+    let newObjFilter = {};
+    for (let key in objFikter) {
+      newObjFilter[key] = [];
+      objFikter[key].forEach((obj) => {
+        newObjFilter[key].push({ ...obj });
+      });
+    }
+    return newObjFilter;
+  };
+
   const addTable = useSelector((state) => state.oderReducer.addtable);
   const ordersList = useSelector((state) => state.oderReducer.odersList);
   const customerList = useSelector((state) => state.oderReducer.clientList);
@@ -12,6 +23,13 @@ export const SpecialTable = () => {
   const [currentId, setCurrentId] = useState(null);
   const [tableDataOrigin, setTableDataOrigin] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [filterDataOrigin, setFilterDataOrigin] = useState({
+    customerId: [],
+    safe: [],
+    card: [],
+    customerPayment: [],
+    returnPayment: [],
+  });
   const [filterData, setFilterData] = useState({
     customerId: [],
     safe: [],
@@ -21,12 +39,59 @@ export const SpecialTable = () => {
   });
 
   const getCurrentId = (id) => {
-    console.log(id);
     setCurrentId(id);
   };
 
-  const getFilteredList = (list) => {
-    console.log("getFilteredList", list);
+  const getFilteredList = (name, list) => {
+    const isCondition = (filterObj, elem) => {
+      let checkConditions = true;
+      for (let key in filterObj) {
+        let isChoisen = filterObj[key].find(
+          (elemFilter) => elemFilter.id == elem[key]
+        );
+        if (checkConditions) checkConditions = isChoisen?.checked;
+      }
+      return checkConditions;
+    };
+    const getUniqueKey = (tableArr, fiterObj, key) => {
+      let newFilterArrKey = [];
+      tableArr.forEach((elem) => {
+        if (newFilterArrKey.findIndex((item) => item.id == elem[key]) == -1) {
+          let newElem = fiterObj[key].find((item) => item.id == elem[key]);
+          newFilterArrKey.push(newElem);
+        }
+      });
+      return newFilterArrKey;
+    };
+
+    let objFilter = cloneFilter(filterDataOrigin);
+    objFilter[name] = list;
+    setFilterDataOrigin(objFilter);
+
+    let arrTable = tableDataOrigin.filter((elem) =>
+      isCondition(objFilter, elem)
+    );
+    setTableData(arrTable);
+
+    let newFilter = {};
+    for(let key in objFilter){
+      let filterObjKey = {};
+      for (let key in objFilter) {
+        filterObjKey[key] = [];
+        objFilter[key].forEach((obj) => {
+          filterObjKey[key].push({ ...obj });
+        });
+      }
+      filterObjKey[key].forEach((elem) => {
+        elem.checked = true;
+      });
+      let arrTableKey = tableDataOrigin.filter((elem) =>
+        isCondition(filterObjKey, elem)
+      );
+      newFilter[key] = getUniqueKey(arrTableKey, objFilter, key);
+    };
+    setFilterData(newFilter);
+    console.log("test", newFilter);
   };
 
   useEffect(() => {
@@ -51,7 +116,7 @@ export const SpecialTable = () => {
       let value = customerList.find((customer) => customer._id == elem).value;
       ordersIdList.push({ id: elem, value: value, checked: true });
     });
-    setFilterData({
+    let objFilter = {
       customerId: ordersIdList,
       safe: [
         { id: 0, value: "нет", checked: true },
@@ -69,7 +134,9 @@ export const SpecialTable = () => {
         { id: 0, value: "нет", checked: true },
         { id: 1, value: "Ок", checked: true },
       ],
-    });
+    };
+    setFilterDataOrigin(objFilter);
+    setFilterData(cloneFilter(objFilter));
   }, [addTable]);
 
   return (

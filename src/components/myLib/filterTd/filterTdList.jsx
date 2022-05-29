@@ -7,15 +7,16 @@ export const FilterTdList = (props) => {
   const [filteredList, setFilteredLest] = useState([]);
   const [text, setText] = useState("");
   const [btnText, setBtnText] = useState("Очистить всё");
+  const [classFilterTdDiv, setClassFilterTdDiv] = useState("filterTdDiv");
+  const [color, setColor] = useState("Black");
 
   useEffect(() => {
-    // let arr = [];
-    // props.listId.forEach((id) => {
-    //   let value = props.listElem.find((elem) => elem[props.fieldId] == id)[
-    //     props.fieldValue
-    //   ];
-    //   arr.push({ id: id, value: value, checked: true });
-    // });
+    let isChosen = props.listId.findIndex((elem) => elem.checked == false);
+    if (isChosen != -1) {
+      setColor("Blue");
+    } else {
+      setColor("Black");
+    }
     setListIdValue(props.listId);
     setFilteredLest(props.listId);
   }, [props.listId]);
@@ -29,7 +30,14 @@ export const FilterTdList = (props) => {
     });
     setFilteredLest(arr);
   };
-  const handleClickFilter = () => {
+  const handleClickFilter = (e) => {
+    let tdParent = e.currentTarget.parentNode;
+    let btn = e.currentTarget;
+    if (tdParent.offsetLeft + btn.offsetLeft < 275) {
+      setClassFilterTdDiv("filterTdDiv divLeft");
+    } else {
+      setClassFilterTdDiv("filterTdDiv");
+    }
     setShowList(!showList);
   };
   const handleClickCheck = (e) => {
@@ -50,11 +58,7 @@ export const FilterTdList = (props) => {
     }
   };
   const handleClickOk = () => {
-    let arr = [];
-    filteredList.forEach((elem) => {
-      if (elem.checked) arr.push(elem.id);
-    });
-    props.getFilteredList(arr);
+    props.getFilteredList(props.name, filteredList);
     setShowList(false);
   };
   return (
@@ -66,14 +70,11 @@ export const FilterTdList = (props) => {
         value={text}
       >
         <svg width="100%" height="20">
-          <polygon
-            points="5 5, 25 5, 15 15, 5 5 "
-            //fill={props.filterList.date.length > 0 ? "blue" : "black"}
-          />
+          <polygon points="5 5, 25 5, 15 15, 5 5 " fill={color} />
         </svg>
       </button>
       {showList && (
-        <div className="filterTdDiv">
+        <div className={classFilterTdDiv}>
           <input className="filterInput" type="text" onChange={getText} />
           <div className="filterListDiv">
             {filteredList.map((elem) => {

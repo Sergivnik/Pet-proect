@@ -30,7 +30,6 @@ export const UserWindow = (props) => {
   };
   const handleClickFullSize = (e) => {
     let div = document.querySelector(`#${props.windowId}`);
-    console.log(e);
     if (!fullSeze) {
       div.style.width = "100%";
       div.style.left = "0";
@@ -47,9 +46,7 @@ export const UserWindow = (props) => {
   };
   const handleDivClick = () => {
     let divs = document.querySelectorAll(".userWindowDiv");
-    console.log(divs, props.windowId);
     divs.forEach((div) => {
-      console.log(div.id);
       if (div.id == props.windowId) {
         div.style.zIndex = 30;
       } else {

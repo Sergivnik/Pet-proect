@@ -5,11 +5,10 @@ import "./specialTable.sass";
 
 export const SpecialTableHeaderTr = (props) => {
   const customerList = useSelector((state) => state.oderReducer.clientList);
-  console.log(props.filterData);
   return (
     <tr>
       <FilterTdList
-        name="customer"
+        name="customerId"
         title="Клиент"
         listId={props.filterData.customerId}
         getFilteredList={props.getFilteredList}

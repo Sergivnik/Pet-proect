@@ -29,7 +29,6 @@ export const SpecialTableTr = (props) => {
   }, [elem]);
 
   useEffect(() => {
-    console.log("hi");
     if (props.currentId == elem.id) {
       setShowDelete(true);
       setClassTr("setClassTr");
