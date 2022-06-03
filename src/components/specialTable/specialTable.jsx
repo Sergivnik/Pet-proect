@@ -42,18 +42,17 @@ export const SpecialTable = () => {
   const getCurrentId = (id) => {
     setCurrentId(id);
   };
-
+  const isCondition = (filterObj, elem) => {
+    let checkConditions = true;
+    for (let key in filterObj) {
+      let isChoisen = filterObj[key].find(
+        (elemFilter) => elemFilter.id == elem[key]
+      );
+      if (checkConditions) checkConditions = isChoisen?.checked;
+    }
+    return checkConditions;
+  };
   const getFilteredList = (name, list) => {
-    const isCondition = (filterObj, elem) => {
-      let checkConditions = true;
-      for (let key in filterObj) {
-        let isChoisen = filterObj[key].find(
-          (elemFilter) => elemFilter.id == elem[key]
-        );
-        if (checkConditions) checkConditions = isChoisen?.checked;
-      }
-      return checkConditions;
-    };
     const getUniqueKey = (tableArr, fiterObj, key) => {
       let newFilterArrKey = [];
       tableArr.forEach((elem) => {
@@ -100,12 +99,24 @@ export const SpecialTable = () => {
     arr.sort((a, b) => {
       let aOrder = ordersList.find((elem) => elem._id == a.orderId);
       let bOrder = ordersList.find((elem) => elem._id == b.orderId);
-      if (aOrder.accountNumber > bOrder.accountNumber) return 1;
+      if (aOrder.accountNumber > bOrder.accountNumber) {
+        if (aOrder.accountNumber == null) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
       if (aOrder.accountNumber == bOrder.accountNumber) return 0;
-      if (aOrder.accountNumber < bOrder.accountNumber) return -1;
+      if (aOrder.accountNumber < bOrder.accountNumber) {
+        if (aOrder.accountNumber == null) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
     });
     setTableDataOrigin(arr);
-    setTableData(arr);
+
     let idList = [];
     let ordersIdList = [];
     arr.forEach((elem) => {
@@ -133,11 +144,37 @@ export const SpecialTable = () => {
       ],
       returnPayment: [
         { id: 0, value: "нет", checked: true },
-        { id: 1, value: "Ок", checked: true },
+        { id: 1, value: "Ок", checked: false },
       ],
     };
     setFilterDataOrigin(objFilter);
     setFilterData(cloneFilter(objFilter));
+    let arrTable = arr.filter((elem) => isCondition(objFilter, elem));
+    setTableData(arrTable);
+  }, []);
+
+  useEffect(() => {
+    let [...arr] = addTable;
+    arr.sort((a, b) => {
+      let aOrder = ordersList.find((elem) => elem._id == a.orderId);
+      let bOrder = ordersList.find((elem) => elem._id == b.orderId);
+      if (aOrder.accountNumber > bOrder.accountNumber) {
+        if (aOrder.accountNumber == null) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+      if (aOrder.accountNumber == bOrder.accountNumber) return 0;
+      if (aOrder.accountNumber < bOrder.accountNumber) {
+        if (aOrder.accountNumber == null) {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    });
+    setTableDataOrigin(arr);
   }, [addTable]);
 
   useEffect(() => {
