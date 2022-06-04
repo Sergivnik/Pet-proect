@@ -38,10 +38,13 @@ export const SpecialTable = () => {
     returnPayment: [],
   });
   const [sum, setSum] = useState(0);
+  const [selectSum, setSelectSum] = useState(0);
+  const [isCtrl, setIsCtrl] = useState(false);
 
   const getCurrentId = (id) => {
     setCurrentId(id);
   };
+
   const isCondition = (filterObj, elem) => {
     let checkConditions = true;
     for (let key in filterObj) {
@@ -52,6 +55,7 @@ export const SpecialTable = () => {
     }
     return checkConditions;
   };
+
   const getFilteredList = (name, list) => {
     const getUniqueKey = (tableArr, fiterObj, key) => {
       let newFilterArrKey = [];
@@ -64,8 +68,12 @@ export const SpecialTable = () => {
       return newFilterArrKey;
     };
 
+    list.forEach((listElem) => {
+      filterDataOrigin[name].find(
+        (originElem) => originElem.id == listElem.id
+      ).checked = listElem.checked;
+    });
     let objFilter = cloneFilter(filterDataOrigin);
-    objFilter[name] = list;
     setFilterDataOrigin(objFilter);
 
     let arrTable = tableDataOrigin.filter((elem) =>
@@ -92,6 +100,15 @@ export const SpecialTable = () => {
     }
     setFilterData(newFilter);
     console.log("test", newFilter);
+  };
+  const getSum = (sum, isCtrl) => {
+    if (isCtrl) {
+      setSelectSum(selectSum + sum);
+      setIsCtrl(true);
+    } else {
+      setSelectSum(0);
+      setIsCtrl(false);
+    }
   };
 
   useEffect(() => {
@@ -204,6 +221,8 @@ export const SpecialTable = () => {
                 elem={elem}
                 currentId={currentId}
                 getCurrentId={getCurrentId}
+                getSum={getSum}
+                isCtrl={isCtrl}
               />
             );
           })}
@@ -212,7 +231,16 @@ export const SpecialTable = () => {
           <tr>
             <td></td>
             <td>{sum}</td>
-            <td colSpan={6}></td>
+            {isCtrl ? (
+              <>
+                <td></td>
+                <td>Сумма:</td>
+                <td>{selectSum}</td>
+                <td colSpan={3}></td>
+              </>
+            ) : (
+              <td colSpan={6}></td>
+            )}
           </tr>
         </tfoot>
       </table>

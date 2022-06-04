@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editAddData, deleteAddData } from "../../actions/specialAction";
 import { dateLocal, findValueBy_Id } from "../myLib/myLib";
-import { TdWithList } from "../myLib/myTd/tdWithList.jsx"; 
+import { TdWithList } from "../myLib/myTd/tdWithList.jsx";
 import "./specialTable.sass";
 
 export const SpecialTableTr = (props) => {
@@ -23,6 +23,7 @@ export const SpecialTableTr = (props) => {
   const [addData, setAddData] = useState({});
   const [showDelete, setShowDelete] = useState(false);
   const [classTr, setClassTr] = useState("");
+  const [classTd, setClassTd] = useState("specialTableBodyTd");
 
   useEffect(() => {
     setAddData(elem);
@@ -31,12 +32,17 @@ export const SpecialTableTr = (props) => {
   useEffect(() => {
     if (props.currentId == elem.id) {
       setShowDelete(true);
-      setClassTr("setClassTr");
+      setClassTr("specialClassTr");
     } else {
       setShowDelete(false);
       setClassTr("");
     }
   }, [props.currentId]);
+  useEffect(() => {
+    if (!props.isCtrl) {
+      setClassTd("specialTableBodyTd");
+    }
+  }, [props.isCtrl]);
 
   const callBack = (data) => {
     let { ...obj } = addData;
@@ -72,6 +78,16 @@ export const SpecialTableTr = (props) => {
     let check = confirm("Are you sure?");
     if (check) dispatch(deleteAddData(props.currentId));
   };
+  const handleClickSum = (e) => {
+    if (e.ctrlKey) {
+      e.stopPropagation();
+      props.getSum(sum, true);
+      setClassTd("specialTableBodyTd specialClassTd");
+    } else {
+      props.getSum(0, false);
+      setClassTd("specialTableBodyTd");
+    }
+  };
 
   return (
     <tr className={classTr} onClick={handleClicktr}>
@@ -84,7 +100,9 @@ export const SpecialTableTr = (props) => {
         callBack={callBack}
         showChoise={false}
       />
-      <td className="specialTableBodyTd">{sum}</td>
+      <td className={classTd} onClick={handleClickSum}>
+        {sum}
+      </td>
       <TdWithList
         name="safe"
         list={yesNoList}
