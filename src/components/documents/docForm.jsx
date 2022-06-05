@@ -4,13 +4,13 @@ import { InvoiceForm } from "./invoiceForm.jsx";
 import { ActForm } from "./actForm.jsx";
 import { findValueBy_Id } from "../myLib/myLib.js";
 import { InputText } from "../myLib/inputText.jsx";
-
-import "./billsForm.sass";
 import {
-  // addActToDoc,
   createDocWithoutStamp,
   createNewInvoice,
 } from "../../actions/documentAction.js";
+import { AppForm } from "./appForm.jsx";
+
+import "./billsForm.sass";
 
 export const DocForm = (props) => {
   const dispatch = useDispatch();
@@ -340,7 +340,8 @@ export const DocForm = (props) => {
           </div>
         )}
         {showApplication && (
-          <h3>{`Заявка №${props.dataDoc.odersListId[id - 1]}`}</h3>
+          <AppForm dataDoc={props.dataDoc} id={id} />
+          //<h3>{`Заявка №${props.dataDoc.odersListId[id - 1]}`}</h3>
         )}
       </div>
     </div>
