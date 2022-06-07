@@ -201,7 +201,7 @@ export const InvoiceForm = (props) => {
           </div>
         </div>
         <div style={{ fontSize: "14px" }}>
-          <div style={{ height: "45px" }}>
+          <div style={{ height: "60px" }}>
             <div
               style={{
                 padding: "5px",
@@ -222,7 +222,7 @@ export const InvoiceForm = (props) => {
                 width: "86%",
               }}
             >
-              ИП Иванов Сергей Николаевич, свидетельство № 308615401700030 от
+              ИП Иванов Сергей Николаевич, ИНН 615408271552, свидетельство № 308615401700030 от
               17.01.08г. Ростовская область, 347923, Таганрог, Ломакина, д. 108,
               кв. 2{" "}
             </div>
