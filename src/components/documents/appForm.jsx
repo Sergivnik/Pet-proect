@@ -59,6 +59,7 @@ export const AppForm = (props) => {
     margin: "-1px",
     textAlign: "center",
   };
+  const styleDiv50 = { width: "50%" };
   return (
     <div style={{ margin: "5px 5px 5px 20px" }}>
       <div style={{ display: "flex" }}>
@@ -348,6 +349,53 @@ export const AppForm = (props) => {
           <span style={{ paddingLeft: "5px" }}>
             {`${trackDriver.phoneNumber}`}
           </span>
+        </div>
+      </div>
+      <div style={styleDivRow}>
+        <div style={styleDiv50}>
+          <h4>Исполнитель</h4>
+          <p style={{ height: "75px" }}>
+            ИП Иванов С.Н. 347923, г. Таганрог Ростовская область, ул.Ломакина
+            д.108 кв. 2, ИНН 615408271552
+          </p>
+          <p style={{ marginTop: "50px" }}>
+            Подпись ______________________Иванов С.Н.
+          </p>
+          {props.stamp && (
+            <img
+              style={{
+                position: "absolute",
+                left: "60px",
+                top: "-70px",
+                opacity: "0.7",
+                zIndex: "-2",
+              }}
+              height="170"
+              width="170"
+              src={`${DOMENNAME}/img/stamp.png`}
+            />
+          )}
+          {props.stamp && (
+            <img
+              style={{
+                position: "absolute",
+                left: "90px",
+                top: "-75px",
+                zIndex: "-1",
+                transform: "rotate(15deg)",
+              }}
+              height="120"
+              width="120"
+              src={`${DOMENNAME}/img/sign.png`}
+            />
+          )}
+        </div>
+        <div style={styleDiv50}>
+          <h4>Заказчик</h4>
+          <p style={{ height: "75px" }}>{`${client.companyName} ИНН ${
+            client.TIN ? client.TIN : ""
+          }, ${client.address ? client.address : ""}`}</p>
+          <p style={{ marginTop: "50px" }}>Подпись ______________________</p>
         </div>
       </div>
     </div>
