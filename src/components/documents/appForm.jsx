@@ -59,7 +59,7 @@ export const AppForm = (props) => {
     margin: "-1px",
     textAlign: "center",
   };
-  const styleDiv50 = { width: "50%" };
+  const styleDiv50 = { width: "50%", position: "relative" };
   return (
     <div style={{ margin: "5px 5px 5px 20px" }}>
       <div style={{ display: "flex" }}>
@@ -366,7 +366,7 @@ export const AppForm = (props) => {
               style={{
                 position: "absolute",
                 left: "60px",
-                top: "-70px",
+                top: "110px",
                 opacity: "0.7",
                 zIndex: "-2",
               }}
@@ -380,7 +380,7 @@ export const AppForm = (props) => {
               style={{
                 position: "absolute",
                 left: "90px",
-                top: "-75px",
+                top: "110px",
                 zIndex: "-1",
                 transform: "rotate(15deg)",
               }}

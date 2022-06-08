@@ -66,6 +66,7 @@ export const DocForm = (props) => {
       setShowDocWithoutStamp(true);
     }
     if (typeOfTab == "application") {
+      setCurrentApplication(1);
       setShowInvoice(false);
       setShowApplication(true);
       setShowDocWithoutStamp(false);
@@ -83,7 +84,7 @@ export const DocForm = (props) => {
     let tabList = document.querySelector(".tabList").children;
     let arrTabId = [];
     for (let elem of tabList) {
-      arrTabId.push(elem.id);
+      if (elem.id != "") arrTabId.push(elem.id);
     }
     console.log(arrTabId);
     if (showInvoice) {
@@ -112,7 +113,7 @@ export const DocForm = (props) => {
           customer
         )
       );
-      setTabId(arrTabId[3]);
+      setTabId(arrTabId[2]);
       setId(1);
       setShowInvoice(false);
       setShowDocWithoutStamp(false);
@@ -120,11 +121,13 @@ export const DocForm = (props) => {
       setCurrentApplication(2);
     }
     if (showApplication) {
-      let htmlDoc = document.querySelector(".invoicePrintForm");
+      let htmlDoc = document.querySelector(".applicationForm");
       console.log(htmlDoc);
-      setId(currentApplication);
-      setTabId(arrTabId[currentApplication + 1]);
-      setCurrentApplication(currentApplication + 1);
+      if (currentApplication + 1 < arrTabId.length) {
+        setId(currentApplication);
+        setTabId(arrTabId[currentApplication + 1]);
+        setCurrentApplication(currentApplication + 1);
+      }
     }
   };
   const getStrText = (obj) => {
@@ -340,8 +343,9 @@ export const DocForm = (props) => {
           </div>
         )}
         {showApplication && (
-          <AppForm dataDoc={props.dataDoc} id={id} />
-          //<h3>{`Заявка №${props.dataDoc.odersListId[id - 1]}`}</h3>
+          <div className="applicationForm">
+            <AppForm dataDoc={props.dataDoc} id={id} stamp={true} />
+          </div>
         )}
       </div>
     </div>
