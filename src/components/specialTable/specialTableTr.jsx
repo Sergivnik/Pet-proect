@@ -81,8 +81,13 @@ export const SpecialTableTr = (props) => {
   const handleClickSum = (e) => {
     if (e.ctrlKey) {
       e.stopPropagation();
-      props.getSum(sum, true);
-      setClassTd("specialTableBodyTd specialClassTd");
+      if (classTd == "specialTableBodyTd") {
+        props.getSum(sum, true);
+        setClassTd("specialTableBodyTd specialClassTd");
+      } else {
+        props.getSum(-sum, true);
+        setClassTd("specialTableBodyTd");
+      }
     } else {
       props.getSum(0, false);
       setClassTd("specialTableBodyTd");

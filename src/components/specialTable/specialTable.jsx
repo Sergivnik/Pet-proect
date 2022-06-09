@@ -116,21 +116,11 @@ export const SpecialTable = () => {
     arr.sort((a, b) => {
       let aOrder = ordersList.find((elem) => elem._id == a.orderId);
       let bOrder = ordersList.find((elem) => elem._id == b.orderId);
-      if (aOrder.accountNumber > bOrder.accountNumber) {
-        if (aOrder.accountNumber == null) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
+      if (aOrder.accountNumber == null && bOrder != null) return 1;
+      if (aOrder.accountNumber != null && bOrder == null) return -1;
+      if (aOrder.accountNumber > bOrder.accountNumber) return 1;
       if (aOrder.accountNumber == bOrder.accountNumber) return 0;
-      if (aOrder.accountNumber < bOrder.accountNumber) {
-        if (aOrder.accountNumber == null) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
+      if (aOrder.accountNumber < bOrder.accountNumber) return -1;
     });
     setTableDataOrigin(arr);
 
@@ -175,21 +165,11 @@ export const SpecialTable = () => {
     arr.sort((a, b) => {
       let aOrder = ordersList.find((elem) => elem._id == a.orderId);
       let bOrder = ordersList.find((elem) => elem._id == b.orderId);
-      if (aOrder.accountNumber > bOrder.accountNumber) {
-        if (aOrder.accountNumber == null) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
+      if (aOrder.accountNumber == null && bOrder != null) return 1;
+      if (aOrder.accountNumber != null && bOrder == null) return -1;
+      if (aOrder.accountNumber > bOrder.accountNumber) return 1;
       if (aOrder.accountNumber == bOrder.accountNumber) return 0;
-      if (aOrder.accountNumber < bOrder.accountNumber) {
-        if (aOrder.accountNumber == null) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
+      if (aOrder.accountNumber < bOrder.accountNumber) return -1;
     });
     setTableDataOrigin(arr);
   }, [addTable]);
