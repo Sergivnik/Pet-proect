@@ -82,6 +82,8 @@ var Tasks = {
       allData.tracklist = data;
       [data] = await db.query(`SELECT * FROM addtable order by orderId`);
       allData.addtable = data;
+      [data] = await db.query(`SELECT * FROM storelist order by value`);
+      allData.storeList = data;
       callback(allData);
       db.end();
     } catch (err) {

@@ -38,4 +38,5 @@ export const initialStore = {
   clientmanager: [],
   message: null,
   addtable: [],
+  storeList: [],
 };

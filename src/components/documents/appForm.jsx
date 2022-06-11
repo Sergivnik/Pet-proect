@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dateLocal, sumInWords } from "../myLib/myLib";
 import { DOMENNAME } from "../../middlewares/initialState.js";
@@ -14,6 +14,8 @@ export const AppForm = (props) => {
   const trackDriversList = useSelector(
     (state) => state.oderReducer.trackdrivers
   );
+  const storeList = useSelector((state) => state.oderReducer.storeList);
+  console.log(storeList);
 
   const order = odersList.find(
     (elem) => elem._id == props.dataDoc.odersListId[props.id - 1]
@@ -28,6 +30,13 @@ export const AppForm = (props) => {
   const trackDriver = order.idTrackDriver
     ? trackDriversList.find((elem) => elem._id == order.idTrackDriver)
     : null;
+
+  const [editData, setEditData] = useState({
+    goodsName: "",
+    goodsWeight: 20,
+    loadingData: [],
+    unLoadingData: [],
+  });
 
   const styleDivRow = { display: "flex", marginBottom: "-1px" };
   const styleCellLeft = {
@@ -60,6 +69,8 @@ export const AppForm = (props) => {
     textAlign: "center",
   };
   const styleDiv50 = { width: "50%", position: "relative" };
+
+  useEffect(() => {}, []);
   return (
     <div style={{ margin: "5px 5px 5px 20px" }}>
       <div style={{ display: "flex" }}>
@@ -128,7 +139,7 @@ export const AppForm = (props) => {
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}></span>
+          <span style={{ paddingLeft: "5px" }}>{editData.goodsName}</span>
         </div>
         <div style={styleCellRight}>
           <div style={styleCellCargo}>
@@ -142,7 +153,7 @@ export const AppForm = (props) => {
             </span>
           </div>
           <div style={styleCellCargo}>
-            <span style={{ paddingLeft: "5px" }}></span>
+            <span style={{ paddingLeft: "5px" }}>{editData.goodsWeight}</span>
           </div>
         </div>
       </div>
