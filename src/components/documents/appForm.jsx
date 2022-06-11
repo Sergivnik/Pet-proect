@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dateLocal, sumInWords } from "../myLib/myLib";
 import { DOMENNAME } from "../../middlewares/initialState.js";
+import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { InputText } from "../myLib/inputText.jsx";
 
 import "./billsForm.sass";
 
@@ -15,7 +17,6 @@ export const AppForm = (props) => {
     (state) => state.oderReducer.trackdrivers
   );
   const storeList = useSelector((state) => state.oderReducer.storeList);
-  console.log(storeList);
 
   const order = odersList.find(
     (elem) => elem._id == props.dataDoc.odersListId[props.id - 1]
@@ -37,6 +38,10 @@ export const AppForm = (props) => {
     loadingData: [],
     unLoadingData: [],
   });
+  const [showEditWindow, setShowEditWindow] = useState(false);
+  const [showCoiseList, setShowChoiseList] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [currentPoint, setCurrentPoint] = useState(null);
 
   const styleDivRow = { display: "flex", marginBottom: "-1px" };
   const styleCellLeft = {
@@ -70,9 +75,55 @@ export const AppForm = (props) => {
   };
   const styleDiv50 = { width: "50%", position: "relative" };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    let obj = { ...editData };
+    order.idLoadingPoint.forEach((idCity, index) => {
+      const point = citiesList.find((elem) => elem._id == idCity).value;
+      const addInfo = order.loadingInfo[index] ? order.loadingInfo[index] : "";
+      obj.loadingData.push({
+        text: `${point}, ${addInfo}`,
+        store: "по ТТН",
+        date: dateLocal(order.date),
+        edit: false,
+      });
+    });
+    order.idUnloadingPoint.forEach((idCity, index) => {
+      const point = citiesList.find((elem) => elem._id == idCity).value;
+      const addInfo = order.unloadingInfo[index]
+        ? order.loadingInfo[index]
+        : "";
+      obj.unLoadingData.push({
+        text: `${point}, ${addInfo}`,
+        store: "по ТТН",
+        date: dateLocal(order.date),
+        edit: false,
+      });
+    });
+    setEditData(obj);
+  }, []);
+
+  const handleChangePoint = (e, index, name) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowEditWindow(true);
+    setCurrentIndex(index);
+    setCurrentPoint(name);
+  };
+  const handleClickRadio = (e) => {
+    if (e.currentTarget.value == "storeList") {
+      setShowChoiseList(true);
+    } else {
+      setShowChoiseList(false);
+    }
+  };
+  const setValue = (data) => {
+    if (currentPoint == "loadingPoint")
+      console.log(data, editData.loadingData[currentIndex]);
+    if (currentPoint == "loadunLoadingPointingPoint")
+      console.log(data, editData.unLoadingData[currentIndex]);
+  };
   return (
-    <div style={{ margin: "5px 5px 5px 20px" }}>
+    <div style={{ margin: "5px 5px 5px 20px", position: "relative" }}>
       <div style={{ display: "flex" }}>
         <div style={{ width: "25%" }}>
           <img src={`${DOMENNAME}/img/track.png`} height="150" width="200" />
@@ -157,11 +208,12 @@ export const AppForm = (props) => {
           </div>
         </div>
       </div>
-      {order.idLoadingPoint.map((idCity, index) => {
-        const point = citiesList.find((elem) => elem._id == idCity).value;
-        const addInfo = order.loadingInfo[index];
+      {editData.loadingData.map((elem, index) => {
         return (
-          <React.Fragment key={`Loading${index}`}>
+          <div
+            key={`Loading${index}`}
+            onDoubleClick={(e) => handleChangePoint(e, index, "loadingPoint")}
+          >
             <div style={styleDivRow}>
               <div style={styleCellLeft}>
                 <span style={{ paddingLeft: "5px" }}>{`Адрес, дата загрузки ${
@@ -170,12 +222,10 @@ export const AppForm = (props) => {
               </div>
               <div style={styleCellRight}>
                 <div style={styleCellPoint}>
-                  <span style={{ paddingLeft: "5px" }}>
-                    {`${point}, ${addInfo}`}
-                  </span>
+                  <span style={{ paddingLeft: "5px" }}>{elem.text}</span>
                 </div>
                 <div style={styleCellDate}>
-                  <span style={{ paddingLeft: "5px" }}>{}</span>
+                  <span style={{ paddingLeft: "5px" }}>{elem.date}</span>
                 </div>
               </div>
             </div>
@@ -186,17 +236,18 @@ export const AppForm = (props) => {
                 >{`Название организации`}</span>
               </div>
               <div style={styleCellRight}>
-                <span style={{ paddingLeft: "5px" }}>По ТТН</span>
+                <span style={{ paddingLeft: "5px" }}>{elem.store}</span>
               </div>
             </div>
-          </React.Fragment>
+          </div>
         );
       })}
-      {order.idUnloadingPoint.map((idCity, index) => {
-        const point = citiesList.find((elem) => elem._id == idCity).value;
-        const addInfo = order.unloadingInfo[index];
+      {editData.unLoadingData.map((elem, index) => {
         return (
-          <React.Fragment key={`unloading${index}`}>
+          <div
+            key={`unloading${index}`}
+            onDoubleClick={(e) => handleChangePoint(e, index, "unLoadingPoint")}
+          >
             <div style={styleDivRow}>
               <div style={styleCellLeft}>
                 <span style={{ paddingLeft: "5px" }}>{`Адрес, дата разгрузки ${
@@ -205,12 +256,10 @@ export const AppForm = (props) => {
               </div>
               <div style={styleCellRight}>
                 <div style={styleCellPoint}>
-                  <span style={{ paddingLeft: "5px" }}>
-                    {`${point}, ${addInfo}`}
-                  </span>
+                  <span style={{ paddingLeft: "5px" }}>{elem.text}</span>
                 </div>
                 <div style={styleCellDate}>
-                  <span style={{ paddingLeft: "5px" }}>{}</span>
+                  <span style={{ paddingLeft: "5px" }}>{elem.date}</span>
                 </div>
               </div>
             </div>
@@ -221,10 +270,10 @@ export const AppForm = (props) => {
                 </span>
               </div>
               <div style={styleCellRight}>
-                <span style={{ paddingLeft: "5px" }}>По ТТН</span>
+                <span style={{ paddingLeft: "5px" }}>{elem.store}</span>
               </div>
             </div>
-          </React.Fragment>
+          </div>
         );
       })}
       <div style={styleDivRow}>
@@ -409,6 +458,45 @@ export const AppForm = (props) => {
           <p style={{ marginTop: "50px" }}>Подпись ______________________</p>
         </div>
       </div>
+      {showEditWindow && (
+        <div className="editWindowDiv">
+          <label>
+            <input
+              type="radio"
+              name="wayToGetAddress"
+              value="storeList"
+              checked
+              onChange={handleClickRadio}
+            />
+            Выбрать склад из списка
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="wayToGetAddress"
+              value="text"
+              onChange={handleClickRadio}
+            />
+            Ввести адрес вручную
+          </label>
+          <div>
+            {showCoiseList ? (
+              <ChoiseList
+                name="store"
+                arrlist={storeList}
+                setValue={setValue}
+              />
+            ) : (
+              <InputText
+                name="textAddress"
+                typeInput="text"
+                text={props.infoList[index]}
+                getText={getText}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
