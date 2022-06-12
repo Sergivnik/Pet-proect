@@ -42,6 +42,8 @@ export const AppForm = (props) => {
   const [showCoiseList, setShowChoiseList] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [currentPoint, setCurrentPoint] = useState(null);
+  const [checked1, setChecked1] = useState(true);
+  const [checked2, setChecked2] = useState(false);
 
   const styleDivRow = { display: "flex", marginBottom: "-1px" };
   const styleCellLeft = {
@@ -82,6 +84,7 @@ export const AppForm = (props) => {
       const addInfo = order.loadingInfo[index] ? order.loadingInfo[index] : "";
       obj.loadingData.push({
         text: `${point}, ${addInfo}`,
+        point: `${point}`,
         store: "по ТТН",
         date: dateLocal(order.date),
         edit: false,
@@ -94,6 +97,7 @@ export const AppForm = (props) => {
         : "";
       obj.unLoadingData.push({
         text: `${point}, ${addInfo}`,
+        point: `${point}`,
         store: "по ТТН",
         date: dateLocal(order.date),
         edit: false,
@@ -112,15 +116,47 @@ export const AppForm = (props) => {
   const handleClickRadio = (e) => {
     if (e.currentTarget.value == "storeList") {
       setShowChoiseList(true);
+      setChecked1(true);
+      setChecked2(false);
     } else {
       setShowChoiseList(false);
+      setChecked1(false);
+      setChecked2(true);
     }
   };
   const setValue = (data) => {
-    if (currentPoint == "loadingPoint")
-      console.log(data, editData.loadingData[currentIndex]);
-    if (currentPoint == "loadunLoadingPointingPoint")
-      console.log(data, editData.unLoadingData[currentIndex]);
+    let obj = { ...editData };
+    let store = storeList.find((elem) => elem._id == data._id);
+    if (currentPoint == "loadingPoint") {
+      obj.loadingData[currentIndex].text =
+        obj.loadingData[currentIndex].point + " " + store.address;
+      obj.loadingData[currentIndex].store = data.value;
+    }
+    if (currentPoint == "unLoadingPoint") {
+      obj.unLoadingData[currentIndex].text =
+        obj.unLoadingData[currentIndex].point + " " + store.address;
+      obj.unLoadingData[currentIndex].store = data.value;
+    }
+    setEditData(obj);
+    setShowEditWindow(false);
+  };
+  const getText = (name, text) => {
+    console.log(text);
+    let obj = { ...editData };
+    if (currentPoint == "loadingPoint") {
+      if (obj.loadingData[currentIndex].text != text) {
+        obj.loadingData[currentIndex].text = text;
+        setEditData(obj);
+        setShowEditWindow(false);
+      }
+    }
+    if (currentPoint == "unLoadingPoint") {
+      if (obj.unLoadingData[currentIndex].text != text) {
+        obj.unLoadingData[currentIndex].text = text;
+        setEditData(obj);
+        setShowEditWindow(false);
+      }
+    }
   };
   return (
     <div style={{ margin: "5px 5px 5px 20px", position: "relative" }}>
@@ -465,7 +501,7 @@ export const AppForm = (props) => {
               type="radio"
               name="wayToGetAddress"
               value="storeList"
-              checked
+              checked={checked1}
               onChange={handleClickRadio}
             />
             Выбрать склад из списка
@@ -475,6 +511,7 @@ export const AppForm = (props) => {
               type="radio"
               name="wayToGetAddress"
               value="text"
+              checked={checked2}
               onChange={handleClickRadio}
             />
             Ввести адрес вручную
@@ -490,7 +527,11 @@ export const AppForm = (props) => {
               <InputText
                 name="textAddress"
                 typeInput="text"
-                text={props.infoList[index]}
+                text={
+                  currentPoint == "loadingPoint"
+                    ? editData.loadingData[currentIndex].text
+                    : editData.unLoadingData[currentIndex].text
+                }
                 getText={getText}
               />
             )}
