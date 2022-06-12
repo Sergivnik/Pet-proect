@@ -5,6 +5,7 @@ import { ActForm } from "./actForm.jsx";
 import { findValueBy_Id } from "../myLib/myLib.js";
 import { InputText } from "../myLib/inputText.jsx";
 import {
+  createApp,
   createDocWithoutStamp,
   createNewInvoice,
 } from "../../actions/documentAction.js";
@@ -122,7 +123,14 @@ export const DocForm = (props) => {
     }
     if (showApplication) {
       let htmlDoc = document.querySelector(".applicationForm");
-      console.log(htmlDoc);
+      dispatch(
+        createApp(
+          htmlDoc.innerHTML,
+          props.dataDoc.odersListId[id - 1],
+          year,
+          customer
+        )
+      );
       if (currentApplication + 1 < arrTabId.length) {
         setId(currentApplication);
         setTabId(arrTabId[currentApplication + 1]);

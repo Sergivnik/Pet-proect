@@ -76,6 +76,7 @@ export const AppForm = (props) => {
     textAlign: "center",
   };
   const styleDiv50 = { width: "50%", position: "relative" };
+  const stylePOther = { margin: 0, fontSize: "11px" };
 
   useEffect(() => {
     let obj = { ...editData };
@@ -159,7 +160,13 @@ export const AppForm = (props) => {
     }
   };
   return (
-    <div style={{ margin: "5px 5px 5px 20px", position: "relative" }}>
+    <div
+      style={{
+        margin: "15px 25px 15px 60px",
+        position: "relative",
+        fontSize: "14px",
+      }}
+    >
       <div style={{ display: "flex" }}>
         <div style={{ width: "25%" }}>
           <img src={`${DOMENNAME}/img/track.png`} height="150" width="200" />
@@ -176,7 +183,7 @@ export const AppForm = (props) => {
             телефон: +7-991-366-13-66 Вячеслав email: saver911@yandex.ru
           </p>
           <h3
-            style={{ textAlign: "center" }}
+            style={{ textAlign: "center", padding: "0 15px", fontSize: "15px" }}
           >{`ДОГОВОР-ЗАЯВКА НА  ПЕРЕВОЗКУ ГРУЗА № ${
             props.dataDoc.odersListId[props.id - 1]
           } от ${dateLocal(order.date)}`}</h3>
@@ -350,19 +357,19 @@ export const AppForm = (props) => {
           <span style={{ paddingLeft: "5px" }}></span>
         </div>
       </div>
-      <div>
-        <p style={{ margin: 0 }}>ПРОЧИЕ УСЛОВИЯ:</p>
-        <p style={{ margin: 0 }}>
+      <div style={{ paddingTop: "15px" }}>
+        <p style={stylePOther}>ПРОЧИЕ УСЛОВИЯ:</p>
+        <p style={stylePOther}>
           1.1. В своей деятельности стороны руководствуются положениями
           настоящего договора-заявки.
         </p>
-        <p style={{ margin: 0 }}>
+        <p style={stylePOther}>
           1.2. Заказчик обеспечивает загрузку/разгрузу автотранспортного
           средства в течении 4 часов с момента прибытия транспорта. Свыше
           указанного времени простой автомобиля оплачивается исходя из ставки
           простоя указанной в заявке.
         </p>
-        <p style={{ margin: 0 }}>
+        <p style={stylePOther}>
           1.3. Перевозчик несет ответственность перед Заказчиком в виде
           возмещения реального ущерба за утрату недостачу или порчу груза,
           принятого для перевозки,если не докажет, что утрата, недостача или
@@ -370,32 +377,32 @@ export const AppForm = (props) => {
           перевозчик не мог предотвратить или устранить по независящим от него
           причинам.
         </p>
-        <p style={{ margin: 0 }}>1.4. Заказчик несет ответственность:</p>
-        <p style={{ margin: 0 }}>
+        <p style={stylePOther}>1.4. Заказчик несет ответственность:</p>
+        <p style={stylePOther}>
           {" "}
           1.4.1. За срыв перевозки по договору-заявке: 20% от стоимости
           перевозки
         </p>
-        <p style={{ margin: 0 }}>
+        <p style={stylePOther}>
           {" "}
           1.4.2. За несвоевременную (согласно договора) оплату за выполненную
           перевозку : 0,1% от суммы просроченного платежа за каждый день
           просрочки с момента предъявления письменной претензии
         </p>
-        <p style={{ margin: 0 }}>
+        <p style={stylePOther}>
           1.5. Стороны могут отказываться от выполнения обязательств по
           утвержденной (подписанной) ими заявке без несения материальной
           ответственности не позденее 24 часов до загрузки
         </p>
-        <p style={{ margin: 0 }}>
+        <p style={stylePOther}>
           1.6. Копия заявки считается действительной и имеет юридическую силу.
         </p>
-        <p style={{ margin: 0 }}>
+        <p style={stylePOther}>
           1.7. В случае перегруза транспортного средства Заказчик компенсирует
           Перевозчику, расходы по по уплате штрафов по пути следовани
           автомобиля.
         </p>
-        <p style={{ margin: 0 }}>
+        <p style={{ margin: 0, paddingTop: "15px" }}>
           ПРОСИМ ПОДТВЕРДИТЬ ПРИНЯТИЕ ЗАЯВКИ ПЕЧАТЬЮ И ПОДПИСЬЮ
         </p>
       </div>

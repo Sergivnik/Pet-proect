@@ -17,6 +17,8 @@ export const CREATE_DOC_WITHOUT_STAMP_FAILURE =
   "CREATE_DOC_WITHOUT_STAMP_FAILURE";
 export const GET_PDF_WITHOUT_STAMP_SUCCESS = "GET_PDF_WITHOUT_STAMP_SUCCESS";
 export const GET_PDF_WITHOUT_STAMP_FAILURE = "GET_PDF_WITHOUT_STAMP_FAILURE";
+export const CREATE_APP_SUCCESS = "CREATE_APP_SUCCESS";
+export const CREATE_APP_FAILURE = "CREATE_APP_FAILURE";
 
 export const getPdfSuccess = (dataServer) => ({
   type: GET_PDF_SUCCESS,
@@ -201,6 +203,31 @@ export const createDocWithoutStamp = (
       .catch((e) => {
         console.log(e.message);
         dispatch(createDocWithoutStampFailure());
+      });
+  };
+};
+export const createAppSuccess = () => ({
+  type: CREATE_APP_SUCCESS,
+});
+export const createAppFailure = () => ({
+  type: CREATE_APP_FAILURE,
+});
+export const createApp = (docHtml, id, year, customer) => {
+  return (dispatch) => {
+    axios
+      .post(DOMENNAME + "/API/createApp", {
+        body: {
+          html: docHtml,
+          year: year,
+          id: id,
+          customer: customer,
+        },
+      })
+      .then((res) => {
+        return dispatch(createAppSuccess());
+      })
+      .catch((res) => {
+        return dispatch(createAppFailure());
       });
   };
 };

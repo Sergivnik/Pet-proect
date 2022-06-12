@@ -95,9 +95,15 @@ module.exports.taskGetPdf = (req, res) => {
       if (isNaN(accountNumber)) {
         accountNumber = data.accountNumber;
       }
-      res.sendFile(
-        `${pathBills}/${Year}/${customer}/${req.params.typeDoc}${accountNumber}.pdf`
-      );
+      if (req.params.typeDoc == "app") {
+        res.sendFile(
+          `${pathBills}/${Year}/${customer}/${req.params.typeDoc}/app${req.params.id}.pdf`
+        );
+      } else {
+        res.sendFile(
+          `${pathBills}/${Year}/${customer}/${req.params.typeDoc}${accountNumber}.pdf`
+        );
+      }
     }
   });
 };
@@ -518,6 +524,44 @@ module.exports.taskCreateDocWithoutStamp = (req, res) => {
     await page.setContent(req.body.body.html);
     await page.pdf({
       path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/docWithoutStamp${req.body.body.invoiceNumber}.pdf`,
+      format: "a4",
+    });
+
+    await browser.close();
+  })();
+};
+
+module.exports.taskCreateApp = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  const puppeteer = require("puppeteer");
+  var fs = require("fs");
+  try {
+    const exists = fs.existsSync(
+      `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app`
+    );
+    if (!exists) {
+      fs.mkdirSync(
+        `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app`,
+        { recursive: true }
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  fs.writeFileSync(
+    `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app/app${req.body.body.id}.pdf`,
+    "utf8"
+  );
+  (async () => {
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox"],
+    });
+    const page = await browser.newPage();
+    await page.setContent(req.body.body.html);
+    await page.pdf({
+      path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app/app${req.body.body.id}.pdf`,
       format: "a4",
     });
 
