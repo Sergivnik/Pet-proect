@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { dateLocal, sumInWords } from "../myLib/myLib";
 import { DOMENNAME } from "../../middlewares/initialState.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { InputText } from "../myLib/inputText.jsx";
+import { addData } from "../../actions/editDataAction";
 
 import "./billsForm.sass";
 
 export const AppForm = (props) => {
+  const dispatch = useDispatch();
+
   const odersList = useSelector((state) => state.oderReducer.odersList);
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const managerList = useSelector((state) => state.oderReducer.clientmanager);
@@ -39,11 +42,14 @@ export const AppForm = (props) => {
     unLoadingData: [],
   });
   const [showEditWindow, setShowEditWindow] = useState(false);
-  const [showCoiseList, setShowChoiseList] = useState(true);
+  const [showChoiseList, setShowChoiseList] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [currentPoint, setCurrentPoint] = useState(null);
   const [checked1, setChecked1] = useState(true);
   const [checked2, setChecked2] = useState(false);
+  const [showAddStore, setShowAddStore] = useState(false);
+  const [newStore, setNewStore] = useState({});
+  const [storeFilterList, setStoreFilterList] = useState(storeList);
 
   const styleDivRow = { display: "flex", marginBottom: "-1px" };
   const styleCellLeft = {
@@ -106,11 +112,24 @@ export const AppForm = (props) => {
     });
     setEditData(obj);
   }, []);
+  useEffect(() => {
+    setStoreFilterList(storeList);
+  }, [storeList]);
 
   const handleChangePoint = (e, index, name) => {
     e.preventDefault();
     e.stopPropagation();
     setShowEditWindow(true);
+    let arr = [];
+      if (name == "loadingPoint")
+        arr = storeList.filter(
+          (elem) => elem.idCity == order.idLoadingPoint[index]
+        );
+      if (name == "unLoadingPoint")
+        arr = storeList.filter(
+          (elem) => elem.idCity == order.idUnloadingPoint[index]
+        );
+      setStoreFilterList(arr);
     setCurrentIndex(index);
     setCurrentPoint(name);
   };
@@ -159,6 +178,37 @@ export const AppForm = (props) => {
       }
     }
   };
+  const handleClickAddStore = () => {
+    setShowAddStore(true);
+    let obj = { ...newStore };
+    obj.storeName = "";
+    obj.storeAddress = "";
+    if (currentPoint == "loadingPoint") {
+      obj.idPoint = order.idLoadingPoint[currentIndex];
+      obj.valuePoint = editData.loadingData[currentIndex].point;
+    }
+    if (currentPoint == "unLoadingPoint") {
+      obj.idPoint = order.idUnloadingPoint[currentIndex];
+      obj.valuePoint = editData.unLoadingData[currentIndex].point;
+    }
+    setNewStore(obj);
+  };
+  const getDataStore = (name, text) => {
+    let obj = { ...newStore };
+    if (name == "storeName") obj.storeName = text;
+    if (name == "storeAddress") obj.storeAddress = text;
+    console.log(name, text);
+    setNewStore(obj);
+  };
+  const handleAddStore = () => {
+    let obj = {};
+    obj.idCity = newStore.idPoint;
+    obj.address = newStore.storeAddress;
+    obj.value = newStore.storeName;
+    dispatch(addData(obj, "storelist"));
+    setShowAddStore(false);
+  };
+
   return (
     <div
       style={{
@@ -524,12 +574,70 @@ export const AppForm = (props) => {
             Ввести адрес вручную
           </label>
           <div>
-            {showCoiseList ? (
-              <ChoiseList
-                name="store"
-                arrlist={storeList}
-                setValue={setValue}
-              />
+            {showChoiseList ? (
+              <div>
+                <div className="choiseWrap">
+                  <ChoiseList
+                    name="store"
+                    arrlist={storeFilterList}
+                    setValue={setValue}
+                  />
+                </div>
+                <button onClick={handleClickAddStore}>
+                  добавить новый склад
+                </button>
+                {showAddStore && (
+                  <div>
+                    <table className="editWindowTable">
+                      <thead>
+                        <tr>
+                          <td className="editWindowTd">Название склада</td>
+                          <td className="editWindowTd">Город</td>
+                          <td className="editWindowTd">Адрес склада</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="editWindowTd">
+                            {newStore.storeName == "" ? (
+                              <div>
+                                <InputText
+                                  name="storeName"
+                                  typeInput="text"
+                                  text={newStore.storeName}
+                                  getText={getDataStore}
+                                />
+                              </div>
+                            ) : (
+                              newStore.storeName
+                            )}
+                          </td>
+                          <td className="editWindowTd">
+                            <div>{newStore.valuePoint}</div>
+                          </td>
+                          <td className="editWindowTd">
+                            {newStore.storeAddress == "" ? (
+                              <div>
+                                <InputText
+                                  name="storeAddress"
+                                  typeInput="text"
+                                  text={newStore.storeAddress}
+                                  getText={getDataStore}
+                                />
+                              </div>
+                            ) : (
+                              newStore.storeAddress
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <button className="btnSave" onClick={handleAddStore}>
+                      Соранить
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <InputText
                 name="textAddress"

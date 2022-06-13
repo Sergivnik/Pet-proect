@@ -808,6 +808,11 @@ export const oderReducer = (store = initialStore, action) => {
           action.data._id = action.dataServer.insertId;
           arrManagers.push(action.data);
           return { ...store, clientmanager: arrManagers };
+        case "storelist":
+          let [...arrStories] = store.storeList;
+          action.data._id = action.dataServer.insertId;
+          arrStories.push(action.data);
+          return { ...store, storeList: arrStories };
         default:
           break;
       }
