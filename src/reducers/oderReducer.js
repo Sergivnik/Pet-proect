@@ -284,8 +284,15 @@ export const oderReducer = (store = initialStore, action) => {
       return store;
     }
     case DEL_ODER: {
+      let arrAddTable = [...store.addtable];
+      let color = store.odersList.find((item) => item._id == action.id).colorTR;
+      if (color == "hotpink") {
+        arrAddTable = store.addtable.filter(
+          (item) => item.orderId != action.id
+        );
+      }
       let arrOders = store.odersList.filter((item) => item._id != action.id);
-      return { ...store, odersList: [...arrOders] };
+      return { ...store, odersList: [...arrOders], addtable: [...arrAddTable] };
     }
 
     case GET_FILTER_SUCCESS: {

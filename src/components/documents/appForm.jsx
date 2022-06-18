@@ -113,7 +113,9 @@ export const AppForm = (props) => {
     setEditData(obj);
   }, []);
   useEffect(() => {
-    setStoreFilterList(storeList);
+    setStoreFilterList(
+      storeList.filter((elem) => elem.idCity == order.idLoadingPoint[currentIndex])
+    );
   }, [storeList]);
 
   const handleChangePoint = (e, index, name) => {
@@ -121,15 +123,15 @@ export const AppForm = (props) => {
     e.stopPropagation();
     setShowEditWindow(true);
     let arr = [];
-      if (name == "loadingPoint")
-        arr = storeList.filter(
-          (elem) => elem.idCity == order.idLoadingPoint[index]
-        );
-      if (name == "unLoadingPoint")
-        arr = storeList.filter(
-          (elem) => elem.idCity == order.idUnloadingPoint[index]
-        );
-      setStoreFilterList(arr);
+    if (name == "loadingPoint")
+      arr = storeList.filter(
+        (elem) => elem.idCity == order.idLoadingPoint[index]
+      );
+    if (name == "unLoadingPoint")
+      arr = storeList.filter(
+        (elem) => elem.idCity == order.idUnloadingPoint[index]
+      );
+    setStoreFilterList(arr);
     setCurrentIndex(index);
     setCurrentPoint(name);
   };

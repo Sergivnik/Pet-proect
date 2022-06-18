@@ -708,7 +708,10 @@ var Tasks = {
   del: async function (id, callback) {
     const db = mysql.createPool(options).promise();
     try {
-      let [data] = await db.query(`DELETE FROM oderslist WHERE _id=${id}`);
+      let [data] = await db.query(`SELECT * FROM oderslist WHERE _id=${id}`);
+      await db.query(`DELETE FROM oderslist WHERE _id=${id}`);
+      if (data[0].colorTR == "hotpink")
+        await db.query(`DELETE FROM addtable WHERE orderId=${id}`);
     } catch (err) {
       callback({ error: err });
     }
