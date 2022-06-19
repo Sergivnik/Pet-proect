@@ -45,6 +45,7 @@ export const AppForm = (props) => {
   const [showChoiseList, setShowChoiseList] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [currentPoint, setCurrentPoint] = useState(null);
+  const [currentDate, setCurrentDate] = useState(null);
   const [checked1, setChecked1] = useState(true);
   const [checked2, setChecked2] = useState(false);
   const [showAddStore, setShowAddStore] = useState(false);
@@ -114,23 +115,40 @@ export const AppForm = (props) => {
   }, []);
   useEffect(() => {
     setStoreFilterList(
-      storeList.filter((elem) => elem.idCity == order.idLoadingPoint[currentIndex])
+      storeList.filter(
+        (elem) => elem.idCity == order.idLoadingPoint[currentIndex]
+      )
     );
   }, [storeList]);
 
   const handleChangePoint = (e, index, name) => {
+    function padTo2Digits(num) {
+      return num.toString().padStart(2, "0");
+    }
     e.preventDefault();
     e.stopPropagation();
     setShowEditWindow(true);
     let arr = [];
-    if (name == "loadingPoint")
+    if (name == "loadingPoint") {
       arr = storeList.filter(
         (elem) => elem.idCity == order.idLoadingPoint[index]
       );
-    if (name == "unLoadingPoint")
+      let date = new Date(editData.loadingData[index].date);
+      let dateStr = `${date.getFullYear()}-${padTo2Digits(
+        date.getDate()
+      )}-${padTo2Digits(date.getMonth() + 1)}`;
+      setCurrentDate(dateStr);
+    }
+    if (name == "unLoadingPoint") {
       arr = storeList.filter(
         (elem) => elem.idCity == order.idUnloadingPoint[index]
       );
+      let date = new Date(editData.unLoadingData[index].date);
+      let dateStr = `${date.getFullYear()}-${padTo2Digits(
+        date.getDate()
+      )}-${padTo2Digits(date.getMonth() + 1)}`;
+      setCurrentDate(dateStr);
+    }
     setStoreFilterList(arr);
     setCurrentIndex(index);
     setCurrentPoint(name);
@@ -209,6 +227,25 @@ export const AppForm = (props) => {
     obj.value = newStore.storeName;
     dispatch(addData(obj, "storelist"));
     setShowAddStore(false);
+  };
+
+  const handleGetDate = (e) => {
+    function padTo2Digits(num) {
+      return num.toString().padStart(2, "0");
+    }
+    let date = new Date(e.currentTarget.value);
+    let obj = { ...editData };
+    let dateStr = `${date.getFullYear()}-${padTo2Digits(
+      date.getMonth() + 1
+    )}-${padTo2Digits(date.getDate())}`;
+    setCurrentDate(dateStr);
+    if (currentPoint == "loadingPoint") {
+      obj.loadingData[currentIndex].date = dateLocal(date);
+    }
+    if (currentPoint == "unLoadingPoint") {
+      obj.unLoadingData[currentIndex].date = dateLocal(date);
+    }
+    setEditData(obj);
   };
 
   return (
@@ -574,6 +611,14 @@ export const AppForm = (props) => {
               onChange={handleClickRadio}
             />
             Ввести адрес вручную
+          </label>
+          <label>
+            <input
+              type="date"
+              name="pointDate"
+              onChange={handleGetDate}
+              value={currentDate}
+            />
           </label>
           <div>
             {showChoiseList ? (
