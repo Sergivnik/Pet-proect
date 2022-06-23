@@ -10,6 +10,7 @@ import { TrackAddTr } from "./trackAddTr.jsx";
 import { addData } from "../../actions/editDataAction.js";
 import { dateLocal } from "../myLib/myLib.js";
 import "./editData.sass";
+import { ChoiseTwoList } from "../choiseList/choiseTwoList.jsx";
 
 export const DriverTable = (props) => {
   const dispatch = useDispatch();
@@ -183,12 +184,21 @@ export const DriverTable = (props) => {
       <div className="driverFilter">
         <span>Перевозчик</span>
         <div className="driverChoise">
-          <ChoiseList
+          <ChoiseTwoList
+            arr1={driverListChoise}
+            arr2={trackdriversFull}
+            field1="value"
+            field2="shortName"
+            fieldSearch="idOwner"
+            setValue={setValue}
+            reset={reset}
+          />
+          {/* <ChoiseList
             name="owner"
             arrlist={driverListChoise}
             setValue={setValue}
             reset={reset}
-          />
+          /> */}
         </div>
         <button className="driverAddBtn" onClick={handleClickReset}>
           Сброс
