@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { CustomerAddTr } from "./customerAddTr.jsx";
 import { CustomerTr } from "./customerTr.jsx";
 import { CustomerManagerTr } from "./customerManagerTr.jsx";
 import { CustomerManagerAddTr } from "./customerManagerAddTr.jsx";
-import { addData } from "../../actions/editDataAction.js";
+import { addData, editData } from "../../actions/editDataAction.js";
 import { ChoiseTwoList } from "../choiseList/choiseTwoList.jsx";
 import "./editData.sass";
+import { InputText } from "../myLib/inputText.jsx";
 
 export const CustomerTable = () => {
   const dispatch = useDispatch();
@@ -24,6 +24,7 @@ export const CustomerTable = () => {
   const [showAddTr, setShowAddTr] = useState(false);
   const [showManagerTable, setShowManagerTable] = useState(false);
   const [showAddManagerTr, setShowAddManagerTr] = useState(false);
+  const [showInput, setShowInput] = useState(false);
   const [reset, setReset] = useState(false);
 
   const setValue = (data) => {
@@ -74,6 +75,18 @@ export const CustomerTable = () => {
     dispatch(addData(data, "clientmanager"));
     setShowAddManagerTr(false);
   };
+  const handleChangeAddInfo = (e) => {
+    e.preventDefault();
+    setShowInput(true);
+    console.log(customerList[0]);
+  };
+  const getAddInfo = (name, text) => {
+    let obj = { ...customerList[0] };
+    obj.addInfo = text;
+    dispatch(editData(obj, "oders"));
+    console.log(obj);
+    setShowInput(false);
+  };
 
   useEffect(() => {
     let [...arr] = clientListFull.filter((elem) => elem.active == 1);
@@ -102,6 +115,18 @@ export const CustomerTable = () => {
       setClientManager(arr);
     }
   }, [clientManagerFull]);
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (e.code == "Escape") {
+        setShowInput(false);
+        setShowAddManagerTr(false);
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, [showInput]);
 
   return (
     <>
@@ -163,6 +188,27 @@ export const CustomerTable = () => {
         {showManagerTable && (
           <div className="tableDiv">
             <header className="managerHeader">
+              <div className="divAddInfo">
+                <span
+                  onDoubleClick={handleChangeAddInfo}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    return false;
+                  }}
+                >{`Особые условия ${customerList[0].companyName} ${
+                  customerList[0].addInfo ? customerList[0].addInfo : ""
+                }`}</span>
+                {showInput && (
+                  <InputText
+                    name="addInfo"
+                    typeInput="text"
+                    text={
+                      customerList[0].addInfo ? customerList[0].addInfo : ""
+                    }
+                    getText={getAddInfo}
+                  />
+                )}
+              </div>
               <button className="managerAddBtn" onClick={handleClickAddManager}>
                 Добавить Сотрудника
               </button>

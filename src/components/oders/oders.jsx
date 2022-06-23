@@ -91,7 +91,7 @@ export const Oders = () => {
         setShowEdit(false);
         setTrId(null);
         if (showWindow === true) {
-          setShowWindow(false);
+          //setShowWindow(false);
           dispatch(filterData(filterList));
         }
       }

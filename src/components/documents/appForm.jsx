@@ -343,6 +343,7 @@ export const AppForm = (props) => {
       {editData.loadingData.map((elem, index) => {
         return (
           <div
+            className="divPoint"
             key={`Loading${index}`}
             onDoubleClick={(e) => handleChangePoint(e, index, "loadingPoint")}
           >
@@ -377,6 +378,7 @@ export const AppForm = (props) => {
       {editData.unLoadingData.map((elem, index) => {
         return (
           <div
+            className="divPoint"
             key={`unloading${index}`}
             onDoubleClick={(e) => handleChangePoint(e, index, "unLoadingPoint")}
           >
@@ -612,14 +614,7 @@ export const AppForm = (props) => {
             />
             Ввести адрес вручную
           </label>
-          <label>
-            <input
-              type="date"
-              name="pointDate"
-              onChange={handleGetDate}
-              value={currentDate}
-            />
-          </label>
+
           <div>
             {showChoiseList ? (
               <div>
@@ -697,6 +692,18 @@ export const AppForm = (props) => {
                 getText={getText}
               />
             )}
+          </div>
+          <div className="editDateDiv">
+            <label>
+              Дата погрузки
+              <input
+                className="editDateInput"
+                type="date"
+                name="pointDate"
+                onChange={handleGetDate}
+                value={currentDate}
+              />
+            </label>
           </div>
         </div>
       )}
