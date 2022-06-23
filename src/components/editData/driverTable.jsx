@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { ChoiseList } from "../choiseList/choiseList.jsx";
+import { ChoiseTwoList } from "../choiseList/choiseTwoList.jsx";
 import { DriverAddTr } from "./driverAddTr.jsx";
 import { DriverTableTR } from "./driverTableTR.jsx";
 import { TrackDriverTr } from "./trackDriverTr.jsx";
@@ -10,7 +10,6 @@ import { TrackAddTr } from "./trackAddTr.jsx";
 import { addData } from "../../actions/editDataAction.js";
 import { dateLocal } from "../myLib/myLib.js";
 import "./editData.sass";
-import { ChoiseTwoList } from "../choiseList/choiseTwoList.jsx";
 
 export const DriverTable = (props) => {
   const dispatch = useDispatch();
