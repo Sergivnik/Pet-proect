@@ -41,6 +41,7 @@ export const Oders = () => {
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showWindow, setShowWindow] = useState(false);
+  const [showEditDataWindow, setShowEditDataWindow] = useState(false);
   const [windowHeader, setWindowHeader] = useState(null);
   const [windowWidth, setWindowWidth] = useState(1200);
   const [showPrintForm, setShowPrintForm] = useState(false);
@@ -268,6 +269,9 @@ export const Oders = () => {
   };
   const [children, setChildren] = useState(null);
   const handleClickBtnMenu = (e) => {
+    if (e.target.name == "dataEdit") {
+      setShowEditDataWindow(true);
+    }
     if (!showWindow) {
       let btnClick = e.target.name;
       if (btnClick == "customPay") {
@@ -306,12 +310,6 @@ export const Oders = () => {
         setWindowWidth(1200);
         setChildren(<BillsForm />);
       }
-      if (btnClick == "dataEdit") {
-        setWindowHeader("Редактирование данных");
-        setShowWindow(true);
-        setWindowWidth(1200);
-        setChildren(<EditDataForm />);
-      }
       if (btnClick == "reports") {
         setWindowHeader("Отчеты");
         setShowWindow(true);
@@ -325,6 +323,9 @@ export const Oders = () => {
   };
   const handleClickSecretWindowClose = () => {
     setShowSecretTable(false);
+  };
+  const handleClickEditWindowClose = () => {
+    setShowEditDataWindow(false);
   };
   const handleClickMainDiv = () => {
     let contextDiv = document.querySelector(".divContext");
@@ -420,6 +421,18 @@ export const Oders = () => {
           closePrintForm={handleClosePrintForm}
         />
       )}
+      {showEditDataWindow && (
+        <UserWindow
+          header="Редактирование данных"
+          width={1400}
+          handleClickWindowClose={handleClickEditWindowClose}
+          windowId="editDataWindow"
+          top="12%"
+          left="12%"
+        >
+          <EditDataForm />
+        </UserWindow>
+      )}
       {showSecretTable && (
         <UserWindow
           header="Secret Table"
@@ -427,7 +440,7 @@ export const Oders = () => {
           handleClickWindowClose={handleClickSecretWindowClose}
           windowId="secretWindow"
         >
-          <SpecialTable/>
+          <SpecialTable />
         </UserWindow>
       )}
       <div
