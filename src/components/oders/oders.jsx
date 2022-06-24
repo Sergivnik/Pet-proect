@@ -264,8 +264,11 @@ export const Oders = () => {
     }
   };
   const handleClickDelete = () => {
-    dispatch(delOder(trId));
-    setTrId(null);
+    let check = confirm("100% ?");
+    if (check) {
+      dispatch(delOder(trId));
+      setTrId(null);
+    }
   };
   const [children, setChildren] = useState(null);
   const handleClickBtnMenu = (e) => {
