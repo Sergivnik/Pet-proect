@@ -116,6 +116,17 @@ export const CustomerTr = (props) => {
   useEffect(() => {
     if (currentElement) currentElement.firstChild.focus();
   }, [currentElement]);
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (e.code == "Escape") {
+        setColNumber(null);
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, []);
 
   return (
     <tr onClick={handleClickTr} className={styleTr}>
