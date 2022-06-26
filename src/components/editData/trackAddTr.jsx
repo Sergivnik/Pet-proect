@@ -9,10 +9,24 @@ export const TrackAddTr = (props) => {
   const [editColNumber, setEditColNumber] = useState(1);
   const [addTrackObj, setAddTrackObj] = useState({});
 
+  const getKeyObj = (col) => {
+    switch (col) {
+      case 1:
+        return "value";
+      case 2:
+        return "trackTrailerLicensePlate";
+      case 3:
+        return "model";
+      default:
+        break;
+    }
+  };
   const handleEnter = (e) => {
     if (e.key == "Enter") {
       if (addTrackObj.value != "" && addTrackObj.value != undefined) {
-        props.handleAddTrack(addTrackObj);
+        let obj = { ...addTrackObj };
+        obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+        props.handleAddTrack(obj);
       } else {
         setEditColNumber(1);
         if (e.currentTarget.tagName == "INPUT" && e.currentTarget.value != "") {
@@ -23,10 +37,10 @@ export const TrackAddTr = (props) => {
       }
     }
     if (e.key == "Tab") {
-      let { ...obj } = addTrackObj;
+      let obj = { ...addTrackObj };
+      obj[getKeyObj(editColNumber)] = e.currentTarget.value;
       switch (editColNumber) {
         case 1:
-          obj.value = e.currentTarget.value;
           if (e.shiftKey) {
             setEditColNumber(editColNumber);
           } else {
@@ -34,7 +48,6 @@ export const TrackAddTr = (props) => {
           }
           break;
         case 2:
-          obj.trackTrailerLicensePlate = e.currentTarget.value;
           if (e.shiftKey) {
             setEditColNumber(editColNumber - 1);
           } else {
@@ -42,7 +55,6 @@ export const TrackAddTr = (props) => {
           }
           break;
         case 3:
-          obj.model = e.currentTarget.value;
           if (e.shiftKey) {
             setEditColNumber(editColNumber - 1);
           } else {

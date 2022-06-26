@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { findValueBy_Id } from "../myLib/myLib.js";
-import { ChoiseList } from "../choiseList/choiseList.jsx";
 
 import "./editData.sass";
 
@@ -11,10 +10,26 @@ export const CustomerManagerAddTr = (props) => {
   const [editColNumber, setEditColNumber] = useState(0);
   const [addManagerObj, setManagerObj] = useState({});
 
+  const getKeyObj = (col) => {
+    switch (col) {
+      case 0:
+        return "value";
+      case 1:
+        return "name";
+      case 2:
+        return "phone";
+      case 3:
+        return "email";
+      default:
+        break;
+    }
+  };
   const handleEnterTab = (e) => {
     if (e.key == "Enter") {
       if (addManagerObj.value != "" && addManagerObj.value != undefined) {
-        props.handleAddManager(addManagerObj);
+        let obj = { ...addManagerObj };
+        obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+        props.handleAddManager(obj);
       } else {
         setEditColNumber(0);
         if (e.currentTarget.tagName == "INPUT" && e.currentTarget.value != "") {
@@ -65,6 +80,14 @@ export const CustomerManagerAddTr = (props) => {
       setManagerObj(obj);
     }
   };
+  const handleClickTd = (e) => {
+    setEditColNumber(e.currentTarget.cellIndex);
+  };
+  const handleLostFocus = (e) => {
+    let obj = { ...addManagerObj };
+    obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+    setManagerObj(obj);
+  };
 
   useEffect(() => {
     let div = document.querySelector(".EDFTableDiv");
@@ -85,45 +108,49 @@ export const CustomerManagerAddTr = (props) => {
 
   return (
     <tr className="managerAddTr">
-      <td className="customerManagerTd">
+      <td className="customerManagerTd" onClick={handleClickTd}>
         {editColNumber == 0 ? (
           <input
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnterTab}
+            onBlur={handleLostFocus}
           />
         ) : (
           addManagerObj.value
         )}
       </td>
-      <td className="customerManagerTd">
+      <td className="customerManagerTd" onClick={handleClickTd}>
         {editColNumber == 1 ? (
           <input
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnterTab}
+            onBlur={handleLostFocus}
           />
         ) : (
           addManagerObj.name
         )}
       </td>
-      <td className="customerManagerTd">
+      <td className="customerManagerTd" onClick={handleClickTd}>
         {editColNumber == 2 ? (
           <input
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnterTab}
+            onBlur={handleLostFocus}
           />
         ) : (
           addManagerObj.phone
         )}
       </td>
-      <td className="customerManagerTd">
+      <td className="customerManagerTd" onClick={handleClickTd}>
         {editColNumber == 3 ? (
           <input
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnterTab}
+            onBlur={handleLostFocus}
           />
         ) : (
           addManagerObj.email

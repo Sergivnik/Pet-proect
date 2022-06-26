@@ -18,10 +18,35 @@ export const DriverAddTr = (props) => {
     }
   }, [editColNumber]);
 
+  const getKeyObj = (col) => {
+    switch (col) {
+      case 0:
+        return "value";
+      case 1:
+        return "phone";
+      case 2:
+        return "companyName";
+      case 3:
+        return "TIN";
+      case 4:
+        return "address";
+      case 5:
+        return "currentAccount";
+      case 6:
+        return "contract";
+      case 7:
+        return "active";
+      default:
+        break;
+    }
+  };
+
   const handleEnter = (e) => {
     if (e.key == "Enter") {
       if (addDriverObj.value != "" && addDriverObj.value != undefined) {
-        props.handleAddDriver(addDriverObj);
+        let { ...obj } = addDriverObj;
+        obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+        props.handleAddDriver(obj);
       } else {
         setEditColNumber(0);
         if (e.currentTarget.tagName == "INPUT" && e.currentTarget.value != "") {

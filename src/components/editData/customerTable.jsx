@@ -118,8 +118,12 @@ export const CustomerTable = () => {
   useEffect(() => {
     const onKeypress = (e) => {
       if (e.code == "Escape") {
-        setShowInput(false);
-        setShowAddManagerTr(false);
+        if (showInput) {
+          setShowInput(false);
+        } else {
+          setShowAddManagerTr(false);
+          setShowAddTr(false);
+        }
       }
     };
     document.addEventListener("keydown", onKeypress);

@@ -6,10 +6,34 @@ export const CustomerAddTr = (props) => {
   const [editColNumber, setEditColNumber] = useState(0);
   const [addCustomerObj, setAddCustomerObj] = useState({ active: 1 });
 
+  const getKeyObj = (col) => {
+    switch (col) {
+      case 0:
+        return "value";
+      case 1:
+        return "companyName";
+      case 2:
+        return "TIN";
+      case 3:
+        return "address";
+      case 4:
+        return "postAddress";
+      case 5:
+        return "email";
+      case 6:
+        return "phone";
+      case 7:
+        return "contract";
+      default:
+        break;
+    }
+  };
   const handleEnter = (e) => {
     if (e.key == "Enter") {
       if (addCustomerObj.value != "" && addCustomerObj.value != undefined) {
-        props.handleAddCustomer(addCustomerObj);
+        let obj  = {...addCustomerObj};
+        obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+        props.handleAddCustomer(obj);
       } else {
         setEditColNumber(0);
         if (e.currentTarget.tagName == "INPUT" && e.currentTarget.value != "") {

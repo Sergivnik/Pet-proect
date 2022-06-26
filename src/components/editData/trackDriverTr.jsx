@@ -70,7 +70,7 @@ export const TrackDriverTr = (props) => {
   const handleEnter = (e) => {
     if (e.key == "Enter") {
       let { ...obj } = elem;
-      obj.dateOfIssue = dateToSqlString(obj.dateOfIssue);
+      if (obj.dateOfIssue) obj.dateOfIssue = dateToSqlString(obj.dateOfIssue);
       switch (colNumber) {
         case 0:
           obj.value = e.currentTarget.value;

@@ -63,6 +63,19 @@ export const DriverTable = (props) => {
       setTrackList(trackdriversFull.filter((elem) => elem.active));
     }
   }, [tracklistFull]);
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (e.code == "Escape") {
+        setShowAddTr(false);
+        setShowAddTrackDriverTr(false);
+        setShowAddTrackTr(false);
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, []);
 
   const handleChangeBox = (e) => {
     if (e.currentTarget.checked) {
