@@ -8,7 +8,9 @@ export const ObjIncludesId = (id, arrObj) => {
   return check;
 };
 export const dateLocal = (date) => {
-  if (date != null) {
+  if (date == null || date == "") {
+    return null;
+  } else {
     date = new Date(date);
     return date.toLocaleDateString();
   }

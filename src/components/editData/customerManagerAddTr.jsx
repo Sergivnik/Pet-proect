@@ -8,7 +8,12 @@ export const CustomerManagerAddTr = (props) => {
   const clientListFull = useSelector((state) => state.oderReducer.clientList);
 
   const [editColNumber, setEditColNumber] = useState(0);
-  const [addManagerObj, setManagerObj] = useState({});
+  const [addManagerObj, setManagerObj] = useState({
+    value: "",
+    name: "",
+    phone: "",
+    email: "",
+  });
 
   const getKeyObj = (col) => {
     switch (col) {
@@ -88,6 +93,11 @@ export const CustomerManagerAddTr = (props) => {
     obj[getKeyObj(editColNumber)] = e.currentTarget.value;
     setManagerObj(obj);
   };
+  const handleChange = (e) => {
+    let obj = { ...addManagerObj };
+    obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+    setManagerObj(obj);
+  };
 
   useEffect(() => {
     let div = document.querySelector(".EDFTableDiv");
@@ -115,6 +125,8 @@ export const CustomerManagerAddTr = (props) => {
             className="customerTrInput"
             onKeyDown={handleEnterTab}
             onBlur={handleLostFocus}
+            onChange={handleChange}
+            value={addManagerObj.value}
           />
         ) : (
           addManagerObj.value
@@ -127,6 +139,8 @@ export const CustomerManagerAddTr = (props) => {
             className="customerTrInput"
             onKeyDown={handleEnterTab}
             onBlur={handleLostFocus}
+            value={addManagerObj.name}
+            onChange={handleChange}
           />
         ) : (
           addManagerObj.name
@@ -139,6 +153,8 @@ export const CustomerManagerAddTr = (props) => {
             className="customerTrInput"
             onKeyDown={handleEnterTab}
             onBlur={handleLostFocus}
+            value={addManagerObj.phone}
+            onChange={handleChange}
           />
         ) : (
           addManagerObj.phone
@@ -151,6 +167,8 @@ export const CustomerManagerAddTr = (props) => {
             className="customerTrInput"
             onKeyDown={handleEnterTab}
             onBlur={handleLostFocus}
+            value={addManagerObj.email}
+            onChange={handleChange}
           />
         ) : (
           addManagerObj.email

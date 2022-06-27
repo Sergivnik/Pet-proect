@@ -13,6 +13,28 @@ export const TrackDraverAddTr = (props) => {
   const [addTrackDriverObj, setAddTrackDriverObj] = useState({});
   const [tracklist, setTracklist] = useState(tracklistFull);
 
+  const getKeyObj = (col) => {
+    switch (col) {
+      case 0:
+        return "value";
+      case 1:
+        return "name";
+      case 2:
+        return "shortName";
+      case 3:
+        return "passportNumber";
+      case 4:
+        return "department";
+      case 5:
+        return "dateOfIssue";
+      case 6:
+        return "driverLicense";
+      case 7:
+        return "phoneNumber";
+      default:
+        break;
+    }
+  };
   const handleEnter = (e) => {
     if (e.key == "Enter") {
       if (
@@ -48,6 +70,7 @@ export const TrackDraverAddTr = (props) => {
           default:
             break;
         }
+        if (obj.dateOfIssue == "") obj.dateOfIssue = null;
         setAddTrackDriverObj(obj);
         props.handleAddTrackDriver(obj);
       } else {
@@ -152,6 +175,11 @@ export const TrackDraverAddTr = (props) => {
   const handleClick = (e) => {
     setEditColNumber(e.currentTarget.cellIndex);
   };
+  const handleChange = (e) => {
+    let obj = { ...addTrackDriverObj };
+    obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+    setAddTrackDriverObj(obj);
+  };
 
   useEffect(() => {
     let div = document.querySelector(".EDFTableDiv");
@@ -181,6 +209,8 @@ export const TrackDraverAddTr = (props) => {
             className="driverTrInput"
             onKeyDown={handleEnter}
             onBlur={handleLostFocus}
+            value={addTrackDriverObj.value}
+            onChange={handleChange}
           />
         ) : (
           addTrackDriverObj.value
@@ -193,6 +223,8 @@ export const TrackDraverAddTr = (props) => {
             className="driverTrInput"
             onKeyDown={handleEnter}
             onBlur={handleLostFocus}
+            value={addTrackDriverObj.name}
+            onChange={handleChange}
           />
         ) : (
           addTrackDriverObj.name
@@ -205,6 +237,8 @@ export const TrackDraverAddTr = (props) => {
             className="driverTrInput"
             onKeyDown={handleEnter}
             onBlur={handleLostFocus}
+            value={addTrackDriverObj.shortName}
+            onChange={handleChange}
           />
         ) : (
           addTrackDriverObj.shortName
@@ -217,6 +251,8 @@ export const TrackDraverAddTr = (props) => {
             className="driverTrInput"
             onKeyDown={handleEnter}
             onBlur={handleLostFocus}
+            value={addTrackDriverObj.passportNumber}
+            onChange={handleChange}
           />
         ) : (
           addTrackDriverObj.passportNumber
@@ -229,6 +265,8 @@ export const TrackDraverAddTr = (props) => {
             className="driverTrInput"
             onKeyDown={handleEnter}
             onBlur={handleLostFocus}
+            value={addTrackDriverObj.department}
+            onChange={handleChange}
           />
         ) : (
           addTrackDriverObj.department
@@ -241,6 +279,8 @@ export const TrackDraverAddTr = (props) => {
             className="driverTrInput"
             onKeyDown={handleEnter}
             onBlur={handleLostFocus}
+            value={addTrackDriverObj.dateOfIssue}
+            onChange={handleChange}
           />
         ) : (
           dateLocal(addTrackDriverObj.dateOfIssue)
@@ -253,6 +293,8 @@ export const TrackDraverAddTr = (props) => {
             className="driverTrInput"
             onKeyDown={handleEnter}
             onBlur={handleLostFocus}
+            value={addTrackDriverObj.driverLicense}
+            onChange={handleChange}
           />
         ) : (
           addTrackDriverObj.driverLicense
@@ -265,6 +307,8 @@ export const TrackDraverAddTr = (props) => {
             className="driverTrInput"
             onKeyDown={handleEnter}
             onBlur={handleLostFocus}
+            value={addTrackDriverObj.phoneNumber}
+            onChange={handleChange}
           />
         ) : (
           addTrackDriverObj.phoneNumber

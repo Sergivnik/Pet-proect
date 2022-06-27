@@ -67,6 +67,11 @@ export const TrackAddTr = (props) => {
       setAddTrackObj(obj);
     }
   };
+  const handleChange = (e) => {
+    let obj = { ...addTrackObj };
+    obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+    setAddTrackObj(obj);
+  };
 
   useEffect(() => {
     let div = document.querySelector(".tableDiv");
@@ -96,6 +101,8 @@ export const TrackAddTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            value={addTrackObj.value}
+            onChange={handleChange}
           />
         ) : (
           addTrackObj.value
@@ -107,6 +114,8 @@ export const TrackAddTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            value={addTrackObj.trackTrailerLicensePlate}
+            onChange={handleChange}
           />
         ) : (
           addTrackObj.trackTrailerLicensePlate
@@ -118,6 +127,8 @@ export const TrackAddTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            value={addTrackObj.model}
+            onChange={handleChange}
           />
         ) : (
           addTrackObj.model

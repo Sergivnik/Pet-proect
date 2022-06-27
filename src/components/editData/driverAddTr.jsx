@@ -133,6 +133,11 @@ export const DriverAddTr = (props) => {
       setAddDriverObj(obj);
     }
   };
+  const handleChange = (e) => {
+    let { ...obj } = addDriverObj;
+    obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+    setAddDriverObj(obj);
+  };
 
   return (
     <tr className="driverAddTr">
@@ -142,6 +147,8 @@ export const DriverAddTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            value={addDriverObj.value}
+            onChange={handleChange}
           />
         ) : (
           addDriverObj.value
@@ -153,6 +160,8 @@ export const DriverAddTr = (props) => {
             type="text"
             className="driverTrInput"
             onKeyDown={handleEnter}
+            value={addDriverObj.phone}
+            onChange={handleChange}
           />
         ) : (
           addDriverObj.phone
@@ -164,6 +173,8 @@ export const DriverAddTr = (props) => {
             type="text"
             onKeyDown={handleEnter}
             className="driverTrInput"
+            value={addDriverObj.companyName}
+            onChange={handleChange}
           />
         ) : (
           addDriverObj.companyName
@@ -175,6 +186,8 @@ export const DriverAddTr = (props) => {
             type="text"
             onKeyDown={handleEnter}
             className="driverTrInput"
+            value={addDriverObj.TIN}
+            onChange={handleChange}
           />
         ) : (
           addDriverObj.TIN
@@ -186,6 +199,8 @@ export const DriverAddTr = (props) => {
             type="text"
             onKeyDown={handleEnter}
             className="driverTrInput"
+            value={addDriverObj.address}
+            onChange={handleChange}
           />
         ) : (
           addDriverObj.address
@@ -197,6 +212,8 @@ export const DriverAddTr = (props) => {
             type="text"
             onKeyDown={handleEnter}
             className="driverTrInput"
+            value={addDriverObj.currentAccount}
+            onChange={handleChange}
           />
         ) : (
           addDriverObj.currentAccount
@@ -208,6 +225,8 @@ export const DriverAddTr = (props) => {
             type="text"
             onKeyDown={handleEnter}
             className="driverTrInput"
+            value={addDriverObj.contract}
+            onChange={handleChange}
           />
         ) : (
           addDriverObj.contract

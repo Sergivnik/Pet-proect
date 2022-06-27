@@ -4,7 +4,17 @@ import "./editData.sass";
 
 export const CustomerAddTr = (props) => {
   const [editColNumber, setEditColNumber] = useState(0);
-  const [addCustomerObj, setAddCustomerObj] = useState({ active: 1 });
+  const [addCustomerObj, setAddCustomerObj] = useState({
+    value: "",
+    companyName: "",
+    TIN: "",
+    address: "",
+    postAddress: "",
+    email: "",
+    phone: "",
+    contract: "",
+    active: 1,
+  });
 
   const getKeyObj = (col) => {
     switch (col) {
@@ -31,7 +41,7 @@ export const CustomerAddTr = (props) => {
   const handleEnter = (e) => {
     if (e.key == "Enter") {
       if (addCustomerObj.value != "" && addCustomerObj.value != undefined) {
-        let obj  = {...addCustomerObj};
+        let obj = { ...addCustomerObj };
         obj[getKeyObj(editColNumber)] = e.currentTarget.value;
         props.handleAddCustomer(obj);
       } else {
@@ -122,6 +132,11 @@ export const CustomerAddTr = (props) => {
     props.handleAddCustomer(obj);
     setEditColNumber(null);
   };
+  const handleChange = (e) => {
+    let obj = { ...addCustomerObj };
+    obj[getKeyObj(editColNumber)] = e.currentTarget.value;
+    setAddCustomerObj(obj);
+  };
 
   useEffect(() => {
     let div = document.querySelector(".EDFTableDiv");
@@ -143,6 +158,8 @@ export const CustomerAddTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            value={addCustomerObj.value}
+            onChange={handleChange}
           />
         ) : (
           addCustomerObj.value
@@ -154,6 +171,8 @@ export const CustomerAddTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            value={addCustomerObj.companyName}
+            onChange={handleChange}
           />
         ) : (
           addCustomerObj.companyName
@@ -165,6 +184,8 @@ export const CustomerAddTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            value={addCustomerObj.TIN}
+            onChange={handleChange}
           />
         ) : (
           addCustomerObj.TIN
@@ -176,6 +197,8 @@ export const CustomerAddTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            value={addCustomerObj.address}
+            onChange={handleChange}
           />
         ) : (
           addCustomerObj.address
@@ -187,6 +210,8 @@ export const CustomerAddTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            value={addCustomerObj.postAddress}
+            onChange={handleChange}
           />
         ) : (
           addCustomerObj.postAddress
@@ -198,6 +223,8 @@ export const CustomerAddTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            value={addCustomerObj.email}
+            onChange={handleChange}
           />
         ) : (
           addCustomerObj.email
@@ -209,6 +236,8 @@ export const CustomerAddTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            value={addCustomerObj.phone}
+            onChange={handleChange}
           />
         ) : (
           addCustomerObj.phone
@@ -220,6 +249,8 @@ export const CustomerAddTr = (props) => {
             type="text"
             className="customerTrInput"
             onKeyDown={handleEnter}
+            value={addCustomerObj.contract}
+            onChange={handleChange}
           />
         ) : (
           addCustomerObj.contract
