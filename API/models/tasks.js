@@ -84,12 +84,16 @@ var Tasks = {
       allData.addtable = data;
       [data] = await db.query(`SELECT * FROM storelist order by value`);
       allData.storeList = data;
-      [data]=await db.query(`SELECT * FROM driverpayment order by date`)
+      [data] = await db.query(`SELECT * FROM driverpayment order by date`);
       allData.driverpayments = data;
-      [data]=await db.query(`SELECT * FROM contractorspayments order by date`)
+      [data] = await db.query(
+        `SELECT * FROM contractorspayments order by date`
+      );
       allData.contractorspayments = data;
-      [data]=await db.query(`SELECT * FROM customerpayment order by date`)
+      [data] = await db.query(`SELECT * FROM customerpayment order by date`);
       allData.customerpayment = data;
+      [data] = await db.query(`SELECT * FROM contractors`);
+      allData.contractors = data;
       callback(allData);
       db.end();
     } catch (err) {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { findValueBy_Id } from "../myLib/myLib";
 import "./reports.sass";
 
 export const TaxesDriver = () => {
@@ -12,11 +13,18 @@ export const TaxesDriver = () => {
   const driverpayments = useSelector(
     (state) => state.oderReducer.driverpayments
   );
+  const driverlist = useSelector((state) => state.oderReducer.driverlist);
+  const clientList = useSelector((state) => state.oderReducer.clientList);
+  const contractorsList = useSelector(
+    (state) => state.oderReducer.contractorsList
+  );
 
   const [dateBegin, setDateBegin] = useState(null);
   const [dateEnd, setDateEnd] = useState(null);
   const [showReport, setShowReport] = useState(false);
   const [reportData, setReportData] = useState([]);
+  const [summIn, setSumIn] = useState(0);
+  const [summOut, setSumOut] = useState(0);
 
   const handleEnter = (e) => {
     if (e.key == "Enter") {
@@ -47,8 +55,9 @@ export const TaxesDriver = () => {
         if (date >= dateBegin && date <= dateEnd) {
           arr.push({
             id: index++,
-            date: date.toLocaleDateString(),
-            counterparty: elem.idCustomer,
+            date: date,
+            counterparty: findValueBy_Id(elem.idCustomer, clientList)
+              .companyName,
             sumIn: elem.sumOfPayment,
             sumOut: null,
           });
@@ -59,8 +68,9 @@ export const TaxesDriver = () => {
         if (date >= dateBegin && date <= dateEnd) {
           arr.push({
             id: index++,
-            date: date.toLocaleDateString(),
-            counterparty: elem.idContractor,
+            date: date,
+            counterparty: findValueBy_Id(elem.idContractor, contractorsList)
+              .value,
             sumIn: null,
             sumOut: elem.sum,
           });
@@ -71,12 +81,18 @@ export const TaxesDriver = () => {
         if (date >= dateBegin && date <= dateEnd) {
           arr.push({
             id: index++,
-            date: date.toLocaleDateString(),
-            counterparty: elem.idDriver,
+            date: date,
+            counterparty: findValueBy_Id(elem.idDriver, driverlist).companyName,
             sumIn: null,
             sumOut: elem.sumOfPayment - elem.sumOfDebts,
           });
         }
+      });
+      let sumArrIn = 0;
+      let sumArrOut = 0;
+      arr.forEach((elem) => {
+        sumArrIn = sumArrIn + Number(elem.sumIn);
+        sumArrOut = sumArrOut + Number(elem.sumOut);
       });
       arr.sort((a, b) => {
         let aDate = new Date(a.date);
@@ -86,11 +102,15 @@ export const TaxesDriver = () => {
         if (aDate < bDate) return -1;
       });
       console.log(arr);
+      setReportData(arr);
+      setSumIn(sumArrIn);
+      setSumOut(sumArrOut);
+      setShowReport(true);
     }
   };
 
   return (
-    <div>
+    <div className="divContainer">
       <header className="taxReportHeader">
         <h3 className="taxReportH3">Отчет по УСН</h3>
         <div className="taxReportHeaderDiv">
@@ -141,6 +161,40 @@ export const TaxesDriver = () => {
           <button onClick={handleClickBtn}>Сформировать</button>
         </div>
       </header>
+      <div className="taxReportMainDiv">
+        {showReport && (
+          <table>
+            <thead>
+              <tr>
+                <td className="taxReportTableHeaderTd"></td>
+                <td className="taxReportTableHeaderTd"></td>
+                <td className="taxReportTableHeaderTd"></td>
+                <td className="taxReportTableHeaderTd"></td>
+              </tr>
+            </thead>
+            <tbody>
+              {reportData.map((elem) => {
+                return (
+                  <tr key={`taxReport${elem.id}`}>
+                    <td>{elem.date.toLocaleDateString()}</td>
+                    <td>{elem.counterparty}</td>
+                    <td>{elem.sumIn}</td>
+                    <td>{elem.sumOut}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td></td>
+                <td>{summIn}</td>
+                <td>{summOut}</td>
+              </tr>
+            </tfoot>
+          </table>
+        )}
+      </div>
     </div>
   );
 };
