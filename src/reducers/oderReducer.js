@@ -473,6 +473,9 @@ export const oderReducer = (store = initialStore, action) => {
         customerWithoutPayment: action.dataServer.customerWithoutPayment,
         addtable: action.dataServer.addtable,
         storeList: action.dataServer.storeList,
+        driverpayments: action.dataServer.driverpayments,
+        contractorsPayments: action.dataServer.contractorspayments,
+        customerPaymentsList: action.dataServer.customerpayment,
         request: {
           status: "SUCCESS",
           error: null,

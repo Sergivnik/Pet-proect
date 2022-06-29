@@ -33,6 +33,7 @@ export const initialStore = {
   driverDebtList: [],
   contractorsList: [],
   contractorsPayments: [],
+  driverpayments:[],
   trackdrivers: [],
   tracklist: [],
   clientmanager: [],

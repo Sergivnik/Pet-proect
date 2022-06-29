@@ -6,7 +6,6 @@ import { TdDriverPrice } from "../userTd/tdDriverPrice.jsx";
 import { TdLoadingPoint } from "../userTd/tdLoadingPoint.jsx";
 import { TdUnoadingPoint } from "../userTd/tdUnloadingPoint.jsx";
 import { TdDriverPayment } from "../userTd/tdDriverPayment.jsx";
-
 import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
 import "./reports.sass";
 
