@@ -7,8 +7,6 @@ export const ChoiseList = (props) => {
   const [showSelect, setShowSelect] = useState(false);
   let elSelect = null;
 
-  // if (props.clear) setText("");
-
   const getText = (e) => {
     setShowSelect(true);
     let test = e.currentTarget.value;
