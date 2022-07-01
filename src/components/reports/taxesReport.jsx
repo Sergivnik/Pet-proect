@@ -163,23 +163,25 @@ export const TaxesDriver = () => {
       </header>
       <div className="taxReportMainDiv">
         {showReport && (
-          <table>
-            <thead>
+          <table className="taxReportTable">
+            <thead className="taxReportTableHeader">
               <tr>
-                <td className="taxReportTableHeaderTd"></td>
-                <td className="taxReportTableHeaderTd"></td>
-                <td className="taxReportTableHeaderTd"></td>
-                <td className="taxReportTableHeaderTd"></td>
+                <td className="taxReportTableHeaderTd">Дата</td>
+                <td className="taxReportTableHeaderTd">Контрагент</td>
+                <td className="taxReportTableHeaderTd">Приход</td>
+                <td className="taxReportTableHeaderTd">Расход</td>
               </tr>
             </thead>
             <tbody>
               {reportData.map((elem) => {
                 return (
                   <tr key={`taxReport${elem.id}`}>
-                    <td>{elem.date.toLocaleDateString()}</td>
-                    <td>{elem.counterparty}</td>
-                    <td>{elem.sumIn}</td>
-                    <td>{elem.sumOut}</td>
+                    <td className="taxReportTableTd">
+                      {elem.date.toLocaleDateString()}
+                    </td>
+                    <td className="taxReportTableTd">{elem.counterparty}</td>
+                    <td className="taxReportTableTd">{elem.sumIn}</td>
+                    <td className="taxReportTableTd">{elem.sumOut}</td>
                   </tr>
                 );
               })}
