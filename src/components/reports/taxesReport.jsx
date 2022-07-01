@@ -71,8 +71,8 @@ export const TaxesDriver = () => {
             date: date,
             counterparty: findValueBy_Id(elem.idContractor, contractorsList)
               .value,
-            sumIn: null,
-            sumOut: elem.sum,
+            sumIn: elem.sum < 0 ? elem.sum * -1 : null,
+            sumOut: elem.sum > 0 ? elem.sum : null,
           });
         }
       });
