@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { UserThead } from "./userThead.jsx";
 import { UserTr } from "./userTr.jsx";
 import { CreateOderNew } from "../createOder/createOderNew.jsx";
@@ -8,7 +9,6 @@ import { CustomerPayments } from "../customerPayments/customerPayments.jsx";
 import { DriverPaymentForm } from "../driverComponents/driverPaymentForm.jsx";
 import { DriverDebtForm } from "../driverComponents/driverDebtForm.jsx";
 import { ContractorsPayments } from "../contractors/contractorsPayments.jsx";
-import { useSelector, useDispatch } from "react-redux";
 import { getData, filterData } from "../../middlewares/initialState.js";
 import { delOder } from "../../actions/oderActions.js";
 import { EditDataForm } from "../editData/editDataForm.jsx";
@@ -16,6 +16,7 @@ import { PrintFormBill } from "../printForm/printFormBill.jsx";
 import { BillsForm } from "../documents/billsForm.jsx";
 import { Report } from "../reports/reports.jsx";
 import { SpecialTable } from "../specialTable/specialTable.jsx";
+import { Forecast } from "../forecast/forecast.jsx";
 import "./oders.sass";
 
 export const Oders = () => {
@@ -349,6 +350,7 @@ export const Oders = () => {
     <React.Fragment>
       <div className="odersDivInfo">
         <span>Рас.сч. {sumAccount} руб.</span>
+        <Forecast />
         <div className="odersMenu">
           <button
             name="customPay"

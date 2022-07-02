@@ -111,6 +111,7 @@ export const ContractorAddForm = (props) => {
             arrlist={[
               { _id: 1, value: "Да" },
               { _id: 2, value: "нет" },
+              { _id: 3, value: "прочее" },
             ]}
             setValue={setValueFromList}
           />

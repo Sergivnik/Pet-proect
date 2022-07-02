@@ -17,7 +17,7 @@ export const SpecialTable = () => {
   };
 
   const addTable = useSelector((state) => state.oderReducer.addtable);
-  const ordersList = useSelector((state) => state.oderReducer.odersList);
+  const ordersList = useSelector((state) => state.oderReducer.originOdersList);
   const customerList = useSelector((state) => state.oderReducer.clientList);
 
   const [currentId, setCurrentId] = useState(null);
