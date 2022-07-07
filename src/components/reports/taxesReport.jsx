@@ -65,7 +65,8 @@ export const TaxesDriver = () => {
       });
       contractorsPayments.forEach((elem) => {
         let date = new Date(elem.date);
-        if (date >= dateBegin && date <= dateEnd) {
+        console.log(elem);
+        if (date >= dateBegin && date <= dateEnd && elem.category == 1) {
           arr.push({
             id: index++,
             date: date,
