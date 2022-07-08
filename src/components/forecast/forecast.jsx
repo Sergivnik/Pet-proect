@@ -67,10 +67,11 @@ export const Forecast = () => {
           let addData = addDataList.find(
             (addElem) => addElem.orderId == elem._id
           );
-          let addExp =
-            ((Number(elem.customerPrice) - Number(addData.sum)) *
-              (100 - Number(addData.interest))) /
-            100;
+          let addExp = addData
+            ? ((Number(elem.customerPrice) - Number(addData.sum)) *
+                (100 - Number(addData.interest))) /
+              100
+            : 0;
           income = income - addExp;
         }
       }
