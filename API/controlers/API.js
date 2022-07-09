@@ -7,6 +7,8 @@ var tasksData = require("../models/tasksData.js");
 var tacksDocs = require("../models/taskDocs.js");
 var taskReports = require("../models/taskReports.js");
 var tasksAddData = require("../models/tasksAddData.js");
+const puppeteer = require("puppeteer");
+var fs = require("fs");
 
 module.exports.taskGet = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -420,8 +422,8 @@ module.exports.taskCreateDoc = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-  const puppeteer = require("puppeteer");
-  var fs = require("fs");
+  console.log("запрос пришел");
+
   try {
     const exists = fs.existsSync(
       `./API/Bills/${req.body.body.year}/${req.body.body.customer}`
@@ -435,20 +437,31 @@ module.exports.taskCreateDoc = (req, res) => {
   } catch (e) {
     console.log(e);
   }
-  fs.writeFileSync(
+  console.log("создани папки или проверка");
+  fs.writeFile(
     `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
-    "utf8"
+    "utf8",
+    function (error) {
+      if (error) throw error; // если возникла ошибка
+      console.log("Асинхронная запись файла завершена. Содержимое файла:");
+    }
   );
+  console.log("Создание файла");
   (async () => {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox"],
     });
+    console.log("Запуск поппитера");
     const page = await browser.newPage();
+    console.log("создание пустой страницы");
     await page.setContent(req.body.body.html);
+    console.log("создание контента страницы");
     await page.pdf({
       path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/doc${req.body.body.invoiceNumber}.pdf`,
       format: "a4",
     });
+    console.log("создание пдф страницы");
+    console.log(req.body.body.invoiceNumber);
     tacksDocs.add(
       req.body.body.arrOrderId,
       req.body.body.invoiceNumber,
@@ -461,7 +474,10 @@ module.exports.taskCreateDoc = (req, res) => {
         }
       }
     );
+    console.log("Добавление номер в БД");
+    console.log(new Date());
     await browser.close();
+    console.log("закрытие страницы");
   })();
 };
 
@@ -497,8 +513,8 @@ module.exports.taskCreateDocWithoutStamp = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-  const puppeteer = require("puppeteer");
-  var fs = require("fs");
+  // const puppeteer = require("puppeteer");
+  // var fs = require("fs");
   try {
     const exists = fs.existsSync(
       `./API/Bills/${req.body.body.year}/${req.body.body.customer}`
@@ -512,9 +528,13 @@ module.exports.taskCreateDocWithoutStamp = (req, res) => {
   } catch (e) {
     console.log(e);
   }
-  fs.writeFileSync(
+  fs.writeFile(
     `./API/Bills/${req.body.body.year}/${req.body.body.customer}/docWithoutStamp${req.body.body.invoiceNumber}.pdf`,
-    "utf8"
+    "utf8",
+    function (error) {
+      if (error) throw error; // если возникла ошибка
+      console.log("Асинхронная запись файла завершена. Содержимое файла:");
+    }
   );
   (async () => {
     const browser = await puppeteer.launch({
@@ -528,6 +548,8 @@ module.exports.taskCreateDocWithoutStamp = (req, res) => {
     });
 
     await browser.close();
+    console.log("закрытие страницы");
+    res.json("success!");
   })();
 };
 
@@ -535,8 +557,8 @@ module.exports.taskCreateApp = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-  const puppeteer = require("puppeteer");
-  var fs = require("fs");
+  // const puppeteer = require("puppeteer");
+  // var fs = require("fs");
   try {
     const exists = fs.existsSync(
       `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app`
@@ -550,23 +572,28 @@ module.exports.taskCreateApp = (req, res) => {
   } catch (e) {
     console.log(e);
   }
-  fs.writeFileSync(
+  fs.writeFile(
     `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app/app${req.body.body.id}.pdf`,
-    "utf8"
-  );
-  (async () => {
-    const browser = await puppeteer.launch({
-      args: ["--no-sandbox"],
-    });
-    const page = await browser.newPage();
-    await page.setContent(req.body.body.html);
-    await page.pdf({
-      path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app/app${req.body.body.id}.pdf`,
-      format: "a4",
-    });
+    "utf8",
+    function (error) {
+      if (error) throw error; // если возникла ошибка
+      console.log("Асинхронная запись файла завершена. Содержимое файла:");
+      (async () => {
+        const browser = await puppeteer.launch({
+          args: ["--no-sandbox"],
+        });
+        const page = await browser.newPage();
+        await page.setContent(req.body.body.html);
+        await page.pdf({
+          path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app/app${req.body.body.id}.pdf`,
+          format: "a4",
+        });
 
-    await browser.close();
-  })();
+        await browser.close();
+        res.json("success!");
+      })();
+    }
+  );
 };
 
 module.exports.taskAddConsignmentNote = (req, res) => {
@@ -589,6 +616,7 @@ module.exports.taskAddConsignmentNote = (req, res) => {
         (err) => {
           if (err) throw err; // не удалось скопировать файл
           console.log("Файл успешно скопирован");
+          res.json("success!");
         }
       );
     }

@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
 
-var loadData = require("./DB/loadData");
+// var loadData = require("./DB/loadData");
 // loadData.getData();
 // loadData.getCities();
 // loadData.getDrivers();
