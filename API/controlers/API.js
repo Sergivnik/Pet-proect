@@ -601,24 +601,51 @@ module.exports.taskAddConsignmentNote = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
+  console.log(req.params);
   tasks.getDataById(req.params.id, "oderslist", (data) => {
     if (data.error) {
       res.status(500);
       res.json({ message: data.error });
     } else {
+      console.log(data);
       let Year = data.date.getFullYear();
       let customer = data.customer[0].value;
       let accountNumber = Number(data.accountNumber);
       let fs = require("fs");
-      fs.copyFile(
-        `./API/Bills/tempDoc.pdf`,
-        `./API/Bills/${Year}/${customer}/ttn${accountNumber}.pdf`,
-        (err) => {
-          if (err) throw err; // не удалось скопировать файл
-          console.log("Файл успешно скопирован");
-          res.json("success!");
+      if (req.params.typeDoc == "ttn") {
+        fs.copyFile(
+          `./API/Bills/tempDoc.pdf`,
+          `./API/Bills/${Year}/${customer}/${req.params.typeDoc}${accountNumber}.pdf`,
+          (err) => {
+            if (err) throw err; // не удалось скопировать файл
+            console.log("Файл успешно скопирован");
+            res.json("success!");
+          }
+        );
+      } else {
+        try {
+          const exists = fs.existsSync(
+            `./API/Bills/${Year}/${customer}/app`
+          );
+          if (!exists) {
+            fs.mkdirSync(
+              `./API/Bills/${Year}/${customer}/app`,
+              { recursive: true }
+            );
+          }
+        } catch (e) {
+          console.log(e);
         }
-      );
+        fs.copyFile(
+          `./API/Bills/tempDoc.pdf`,
+          `./API/Bills/${Year}/${customer}/app/${req.params.typeDoc}${req.params.id}.pdf`,
+          (err) => {
+            if (err) throw err; // не удалось скопировать файл
+            console.log("Файл успешно скопирован");
+            res.json("success!");
+          }
+        );
+      }
     }
   });
 };

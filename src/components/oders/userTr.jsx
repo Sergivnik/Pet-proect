@@ -7,7 +7,6 @@ import { TdLoadingPoint } from "../userTd/tdLoadingPoint.jsx";
 import { TdUnoadingPoint } from "../userTd/tdUnloadingPoint.jsx";
 import { TdCustomerPrice } from "../userTd/tdCustomerPrice.jsx";
 import { TdDriverPrice } from "../userTd/tdDriverPrice.jsx";
-import { TdProxy } from "../userTd/tdProxy.jsx";
 import { TdCompleted } from "../userTd/tdCompleted.jsx";
 import { TdDocument } from "../userTd/tdDocument.jsx";
 import { TdCustomerPayment } from "../userTd/tdCustomerPayment.jsx";
@@ -129,7 +128,6 @@ export const UserTr = (props) => {
             handleClickGenerate={handleClickGenerate}
             edit={true}
           />
-          {/* Button Delete */}
           {props.showDelete &&
             props.elem._id == props.trId &&
             !props.elem.completed &&

@@ -36,7 +36,7 @@ export const FormAddDoc = (props) => {
     props.handleClickClose();
   };
   const handleClickSave = () => {
-    dispatch(addConsignmentNote(props.currentId, pdfFile));
+    dispatch(addConsignmentNote(props.currentId, props.typeDoc, pdfFile));
     props.handleClickClose();
   };
 

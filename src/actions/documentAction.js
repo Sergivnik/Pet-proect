@@ -134,16 +134,20 @@ export const addConsignmentNoteSuccess = () => ({
 export const addConsignmentNoteFailure = () => ({
   type: ADD_CONSIGNMENT_NOTE_FAILURE,
 });
-export const addConsignmentNote = (id, file) => {
+export const addConsignmentNote = (id, typeDoc, file) => {
   var formData = new FormData();
   formData.set("fileData", file, "fileData");
   return (dispatch) => {
     axios
-      .post(DOMENNAME + "/API/addConsignmentNote" + "/" + id, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post(
+        DOMENNAME + "/API/addConsignmentNote" + "/" + id + "/" + typeDoc,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
         return dispatch(addConsignmentNoteSuccess());
       })

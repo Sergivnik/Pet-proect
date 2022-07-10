@@ -17,6 +17,7 @@ export const TdAccountNumber = (props) => {
   const [showInputFile, setShowInputFile] = useState(false);
   const [currentTD, setCurrentTD] = useState(null);
   const [showContextEmail, setShowContextEmail] = useState(true);
+  const [typeDoc, setTypeDoc] = useState(null);
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -47,9 +48,6 @@ export const TdAccountNumber = (props) => {
     setCurrentId(e.currentTarget.parentElement.id);
     setShowContextMenu(true);
   };
-  const handleBlur = (e) => {
-    setShowContextMenu(false);
-  };
   const handleClickPrint = () => {
     dispatch(getPdf(currentId, "doc"));
     setShowContextMenu(false);
@@ -66,11 +64,12 @@ export const TdAccountNumber = (props) => {
     props.handleClickGenerate(props.currentTR);
     setShowContextMenu(false);
   };
-  const handleClickAddDoc = (e) => {
+  const handleClickAddDoc = (e, typeDoc) => {
     let TD = e.currentTarget.parentElement.parentElement;
     setCurrentTD(TD);
     setShowInputFile(true);
     setShowContextMenu(false);
+    setTypeDoc(typeDoc);
   };
   const handleClickSendDoc = () => {
     dispatch(sendEmail(currentId));
@@ -79,10 +78,10 @@ export const TdAccountNumber = (props) => {
   const handleClickClose = () => {
     setShowInputFile(false);
   };
-  const handleClikPrintApp=()=>{
+  const handleClikPrintApp = () => {
     dispatch(getPdf(currentId, "app"));
     setShowContextMenu(false);
-  }
+  };
 
   useEffect(() => {
     if (showContextMenu) {
@@ -147,39 +146,45 @@ export const TdAccountNumber = (props) => {
           <p className="contextmenu" onClick={handleClickPrint}>
             Печать
           </p>
-          <hr />
           <p className="contextmenu" onClick={handleClickPrintWithoutStamp}>
             Печать без штампа
           </p>
-          <hr />
-          <p className="contextmenu" onClick={handleClickAddDoc}>
-            Добавить ТТН
-          </p>
-          <hr />
-          <p className="contextmenu" onClick={handleClickPrintTTN}>
-            Печать ТТН
-          </p>
-          <hr />
           <p className="contextmenu" onClick={handleClikPrintApp}>
             Печать заявки
           </p>
-          <hr />
+          <p className="contextmenu" onClick={handleClickPrintTTN}>
+            Печать ТТН
+          </p>
+          <hr className="contextMenuHr" />
+          <p
+            className="contextmenu"
+            onClick={(e) => handleClickAddDoc(e, "ttn")}
+          >
+            Добавить ТТН
+          </p>
+          <p
+            className="contextmenu"
+            onClick={(e) => handleClickAddDoc(e, "app")}
+          >
+            Добавить Заявку
+          </p>
+          <hr className="contextMenuHr" />
           {showContextEmail && (
             <p className="contextmenu" onClick={handleClickSendDoc}>
               Отправить Email
             </p>
           )}
-          <hr />
+          <hr className="contextMenuHr" />
           <p className="contextmenu" onClick={handleDeleteBill}>
             Удалить счет
           </p>
-          <hr />
         </div>
       ) : null}
       {showInputFile ? (
         <FormAddDoc
           TD={currentTD}
           currentId={currentId}
+          typeDoc={typeDoc}
           handleClickClose={handleClickClose}
         />
       ) : null}
