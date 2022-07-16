@@ -47,6 +47,7 @@ export const Oders = () => {
   const [windowWidth, setWindowWidth] = useState(1200);
   const [showPrintForm, setShowPrintForm] = useState(false);
   const [showSecretTable, setShowSecretTable] = useState(false);
+  const [showDropDownMenu, setShowDropDownMenu] = useState(false);
 
   const [trId, setTrId] = useState(null);
   const [addData, setAddData] = useState(0);
@@ -273,6 +274,7 @@ export const Oders = () => {
   };
   const [children, setChildren] = useState(null);
   const handleClickBtnMenu = (e) => {
+    setShowDropDownMenu(false);
     if (e.target.name == "dataEdit") {
       setShowEditDataWindow(true);
     }
@@ -345,6 +347,9 @@ export const Oders = () => {
   const handleClosePrintForm = () => {
     setShowPrintForm(false);
   };
+  const handleClickBtnDrop = () => {
+    setShowDropDownMenu(!showDropDownMenu);
+  };
 
   return (
     <React.Fragment>
@@ -352,27 +357,42 @@ export const Oders = () => {
         <span>Рас.сч. {sumAccount} руб.</span>
         <Forecast />
         <div className="odersMenu">
-          <button
-            name="customPay"
-            className="odersMenuBtn"
-            onClick={handleClickBtnMenu}
-          >
-            Поступление от поставщиков
+          <button className="odersMenuBtn" onClick={handleClickBtnDrop}>
+            Платежи
           </button>
-          <button
-            name="customPayments"
-            className="odersMenuBtn"
-            onClick={handleClickBtnMenu}
-          >
-            Входящие платежы
-          </button>
-          <button
-            name="driverPay"
-            className="odersMenuBtn"
-            onClick={handleClickBtnMenu}
-          >
-            Оплата переозчикам
-          </button>
+          {showDropDownMenu && (
+            <div className="dropDownMenu">
+              <button
+                name="customPay"
+                className="odersDropMenuBtn"
+                onClick={handleClickBtnMenu}
+              >
+                Поступление от поставщиков
+              </button>
+              <button
+                name="customPayments"
+                className="odersDropMenuBtn"
+                onClick={handleClickBtnMenu}
+              >
+                Входящие платежы
+              </button>
+              <button
+                name="driverPay"
+                className="odersDropMenuBtn"
+                onClick={handleClickBtnMenu}
+              >
+                Оплата переозчикам
+              </button>
+              <button
+                name="otherPay"
+                className="odersDropMenuBtn"
+                onClick={handleClickBtnMenu}
+              >
+                Расходы
+              </button>
+            </div>
+          )}
+
           <button
             name="driversDebt"
             className="odersMenuBtn"
@@ -380,13 +400,7 @@ export const Oders = () => {
           >
             Долг переозчиков
           </button>
-          <button
-            name="otherPay"
-            className="odersMenuBtn"
-            onClick={handleClickBtnMenu}
-          >
-            Расходы
-          </button>
+
           <button
             name="bill"
             className="odersMenuBtn"
