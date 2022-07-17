@@ -10,19 +10,20 @@ export const InputText = (props) => {
       props.getText(props.name, text);
     }
   };
-  const handleBlur=()=>{
+  const handleBlur = () => {
     props.getText(props.name, text);
-  }
+  };
   useEffect(() => {
     let input = document.querySelector(".inputText");
-    input.style.width = "100%";
-    input.style.boxSizing = "border-box";
+    //input.style.width = "100%";
+    //input.style.boxSizing = "border-box";
     input.focus();
   }, []);
   return (
     <React.Fragment>
       <input
         className="inputText"
+        style={{ width: "100%", boxSizing: "border-box", height: "100%" }}
         type={props.typeInput}
         value={text}
         onChange={handleChange}

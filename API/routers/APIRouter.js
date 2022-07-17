@@ -20,7 +20,10 @@ router.get("/dataDriverDebt", API.taskGetDebts);
 router.get("/dataContractors", API.taskGetContractors);
 router.get("/getPdf/:id/:typeDoc", API.taskGetPdf);
 router.get("/getPdfWithoutStamp/:id", API.taskGetPdfWithoutStamp);
-router.get("/sendEmail/:id", API.taskSendEmail);
+router.get("/sendEmail/:id/:email/:text", API.taskSendEmail);
+router.get("/sendEmail/:id/:email/", API.taskSendEmail);
+router.get("/sendEmail/:id//", API.taskSendEmail);
+router.get("/sendEmail/:id//:text", API.taskSendEmail);
 router.get("/sendReportEmail/:email", API.taskSendReportEmail);
 router.get("/getReportPdf", API.taskGetReportPdf);
 

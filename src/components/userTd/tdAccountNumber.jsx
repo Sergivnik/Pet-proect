@@ -7,6 +7,7 @@ import {
   sendEmail,
 } from "../../actions/documentAction.js";
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
+import { FormAddEmailData } from "../userTrNew/fornAddEmailData.jsx";
 
 export const TdAccountNumber = (props) => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export const TdAccountNumber = (props) => {
   const [currentElement, setCurrentElement] = useState(null);
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [showInputFile, setShowInputFile] = useState(false);
+  const [showEmailData, setShowEmailData] = useState(false);
   const [currentTD, setCurrentTD] = useState(null);
   const [showContextEmail, setShowContextEmail] = useState(true);
   const [typeDoc, setTypeDoc] = useState(null);
@@ -71,12 +73,16 @@ export const TdAccountNumber = (props) => {
     setShowContextMenu(false);
     setTypeDoc(typeDoc);
   };
-  const handleClickSendDoc = () => {
-    dispatch(sendEmail(currentId));
+  const handleClickSendDoc = (e) => {
+    let TD = e.currentTarget.parentElement.parentElement;
+    setCurrentTD(TD);
+    setShowEmailData(true);
+    //dispatch(sendEmail(currentId));
     setShowContextMenu(false);
   };
   const handleClickClose = () => {
     setShowInputFile(false);
+    setShowEmailData(false);
   };
   const handleClikPrintApp = () => {
     dispatch(getPdf(currentId, "app"));
@@ -90,7 +96,8 @@ export const TdAccountNumber = (props) => {
       if (
         customerPayment == "Нет" ||
         customerPayment == "Печать" ||
-        customerPayment == "Мыло"
+        customerPayment == "Мыло" ||
+        customerPayment == "Ок"
       ) {
         setShowContextEmail(true);
       } else {
@@ -188,6 +195,14 @@ export const TdAccountNumber = (props) => {
           handleClickClose={handleClickClose}
         />
       ) : null}
+      {showEmailData && (
+        <FormAddEmailData
+          TD={currentTD}
+          currentId={currentId}
+          typeDoc={typeDoc}
+          handleClickClose={handleClickClose}
+        />
+      )}
     </td>
   );
 };

@@ -624,14 +624,11 @@ module.exports.taskAddConsignmentNote = (req, res) => {
         );
       } else {
         try {
-          const exists = fs.existsSync(
-            `./API/Bills/${Year}/${customer}/app`
-          );
+          const exists = fs.existsSync(`./API/Bills/${Year}/${customer}/app`);
           if (!exists) {
-            fs.mkdirSync(
-              `./API/Bills/${Year}/${customer}/app`,
-              { recursive: true }
-            );
+            fs.mkdirSync(`./API/Bills/${Year}/${customer}/app`, {
+              recursive: true,
+            });
           }
         } catch (e) {
           console.log(e);
@@ -651,7 +648,7 @@ module.exports.taskAddConsignmentNote = (req, res) => {
 };
 module.exports.taskSendEmail = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
-
+  console.log(req.params);
   const configEmail = require("../models/configEmail.js");
   tasks.getDataById(req.params.id, "oderslist", (data) => {
     if (data.error) {
@@ -668,6 +665,9 @@ module.exports.taskSendEmail = (req, res) => {
         if (data.manager[0].email != "" && data.manager[0].email != null) {
           email = email + ", " + data.manager[0].email;
         }
+      }
+      if (req.params.email != null) {
+        email = email + ", " + req.params.email;
       }
       let accountNumber = Number(data.accountNumber);
       let driver = data.driver[0].shortName;
@@ -710,8 +710,10 @@ module.exports.taskSendEmail = (req, res) => {
           from: '"ИП Иванов Сергей" <sergivnik@mail.ru>', // sender address
           to: email, // list of receivers
           subject: subject, // Subject line
-
-          html: "<b>ИП Иванов С.Н. тел. +7-991-366-13-66</b>", // html body
+          text: req.params.text ? req.params.text : "",
+          html: `<p>${
+            req.params.text ? req.params.text : ""
+          }</p><b>ИП Иванов С.Н. тел. +7-991-366-13-66</b>`, // html body
           attachments: attachmentFiles,
         });
       }
