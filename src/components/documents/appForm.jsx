@@ -178,7 +178,7 @@ export const AppForm = (props) => {
       obj.unLoadingData[currentIndex].store = data.value;
     }
     setEditData(obj);
-    setShowEditWindow(false);
+    //setShowEditWindow(false);
   };
   const getText = (name, text) => {
     console.log(text);
@@ -187,14 +187,14 @@ export const AppForm = (props) => {
       if (obj.loadingData[currentIndex].text != text) {
         obj.loadingData[currentIndex].text = text;
         setEditData(obj);
-        setShowEditWindow(false);
+        //setShowEditWindow(false);
       }
     }
     if (currentPoint == "unLoadingPoint") {
       if (obj.unLoadingData[currentIndex].text != text) {
         obj.unLoadingData[currentIndex].text = text;
         setEditData(obj);
-        setShowEditWindow(false);
+        //setShowEditWindow(false);
       }
     }
   };
@@ -247,6 +247,9 @@ export const AppForm = (props) => {
     }
     setEditData(obj);
   };
+  const handleClickSavePoint = () => {
+    setShowEditWindow(false);
+  };
 
   return (
     <div
@@ -275,7 +278,9 @@ export const AppForm = (props) => {
             style={{ textAlign: "center", padding: "0 15px", fontSize: "15px" }}
           >{`ДОГОВОР-ЗАЯВКА НА  ПЕРЕВОЗКУ ГРУЗА № ${
             props.dataDoc.odersListId[props.id - 1]
-          } от ${dateLocal(order.date)}`}</h3>
+          } от ${
+            props.currentDate ? dateLocal(new Date()) : dateLocal(order.date)
+          }`}</h3>
         </div>
       </div>
       <div style={styleDivRow}>
@@ -705,6 +710,7 @@ export const AppForm = (props) => {
               />
             </label>
           </div>
+          <button onClick={handleClickSavePoint}>Сохранить</button>
         </div>
       )}
     </div>

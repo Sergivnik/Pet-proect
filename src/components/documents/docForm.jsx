@@ -48,6 +48,7 @@ export const DocForm = (props) => {
     trackTrailer: false,
     wayBillNumber: "",
   });
+  const [appData, setAppData] = useState({ stamp: true, date: false });
   const [showWayBill, setShowWayBill] = useState(false);
 
   const handleClickClose = () => {
@@ -149,6 +150,7 @@ export const DocForm = (props) => {
   };
   const handleClickCheckBox = (e) => {
     let { ...obj } = addData;
+    let objApp = { ...appData };
     switch (e.currentTarget.name) {
       case "wayBill":
         obj.wayBill = !obj.wayBill;
@@ -162,6 +164,14 @@ export const DocForm = (props) => {
         break;
       case "trackTrailer":
         obj.trackTrailer = !obj.trackTrailer;
+        break;
+      case "stampApp":
+        objApp.stamp = !objApp.stamp;
+        setAppData(objApp);
+        break;
+      case "dateApp":
+        objApp.date = !objApp.date;
+        setAppData(objApp);
         break;
       default:
         break;
@@ -196,50 +206,68 @@ export const DocForm = (props) => {
           />
         </svg>
       </header>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <span>ТТН </span>
-        <input
-          type="checkbox"
-          name="wayBill"
-          checked={addData.wayBill}
-          onChange={handleClickCheckBox}
-        />
-        {showWayBill ? (
-          <>
-            <span>№</span>
-            <div style={{ width: "100px" }}>
-              <InputText
-                name="wayBillNumber"
-                typeInput="text"
-                getText={getText}
-                text={addData.wayBillNumber}
-              />
-            </div>
-          </>
-        ) : (
-          <span>{addData.wayBillNumber}</span>
-        )}
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;Договор</span>
-        <input
-          type="checkbox"
-          name="contract"
-          checked={addData.contract}
-          onChange={handleClickCheckBox}
-        />
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;Заявка</span>
-        <input
-          type="checkbox"
-          name="aplication"
-          checked={addData.aplication}
-          onChange={handleClickCheckBox}
-        />
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;Прицеп</span>
-        <input
-          type="checkbox"
-          name="trackTrailer"
-          checked={addData.waytrackTrailerBill}
-          onChange={handleClickCheckBox}
-        />
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <span>ТТН </span>
+          <input
+            type="checkbox"
+            name="wayBill"
+            checked={addData.wayBill}
+            onChange={handleClickCheckBox}
+          />
+          {showWayBill ? (
+            <>
+              <span>№</span>
+              <div style={{ width: "100px" }}>
+                <InputText
+                  name="wayBillNumber"
+                  typeInput="text"
+                  getText={getText}
+                  text={addData.wayBillNumber}
+                />
+              </div>
+            </>
+          ) : (
+            <span>{addData.wayBillNumber}</span>
+          )}
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;Договор</span>
+          <input
+            type="checkbox"
+            name="contract"
+            checked={addData.contract}
+            onChange={handleClickCheckBox}
+          />
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;Заявка</span>
+          <input
+            type="checkbox"
+            name="aplication"
+            checked={addData.aplication}
+            onChange={handleClickCheckBox}
+          />
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;Прицеп</span>
+          <input
+            type="checkbox"
+            name="trackTrailer"
+            checked={addData.waytrackTrailerBill}
+            onChange={handleClickCheckBox}
+          />
+        </div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <span>Печать</span>
+          <input
+            type="checkbox"
+            name="stampApp"
+            checked={appData.stamp}
+            onChange={handleClickCheckBox}
+          />
+          <span>Текущая дата</span>
+          <input
+            type="checkbox"
+            name="dateApp"
+            checked={appData.date}
+            onChange={handleClickCheckBox}
+          />
+        </div>
       </div>
       <div className="tabList">
         <div
@@ -352,7 +380,12 @@ export const DocForm = (props) => {
         )}
         {showApplication && (
           <div className="applicationForm">
-            <AppForm dataDoc={props.dataDoc} id={id} stamp={true} />
+            <AppForm
+              dataDoc={props.dataDoc}
+              id={id}
+              stamp={appData.stamp}
+              currentDate={appData.date}
+            />
           </div>
         )}
       </div>
