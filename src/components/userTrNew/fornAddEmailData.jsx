@@ -32,6 +32,7 @@ export const FormAddEmailData = (props) => {
   const handleClickSend = () => {
     console.log(props.currentId, emailData.email, emailData.text);
     dispatch(sendEmail(props.currentId, emailData.email, emailData.text));
+    props.handleClickClose();
   };
   return (
     <div
