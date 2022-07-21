@@ -148,10 +148,13 @@ export const CreateOderNew = (props) => {
       document.removeEventListener("keydown", secretKey);
     };
   }, []);
-
+  const handleChangeAppNumber = (e) => {
+    let { ...obj } = odersData;
+    obj.applicationNumber = e.currentTarget.value;
+    setOdersData(obj);
+  };
   const handleLostFocus = (e) => {
     let { ...obj } = odersData;
-    console.log(e.target.value);
     if (e.target.className == "crOderDateInput") {
       let now = new Date();
       let date = new Date(e.target.value);
@@ -183,7 +186,6 @@ export const CreateOderNew = (props) => {
       if (e.target.value != "") setShowDriverPrice(false);
     }
     setOdersData(obj);
-    console.log(obj);
   };
   const handleDblClick = (e) => {
     if (e.target.className == "crOderDateP") {
@@ -455,6 +457,8 @@ export const CreateOderNew = (props) => {
               <input
                 type="text"
                 className="crOderApplication"
+                value={odersData.applicationNumber}
+                onChange={handleChangeAppNumber}
                 onBlur={handleLostFocus}
               />
             ) : (
