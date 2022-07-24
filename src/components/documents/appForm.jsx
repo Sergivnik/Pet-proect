@@ -7,6 +7,8 @@ import { InputText } from "../myLib/inputText.jsx";
 import { addData } from "../../actions/editDataAction";
 
 import "./billsForm.sass";
+import { SpanWithList } from "../myLib/mySpan/spanWithList.jsx";
+import { SpanWithText } from "../myLib/mySpan/spanWithText.jsx";
 
 export const AppForm = (props) => {
   const dispatch = useDispatch();
@@ -40,6 +42,10 @@ export const AppForm = (props) => {
     goodsWeight: 20,
     loadingData: [],
     unLoadingData: [],
+    customerId: null,
+    managerId: null,
+    customerPrice: order.customerPrice,
+    addCondition: "",
   });
   const [showEditWindow, setShowEditWindow] = useState(false);
   const [showChoiseList, setShowChoiseList] = useState(true);
@@ -51,11 +57,13 @@ export const AppForm = (props) => {
   const [showAddStore, setShowAddStore] = useState(false);
   const [newStore, setNewStore] = useState({});
   const [storeFilterList, setStoreFilterList] = useState(storeList);
+  const [managerShortList, setManagerShortList] = useState(managerList);
 
   const styleDivRow = { display: "flex", marginBottom: "-1px" };
   const styleCellLeft = {
     width: "25%",
     border: "1px solid black",
+    paddingLeft: "5px",
   };
   const styleCellRight = {
     width: "75%",
@@ -63,6 +71,7 @@ export const AppForm = (props) => {
     marginLeft: "-1px",
     display: "flex",
     justifyContent: "space-between",
+    paddingLeft: "5px",
   };
   const styleCellCargo = {
     width: "33.33%",
@@ -87,6 +96,8 @@ export const AppForm = (props) => {
 
   useEffect(() => {
     let obj = { ...editData };
+    obj.customerId = client._id;
+    obj.managerId = order.idManager;
     order.idLoadingPoint.forEach((idCity, index) => {
       const point = citiesList.find((elem) => elem._id == idCity).value;
       const addInfo = order.loadingInfo[index] ? order.loadingInfo[index] : "";
@@ -120,6 +131,10 @@ export const AppForm = (props) => {
       )
     );
   }, [storeList]);
+  useEffect(() => {
+    let arr = managerList.filter((elem) => elem.odersId == editData.customerId);
+    if (arr.length > 0) setManagerShortList(arr);
+  }, [editData]);
 
   const handleChangePoint = (e, index, name) => {
     function padTo2Digits(num) {
@@ -178,7 +193,6 @@ export const AppForm = (props) => {
       obj.unLoadingData[currentIndex].store = data.value;
     }
     setEditData(obj);
-    //setShowEditWindow(false);
   };
   const getText = (name, text) => {
     console.log(text);
@@ -187,14 +201,12 @@ export const AppForm = (props) => {
       if (obj.loadingData[currentIndex].text != text) {
         obj.loadingData[currentIndex].text = text;
         setEditData(obj);
-        //setShowEditWindow(false);
       }
     }
     if (currentPoint == "unLoadingPoint") {
       if (obj.unLoadingData[currentIndex].text != text) {
         obj.unLoadingData[currentIndex].text = text;
         setEditData(obj);
-        //setShowEditWindow(false);
       }
     }
   };
@@ -250,6 +262,17 @@ export const AppForm = (props) => {
   const handleClickSavePoint = () => {
     setShowEditWindow(false);
   };
+  const getId = (id, name) => {
+    let obj = { ...editData };
+    obj[name] = id;
+    console.log(obj);
+    setEditData(obj);
+  };
+  const getEditText = (text, name) => {
+    let obj = { ...editData };
+    obj[name] = text;
+    setEditData(obj);
+  };
 
   return (
     <div
@@ -285,63 +308,71 @@ export const AppForm = (props) => {
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Заказчик</span>
+          <span>Заказчик</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}>
-            {client.companyName ? client.companyName : ""}
-          </span>
+          <SpanWithList
+            list={clientList}
+            name="customerId"
+            id={editData.customerId}
+            filedId="_id"
+            fieldPrint="companyName"
+            getId={getId}
+          />
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Контактное лицо</span>
+          <span>Контактное лицо</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}>
-            {manager
-              ? `${manager.name ? manager.name : ""} ${
-                  manager.phone ? manager.phone : ""
-                }`
-              : ""}
-          </span>
+          <SpanWithList
+            list={managerShortList}
+            name="managerId"
+            id={editData.managerId}
+            filedId="_id"
+            fieldPrint="name"
+            getId={getId}
+          />
+          <SpanWithList
+            list={managerShortList}
+            name="managerId"
+            id={editData.managerId}
+            filedId="_id"
+            fieldPrint="phone"
+            getId={getId}
+          />
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Наименование груза</span>
+          <span>Наименование груза</span>
         </div>
         <div style={styleCellRight}>
           <div style={styleCellCargo}>
-            <span style={{ paddingLeft: "5px" }}>Количество мест погрузки</span>
+            <span>Количество мест погрузки</span>
           </div>
           <div style={styleCellCargo}>
-            <span style={{ paddingLeft: "5px" }}>
-              Количество мест разгрузки
-            </span>
+            <span>Количество мест разгрузки</span>
           </div>
           <div style={styleCellCargo}>
-            <span style={{ paddingLeft: "5px" }}>Вес, тонн</span>
+            <span>Вес, тонн</span>
           </div>
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>{editData.goodsName}</span>
+          <span>{editData.goodsName}</span>
         </div>
         <div style={styleCellRight}>
           <div style={styleCellCargo}>
-            <span style={{ paddingLeft: "5px" }}>
-              {order.idLoadingPoint.length}
-            </span>
+            <span>{order.idLoadingPoint.length}</span>
           </div>
           <div style={styleCellCargo}>
-            <span style={{ paddingLeft: "5px" }}>
-              {order.idUnloadingPoint.length}
-            </span>
+            <span>{order.idUnloadingPoint.length}</span>
           </div>
           <div style={styleCellCargo}>
-            <span style={{ paddingLeft: "5px" }}>{editData.goodsWeight}</span>
+            <span>{editData.goodsWeight}</span>
           </div>
         </div>
       </div>
@@ -354,27 +385,23 @@ export const AppForm = (props) => {
           >
             <div style={styleDivRow}>
               <div style={styleCellLeft}>
-                <span style={{ paddingLeft: "5px" }}>{`Адрес, дата загрузки ${
-                  index + 1
-                }`}</span>
+                <span>{`Адрес, дата загрузки ${index + 1}`}</span>
               </div>
               <div style={styleCellRight}>
                 <div style={styleCellPoint}>
-                  <span style={{ paddingLeft: "5px" }}>{elem.text}</span>
+                  <span>{elem.text}</span>
                 </div>
                 <div style={styleCellDate}>
-                  <span style={{ paddingLeft: "5px" }}>{elem.date}</span>
+                  <span>{elem.date}</span>
                 </div>
               </div>
             </div>
             <div style={styleDivRow}>
               <div style={styleCellLeft}>
-                <span
-                  style={{ paddingLeft: "5px" }}
-                >{`Название организации`}</span>
+                <span>{`Название организации`}</span>
               </div>
               <div style={styleCellRight}>
-                <span style={{ paddingLeft: "5px" }}>{elem.store}</span>
+                <span>{elem.store}</span>
               </div>
             </div>
           </div>
@@ -389,27 +416,23 @@ export const AppForm = (props) => {
           >
             <div style={styleDivRow}>
               <div style={styleCellLeft}>
-                <span style={{ paddingLeft: "5px" }}>{`Адрес, дата разгрузки ${
-                  index + 1
-                }`}</span>
+                <span>{`Адрес, дата разгрузки ${index + 1}`}</span>
               </div>
               <div style={styleCellRight}>
                 <div style={styleCellPoint}>
-                  <span style={{ paddingLeft: "5px" }}>{elem.text}</span>
+                  <span>{elem.text}</span>
                 </div>
                 <div style={styleCellDate}>
-                  <span style={{ paddingLeft: "5px" }}>{elem.date}</span>
+                  <span>{elem.date}</span>
                 </div>
               </div>
             </div>
             <div style={styleDivRow}>
               <div style={styleCellLeft}>
-                <span style={{ paddingLeft: "5px" }}>
-                  {`Название организации`}
-                </span>
+                <span>{`Название организации`}</span>
               </div>
               <div style={styleCellRight}>
-                <span style={{ paddingLeft: "5px" }}>{elem.store}</span>
+                <span>{elem.store}</span>
               </div>
             </div>
           </div>
@@ -417,40 +440,47 @@ export const AppForm = (props) => {
       })}
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Стоимость перевозки</span>
+          <span>Стоимость перевозки</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}>
-            {order.customerPrice
-              ? `${order.customerPrice} (${sumInWords(order.customerPrice)})`
-              : ""}
+          <div style={{ width: "20%" }}>
+            <SpanWithText
+              name="customerPrice"
+              text={editData.customerPrice}
+              getText={getEditText}
+            />
+          </div>
+          <span style={{ width: "80%" }}>
+            {sumInWords(editData.customerPrice)}
           </span>
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Форма оплаты</span>
+          <span>Форма оплаты</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}>
-            Безналичный расчет по счету без НДС
-          </span>
+          <span>Безналичный расчет по счету без НДС</span>
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Ставка простоя</span>
+          <span>Ставка простоя</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}></span>
+          <span></span>
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Дополнительные условия</span>
+          <span>Дополнительные условия</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}></span>
+          <SpanWithText
+            name="addCondition"
+            text={editData.addCondition}
+            getText={getEditText}
+          />
         </div>
       </div>
       <div style={{ paddingTop: "15px" }}>
@@ -504,50 +534,46 @@ export const AppForm = (props) => {
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>МАРКА, № А/М, № П/П</span>
+          <span>МАРКА, № А/М, № П/П</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}>
+          <span>
             {`${track.model} ${track.value}        прицеп ${track.trackTrailerLicensePlate}`}
           </span>
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>ФИО водителя</span>
+          <span>ФИО водителя</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}>{`${trackDriver.name}`}</span>
+          <span>{`${trackDriver.name}`}</span>
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Паспортные данные</span>
+          <span>Паспортные данные</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}>
+          <span>
             {`${trackDriver.passportNumber} ${trackDriver.department} выдан ${trackDriver.dateOfIssue}`}
           </span>
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Водительское удостоверение</span>
+          <span>Водительское удостоверение</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}>
-            {`${trackDriver.driverLicense}`}
-          </span>
+          <span>{`${trackDriver.driverLicense}`}</span>
         </div>
       </div>
       <div style={styleDivRow}>
         <div style={styleCellLeft}>
-          <span style={{ paddingLeft: "5px" }}>Тел. водителя</span>
+          <span>Тел. водителя</span>
         </div>
         <div style={styleCellRight}>
-          <span style={{ paddingLeft: "5px" }}>
-            {`${trackDriver.phoneNumber}`}
-          </span>
+          <span>{`${trackDriver.phoneNumber}`}</span>
         </div>
       </div>
       <div style={styleDivRow}>
