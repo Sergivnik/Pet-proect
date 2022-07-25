@@ -10,6 +10,15 @@ export const SpanWithText = (props) => {
   useEffect(() => {
     setText(props.text);
   }, [props.text]);
+  useEffect(() => {
+    if (showInput) {
+      let div = document.querySelector(".mySpanDivChoise");
+      let parent = div.parentNode.parentNode;
+      div.style.height = parent.clientHeight + "px";
+      div.style.width = parent.clientWidth + "px";
+      console.log(parent.clientWidth);
+    }
+  }, [showInput]);
 
   const handleChange = (e) => {
     console.log(e);
@@ -33,6 +42,7 @@ export const SpanWithText = (props) => {
       {showInput ? (
         <div className="mySpanDivChoise">
           <input
+            className="inputText"
             name={name}
             value={text}
             onChange={handleChange}

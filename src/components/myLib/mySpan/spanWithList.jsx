@@ -33,12 +33,13 @@ export const SpanWithList = (props) => {
   return (
     <span className="mySpan" onDoubleClick={handleDblClick}>
       {showList ? (
-        <div className="mySpanDivChoise" onBlur={handleBlur}>
+        <div className="mySpanDivChoise">
           <ChoiseList
             arrlist={list}
             name={name}
             setValue={setValue}
             parent={"oders"}
+            onBlur={handleBlur}
           />
         </div>
       ) : (

@@ -43,6 +43,7 @@ export const AppForm = (props) => {
     loadingData: [],
     unLoadingData: [],
     customerId: null,
+    driverId: trackDriver._id,
     managerId: null,
     customerPrice: order.customerPrice,
     addCondition: "",
@@ -58,6 +59,9 @@ export const AppForm = (props) => {
   const [newStore, setNewStore] = useState({});
   const [storeFilterList, setStoreFilterList] = useState(storeList);
   const [managerShortList, setManagerShortList] = useState(managerList);
+  const [clientEdit, setClientEdit] = useState(client);
+  const [trackDriverEdit, setTrackDriverEdit] = useState();
+  const [trackEdit, setTrackEdit] = useState(track);
 
   const styleDivRow = { display: "flex", marginBottom: "-1px" };
   const styleCellLeft = {
@@ -134,6 +138,14 @@ export const AppForm = (props) => {
   useEffect(() => {
     let arr = managerList.filter((elem) => elem.odersId == editData.customerId);
     if (arr.length > 0) setManagerShortList(arr);
+    let clientNew = clientList.find((elem) => elem._id == editData.customerId);
+    if (clientNew) setClientEdit(clientNew);
+    let trackDriverNew = trackDriversList.find(
+      (elem) => elem._id == editData.driverId
+    );
+    if (trackDriverNew) setTrackDriverEdit(trackDriverNew);
+    let trackNew = tracksList.find((elem) => elem._id == editData.driverId);
+    if (trackNew) setTrackEdit(trackNew);
   }, [editData]);
 
   const handleChangePoint = (e, index, name) => {
@@ -372,7 +384,12 @@ export const AppForm = (props) => {
             <span>{order.idUnloadingPoint.length}</span>
           </div>
           <div style={styleCellCargo}>
-            <span>{editData.goodsWeight}</span>
+            <SpanWithText
+              name="goodsWeight"
+              text={editData.goodsWeight}
+              getText={getEditText}
+            />
+            {/* <span>{editData.goodsWeight}</span> */}
           </div>
         </div>
       </div>
@@ -538,7 +555,9 @@ export const AppForm = (props) => {
         </div>
         <div style={styleCellRight}>
           <span>
-            {`${track.model} ${track.value}        прицеп ${track.trackTrailerLicensePlate}`}
+            {trackEdit
+              ? `${trackEdit.model} ${trackEdit.value}        прицеп ${trackEdit.trackTrailerLicensePlate}`
+              : ""}
           </span>
         </div>
       </div>
@@ -547,7 +566,15 @@ export const AppForm = (props) => {
           <span>ФИО водителя</span>
         </div>
         <div style={styleCellRight}>
-          <span>{`${trackDriver.name}`}</span>
+          <SpanWithList
+            list={trackDriversList}
+            name="driverId"
+            id={editData.driverId}
+            filedId="_id"
+            fieldPrint="name"
+            getId={getId}
+          />
+          {/* <span>{`${trackDriver.name}`}</span> */}
         </div>
       </div>
       <div style={styleDivRow}>
@@ -556,7 +583,9 @@ export const AppForm = (props) => {
         </div>
         <div style={styleCellRight}>
           <span>
-            {`${trackDriver.passportNumber} ${trackDriver.department} выдан ${trackDriver.dateOfIssue}`}
+            {trackDriverEdit
+              ? `${trackDriverEdit.passportNumber} ${trackDriverEdit.department} выдан ${trackDriverEdit.dateOfIssue}`
+              : ""}
           </span>
         </div>
       </div>
@@ -565,7 +594,9 @@ export const AppForm = (props) => {
           <span>Водительское удостоверение</span>
         </div>
         <div style={styleCellRight}>
-          <span>{`${trackDriver.driverLicense}`}</span>
+          <span>
+            {trackDriverEdit ? `${trackDriverEdit.driverLicense}` : ""}
+          </span>
         </div>
       </div>
       <div style={styleDivRow}>
@@ -573,7 +604,7 @@ export const AppForm = (props) => {
           <span>Тел. водителя</span>
         </div>
         <div style={styleCellRight}>
-          <span>{`${trackDriver.phoneNumber}`}</span>
+          <span>{trackDriverEdit ? `${trackDriverEdit.phoneNumber}` : ""}</span>
         </div>
       </div>
       <div style={styleDivRow}>
@@ -617,9 +648,9 @@ export const AppForm = (props) => {
         </div>
         <div style={styleDiv50}>
           <h4>Заказчик</h4>
-          <p style={{ height: "75px" }}>{`${client.companyName} ИНН ${
-            client.TIN ? client.TIN : ""
-          }, ${client.address ? client.address : ""}`}</p>
+          <p style={{ height: "75px" }}>{`${clientEdit.companyName} ИНН ${
+            clientEdit.TIN ? clientEdit.TIN : ""
+          }, ${clientEdit.address ? clientEdit.address : ""}`}</p>
           <p style={{ marginTop: "50px" }}>Подпись ______________________</p>
         </div>
       </div>
