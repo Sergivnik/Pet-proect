@@ -260,13 +260,13 @@ export const DocForm = (props) => {
             checked={appData.stamp}
             onChange={handleClickCheckBox}
           />
-          <span>Текущая дата</span>
+          {/* <span>Текущая дата</span>
           <input
             type="checkbox"
             name="dateApp"
             checked={appData.date}
             onChange={handleClickCheckBox}
-          />
+          /> */}
         </div>
       </div>
       <div className="tabList">
@@ -384,7 +384,7 @@ export const DocForm = (props) => {
               dataDoc={props.dataDoc}
               id={id}
               stamp={appData.stamp}
-              currentDate={appData.date}
+              //currentDate={appData.date}
             />
           </div>
         )}

@@ -9,6 +9,7 @@ import { addData } from "../../actions/editDataAction";
 import "./billsForm.sass";
 import { SpanWithList } from "../myLib/mySpan/spanWithList.jsx";
 import { SpanWithText } from "../myLib/mySpan/spanWithText.jsx";
+import { SpanWithDate } from "../myLib/mySpan/spanWithDate.jsx";
 
 export const AppForm = (props) => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ export const AppForm = (props) => {
     : null;
 
   const [editData, setEditData] = useState({
+    appDate: order.date,
     goodsName: "",
     goodsWeight: 20,
     loadingData: [],
@@ -311,11 +313,16 @@ export const AppForm = (props) => {
           </p>
           <h3
             style={{ textAlign: "center", padding: "0 15px", fontSize: "15px" }}
-          >{`ДОГОВОР-ЗАЯВКА НА  ПЕРЕВОЗКУ ГРУЗА № ${
-            props.dataDoc.odersListId[props.id - 1]
-          } от ${
-            props.currentDate ? dateLocal(new Date()) : dateLocal(order.date)
-          }`}</h3>
+          >
+            {`ДОГОВОР-ЗАЯВКА НА  ПЕРЕВОЗКУ ГРУЗА № ${
+              props.dataDoc.odersListId[props.id - 1]
+            } от  `}
+            <SpanWithDate
+              date={editData.appDate}
+              name="appDate"
+              getDate={getEditText}
+            />
+          </h3>
         </div>
       </div>
       <div style={styleDivRow}>
