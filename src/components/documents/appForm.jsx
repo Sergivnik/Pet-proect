@@ -45,7 +45,7 @@ export const AppForm = (props) => {
     loadingData: [],
     unLoadingData: [],
     customerId: null,
-    driverId: trackDriver._id,
+    driverId: trackDriver ? trackDriver._id : null,
     managerId: null,
     customerPrice: order.customerPrice,
     addCondition: "",

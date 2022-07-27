@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DriverReport } from "./driverReport.jsx";
 import { ReconciliationAct } from "./reconciliationAct.jsx";
 import { TaxesDriver } from "./taxesReport.jsx";
+import { IncomeReport } from "./incomeReport.jsx";
+
 import "./reports.sass";
 
 export const Report = () => {
@@ -14,10 +16,13 @@ export const Report = () => {
         setCurrentReport(<DriverReport />);
         break;
       case "reconciliationAct":
-        setCurrentReport(<ReconciliationAct/>);
+        setCurrentReport(<ReconciliationAct />);
         break;
       case "taxesReport":
-        setCurrentReport(<TaxesDriver/>);
+        setCurrentReport(<TaxesDriver />);
+        break;
+      case "incomeReport":
+        setCurrentReport(<IncomeReport />);
         break;
       default:
         break;
@@ -46,6 +51,13 @@ export const Report = () => {
           onClick={handleClickBtnMenu}
         >
           Отчет по УСН
+        </button>
+        <button
+          name="incomeReport"
+          className="headerReportBtn"
+          onClick={handleClickBtnMenu}
+        >
+          Отчет по доходам
         </button>
       </header>
       <main className="reportTable">{currentReport}</main>

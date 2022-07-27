@@ -33,11 +33,12 @@ export const initialStore = {
   driverDebtList: [],
   contractorsList: [],
   contractorsPayments: [],
-  driverpayments:[],
+  driverpayments: [],
   trackdrivers: [],
   tracklist: [],
   clientmanager: [],
   message: null,
   addtable: [],
   storeList: [],
+  incomereport: [],
 };

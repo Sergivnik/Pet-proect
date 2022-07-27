@@ -94,6 +94,8 @@ var Tasks = {
       allData.customerpayment = data;
       [data] = await db.query(`SELECT * FROM contractors`);
       allData.contractors = data;
+      [data] = await db.query(`SELECT * FROM incomereport`);
+      allData.incomereport = data;
       callback(allData);
       db.end();
     } catch (err) {
