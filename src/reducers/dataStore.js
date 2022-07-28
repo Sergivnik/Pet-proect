@@ -41,4 +41,5 @@ export const initialStore = {
   addtable: [],
   storeList: [],
   incomereport: [],
+  yearconst: {},
 };
