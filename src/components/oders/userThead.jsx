@@ -167,7 +167,7 @@ export const UserThead = (props) => {
         </td>
         <td className=" odersTRheader">
           <span className="odersTheadSpan">Цена клиента</span>
-          <span className="odersTheadSpanSum">{sumCustomer} руб</span>
+          <span className="odersTheadSpanSum">{sumCustomer.toLocaleString()} руб</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
               <polygon
@@ -191,7 +191,7 @@ export const UserThead = (props) => {
         </td>
         <td className=" odersTRheader">
           <span className="odersTheadSpan">Цена водителя</span>
-          <span className="odersTheadSpanSum">{sumDriver} руб</span>
+          <span className="odersTheadSpanSum">{sumDriver.toLocaleString()} руб</span>
           <button className="theadBtnFilter" onClick={handleClickFilter}>
             <svg width="100%" height="20">
               <polygon

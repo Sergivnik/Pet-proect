@@ -354,7 +354,7 @@ export const Oders = () => {
   return (
     <React.Fragment>
       <div className="odersDivInfo">
-        <span>Рас.сч. {sumAccount} руб.</span>
+        <span>Рас.сч. {sumAccount.toLocaleString()} руб.</span>
         <Forecast />
         <div className="odersMenu">
           <button className="odersMenuBtn" onClick={handleClickBtnDrop}>

@@ -63,7 +63,7 @@ export const TdCustomerPrice = (props) => {
   useEffect(() => {
     if (currentElement) currentElement.firstChild.focus();
   }, [currentElement]);
-  
+
   return (
     <td
       className="userTd tdWidth150"
@@ -73,9 +73,9 @@ export const TdCustomerPrice = (props) => {
     >
       {showEdit ? (
         <input name="oderPrice" type="number" onKeyDown={handleEnter} />
-      ) : (
-        sum
-      )}
+      ) : sum ? (
+        sum.toLocaleString()
+      ) : null}
       {showTooltip && props.customerPayment == "Частично оплачен" && (
         <div className="userTdTooltip">
           <p className="userTdP">Счет на сумму {props.customerPrice} руб </p>

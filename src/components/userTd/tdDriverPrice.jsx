@@ -46,7 +46,7 @@ export const TdDriverPrice = (props) => {
       {showEdit ? (
         <input name="oderPrice" type="number" onKeyDown={handleEnter} />
       ) : (
-        props.driverPrice
+        Number(props.driverPrice).toLocaleString()
       )}
     </td>
   );

@@ -108,7 +108,7 @@ export const Forecast = () => {
 
   return (
     <React.Fragment>
-      <span>Прогноз {forecastIncome}</span>
+      <span>Прогноз {forecastIncome.toLocaleString()}</span>
     </React.Fragment>
   );
 };
