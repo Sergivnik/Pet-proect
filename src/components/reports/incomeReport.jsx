@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { dateLocal } from "../myLib/myLib.js";
 
 import "./reports.sass";
 
@@ -26,6 +27,7 @@ export const IncomeReport = () => {
   const [driverDebt, setDriverDebt] = useState(null);
   const [currentTax, setCurrentTax] = useState(null);
   const [sumPink, setSumPink] = useState(null);
+  const [incomeToyal, setIncomeTotal] = useState(null);
 
   useEffect(() => {
     let addSum = clientList.reduce(
@@ -62,6 +64,8 @@ export const IncomeReport = () => {
   useEffect(() => {
     let dateBegin = new Date(new Date().getFullYear(), 0, 1);
     let dateEnd = new Date();
+    let daysThisYear =
+      (dateEnd.getTime() - dateBegin.getTime()) / (1000 * 3600 * 24);
     let sumIn = 0;
     let sumOut = 0;
     customerPayments.forEach((elem) => {
@@ -84,9 +88,17 @@ export const IncomeReport = () => {
       }
     });
     if ((sumIn - sumOut) / 10 > sumIn / 100) {
-      setCurrentTax((sumIn - sumOut) / 10);
+      setCurrentTax(
+        (sumIn - sumOut) / 10 +
+          (Number(yearconst.fixedincometax) / 365) * daysThisYear +
+          (sumIn - sumOut) / 100
+      );
     } else {
-      setCurrentTax(sumIn / 100);
+      setCurrentTax(
+        sumIn / 100 +
+          (Number(yearconst.fixedincometax) / 365) * daysThisYear +
+          (sumIn - sumOut) / 100
+      );
     }
   }, [customerPayments, contractorsPayments, driverpayments]);
   useEffect(() => {
@@ -103,47 +115,125 @@ export const IncomeReport = () => {
     });
     setSumPink(sumPink);
   }, [addtable]);
+  useEffect(() => {
+    incomereport.forEach((elem, index) => {
+      if (index < incomereport.length - 1) {
+        elem.incomeMonth =
+          incomereport[index + 1].incomeFirst - elem.incomeFirst;
+      } else {
+        elem.incomeMonth = null;
+      }
+    });
+  }, [incomereport]);
+  useEffect(() => {
+    let income =
+      sumAccount +
+      customerDebt -
+      driverDebt -
+      Number(yearconst.lastyeartxdebt) +
+      Number(yearconst.taxadvance) -
+      sumPink;
+    setIncomeTotal(income);
+  }, [sumAccount, customerDebt, driverDebt, yearconst, currentTax, sumPink]);
 
   // Р.сч.+ДолгКлиента-ДолгВодителям-ДолгНалогЯпрошлГод+ПлатежиНалогЯтекГод-НакоплНалогЯтекГод-ДолгРозовым
 
   return (
     <div>
       <header className="incomeReportHeader">
-        <div>
-          <span>Рас.сч.</span>
-          <p> {sumAccount ? sumAccount.toLocaleString()+" руб" : null}</p>
+        <div className="incomeReportDivHeader">
+          <div className="incomeReportDivWraper">
+            <span className="incomeReportSpan">Рас.сч.</span>
+            <p className="incomeReportP">
+              {" "}
+              {sumAccount ? sumAccount.toLocaleString() + " руб" : null}
+            </p>
+          </div>
+          <div className="incomeReportDivWraper">
+            <span className="incomeReportSpan">Долг заказчиков</span>
+            <p className="incomeReportP">
+              {customerDebt ? customerDebt.toLocaleString() + " руб" : null}
+            </p>
+          </div>
+          <div className="incomeReportDivWraper">
+            <span className="incomeReportSpan">Долг перевозчикам</span>
+            <p className="incomeReportP">
+              {driverDebt ? driverDebt.toLocaleString() + " руб" : null}
+            </p>
+          </div>
+          <div className="incomeReportDivWraper">
+            <span className="incomeReportSpan">
+              Долг по налогам прошлого года
+            </span>
+            <p className="incomeReportP">
+              {yearconst
+                ? Number(yearconst.lastyeartxdebt).toLocaleString() + " руб"
+                : null}
+            </p>
+          </div>
+          <div className="incomeReportDivWraper">
+            <span className="incomeReportSpan">
+              Аванм по налогам текущего года
+            </span>
+            <p className="incomeReportP">
+              {yearconst
+                ? Number(yearconst.taxadvance).toLocaleString() + " руб"
+                : null}
+            </p>
+          </div>
+          <div className="incomeReportDivWraper">
+            <span className="incomeReportSpan">Налоги текущего года</span>
+            <p className="incomeReportP">
+              {currentTax ? currentTax.toLocaleString() + " руб" : null}
+            </p>
+          </div>
+          <div className="incomeReportDivWraper">
+            <span className="incomeReportSpan">Розовые</span>
+            <p className="incomeReportP">
+              {sumPink ? sumPink.toLocaleString() + " руб" : null}
+            </p>
+          </div>
         </div>
-        <div>
-          <span>Долг заказчиков</span>
-          <p>{customerDebt ? customerDebt.toLocaleString()+" руб" : null}</p>
-        </div>
-        <div>
-          <span>Долг перевозчикам</span>
-          <p>{driverDebt ? driverDebt.toLocaleString()+" руб" : null}</p>
-        </div>
-        <div>
-          <span>Долг по налогам прошлого года</span>
-          <p>
-            {yearconst
-              ? Number(yearconst.lastyeartxdebt).toLocaleString()+" руб"
-              : null}
-          </p>
-        </div>
-        <div>
-          <span>Аванм по налогам текущего года</span>
-          <p>
-            {yearconst ? Number(yearconst.taxadvance).toLocaleString()+" руб" : null}
-          </p>
-        </div>
-        <div>
-          <span>Налоги текущего года</span>
-          <p>{currentTax ? currentTax.toLocaleString()+" руб" : null}</p>
-        </div>
-        <div>
-          <span>Розовые</span>
-          <p>{sumPink ? sumPink.toLocaleString()+" руб" : null}</p>
-        </div>
+        <h3 className="incomeReportHeaderH3">
+          {incomeToyal ? incomeToyal.toLocaleString() + " руб" : null}
+        </h3>
       </header>
+      <main>
+        <table className="incomeReportTable">
+          <thead>
+            <tr>
+              <td className="incomeReportTableTd">Дата</td>
+              <td className="incomeReportTableTd">Доход на начало месяца</td>
+              <td className="incomeReportTableTd">Доход за месяц</td>
+              <td className="incomeReportTableTd">Примечание</td>
+            </tr>
+          </thead>
+          <tbody>
+            {incomereport.map((elem) => {
+              return (
+                <tr key={`incomeReport${elem.id}`}>
+                  <td className="incomeReportTableTd">
+                    {dateLocal(elem.date)}
+                  </td>
+                  <td className="incomeReportTableTd">
+                    {elem.incomeFirst
+                      ? Number(elem.incomeFirst).toLocaleString()
+                      : null}
+                  </td>
+                  <td className="incomeReportTableTd">
+                    {elem.incomeMonth
+                      ? Number(elem.incomeMonth).toLocaleString()
+                      : (
+                          Number(incomeToyal) - Number(elem.incomeFirst)
+                        ).toLocaleString()}
+                  </td>
+                  <td className="incomeReportTableTd">{elem.addInfo}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </main>
     </div>
   );
 };
