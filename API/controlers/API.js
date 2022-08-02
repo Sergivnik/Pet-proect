@@ -610,7 +610,9 @@ module.exports.taskAddConsignmentNote = (req, res) => {
       console.log(data);
       let Year = data.date.getFullYear();
       let customer = data.customer[0].value;
-      let accountNumber = Number(data.accountNumber);
+      let accountNumber = isNaN(Number(data.accountNumber))
+        ? data.accountNumber
+        : Number(data.accountNumber);
       let fs = require("fs");
       if (req.params.typeDoc == "ttn") {
         fs.copyFile(
@@ -669,7 +671,9 @@ module.exports.taskSendEmail = (req, res) => {
       if (req.params.email != null) {
         email = email + ", " + req.params.email;
       }
-      let accountNumber = Number(data.accountNumber);
+      let accountNumber = isNaN(Number(data.accountNumber))
+        ? data.accountNumber
+        : Number(data.accountNumber);
       let driver = data.driver[0].shortName;
       const nodemailer = require("nodemailer");
       let subject = "";

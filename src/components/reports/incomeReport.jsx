@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { dateLocal } from "../myLib/myLib.js";
+import { addData, editData } from "../../actions/editDataAction.js";
+import { TdWithText } from "../myLib/myTd/tdWithText.jsx";
 
 import "./reports.sass";
 
 export const IncomeReport = () => {
+  const dispatch = useDispatch();
+
   const incomereport = useSelector((state) => state.oderReducer.incomereport);
   const ordersList = useSelector((state) => state.oderReducer.odersList);
   const yearconst = useSelector((state) => state.oderReducer.yearconst);
@@ -28,6 +32,11 @@ export const IncomeReport = () => {
   const [currentTax, setCurrentTax] = useState(null);
   const [sumPink, setSumPink] = useState(null);
   const [incomeToyal, setIncomeTotal] = useState(null);
+  const [showAddTr, setShowAddTr] = useState(false);
+  const [newMonthData, setNewMonthData] = useState({
+    date: null,
+    incomeFirst: null,
+  });
 
   useEffect(() => {
     let addSum = clientList.reduce(
@@ -136,6 +145,21 @@ export const IncomeReport = () => {
     setIncomeTotal(income);
   }, [sumAccount, customerDebt, driverDebt, yearconst, currentTax, sumPink]);
 
+  const handleClick = () => {
+    setShowAddTr(true);
+    let now = new Date();
+    let firstDay = `${now.getFullYear()}-${now.getMonth()+1}-1`
+    let obj = { ...newMonthData };
+    obj.date = firstDay;
+    obj.incomeFirst = incomeToyal;
+    setNewMonthData(obj);
+  };
+  const getEditText = (text, name) => {
+    let obj = { ...newMonthData };
+    obj[name] = text;
+    setNewMonthData(obj);
+    dispatch(addData(obj, "incomereport"));
+  };
   // Р.сч.+ДолгКлиента-ДолгВодителям-ДолгНалогЯпрошлГод+ПлатежиНалогЯтекГод-НакоплНалогЯтекГод-ДолгРозовым
 
   return (
@@ -231,8 +255,23 @@ export const IncomeReport = () => {
                 </tr>
               );
             })}
+            {showAddTr && (
+              <tr key={`incomeReportNew`}>
+                <td className="incomeReportTableTd">
+                  {dateLocal(newMonthData.date)}
+                </td>
+                <TdWithText
+                  text={newMonthData.incomeFirst}
+                  name="incomeFirst"
+                  getData={getEditText}
+                />
+                <td className="incomeReportTableTd"></td>
+                <td className="incomeReportTableTd"></td>
+              </tr>
+            )}
           </tbody>
         </table>
+        <button onClick={handleClick}>Закрыть месяц</button>
       </main>
     </div>
   );

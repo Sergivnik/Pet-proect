@@ -49,8 +49,10 @@ export const SpanWithText = (props) => {
             onKeyDown={handleEnter}
           />
         </div>
-      ) : (
+      ) : isNaN(Number(text)) ? (
         text
+      ) : (
+        Number(text).toLocaleString()
       )}
     </span>
   );
