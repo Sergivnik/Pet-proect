@@ -113,7 +113,7 @@ export const IncomeReport = () => {
   useEffect(() => {
     let sumPink = 0;
     addtable.forEach((elem) => {
-      if (elem.returnPayment == 0) {
+      if (elem.card == 0) {
         let price = Number(
           ordersList.find((order) => order._id == elem.orderId).customerPrice
         );
@@ -148,7 +148,7 @@ export const IncomeReport = () => {
   const handleClick = () => {
     setShowAddTr(true);
     let now = new Date();
-    let firstDay = `${now.getFullYear()}-${now.getMonth()+1}-1`
+    let firstDay = `${now.getFullYear()}-${now.getMonth() + 1}-1`;
     let obj = { ...newMonthData };
     obj.date = firstDay;
     obj.incomeFirst = incomeToyal;
@@ -160,10 +160,23 @@ export const IncomeReport = () => {
     setNewMonthData(obj);
     dispatch(addData(obj, "incomereport"));
   };
+  const getNewData = (text, name, elem) => {
+    let date = new Date(elem.date);
+    let year = date.getFullYear();
+    let month = String(date.getMonth() + 1).padStart(2, "0");
+    let day = String(date.getDate()).padStart(2, "0");
+    let obj = {
+      _id: elem._id,
+      date: `${year}-${month}-${day}`,
+      [name]: text,
+    };
+    dispatch(editData(obj, "incomereport"));
+    console.log(obj);
+  };
   // Р.сч.+ДолгКлиента-ДолгВодителям-ДолгНалогЯпрошлГод+ПлатежиНалогЯтекГод-НакоплНалогЯтекГод-ДолгРозовым
 
   return (
-    <div>
+    <div className="incomeReportContainer">
       <header className="incomeReportHeader">
         <div className="incomeReportDivHeader">
           <div className="incomeReportDivWraper">
@@ -222,9 +235,9 @@ export const IncomeReport = () => {
           {incomeToyal ? incomeToyal.toLocaleString() + " руб" : null}
         </h3>
       </header>
-      <main>
+      <main className="incomeReportMain">
         <table className="incomeReportTable">
-          <thead>
+          <thead className="incomeReportThead">
             <tr>
               <td className="incomeReportTableTd">Дата</td>
               <td className="incomeReportTableTd">Доход на начало месяца</td>
@@ -235,15 +248,16 @@ export const IncomeReport = () => {
           <tbody>
             {incomereport.map((elem) => {
               return (
-                <tr key={`incomeReport${elem.id}`}>
+                <tr key={`incomeReport${elem._id}`}>
                   <td className="incomeReportTableTd">
                     {dateLocal(elem.date)}
                   </td>
-                  <td className="incomeReportTableTd">
-                    {elem.incomeFirst
-                      ? Number(elem.incomeFirst).toLocaleString()
-                      : null}
-                  </td>
+                  <TdWithText
+                    text={elem.incomeFirst}
+                    name="incomeFirst"
+                    getData={getNewData}
+                    elem={elem}
+                  />
                   <td className="incomeReportTableTd">
                     {elem.incomeMonth
                       ? Number(elem.incomeMonth).toLocaleString()
@@ -271,8 +285,10 @@ export const IncomeReport = () => {
             )}
           </tbody>
         </table>
-        <button onClick={handleClick}>Закрыть месяц</button>
       </main>
+      <footer className="incomeReportFooter">
+        <button onClick={handleClick}>Закрыть месяц</button>
+      </footer>
     </div>
   );
 };

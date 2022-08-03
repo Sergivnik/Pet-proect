@@ -4,6 +4,7 @@ import "./userTd.sass";
 export const TdWithText = (props) => {
   const text = props.text;
   const name = props.name;
+  const elem = props.elem;
 
   const [showInput, setShowInput] = useState(false);
   const [fieldValue, setFieldValue] = useState(text);
@@ -16,7 +17,7 @@ export const TdWithText = (props) => {
   };
   const handleEnter = (e) => {
     if (e.key == "Enter") {
-      props.getData(fieldValue, name);
+      props.getData(fieldValue, name, elem);
       setShowInput(false);
     }
   };
