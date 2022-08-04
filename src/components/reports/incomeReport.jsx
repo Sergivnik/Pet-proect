@@ -33,6 +33,8 @@ export const IncomeReport = () => {
   const [sumPink, setSumPink] = useState(null);
   const [incomeToyal, setIncomeTotal] = useState(null);
   const [showAddTr, setShowAddTr] = useState(false);
+  const [incomeList, setIncomeList] = useState(incomereport);
+  const [showBtn, setShowBtn] = useState(false);
   const [newMonthData, setNewMonthData] = useState({
     date: null,
     incomeFirst: null,
@@ -125,14 +127,16 @@ export const IncomeReport = () => {
     setSumPink(sumPink);
   }, [addtable]);
   useEffect(() => {
-    incomereport.forEach((elem, index) => {
-      if (index < incomereport.length - 1) {
+    let arr = [...incomereport];
+    arr.forEach((elem, index) => {
+      if (index < arr.length - 1) {
         elem.incomeMonth =
-          incomereport[index + 1].incomeFirst - elem.incomeFirst;
+          Number(arr[index + 1].incomeFirst) - Number(elem.incomeFirst);
       } else {
         elem.incomeMonth = null;
       }
     });
+    setIncomeList(arr);
   }, [incomereport]);
   useEffect(() => {
     let income =
@@ -144,6 +148,18 @@ export const IncomeReport = () => {
       sumPink;
     setIncomeTotal(income);
   }, [sumAccount, customerDebt, driverDebt, yearconst, currentTax, sumPink]);
+  useEffect(() => {
+    let lastMonthDate = new Date(incomeList[incomeList.length - 1].date);
+    let now = new Date();
+    if (
+      now.getFullYear() > lastMonthDate.getFullYear() ||
+      now.getMonth() > lastMonthDate.getMonth()
+    ) {
+      setShowBtn(true);
+    } else {
+      setShowBtn(false);
+    }
+  }, [incomeList]);
 
   const handleClick = () => {
     setShowAddTr(true);
@@ -246,7 +262,7 @@ export const IncomeReport = () => {
             </tr>
           </thead>
           <tbody>
-            {incomereport.map((elem) => {
+            {incomeList.map((elem) => {
               return (
                 <tr key={`incomeReport${elem._id}`}>
                   <td className="incomeReportTableTd">
@@ -287,7 +303,7 @@ export const IncomeReport = () => {
         </table>
       </main>
       <footer className="incomeReportFooter">
-        <button onClick={handleClick}>Закрыть месяц</button>
+        {showBtn && <button onClick={handleClick}>Закрыть месяц</button>}
       </footer>
     </div>
   );
