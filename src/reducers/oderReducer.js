@@ -785,12 +785,6 @@ export const oderReducer = (store = initialStore, action) => {
           );
           arrManagers[indexManager] = action.newData;
           return { ...store, clientmanager: arrManagers };
-        case "incomereport": {
-          let arr = [...store[action.editTable]];
-          let index = arr.findIndex((elem) => elem._id == action.newData._id);
-          arr[index] = action.newData;
-          return { ...store, [action.editTable]: arr };
-        }
         default:
           break;
       }
@@ -832,12 +826,6 @@ export const oderReducer = (store = initialStore, action) => {
           action.data._id = action.dataServer.insertId;
           arrStories.push(action.data);
           return { ...store, storeList: arrStories };
-        case "incomereport": {
-          let arr = [...store[action.editTable]];
-          action.data._id = action.dataServer.insertId;
-          arr.push(action.data);
-          return { ...store, [action.editTable]: arr };
-        }
         default:
           break;
       }
