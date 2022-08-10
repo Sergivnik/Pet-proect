@@ -27,6 +27,7 @@ export const IncomeReport = () => {
   const addtable = useSelector((state) => state.oderReducer.addtable);
 
   const [sumAccount, setSumAccount] = useState(null);
+  const [extraPay, setExtraPay] = useState(null);
   const [customerDebt, setCustomerDebt] = useState(null);
   const [driverDebt, setDriverDebt] = useState(null);
   const [currentTax, setCurrentTax] = useState(null);
@@ -45,6 +46,7 @@ export const IncomeReport = () => {
       (s, item) => s + Number(item.extraPayments),
       0
     );
+    setExtraPay(addSum);
     let sum =
       Math.floor((Number(income) - Number(expenses) + addSum + 0.0) * 100) /
       100;
@@ -68,10 +70,10 @@ export const IncomeReport = () => {
         driverDebt = driverDebt + Number(elem.driverPrice);
       }
     });
-    setCustomerDebt(customerDebt);
+    setCustomerDebt(customerDebt - Number(extraPay));
     setDriverDebt(driverDebt);
     console.log(yearconst);
-  }, [ordersList]);
+  }, [ordersList, extraPay]);
   useEffect(() => {
     let dateBegin = new Date(new Date().getFullYear(), 0, 1);
     let dateEnd = new Date();
