@@ -699,6 +699,7 @@ var Tasks = {
     let dataById = {};
     try {
       let [data] = await db.query(`select * FROM ${table} WHERE _id=${id}`);
+      dataById.order = data[0];
       dataById.date = data[0].date;
       dataById.accountNumber = data[0].accountNumber;
       [dataById.customer] = await db.query(

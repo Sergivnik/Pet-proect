@@ -724,22 +724,26 @@ module.exports.taskSendEmail = (req, res) => {
 
       main()
         .then(() => {
-          tasks.edit(
-            {
-              field: "customerPayment",
-              newValue: 3,
-              id: Number(req.params.id),
-            },
-            (data) => {
-              if (data.error) {
-                res.status(500);
-                res.json({ message: data.error });
-              } else {
-                console.log("Ok");
-                res.json(data);
+          if (data.order.customerPayment != "Ок") {
+            tasks.edit(
+              {
+                field: "customerPayment",
+                newValue: 3,
+                id: Number(req.params.id),
+              },
+              (data) => {
+                console.log(data);
+                if (data.error) {
+                  res.status(500);
+                  res.json({ message: data.error });
+                } else {
+                  res.json(data);
+                }
               }
-            }
-          );
+            );
+          } else {
+            res.json("success!");
+          }
         })
         .catch(console.error);
     }
