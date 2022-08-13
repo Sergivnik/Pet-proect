@@ -3,7 +3,7 @@ const options = require("./config.js");
 
 var TasksPayments = {
   list: async function (callback) {
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let [data] = await db.query(
         "SELECT * FROM customerpayment order by date"
@@ -15,7 +15,7 @@ var TasksPayments = {
     db.end();
   },
   taskDeletePayments: async function (id, callback) {
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let sum = 0;
       let [PaymentsData] = await db.query(

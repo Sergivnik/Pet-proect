@@ -4,7 +4,7 @@ const options = require("./config.js");
 let TasksDada = {
   editData: async function (newData, callback) {
     console.log(newData);
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       await db.query(`UPDATE ${newData.editTable} SET ? WHERE _id=?`, [
         newData.newData,
@@ -19,7 +19,7 @@ let TasksDada = {
   },
   addData: async function (newData, callback) {
     console.log(newData);
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let [data] = await db.query(
         `INSERT INTO ${newData.editTable} SET ?`,
@@ -34,7 +34,7 @@ let TasksDada = {
   delData: async function (id, editTable, callback) {
     console.log(id, editTable);
     let check = 0;
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     switch (editTable) {
       case "drivers":
         try {

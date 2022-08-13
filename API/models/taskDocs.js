@@ -9,7 +9,7 @@ var TaskDocs = {
       if (docNumber < 1000 && docNumber > 99) docNumber = "0" + docNumber;
       if (docNumber < 10000 && docNumber > 999) docNumber = "" + docNumber;
     }
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       for (const id of listId) {
         await db.query(

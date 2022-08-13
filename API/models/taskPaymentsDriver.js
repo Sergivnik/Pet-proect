@@ -18,7 +18,7 @@ var TaskPaymentsDriver = {
       sumOfDebts: sumChosenDebts,
       listOfDebts: listOfDebts,
     };
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     console.log(paymentString);
     try {
       let check = true;

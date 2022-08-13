@@ -7,6 +7,7 @@ var tasksData = require("../models/tasksData.js");
 var tacksDocs = require("../models/taskDocs.js");
 var taskReports = require("../models/taskReports.js");
 var tasksAddData = require("../models/tasksAddData.js");
+var tasksUser = require("../models/taskUser.js");
 const puppeteer = require("puppeteer");
 var fs = require("fs");
 
@@ -651,7 +652,7 @@ module.exports.taskAddConsignmentNote = (req, res) => {
 module.exports.taskSendEmail = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   console.log(req.params);
-  const configEmail = require("../models/configEmail.js");
+  const configEmail = require("../models/config.js");
   tasks.getDataById(req.params.id, "oderslist", (data) => {
     if (data.error) {
       res.status(500);
@@ -687,7 +688,7 @@ module.exports.taskSendEmail = (req, res) => {
       console.log(email);
       async function main() {
         // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport(configEmail);
+        let transporter = nodemailer.createTransport(configEmail.email);
 
         // send mail with defined transport object
         let attachmentFiles = [
@@ -752,6 +753,17 @@ module.exports.taskSendEmail = (req, res) => {
 module.exports.taskSendReportEmail = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   taskReports.sendEmail(req.params.email, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
+module.exports.taskAddNewUser = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  tasksUser.addNewUser(req.body.body, (data) => {
     if (data.error) {
       res.status(500);
       res.json({ message: data.error });

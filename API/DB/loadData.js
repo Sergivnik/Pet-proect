@@ -11,7 +11,7 @@ var LoadData = {
     let i = 0;
     const getDATA = async function (callback) {
       let allData = {};
-      const db = mysql.createPool(options).promise();
+      const db = mysql.createPool(options.sql).promise();
       try {
         let [data] = await db.query("SELECT * FROM cities");
         allData.citieslist = data;
@@ -29,7 +29,7 @@ var LoadData = {
     getDATA((datalists) => {
       console.log(datalists);
       let oder = {};
-      const db = mysql.createPool(options).promise();
+      const db = mysql.createPool(options.sql).promise();
       (async () => {
         for (const elem of xlData) {
           i = elem.id;
@@ -145,7 +145,7 @@ var LoadData = {
     console.log(xlData);
     let i = 1;
     let city;
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       for (const elem of xlData) {
         console.log(elem.загрузки);
@@ -165,7 +165,7 @@ var LoadData = {
     console.log(xlData);
     let i = 1;
     let driver;
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       for (const elem of xlData) {
         console.log(elem.Колдун);
@@ -185,7 +185,7 @@ var LoadData = {
     console.log(xlData);
     let i = 1;
     let customer;
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       for (const elem of xlData) {
         console.log(elem.Заказчик);
@@ -204,7 +204,7 @@ var LoadData = {
     var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[6]]);
     console.log(xlData);
     let i = 1;
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       for (const elem of xlData) {
         let dateEx = new Date(1900, 0, 1);
@@ -265,7 +265,7 @@ var LoadData = {
     var sheet_name_list = workbook.SheetNames;
     var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[7]]);
     let i = 1;
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       for (const elem of xlData) {
         console.log(elem);

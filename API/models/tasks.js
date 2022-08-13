@@ -10,7 +10,7 @@ const dateToSqlString = (dateSomeFormate) => {
 var Tasks = {
   list: async function (callback) {
     let allData = {};
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let [data] = await db.query("SELECT DISTINCT date FROM oderslist");
       allData.date = data;
@@ -265,7 +265,7 @@ var Tasks = {
       }
     });
 
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       if (filterDate) {
         [data] = await db.query(
@@ -426,7 +426,7 @@ var Tasks = {
     };
     if (oder.customerPrice === "") oder.customerPrice = null;
     if (oder.driverPrice === "") oder.driverPrice = null;
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let [data] = await db.query("INSERT INTO oderslist SET ?", oder);
       addData.orderId = data.insertId;
@@ -477,7 +477,7 @@ var Tasks = {
       };
     }
 
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       await db.query(`UPDATE oderslist SET ? WHERE _id=?`, [newData, data._id]);
       if (data.colorTR == "hotpink") {
@@ -578,7 +578,7 @@ var Tasks = {
       default:
         break;
     }
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let [data] = await db.query(`UPDATE oderslist SET ? WHERE _id=?`, [
         change,
@@ -607,7 +607,7 @@ var Tasks = {
         idList = idList + "," + elem.id;
       }
     });
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
 
     try {
       let [dataelem] = await db.query(
@@ -695,7 +695,7 @@ var Tasks = {
   },
 
   getDataById: async function (id, table, callback) {
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     let dataById = {};
     try {
       let [data] = await db.query(`select * FROM ${table} WHERE _id=${id}`);
@@ -721,7 +721,7 @@ var Tasks = {
     db.end();
   },
   del: async function (id, callback) {
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let [data] = await db.query(`SELECT * FROM oderslist WHERE _id=${id}`);
       await db.query(`DELETE FROM oderslist WHERE _id=${id}`);

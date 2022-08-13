@@ -1,7 +1,7 @@
 const mysql = require("mysql2");
 const Mail = require("nodemailer/lib/mailer");
 const options = require("./config.js");
-const email = require("./configEmail.js");
+//const email = require("./configEmail.js");
 
 let TasksReports = {
   reconciliation: async function (data, callBack) {
@@ -19,7 +19,7 @@ let TasksReports = {
     }
     let dateBegin = data.dateBegin.slice(0, 10);
     console.log(dateBegin);
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let [dataPayment] = await db.query(
         `SELECT * FROM ${tableName} where ${idFilter} and date>="${dateBegin}"`
@@ -78,11 +78,11 @@ let TasksReports = {
   },
   sendEmail: async (email, callBack) => {
     console.log("send report to Email");
-    const configEmail = require("../models/configEmail.js");
+    const configEmail = require("../models/config.js");
     const nodemailer = require("nodemailer");
     try {
       async function main() {
-        let transporter = nodemailer.createTransport(configEmail);
+        let transporter = nodemailer.createTransport(configEmail.email);
         let attachmentFiles = [
           {
             path: `./API/Bills/tempDoc.pdf`,

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { authSignUp } from "../../actions/auth";
 import "./auth.sass";
 
 export const Auth = () => {
+  const dispatch = useDispatch();
+
   const [btnName, setBtnName] = useState("Вход");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +39,9 @@ export const Auth = () => {
     setPassword(e.currentTarget.value);
   };
   const handleClickBtn = () => {
-    console.log("login ", login, " password ", password);
+    if (btnName === "Зарегистрироваться") {
+      dispatch(authSignUp({ login: login, password: password }));
+    }
   };
   return (
     <div className="authContainer">

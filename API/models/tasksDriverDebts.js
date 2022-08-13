@@ -3,7 +3,7 @@ const options = require("./config.js");
 
 var TaskDebts = {
   list: async function (callback) {
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let [data] = await db.query("SELECT * FROM driverdebts order by date");
       callback(data);
@@ -21,7 +21,7 @@ var TaskDebts = {
       debtClosed: data.idDebtClosed,
       addInfo: data.addInfo,
     };
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       let [debtData] = await db.query("INSERT INTO driverdebts SET ?", debt);
       console.log(debtData.insertId);
@@ -35,7 +35,7 @@ var TaskDebts = {
     console.log(
       `UPDATE driverdebts SET ${data.editField}=${data.newValue} WHERE id=${data.id}`
     );
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       await db.query(
         `UPDATE driverdebts SET ${data.editField}="${data.newValue}" WHERE id=${data.id}`
@@ -48,7 +48,7 @@ var TaskDebts = {
   },
   del: async function (id, callback) {
     console.log(id);
-    const db = mysql.createPool(options).promise();
+    const db = mysql.createPool(options.sql).promise();
     try {
       await db.query(`DELETE FROM driverdebts WHERE id=${id}`);
       callback("success");
