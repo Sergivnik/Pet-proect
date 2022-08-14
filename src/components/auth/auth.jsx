@@ -9,6 +9,7 @@ export const Auth = () => {
   const [btnName, setBtnName] = useState("Вход");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const handleClickSignIn = (e) => {
     let div = e.currentTarget;
@@ -38,9 +39,12 @@ export const Auth = () => {
   const handleChangePassword = (e) => {
     setPassword(e.currentTarget.value);
   };
+  const handleChangeName = (e) => {
+    setName(e.currentTarget.value);
+  };
   const handleClickBtn = () => {
     if (btnName === "Зарегистрироваться") {
-      dispatch(authSignUp({ login: login, password: password }));
+      dispatch(authSignUp({ login: login, password: password, name: name }));
     }
     if (btnName === "Вход") {
       dispatch(authSignIn({ login: login, password: password }));
@@ -76,6 +80,17 @@ export const Auth = () => {
               onChange={handleChangePassword}
             />
           </label>
+          {btnName == "Зарегистрироваться" && (
+            <label className="authLabel">
+              <span className="authSpan">Имя</span>
+              <input
+                className="authInput"
+                type="text"
+                value={name}
+                onChange={handleChangeName}
+              />
+            </label>
+          )}
         </main>
         <footer className="authFooter">
           <button onClick={handleClickBtn}>{btnName}</button>

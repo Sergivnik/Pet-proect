@@ -5,3 +5,5 @@ package-lock.json
 /API/models/configEmail.js
 API/documents/img/stamp1.png
 API/models/bcryptjs.js
+API/public/main.bundle.js
+API/public/main.bundle.js.map

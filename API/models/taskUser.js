@@ -10,6 +10,7 @@ let TasksUser = {
     let user = {
       login: data.login,
       password: password,
+      name: data.name,
     };
     try {
       await db.query("INSERT INTO users SET ?", user);
