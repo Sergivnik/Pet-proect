@@ -42,4 +42,5 @@ export const initialStore = {
   storeList: [],
   incomereport: [],
   yearconst: {},
+  checkUser: false,
 };

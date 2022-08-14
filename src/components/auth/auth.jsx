@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { authSignUp } from "../../actions/auth";
+import { authSignIn, authSignUp } from "../../actions/auth";
 import "./auth.sass";
 
 export const Auth = () => {
@@ -41,6 +41,9 @@ export const Auth = () => {
   const handleClickBtn = () => {
     if (btnName === "Зарегистрироваться") {
       dispatch(authSignUp({ login: login, password: password }));
+    }
+    if (btnName === "Вход") {
+      dispatch(authSignIn({ login: login, password: password }));
     }
   };
   return (

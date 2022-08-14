@@ -8,15 +8,15 @@ import { useSelector } from "react-redux";
 
 export const Router = () => {
   const [checkLogIn, setCheckLogIn] = useState(false);
-  const test = useSelector((state) => state.oderReducer.yearconst);
-  console.log(test);
+  const checkUser = useSelector((state) => state.oderReducer.checkUser);
+  console.log(checkUser);
   return (
     <Switch>
       <Route exact path="/" component={App}></Route>
       <Route
         exact
         path="/something"
-        component={test.lastyeartxdebt ? SomeComponent : Auth}
+        component={checkUser ? SomeComponent : Auth}
       ></Route>
       <Route exact path="/oders" component={Oders}></Route>
       <Route exact path="/auth" component={Auth}></Route>

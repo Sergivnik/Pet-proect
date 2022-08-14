@@ -20,5 +20,21 @@ let TasksUser = {
     }
     db.end();
   },
+  checkUser: async (data, callback) => {
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      let user = await db.query(
+        `SELECT * FROM users WHERE login="${data.login}"`
+      );
+      user = user[0];
+      if (user.length > 0) {
+        let check = bcryptjs.compareSync(data.password, user[0].password);
+        callback(check);
+      }
+    } catch (err) {
+      callback({ error: err });
+    }
+    db.end();
+  },
 };
 module.exports = TasksUser;

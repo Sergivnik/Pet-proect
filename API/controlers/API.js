@@ -772,3 +772,17 @@ module.exports.taskAddNewUser = (req, res) => {
     }
   });
 };
+module.exports.taskCheckUser = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  tasksUser.checkUser(req.body, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      if (data) {
+        req.session.username = req.body.login;
+      }
+      res.json(data);
+    }
+  });
+};

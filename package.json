@@ -43,6 +43,7 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "easy-pdf-merge": "^0.2.6",
+    "express-mysql-session": "^2.1.8",
     "express-session": "^1.17.3",
     "file-saver": "^2.0.5",
     "html-pdf": "^2.2.0",
