@@ -4,11 +4,12 @@ import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { addData, editData, delData } from "../../actions/editDataAction.js";
 
 import "./editData.sass";
+import { SpanWithText } from "../myLib/mySpan/spanWithText.jsx";
 
 export const PointsTable = () => {
   const dispatch = useDispatch();
   const citieslistFull = useSelector((state) => state.oderReducer.citieslist);
-  const storeList = useSelector((state) => state.oderReducer.storeList);
+  const storelist = useSelector((state) => state.oderReducer.storelist);
 
   const [citieslist, setCitieslist] = useState(citieslistFull);
   const [chosenPoint, setChosenPoint] = useState(null);
@@ -18,8 +19,9 @@ export const PointsTable = () => {
   const [showAddTr, setShowAddTr] = useState(false);
   const [addPointObj, setAddPointObj] = useState({});
   const [showStoreList, setShowStoreList] = useState(false);
-  const [storeListFiltered, setStoreListFiltered] = useState(storeList);
+  const [storeListFiltered, setStoreListFiltered] = useState(storelist);
   const [city, setCity] = useState("");
+  const [currentStore, setCurrentStore] = useState(null);
 
   const setValue = (data) => {
     let arr = citieslistFull.filter((elem) => elem._id == data._id);
@@ -27,7 +29,7 @@ export const PointsTable = () => {
     setChosenPoint(data._id);
     setCity(data.value);
     setShowStoreList(true);
-    let arrStore = storeList.filter((elem) => elem.idCity == data._id);
+    let arrStore = storelist.filter((elem) => elem.idCity == data._id);
     setStoreListFiltered(arrStore);
   };
   const handleClickTr = (id) => {
@@ -110,6 +112,14 @@ export const PointsTable = () => {
   const handleClickReset = () => {
     setCitieslist(citieslistFull);
     setShowStoreList(false);
+  };
+  const handleClickStore = (elem) => {
+    setCurrentStore(elem);
+  };
+  const getEditText = (text, name) => {
+    let obj = { ...currentStore };
+    obj[name] = text;
+    dispatch(editData(obj, "storelist"));
   };
 
   useEffect(() => {
@@ -252,10 +262,25 @@ export const PointsTable = () => {
             <tbody>
               {storeListFiltered.map((elem) => {
                 return (
-                  <tr>
-                    <td className="storeTd">{elem.value}</td>
+                  <tr
+                    key={`store${elem._id}`}
+                    onClick={() => handleClickStore(elem)}
+                  >
+                    <td className="storeTd">
+                      <SpanWithText
+                        name="value"
+                        text={elem.value}
+                        getText={getEditText}
+                      />
+                    </td>
                     <td className="storeTd">{city}</td>
-                    <td className="storeTd">{elem.address}</td>
+                    <td className="storeTd">
+                      <SpanWithText
+                        name="address"
+                        text={elem.address}
+                        getText={getEditText}
+                      />
+                    </td>
                   </tr>
                 );
               })}

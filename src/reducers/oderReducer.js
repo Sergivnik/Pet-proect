@@ -473,7 +473,7 @@ export const oderReducer = (store = initialStore, action) => {
         expenses: action.dataServer.expenses,
         customerWithoutPayment: action.dataServer.customerWithoutPayment,
         addtable: action.dataServer.addtable,
-        storeList: action.dataServer.storeList,
+        storelist: action.dataServer.storelist,
         driverpayments: action.dataServer.driverpayments,
         contractorsPayments: action.dataServer.contractorspayments,
         customerPaymentsList: action.dataServer.customerpayment,
@@ -792,6 +792,12 @@ export const oderReducer = (store = initialStore, action) => {
           arr[index] = action.newData;
           return { ...store, [action.editTable]: arr };
         }
+        case "storelist": {
+          let arr = [...store[action.editTable]];
+          let index = arr.findIndex((elem) => elem._id == action.newData._id);
+          arr[index] = action.newData;
+          return { ...store, [action.editTable]: arr };
+        }
         default:
           break;
       }
@@ -829,10 +835,10 @@ export const oderReducer = (store = initialStore, action) => {
           arrManagers.push(action.data);
           return { ...store, clientmanager: arrManagers };
         case "storelist":
-          let [...arrStories] = store.storeList;
+          let [...arrStories] = store.storelist;
           action.data._id = action.dataServer.insertId;
           arrStories.push(action.data);
-          return { ...store, storeList: arrStories };
+          return { ...store, storelist: arrStories };
         case "incomereport": {
           let arr = [...store[action.editTable]];
           action.data._id = action.dataServer.insertId;

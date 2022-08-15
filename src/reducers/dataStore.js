@@ -39,7 +39,7 @@ export const initialStore = {
   clientmanager: [],
   message: null,
   addtable: [],
-  storeList: [],
+  storelist: [],
   incomereport: [],
   yearconst: {},
   checkUser: false,

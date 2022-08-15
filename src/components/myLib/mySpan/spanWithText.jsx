@@ -21,14 +21,12 @@ export const SpanWithText = (props) => {
   }, [showInput]);
 
   const handleChange = (e) => {
-    console.log(e);
     setText(e.currentTarget.value);
   };
   const handleDblClick = () => {
     setShowInput(true);
   };
   const handleEnter = (e) => {
-    console.log(e.key);
     if (e.key == "Enter") {
       props.getText(text, name);
       setShowInput(false);
