@@ -27,6 +27,7 @@ export const SpecialTableHeaderTr = (props) => {
         getFilteredList={props.getFilteredList}
       />
       <td className="specialTableHeaderTd">Счет</td>
+      <td className="specialTableHeaderTd">Дата рейса</td>
       <FilterTdList
         name="customerPayment"
         title="Оплата заказа"
