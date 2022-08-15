@@ -8,6 +8,7 @@ import "./editData.sass";
 export const PointsTable = () => {
   const dispatch = useDispatch();
   const citieslistFull = useSelector((state) => state.oderReducer.citieslist);
+  const storeList = useSelector((state) => state.oderReducer.storeList);
 
   const [citieslist, setCitieslist] = useState(citieslistFull);
   const [chosenPoint, setChosenPoint] = useState(null);
@@ -16,11 +17,18 @@ export const PointsTable = () => {
   const [currentElement, setCurrentElement] = useState(null);
   const [showAddTr, setShowAddTr] = useState(false);
   const [addPointObj, setAddPointObj] = useState({});
+  const [showStoreList, setShowStoreList] = useState(false);
+  const [storeListFiltered, setStoreListFiltered] = useState(storeList);
+  const [city, setCity] = useState("");
 
   const setValue = (data) => {
     let arr = citieslistFull.filter((elem) => elem._id == data._id);
     setCitieslist(arr);
     setChosenPoint(data._id);
+    setCity(data.value);
+    setShowStoreList(true);
+    let arrStore = storeList.filter((elem) => elem.idCity == data._id);
+    setStoreListFiltered(arrStore);
   };
   const handleClickTr = (id) => {
     setChosenId(id);
@@ -99,6 +107,10 @@ export const PointsTable = () => {
       }
     }
   };
+  const handleClickReset = () => {
+    setCitieslist(citieslistFull);
+    setShowStoreList(false);
+  };
 
   useEffect(() => {
     if (chosenPoint != null) {
@@ -133,6 +145,9 @@ export const PointsTable = () => {
             setValue={setValue}
           />
         </div>
+        <button className="pointAddBtn" onClick={handleClickReset}>
+          Сброс
+        </button>
         <button className="pointAddBtn" onClick={handleClickAdd}>
           Добавить
         </button>
@@ -225,6 +240,28 @@ export const PointsTable = () => {
             )}
           </tbody>
         </table>
+        {showStoreList && (
+          <table className="storeTable">
+            <thead>
+              <tr>
+                <td className="storeTd">Склад</td>
+                <td className="storeTd">Город</td>
+                <td className="storeTd">Адрес</td>
+              </tr>
+            </thead>
+            <tbody>
+              {storeListFiltered.map((elem) => {
+                return (
+                  <tr>
+                    <td className="storeTd">{elem.value}</td>
+                    <td className="storeTd">{city}</td>
+                    <td className="storeTd">{elem.address}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
       </div>
     </>
   );
