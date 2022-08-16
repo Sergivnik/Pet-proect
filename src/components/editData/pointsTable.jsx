@@ -267,19 +267,23 @@ export const PointsTable = () => {
                     onClick={() => handleClickStore(elem)}
                   >
                     <td className="storeTd">
-                      <SpanWithText
-                        name="value"
-                        text={elem.value}
-                        getText={getEditText}
-                      />
+                      <div className="containerSpan">
+                        <SpanWithText
+                          name="value"
+                          text={elem.value}
+                          getText={getEditText}
+                        />
+                      </div>
                     </td>
                     <td className="storeTd">{city}</td>
                     <td className="storeTd">
-                      <SpanWithText
-                        name="address"
-                        text={elem.address}
-                        getText={getEditText}
-                      />
+                      <div className="containerSpan">
+                        <SpanWithText
+                          name="address"
+                          text={elem.address}
+                          getText={getEditText}
+                        />
+                      </div>
                     </td>
                   </tr>
                 );
