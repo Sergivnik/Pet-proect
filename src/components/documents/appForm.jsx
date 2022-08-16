@@ -22,7 +22,7 @@ export const AppForm = (props) => {
   const trackDriversList = useSelector(
     (state) => state.oderReducer.trackdrivers
   );
-  const storeList = useSelector((state) => state.oderReducer.storeList);
+  const storelist = useSelector((state) => state.oderReducer.storelist);
 
   const order = odersList.find(
     (elem) => elem._id == props.dataDoc.odersListId[props.id - 1]
@@ -59,7 +59,7 @@ export const AppForm = (props) => {
   const [checked2, setChecked2] = useState(false);
   const [showAddStore, setShowAddStore] = useState(false);
   const [newStore, setNewStore] = useState({});
-  const [storeFilterList, setStoreFilterList] = useState(storeList);
+  const [storeFilterList, setStoreFilterList] = useState(storelist);
   const [managerShortList, setManagerShortList] = useState(managerList);
   const [clientEdit, setClientEdit] = useState(client);
   const [trackDriverEdit, setTrackDriverEdit] = useState();
@@ -132,11 +132,11 @@ export const AppForm = (props) => {
   }, []);
   useEffect(() => {
     setStoreFilterList(
-      storeList.filter(
+      storelist.filter(
         (elem) => elem.idCity == order.idLoadingPoint[currentIndex]
       )
     );
-  }, [storeList]);
+  }, [storelist]);
   useEffect(() => {
     let arr = managerList.filter((elem) => elem.odersId == editData.customerId);
     if (arr.length > 0) setManagerShortList(arr);
@@ -159,7 +159,7 @@ export const AppForm = (props) => {
     setShowEditWindow(true);
     let arr = [];
     if (name == "loadingPoint") {
-      arr = storeList.filter(
+      arr = storelist.filter(
         (elem) => elem.idCity == order.idLoadingPoint[index]
       );
       let date = new Date(editData.loadingData[index].date);
@@ -169,7 +169,7 @@ export const AppForm = (props) => {
       setCurrentDate(dateStr);
     }
     if (name == "unLoadingPoint") {
-      arr = storeList.filter(
+      arr = storelist.filter(
         (elem) => elem.idCity == order.idUnloadingPoint[index]
       );
       let date = new Date(editData.unLoadingData[index].date);
@@ -183,7 +183,7 @@ export const AppForm = (props) => {
     setCurrentPoint(name);
   };
   const handleClickRadio = (e) => {
-    if (e.currentTarget.value == "storeList") {
+    if (e.currentTarget.value == "storelist") {
       setShowChoiseList(true);
       setChecked1(true);
       setChecked2(false);
@@ -195,7 +195,7 @@ export const AppForm = (props) => {
   };
   const setValue = (data) => {
     let obj = { ...editData };
-    let store = storeList.find((elem) => elem._id == data._id);
+    let store = storelist.find((elem) => elem._id == data._id);
     if (currentPoint == "loadingPoint") {
       obj.loadingData[currentIndex].text =
         obj.loadingData[currentIndex].point + " " + store.address;
@@ -667,7 +667,7 @@ export const AppForm = (props) => {
             <input
               type="radio"
               name="wayToGetAddress"
-              value="storeList"
+              value="storelist"
               checked={checked1}
               onChange={handleClickRadio}
             />
