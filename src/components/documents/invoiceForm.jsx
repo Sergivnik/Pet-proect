@@ -294,7 +294,7 @@ export const InvoiceForm = (props) => {
                   elem={elem}
                   index={index}
                   getStrText={props.getStrText}
-                  strObj={props.strObj}
+                  strObj={props.strObj[index]}
                   addData={props.addData}
                 />
               );

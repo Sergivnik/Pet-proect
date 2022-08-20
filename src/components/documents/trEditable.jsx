@@ -12,10 +12,7 @@ export const TrEditable = (props) => {
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const driver = useSelector((state) => state.oderReducer.trackdrivers);
   const track = useSelector((state) => state.oderReducer.tracklist);
-  const customerContract = findValueBy_Id(
-    elem.idCustomer,
-    clientList
-  ).contract;
+  const customerContract = findValueBy_Id(elem.idCustomer, clientList).contract;
 
   const [showInputRoute, setshowInputRoute] = useState(false);
   const [showInputNumber, setShowInputNumber] = useState(false);
@@ -58,7 +55,7 @@ export const TrEditable = (props) => {
     if (e.keyCode == 13) {
       setshowInputRoute(false);
       setShowInputNumber(false);
-      props.getStrText(strOder);
+      props.getStrText(strOder, index);
     }
   };
   useEffect(() => {

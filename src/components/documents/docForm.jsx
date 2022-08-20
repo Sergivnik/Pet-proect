@@ -38,7 +38,7 @@ export const DocForm = (props) => {
   const [showApplication, setShowApplication] = useState(false);
   const [id, setId] = useState(null);
   const [currentApplication, setCurrentApplication] = useState(null);
-  const [strObj, setStrObj] = useState(null);
+  const [strObj, setStrObj] = useState([null]);
   const [addStrObj, setAddStrObj] = useState(null);
   const [showAddStr, setShowAddStr] = useState(false);
   const [addData, setAddData] = useState({
@@ -139,8 +139,11 @@ export const DocForm = (props) => {
       }
     }
   };
-  const getStrText = (obj) => {
-    setStrObj(obj);
+  const getStrText = (obj, index) => {
+    console.log(obj, index);
+    let arrObj = [...strObj];
+    arrObj[index] = obj;
+    setStrObj(arrObj);
   };
   const handleClickBtnAdd = () => {
     setShowAddStr(!showAddStr);
