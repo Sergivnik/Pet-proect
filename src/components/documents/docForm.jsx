@@ -16,7 +16,7 @@ import "./billsForm.sass";
 export const DocForm = (props) => {
   const dispatch = useDispatch();
 
-  const odersList = useSelector((state) => state.oderReducer.odersList);
+  const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const oders = props.dataDoc.odersListId.map((id) =>
     odersList.find((elem) => elem._id == id)

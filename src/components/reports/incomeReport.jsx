@@ -10,7 +10,7 @@ export const IncomeReport = () => {
   const dispatch = useDispatch();
 
   const incomereport = useSelector((state) => state.oderReducer.incomereport);
-  const ordersList = useSelector((state) => state.oderReducer.odersList);
+  const ordersList = useSelector((state) => state.oderReducer.originOdersList);
   const yearconst = useSelector((state) => state.oderReducer.yearconst);
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const income = useSelector((state) => state.oderReducer.income);

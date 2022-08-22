@@ -14,7 +14,7 @@ import { SpanWithDate } from "../myLib/mySpan/spanWithDate.jsx";
 export const AppForm = (props) => {
   const dispatch = useDispatch();
 
-  const odersList = useSelector((state) => state.oderReducer.odersList);
+  const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const managerList = useSelector((state) => state.oderReducer.clientmanager);
   const citiesList = useSelector((state) => state.oderReducer.citieslist);

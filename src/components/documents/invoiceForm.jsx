@@ -8,7 +8,7 @@ import { AddTr } from "./addTr.jsx";
 import "./billsForm.sass";
 
 export const InvoiceForm = (props) => {
-  const odersList = useSelector((state) => state.oderReducer.odersList);
+  const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const clientList = useSelector((state) => state.oderReducer.clientList);
 
   const oders = props.dataDoc.odersListId.map((id) =>

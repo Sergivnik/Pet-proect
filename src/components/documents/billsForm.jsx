@@ -13,7 +13,7 @@ import "./billsForm.sass";
 import { DocForm } from "./docForm.jsx";
 
 export const BillsForm = () => {
-  const odersList = useSelector((state) => state.oderReducer.odersList);
+  const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const notBilledList = odersList.filter(
     (elem) => elem.accountNumber == null || elem.accountNumber == ""
   );

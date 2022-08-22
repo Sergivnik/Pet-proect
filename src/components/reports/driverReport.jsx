@@ -10,7 +10,7 @@ import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
 import "./reports.sass";
 
 export const DriverReport = () => {
-  const fullOrderList = useSelector((state) => state.oderReducer.odersList);
+  const fullOrderList = useSelector((state) => state.oderReducer.originOdersList);
   const driversList = useSelector((state) => state.oderReducer.driverlist);
   const trackDriverList = useSelector(
     (state) => state.oderReducer.trackdrivers

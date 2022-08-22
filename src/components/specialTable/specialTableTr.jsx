@@ -9,7 +9,7 @@ export const SpecialTableTr = (props) => {
   const dispatch = useDispatch();
   const elem = props.elem;
   const customers = useSelector((state) => state.oderReducer.clientList);
-  const odersList = useSelector((state) => state.oderReducer.odersList);
+  const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const orderPrice = findValueBy_Id(elem.orderId, odersList).customerPrice;
 
   const sum =
