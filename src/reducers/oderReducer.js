@@ -930,7 +930,7 @@ export const oderReducer = (store = initialStore, action) => {
         let index = arr.findIndex((elem) => elem._id == id);
         arr[index].accountNumber = docNumber;
       });
-      return { ...store, odersList: arr };
+      return { ...store, odersList: arr, originOdersList: arr };
     }
     case SEND_EMAIL_SUCCESS: {
       let index = store.odersList.findIndex(
