@@ -83,6 +83,7 @@ export const oderReducer = (store = initialStore, action) => {
               unloadingInfo: action.data.unloadingInfo,
               completed: action.data.completed,
               colorTR: action.data.colorTR,
+              applicationNumber: action.data.applicationNumber,
             },
           },
         },

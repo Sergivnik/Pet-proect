@@ -400,6 +400,7 @@ var Tasks = {
     db.end();
   },
   add: async function (data, callback) {
+    console.log(data);
     data = JSON.parse(data);
     let oder = {
       date: data.date,
