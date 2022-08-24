@@ -12,15 +12,21 @@ import { TdDocument } from "../userTd/tdDocument.jsx";
 import { TdCustomerPayment } from "../userTd/tdCustomerPayment.jsx";
 import { TdDriverPayment } from "../userTd/tdDriverPayment.jsx";
 import { TdAccountNumber } from "../userTd/tdAccountNumber.jsx";
+import { DocForm } from "../documents/docForm.jsx";
 
 export const UserTr = (props) => {
   const [showEdit, setShowEdit] = useState(true);
+  const [showDocForm, setShowDocForm] = useState(false);
 
   const handleClickEdit = () => {
     setShowEdit(false);
   };
-  const handleClickSave = () => {
+  const handleClickSave = (isChanged) => {
     setShowEdit(true);
+    if (isChanged) setShowDocForm(true);
+  };
+  const handleClickClose = () => {
+    setShowDocForm(false);
   };
   const trGetId = () => {
     props.getCurrentTR(props.elem._id);
@@ -163,6 +169,17 @@ export const UserTr = (props) => {
             </button>
           </td>
         </tr>
+      )}
+      {showDocForm && (
+        <div className="orderDivDocForm">
+          <DocForm
+            dataDoc={{
+              number: props.elem.accountNumber,
+              odersListId: [props.elem._id],
+            }}
+            handleClickClose={handleClickClose}
+          />
+        </div>
       )}
     </>
   );

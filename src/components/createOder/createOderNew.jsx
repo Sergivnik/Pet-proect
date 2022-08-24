@@ -360,8 +360,28 @@ export const CreateOderNew = (props) => {
         props.addOder();
       }
       if (btnName == "Сохранить") {
+        let isChanged = false;
+        for (let key in props.elem) {
+          if (
+            key != "idLoadingPoint" ||
+            key != "idUnloadingPoint" ||
+            key != "loadingInfo" ||
+            key != "unloadingInfo"
+          ) {
+            if (props.elem[key] != odersData[key]) isChanged = true;
+          } else {
+            props.elem[key].forEach((elem, index) => {
+              if (elem != odersData[key][index]) isChanged = true;
+            });
+          }
+        }
+        if (isChanged && props.elem.accountNumber != null) {
+          isChanged = confirm(
+            "Заказ изменен, необходимо перевыставить счет?"
+          );
+        }
         dispatch(editOderNew(odersData));
-        props.clickSave();
+        props.clickSave(isChanged);
       }
     }
   };
