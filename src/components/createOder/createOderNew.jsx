@@ -6,6 +6,7 @@ import { addOder, editOderNew } from "../../actions/oderActions.js";
 import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
 import "./createOder.sass";
 import { InputText } from "../myLib/inputText.jsx";
+import e from "cors";
 
 export const CreateOderNew = (props) => {
   const driverlist = useSelector((state) => state.oderReducer.driverlist);
@@ -376,9 +377,9 @@ export const CreateOderNew = (props) => {
           }
         }
         if (isChanged && props.elem.accountNumber != null) {
-          isChanged = confirm(
-            "Заказ изменен, необходимо перевыставить счет?"
-          );
+          isChanged = confirm("Заказ изменен, необходимо перевыставить счет?");
+        } else {
+          isChanged = false;
         }
         dispatch(editOderNew(odersData));
         props.clickSave(isChanged);
@@ -395,7 +396,12 @@ export const CreateOderNew = (props) => {
 
   return (
     <div className={mainDivStyle} id="createOrderDiv">
-      <h4 className="crOderCustomerHeader">Информация о заказе</h4>
+      <h4 className="crOderCustomerHeader">
+        Информация о заказе{" "}
+        {props.elem != undefined && props.elem.accountNumber
+          ? props.elem.accountNumber
+          : null}
+      </h4>
       <div className="crOderCustomDiv">
         <div className="crOderDate">
           <h4 className="crOderCustomHeader">Дата</h4>
