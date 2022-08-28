@@ -501,7 +501,7 @@ var Tasks = {
     }
     db.end();
   },
-  edit: async function (newdata, callback) {
+  edit: async function (newdata, userId, callback) {
     switch (newdata.field) {
       case "date":
         change = { date: newdata.newValue };
@@ -581,13 +581,21 @@ var Tasks = {
     }
     const db = mysql.createPool(options.sql).promise();
     try {
-      let [data] = await db.query(`UPDATE oderslist SET ? WHERE _id=?`, [
-        change,
-        newdata.id,
-      ]);
-      callback(data);
+      let [userRole] = await db.query(
+        `SELECT * FROM users WHERE _id=${userId}`
+      );
+      console.log(userRole[0]);
+      if (userRole[0].role == "admin") {
+        let [data] = await db.query(`UPDATE oderslist SET ? WHERE _id=?`, [
+          change,
+          newdata.id,
+        ]);
+        callback(data);
+      } else {
+        callback({ error: "badRole" });
+      }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       callback({ error: err });
     }
     db.end();

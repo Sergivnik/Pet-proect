@@ -3,7 +3,7 @@ import { initialStore } from "./dataStore.js";
 import {
   ADD_ODER_SUCCESS,
   DEL_ODER,
-  EDIT_ODER,
+  EDIT_ODER_SUCCESS,
   EDIT_ODER_NEW_SUCCESS,
   EDIT_ODER_NEW_FAILURE,
   SET_PROXY,
@@ -121,7 +121,7 @@ export const oderReducer = (store = initialStore, action) => {
           },
         });
     }
-    case EDIT_ODER: {
+    case EDIT_ODER_SUCCESS: {
       let index = store.odersList.findIndex((item) => item._id == action.id);
       let originIndex = store.originOdersList.findIndex(
         (item) => item._id == action.id
@@ -279,6 +279,7 @@ export const oderReducer = (store = initialStore, action) => {
           $merge: { [originIndex]: newOder },
         },
         income: { $set: newIncome },
+        request: { $set: { status: "SUCCESS", error: null } },
       });
     }
 

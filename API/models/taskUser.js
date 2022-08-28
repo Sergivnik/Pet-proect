@@ -30,7 +30,7 @@ let TasksUser = {
       user = user[0];
       if (user.length > 0) {
         let check = bcryptjs.compareSync(data.password, user[0].password);
-        callback(check);
+        callback(check, user[0]._id);
       }
     } catch (err) {
       callback({ error: err });

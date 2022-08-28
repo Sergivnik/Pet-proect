@@ -1,10 +1,11 @@
 import axios from "axios";
-import { URL } from "../middlewares/initialState";
+import { getDataRequest, URL } from "../middlewares/initialState";
 export const ADD_ODER = "ADD_ODER";
 export const ADD_ODER_SUCCESS = "ADD_ODER_SUCCESS";
 export const ADD_ODER_FAILURE = "ADD_ODER_FAILURE";
 export const DEL_ODER = "DEL_ODER";
-export const EDIT_ODER = "EDIT_ODER";
+export const EDIT_ODER_SUCCESS = "EDIT_ODER_SUCCESS";
+export const EDIT_ODER_FAILURE = "EDIT_ODER_FAILURE";
 export const EDIT_ODER_NEW = "EDIT_ODER_NEW";
 export const EDIT_ODER_NEW_SUCCESS = "EDIT_ODER_NEW_SUCCESS";
 export const EDIT_ODER_NEW_FAILURE = "EDIT_ODER_NEW_FAILURE";
@@ -38,12 +39,32 @@ export const addOderFailure = () => ({
   type: ADD_ODER_FAILURE,
 });
 
-export const editOder = (id, field, newValue) => ({
-  type: EDIT_ODER,
+export const editOrderSuccess = (id, field, newValue) => ({
+  type: EDIT_ODER_SUCCESS,
   id,
   field,
   newValue,
 });
+
+export const editOder = (id, field, newValue) => {
+  console.log(id);
+  return (dispatch) => {
+    dispatch(getDataRequest());
+    axios
+      .patch(URL + "/edit", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: { id: id, field: field, newValue: newValue },
+      })
+      .then((res) => {
+        return dispatch(editOrderSuccess(id, field, newValue));
+      })
+      .catch((res) => {
+        console.log(res.data);
+      });
+  };
+};
 
 export const editOderNew = (data) => {
   return (dispatch) =>

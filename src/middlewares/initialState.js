@@ -1,8 +1,8 @@
 import axios from "axios";
-//export const DOMENNAME="http://localhost:3000" //develop
+//export const DOMENNAME = "http://localhost:3000"; //develop
 //export const DOMENNAME = "http://192.168.0.101:3000";//work
-//export const DOMENNAME = "http://192.168.0.114:3000";//home
-export const DOMENNAME = "http://31.31.203.198:3000"; //vps
+export const DOMENNAME = "http://192.168.0.114:3000";//home
+//export const DOMENNAME = "http://31.31.203.198:3000"; //vps
 
 export const URL = DOMENNAME + "/API";
 export const GET_DATA_REQUEST = "DATA::GET_DATA_REQUEST";
@@ -48,6 +48,7 @@ export const filterData = (filterObj) => {
     };
   } else
     return (dispatch) => {
+      dispatch(getDataRequest());
       axios
         .post(URL + "/filter", { body: filterObj })
         .then((res) => {
@@ -84,7 +85,7 @@ export const getDataFailure = () => ({
 
 export const getData = () => {
   return (dispatch) => {
-    //dispatch(getDataRequest());
+    dispatch(getDataRequest());
     axios
       .get(URL + "/data")
       .then((res) => {

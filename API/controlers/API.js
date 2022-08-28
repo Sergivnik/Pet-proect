@@ -175,11 +175,11 @@ module.exports.taskEdit = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-
-  tasks.edit(req.body.body, (data) => {
+  console.log(req.sessionID, req.session.userId);
+  tasks.edit(req.body.body, req.session.userId, (data) => {
     if (data.error) {
       res.status(500);
-      res.json({ message: data.error });
+      res.json(data);
     } else {
       res.json(data);
     }
@@ -774,13 +774,18 @@ module.exports.taskAddNewUser = (req, res) => {
 };
 module.exports.taskCheckUser = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
-  tasksUser.checkUser(req.body, (data) => {
+  if (req.session.userId != undefined) req.session.destroy();
+  tasksUser.checkUser(req.body, (data, id) => {
     if (data.error) {
+      console.log(data);
       res.status(500);
       res.json({ message: data.error });
     } else {
       if (data) {
-        req.session.username = req.body.login;
+        console.log(id);
+        //req.session.key = req.sessionID;
+        //req.session.key[req.sessionID].userId = id;
+        req.session.userId = id;
       }
       res.json(data);
     }

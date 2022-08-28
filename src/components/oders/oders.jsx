@@ -35,6 +35,7 @@ export const Oders = () => {
   const filteredAccountList = useSelector(
     (state) => state.oderReducer.filteredAccountList
   );
+  const requestStatus = useSelector((state) => state.oderReducer.request);
 
   const [oders, setOders] = useState(odersList.slice(-1000));
 
@@ -71,6 +72,9 @@ export const Oders = () => {
   const [showLast, setShowLast] = useState(true);
 
   const [sumAccount, setSumAccount] = useState(0);
+  useEffect(() => {
+    console.log(requestStatus);
+  }, [requestStatus]);
   useEffect(() => {
     setShowEdit(true);
     setAddData(0);
@@ -493,6 +497,9 @@ export const Oders = () => {
           </tbody>
         </table>
       </div>
+      {requestStatus.status == "LOADING" && (
+        <div className="requestStatus">Loading...</div>
+      )}
       {/* {showCreateOder && <CreateOder addOder={addOder} />} */}
     </React.Fragment>
   );
