@@ -34,6 +34,7 @@ export const authSignUpFailure = (e) => ({
 export const authSignIn = (data) => {
   return (dispatch) => {
     axios
+      .create({ withCredentials: true })
       .post(URL + "/signIn", data)
       .then((res) => {
         console.log(res.data);

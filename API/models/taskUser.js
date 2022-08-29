@@ -28,6 +28,7 @@ let TasksUser = {
         `SELECT * FROM users WHERE login="${data.login}"`
       );
       user = user[0];
+      console.log(user[0].password);
       if (user.length > 0) {
         let check = bcryptjs.compareSync(data.password, user[0].password);
         callback(check, user[0]._id);

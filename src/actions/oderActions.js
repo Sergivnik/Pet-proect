@@ -51,6 +51,7 @@ export const editOder = (id, field, newValue) => {
   return (dispatch) => {
     dispatch(getDataRequest());
     axios
+      .create({ withCredentials: true })
       .patch(URL + "/edit", {
         headers: {
           "Content-Type": "application/json",

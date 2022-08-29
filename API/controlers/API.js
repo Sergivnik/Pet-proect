@@ -12,7 +12,7 @@ const puppeteer = require("puppeteer");
 var fs = require("fs");
 
 module.exports.taskGet = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   tasks.list((data) => {
     if (data.error) {
       res.status(500);
@@ -23,7 +23,7 @@ module.exports.taskGet = (req, res) => {
   });
 };
 module.exports.taskGetPayments = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   tasksPayments.list((data) => {
     if (data.error) {
       res.status(500);
@@ -34,7 +34,7 @@ module.exports.taskGetPayments = (req, res) => {
   });
 };
 module.exports.taskGetDebts = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   tasksDebt.list((data) => {
     if (data.error) {
       res.status(500);
@@ -45,7 +45,7 @@ module.exports.taskGetDebts = (req, res) => {
   });
 };
 module.exports.taskGetContractors = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   taskContractors.list((data) => {
     if (data.error) {
       res.status(500);
@@ -57,7 +57,7 @@ module.exports.taskGetContractors = (req, res) => {
 };
 
 module.exports.taskGetFilter = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   console.log(req.body.body);
   tasks.filter(req.body.body, (data) => {
     if (data.error) {
@@ -69,7 +69,7 @@ module.exports.taskGetFilter = (req, res) => {
   });
 };
 module.exports.taskGetReport = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   taskReports.reconciliation(req.body.body, (data) => {
     if (data.error) {
       res.status(500);
@@ -81,7 +81,7 @@ module.exports.taskGetReport = (req, res) => {
 };
 
 module.exports.taskGetPdf = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   const path = require("path");
@@ -111,7 +111,7 @@ module.exports.taskGetPdf = (req, res) => {
   });
 };
 module.exports.taskGetReportPdf = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   const path = require("path");
@@ -119,7 +119,7 @@ module.exports.taskGetReportPdf = (req, res) => {
   res.sendFile(`${pathBills}/tempDoc.pdf`);
 };
 module.exports.taskGetPdfWithoutStamp = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   const path = require("path");
@@ -143,7 +143,7 @@ module.exports.taskGetPdfWithoutStamp = (req, res) => {
 };
 
 module.exports.taskAdd = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -157,7 +157,7 @@ module.exports.taskAdd = (req, res) => {
   });
 };
 module.exports.taskAddData = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -172,9 +172,10 @@ module.exports.taskAddData = (req, res) => {
 };
 
 module.exports.taskEdit = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
+  res.set("Access-Control-Allow-Credentials", "true");
   console.log(req.sessionID, req.session.userId);
   tasks.edit(req.body.body, req.session.userId, (data) => {
     if (data.error) {
@@ -186,7 +187,7 @@ module.exports.taskEdit = (req, res) => {
   });
 };
 module.exports.taskEditNew = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -200,7 +201,7 @@ module.exports.taskEditNew = (req, res) => {
   });
 };
 module.exports.taskEditData = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -215,7 +216,7 @@ module.exports.taskEditData = (req, res) => {
 };
 
 module.exports.makePaymentCustomer = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -229,7 +230,7 @@ module.exports.makePaymentCustomer = (req, res) => {
   });
 };
 module.exports.makeDriverDebt = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -243,7 +244,7 @@ module.exports.makeDriverDebt = (req, res) => {
   });
 };
 module.exports.taskDeleteDebt = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -258,7 +259,7 @@ module.exports.taskDeleteDebt = (req, res) => {
 };
 
 module.exports.taskDel = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -272,7 +273,7 @@ module.exports.taskDel = (req, res) => {
   });
 };
 module.exports.taskDeleteData = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -286,7 +287,7 @@ module.exports.taskDeleteData = (req, res) => {
   });
 };
 module.exports.deleteContractorPayment = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -301,7 +302,7 @@ module.exports.deleteContractorPayment = (req, res) => {
 };
 
 module.exports.deleteAddData = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -316,7 +317,7 @@ module.exports.deleteAddData = (req, res) => {
 };
 
 module.exports.editDriverDebt = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -331,7 +332,7 @@ module.exports.editDriverDebt = (req, res) => {
 };
 
 module.exports.makePaymentDriver = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -346,7 +347,7 @@ module.exports.makePaymentDriver = (req, res) => {
 };
 
 module.exports.addDataContractorPayment = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -361,7 +362,7 @@ module.exports.addDataContractorPayment = (req, res) => {
 };
 
 module.exports.taskDeletePayments = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -379,7 +380,7 @@ const pdfTemplate = require("../documents/powerOfAttorney.js");
 
 const pdf = require("html-pdf");
 module.exports.taskProxy = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -407,7 +408,7 @@ module.exports.taskProxy = (req, res) => {
   });
 };
 module.exports.taskAddPdfDoc = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   pdf
@@ -420,7 +421,7 @@ module.exports.taskAddPdfDoc = (req, res) => {
     });
 };
 module.exports.taskCreateDoc = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   console.log("запрос пришел");
@@ -483,7 +484,7 @@ module.exports.taskCreateDoc = (req, res) => {
 };
 
 module.exports.taskSaveReport = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   taskReports.reconciliationSavePdf(req.body.body, (data) => {
@@ -497,7 +498,7 @@ module.exports.taskSaveReport = (req, res) => {
 };
 
 module.exports.taskEditAddData = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   tasksAddData.editData(req.body.body, (data) => {
@@ -511,7 +512,7 @@ module.exports.taskEditAddData = (req, res) => {
 };
 
 module.exports.taskCreateDocWithoutStamp = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   // const puppeteer = require("puppeteer");
@@ -555,7 +556,7 @@ module.exports.taskCreateDocWithoutStamp = (req, res) => {
 };
 
 module.exports.taskCreateApp = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   // const puppeteer = require("puppeteer");
@@ -598,7 +599,7 @@ module.exports.taskCreateApp = (req, res) => {
 };
 
 module.exports.taskAddConsignmentNote = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -650,7 +651,7 @@ module.exports.taskAddConsignmentNote = (req, res) => {
   });
 };
 module.exports.taskSendEmail = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   console.log(req.params);
   const configEmail = require("../models/config.js");
   tasks.getDataById(req.params.id, "oderslist", (data) => {
@@ -751,7 +752,7 @@ module.exports.taskSendEmail = (req, res) => {
   });
 };
 module.exports.taskSendReportEmail = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   taskReports.sendEmail(req.params.email, (data) => {
     if (data.error) {
       res.status(500);
@@ -762,7 +763,7 @@ module.exports.taskSendReportEmail = (req, res) => {
   });
 };
 module.exports.taskAddNewUser = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   tasksUser.addNewUser(req.body.body, (data) => {
     if (data.error) {
       res.status(500);
@@ -773,7 +774,8 @@ module.exports.taskAddNewUser = (req, res) => {
   });
 };
 module.exports.taskCheckUser = (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.set("Access-Control-Allow-Credentials", "true");
   if (req.session.userId != undefined) req.session.destroy();
   tasksUser.checkUser(req.body, (data, id) => {
     if (data.error) {
