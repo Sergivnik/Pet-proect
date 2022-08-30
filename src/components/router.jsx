@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { App } from "../App.jsx";
 import { SomeComponent } from "./someComponent/someComonent.jsx";
 import { Oders } from "./oders/oders.jsx";
 import { Auth } from "./auth/auth.jsx";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { authGetUser } from "../actions/auth.js";
 
 export const Router = () => {
-  const [checkLogIn, setCheckLogIn] = useState(false);
-  const checkUser = useSelector((state) => state.oderReducer.checkUser);
-  console.log(checkUser);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(authGetUser());
+  }, [dispatch]);
+  const user = useSelector((state) => state.oderReducer.currentUser);
+  console.log(user);
+  let checkUser = false;
+  if (user.name) checkUser = true;
   return (
     <Switch>
       <Route exact path="/" component={App}></Route>

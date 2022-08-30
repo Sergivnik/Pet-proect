@@ -58,7 +58,10 @@ import {
   DELETE_ADDDATE_SUCCESS,
   DELETE_ADDDATE_FAILURE,
 } from "../actions/specialAction.js";
-import { AUTH_SIGN_IN_SUCCESS } from "../actions/auth.js";
+import {
+  AUTH_GET_USER_SUCCESS,
+  AUTH_SIGN_IN_SUCCESS,
+} from "../actions/auth.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
@@ -985,7 +988,19 @@ export const oderReducer = (store = initialStore, action) => {
     }
     case AUTH_SIGN_IN_SUCCESS: {
       console.log(action);
-      return { ...store, checkUser: action.dataServer };
+      if (action.dataServer.error) {
+        return { ...store, currentUser: {} };
+      } else {
+        return { ...store, currentUser: action.dataServer };
+      }
+    }
+    case AUTH_GET_USER_SUCCESS: {
+      console.log(action);
+      if (action.dataServer.error) {
+        return { ...store, currentUser: {} };
+      } else {
+        return { ...store, currentUser: action.dataServer };
+      }
     }
 
     default:

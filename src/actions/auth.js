@@ -5,7 +5,27 @@ export const AUTH_SIGN_UP_SUCCESS = "AUTH_SIGN_UP_SUCCESS";
 export const AUTH_SIGN_UP_FAILURE = "AUTH_SIGN_UP_FAILURE";
 export const AUTH_SIGN_IN_SUCCESS = "AUTH_SIGN_IN_SUCCESS";
 export const AUTH_SIGN_IN_FAILURE = "AUTH_SIGN_IN_FAILURE";
+export const AUTH_GET_USER_SUCCESS = "AUTH_GET_USER_SUCCESS";
+export const AUTH_GET_USER_FAILURE = "AUTH_GET_USER_FAILURE";
 
+export const authGetUser = () => {
+  return (dispatch) => {
+    axios
+      .create({ withCredentials: true })
+      .get(URL + "/getUser")
+      .then((res) => {
+        console.log(res.data);
+        return dispatch(authGetUserSuccess(res.data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+  };
+};
+export const authGetUserSuccess = (dataServer) => ({
+  type: AUTH_GET_USER_SUCCESS,
+  dataServer,
+});
 export const authSignUp = (data) => {
   return (dispatch) => {
     axios
@@ -40,9 +60,9 @@ export const authSignIn = (data) => {
         console.log(res.data);
         return dispatch(authSignInSuccess(res.data));
       })
-      .catch((e) => {
-        console.log(e.message);
-        return dispatch(authSignInFailure(e));
+      .catch((res) => {
+        console.log(res.data);
+        return dispatch(authSignInFailure(res.data));
       });
   };
 };

@@ -776,20 +776,31 @@ module.exports.taskAddNewUser = (req, res) => {
 module.exports.taskCheckUser = (req, res) => {
   res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   res.set("Access-Control-Allow-Credentials", "true");
-  if (req.session.userId != undefined) req.session.destroy();
+  console.log(req.sessionID, req.session.userId);
+  //if (req.session.userId != undefined) req.session.destroy();
   tasksUser.checkUser(req.body, (data, id) => {
     if (data.error) {
       console.log(data);
-      res.status(500);
-      res.json({ message: data.error });
+      res.json(data);
     } else {
       if (data) {
         console.log(id);
-        //req.session.key = req.sessionID;
-        //req.session.key[req.sessionID].userId = id;
         req.session.userId = id;
+        req.session.name = data.name;
+        req.session.role = data.role;
       }
       res.json(data);
     }
   });
+};
+module.exports.taskGetUser = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.sessionID, req.session.userId);
+  if (req.session.userId) {
+    let data = { name: req.session.name, role: req.session.role };
+    res.json(data);
+  } else {
+    res.json({ error: "no authorized users" });
+  }
 };

@@ -28,10 +28,15 @@ let TasksUser = {
         `SELECT * FROM users WHERE login="${data.login}"`
       );
       user = user[0];
-      console.log(user[0].password);
       if (user.length > 0) {
         let check = bcryptjs.compareSync(data.password, user[0].password);
-        callback(check, user[0]._id);
+        if (check) {
+          callback({ name: user[0].name, role: user[0].role }, user[0]._id);
+        } else {
+          callback({ error: "password is wrong!" });
+        }
+      } else {
+        callback({ error: "user doesn't exist" }, undefined);
       }
     } catch (err) {
       callback({ error: err });

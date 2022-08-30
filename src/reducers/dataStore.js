@@ -42,5 +42,5 @@ export const initialStore = {
   storelist: [],
   incomereport: [],
   yearconst: {},
-  checkUser: false,
+  currentUser: { name: null, role: null },
 };

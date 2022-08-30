@@ -26,6 +26,7 @@ router.get("/sendEmail/:id//", API.taskSendEmail);
 router.get("/sendEmail/:id//:text", API.taskSendEmail);
 router.get("/sendReportEmail/:email", API.taskSendReportEmail);
 router.get("/getReportPdf", API.taskGetReportPdf);
+router.get("/getUser", API.taskGetUser);
 
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
