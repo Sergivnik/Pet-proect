@@ -804,3 +804,14 @@ module.exports.taskGetUser = (req, res) => {
     res.json({ error: "no authorized users" });
   }
 };
+module.exports.taskSignOut = (req, res) => {
+  res.set("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.set("Access-Control-Allow-Credentials", "true");
+  if (req.session.userId != undefined) {
+    req.session.destroy();
+    res.json("success!!");
+  } else {
+    res.status(500);
+    res.json({ message: "error" });
+  }
+};

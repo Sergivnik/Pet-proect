@@ -61,6 +61,7 @@ import {
 import {
   AUTH_GET_USER_SUCCESS,
   AUTH_SIGN_IN_SUCCESS,
+  AUTH_SIGN_OUT_SUCCESS,
 } from "../actions/auth.js";
 
 export const oderReducer = (store = initialStore, action) => {
@@ -1001,6 +1002,9 @@ export const oderReducer = (store = initialStore, action) => {
       } else {
         return { ...store, currentUser: action.dataServer };
       }
+    }
+    case AUTH_SIGN_OUT_SUCCESS: {
+      return { ...store, currentUser: { name: null, role: null } };
     }
 
     default:

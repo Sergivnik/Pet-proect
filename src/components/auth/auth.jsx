@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authSignIn, authSignUp } from "../../actions/auth";
 import "./auth.sass";
 
 export const Auth = () => {
   const dispatch = useDispatch();
 
+  const user = useSelector((state) => state.oderReducer.currentUser);
+
   const [btnName, setBtnName] = useState("Вход");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [role, setRole] = useState("");
 
   const handleClickSignIn = (e) => {
     let div = e.currentTarget;
@@ -23,15 +26,17 @@ export const Auth = () => {
     setBtnName("Войти");
   };
   const handleClickSignUp = (e) => {
-    let div = e.currentTarget;
-    let siblings = div.parentNode.childNodes;
-    siblings.forEach((node) => {
-      node.style.borderBottom = "1px solid #000";
-      node.style.backgroundColor = "#FFFFFF";
-    });
-    div.style.borderBottom = "none";
-    div.style.backgroundColor = "#cdcdcd";
-    setBtnName("Зарегистрироваться");
+    if (user.role == "admin") {
+      let div = e.currentTarget;
+      let siblings = div.parentNode.childNodes;
+      siblings.forEach((node) => {
+        node.style.borderBottom = "1px solid #000";
+        node.style.backgroundColor = "#FFFFFF";
+      });
+      div.style.borderBottom = "none";
+      div.style.backgroundColor = "#cdcdcd";
+      setBtnName("Зарегистрироваться");
+    }
   };
   const handleChangeLogin = (e) => {
     setLogin(e.currentTarget.value);
@@ -42,9 +47,14 @@ export const Auth = () => {
   const handleChangeName = (e) => {
     setName(e.currentTarget.value);
   };
+  const handleChangeRole = (e) => {
+    setRole(e.currentTarget.value);
+  };
   const handleClickBtn = () => {
     if (btnName === "Зарегистрироваться") {
-      dispatch(authSignUp({ login: login, password: password, name: name }));
+      dispatch(
+        authSignUp({ login: login, password: password, name: name, role: role })
+      );
     }
     if (btnName === "Вход") {
       dispatch(authSignIn({ login: login, password: password }));
@@ -88,6 +98,17 @@ export const Auth = () => {
                 type="text"
                 value={name}
                 onChange={handleChangeName}
+              />
+            </label>
+          )}
+          {btnName == "Зарегистрироваться" && (
+            <label className="authLabel">
+              <span className="authSpan">Роль</span>
+              <input
+                className="authInput"
+                type="text"
+                value={role}
+                onChange={handleChangeRole}
               />
             </label>
           )}

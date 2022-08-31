@@ -1,7 +1,17 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { authSignOut } from "../../actions/auth";
 
 export const SomeComponent = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.oderReducer.currentUser);
-  return <h1>SomeComponent {user.name}</h1>;
+  const handleClick = () => {
+    dispatch(authSignOut());
+  };
+  return (
+    <h1>
+      SomeComponent {user.name}
+      <span onClick={handleClick}>Выйти</span>
+    </h1>
+  );
 };

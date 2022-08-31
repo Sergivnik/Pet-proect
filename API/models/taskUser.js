@@ -11,6 +11,7 @@ let TasksUser = {
       login: data.login,
       password: password,
       name: data.name,
+      role: data.role,
     };
     try {
       await db.query("INSERT INTO users SET ?", user);

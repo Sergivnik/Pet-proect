@@ -7,7 +7,26 @@ export const AUTH_SIGN_IN_SUCCESS = "AUTH_SIGN_IN_SUCCESS";
 export const AUTH_SIGN_IN_FAILURE = "AUTH_SIGN_IN_FAILURE";
 export const AUTH_GET_USER_SUCCESS = "AUTH_GET_USER_SUCCESS";
 export const AUTH_GET_USER_FAILURE = "AUTH_GET_USER_FAILURE";
+export const AUTH_SIGN_OUT_SUCCESS = "AUTH_SIGN_OUT_SUCCESS";
+export const AUTH_SIGN_OUT_FAILURE = "AUTH_SIGN_OUT_FAILURE";
 
+export const authSignOut = () => {
+  return (dispatch) => {
+    axios
+      .create({ withCredentials: true })
+      .get(URL + "/signOut")
+      .then((res) => {
+        console.log(res.data);
+        return dispatch(authSignOutSuccess());
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+  };
+};
+export const authSignOutSuccess = () => ({
+  type: AUTH_SIGN_OUT_SUCCESS,
+});
 export const authGetUser = () => {
   return (dispatch) => {
     axios
