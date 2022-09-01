@@ -147,6 +147,7 @@ export const IncomeReport = () => {
       driverDebt -
       Number(yearconst.lastyeartxdebt) +
       Number(yearconst.taxadvance) -
+      currentTax -
       sumPink;
     setIncomeTotal(income);
   }, [sumAccount, customerDebt, driverDebt, yearconst, currentTax, sumPink]);
