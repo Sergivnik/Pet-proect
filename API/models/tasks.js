@@ -501,8 +501,8 @@ var Tasks = {
     }
     db.end();
   },
-  edit: async function (newdata, userId, callback) {
-    let allowedField = false;
+  edit: async function (newdata, userId, isAllowed, callback) {
+    let allowedField = isAllowed;
     switch (newdata.field) {
       case "date":
         change = { date: newdata.newValue };
@@ -552,7 +552,6 @@ var Tasks = {
           newdata.newValue == 5 ||
           newdata.newValue == 7
         ) {
-          allowedField = true;
           let now = new Date();
           change = {
             customerPayment: newdata.newValue,
