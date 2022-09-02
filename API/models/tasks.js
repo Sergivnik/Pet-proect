@@ -502,6 +502,7 @@ var Tasks = {
     db.end();
   },
   edit: async function (newdata, userId, callback) {
+    let allowedField = false;
     switch (newdata.field) {
       case "date":
         change = { date: newdata.newValue };
@@ -528,9 +529,11 @@ var Tasks = {
         change = { proxy: newdata.newValue };
         break;
       case "completed":
+        allowedField = true;
         change = { completed: newdata.newValue };
         break;
       case "document":
+        allowedField = true;
         let now = new Date();
         if (newdata.newValue == 2) now = null;
         change = { document: newdata.newValue, dateOfSubmission: now };
@@ -549,6 +552,7 @@ var Tasks = {
           newdata.newValue == 5 ||
           newdata.newValue == 7
         ) {
+          allowedField = true;
           let now = new Date();
           change = {
             customerPayment: newdata.newValue,
@@ -585,7 +589,7 @@ var Tasks = {
         `SELECT * FROM users WHERE _id=${userId}`
       );
       console.log(userRole[0]);
-      if (userRole[0].role == "admin") {
+      if (userRole[0].role == "admin" || allowedField == true) {
         let [data] = await db.query(`UPDATE oderslist SET ? WHERE _id=?`, [
           change,
           newdata.id,

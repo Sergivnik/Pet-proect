@@ -652,7 +652,8 @@ module.exports.taskAddConsignmentNote = (req, res) => {
 };
 module.exports.taskSendEmail = (req, res) => {
   res.set("Access-Control-Allow-Origin", "http://localhost:8080");
-  console.log(req.params);
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.params, req.session.userId);
   const configEmail = require("../models/config.js");
   tasks.getDataById(req.params.id, "oderslist", (data) => {
     if (data.error) {
@@ -733,6 +734,7 @@ module.exports.taskSendEmail = (req, res) => {
                 newValue: 3,
                 id: Number(req.params.id),
               },
+              req.session.userId,
               (data) => {
                 console.log(data);
                 if (data.error) {

@@ -179,6 +179,7 @@ export const sendEmail = (id, email, text) => {
   console.log(request);
   return (dispatch) => {
     axios
+      .create({ withCredentials: true })
       .get(request)
       .then((res) => {
         console.log(res.data);
