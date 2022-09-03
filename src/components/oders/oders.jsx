@@ -18,6 +18,7 @@ import { Report } from "../reports/reports.jsx";
 import { SpecialTable } from "../specialTable/specialTable.jsx";
 import { Forecast } from "../forecast/forecast.jsx";
 import "./oders.sass";
+import { authSignOut } from "../../actions/auth.js";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ export const Oders = () => {
     (state) => state.oderReducer.filteredAccountList
   );
   const requestStatus = useSelector((state) => state.oderReducer.request);
+  const user = useSelector((state) => state.oderReducer.currentUser);
 
   const [oders, setOders] = useState(odersList.slice(-1000));
 
@@ -354,11 +356,15 @@ export const Oders = () => {
   const handleClickBtnDrop = () => {
     setShowDropDownMenu(!showDropDownMenu);
   };
-
+  const handleClickExit = () => {
+    dispatch(authSignOut());
+  };
   return (
     <React.Fragment>
       <div className="odersDivInfo">
-        <span>Рас.сч. {sumAccount.toLocaleString()} руб.</span>
+        <span className="orderDivInfoSpan">
+          Рас.сч. {sumAccount.toLocaleString()} руб.
+        </span>
         <Forecast />
         <div className="odersMenu">
           <button className="odersMenuBtn" onClick={handleClickBtnDrop}>
@@ -425,6 +431,12 @@ export const Oders = () => {
             onClick={handleClickBtnMenu}
           >
             Отчеты
+          </button>
+        </div>
+        <div className="orderMenuUser">
+          <span className="orderMenuUserSpan">{user.name}</span>
+          <button className="orderMenuUserBtn" onClick={handleClickExit}>
+            Выйти
           </button>
         </div>
       </div>

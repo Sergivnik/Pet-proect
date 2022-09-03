@@ -45,6 +45,10 @@ export const editOrderSuccess = (id, field, newValue) => ({
   field,
   newValue,
 });
+export const editOrderFailure = (dataServer) => ({
+  type: EDIT_ODER_FAILURE,
+  dataServer,
+});
 
 export const editOder = (id, field, newValue) => {
   console.log(id);
@@ -59,10 +63,14 @@ export const editOder = (id, field, newValue) => {
         body: { id: id, field: field, newValue: newValue },
       })
       .then((res) => {
-        return dispatch(editOrderSuccess(id, field, newValue));
+        if (res.data.error) {
+          return dispatch(editOrderFailure(res.data));
+        } else {
+          return dispatch(editOrderSuccess(id, field, newValue));
+        }
       })
       .catch((res) => {
-        console.log(res.data);
+        console.log(res);
       });
   };
 };

@@ -4,6 +4,7 @@ import {
   ADD_ODER_SUCCESS,
   DEL_ODER,
   EDIT_ODER_SUCCESS,
+  EDIT_ODER_FAILURE,
   EDIT_ODER_NEW_SUCCESS,
   EDIT_ODER_NEW_FAILURE,
   SET_PROXY,
@@ -285,6 +286,10 @@ export const oderReducer = (store = initialStore, action) => {
         income: { $set: newIncome },
         request: { $set: { status: "SUCCESS", error: null } },
       });
+    }
+    case EDIT_ODER_FAILURE: {
+      alert(action.dataServer.error);
+      return { ...store, request: {} };
     }
 
     case SET_PROXY: {

@@ -17,14 +17,12 @@ router.options("*", (req, res) => {
   res.send("ok");
 });
 router.use("*", (req, res, next) => {
-  console.log(req.headers);
   if (req.headers.origin == "http://localhost:8080") {
     res.set("Access-Control-Allow-Origin", "http://localhost:8080");
   }
   if (req.headers.origin == "http://atpivanova.ru:3000") {
     res.set("Access-Control-Allow-Origin", "http://atpivanova.ru:3000");
   }
-
   next();
 });
 router.use("/oders", APIRouter);

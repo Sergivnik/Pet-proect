@@ -595,7 +595,7 @@ var Tasks = {
         ]);
         callback(data);
       } else {
-        callback({ error: "badRole" });
+        callback({ error: "Недостаточно прав для редактирования этого поля" });
       }
     } catch (err) {
       //console.log(err);

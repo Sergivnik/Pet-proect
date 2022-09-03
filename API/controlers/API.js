@@ -164,10 +164,9 @@ module.exports.taskEdit = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   res.set("Access-Control-Allow-Credentials", "true");
-  console.log(req.sessionID, req.session.userId);
   tasks.edit(req.body.body, req.session.userId, false, (data) => {
+    console.log(data);
     if (data.error) {
-      res.status(500);
       res.json(data);
     } else {
       res.json(data);
@@ -192,6 +191,7 @@ module.exports.taskEditData = (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
   tasksData.editData(req.body.body, (data) => {
+    console.log(data);
     if (data.error) {
       res.status(500);
       res.json({ message: data.error });
@@ -254,7 +254,7 @@ module.exports.taskDel = (req, res) => {
     }
   });
 };
-module.exports.taskDeleteData = (req, res) => { 
+module.exports.taskDeleteData = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
@@ -742,8 +742,9 @@ module.exports.taskAddNewUser = (req, res) => {
 };
 module.exports.taskCheckUser = (req, res) => {
   res.set("Access-Control-Allow-Credentials", "true");
-  console.log(req.sessionID, req.session.userId);
-  //if (req.session.userId != undefined) req.session.destroy();
+  // req.session.cookie.sameSite = "none";
+  // req.session.cookie.secure = true;
+
   tasksUser.checkUser(req.body, (data, id) => {
     if (data.error) {
       console.log(data);
