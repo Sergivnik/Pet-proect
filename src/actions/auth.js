@@ -9,6 +9,8 @@ export const AUTH_GET_USER_SUCCESS = "AUTH_GET_USER_SUCCESS";
 export const AUTH_GET_USER_FAILURE = "AUTH_GET_USER_FAILURE";
 export const AUTH_SIGN_OUT_SUCCESS = "AUTH_SIGN_OUT_SUCCESS";
 export const AUTH_SIGN_OUT_FAILURE = "AUTH_SIGN_OUT_FAILURE";
+export const CHANGE_PASSWORD_SUCCESS = "CHANGE_PASSWORD_SUCCESS";
+export const CHANGE_PASSWORD_FAILURE = "CHANGE_PASSWORD_FAILURE";
 
 export const authSignOut = () => {
   return (dispatch) => {
@@ -93,3 +95,28 @@ export const authSignInFailure = (e) => ({
   type: AUTH_SIGN_IN_FAILURE,
   e,
 });
+export const changePasswordSuccess = () => ({
+  type: CHANGE_PASSWORD_SUCCESS,
+});
+export const changePasswordFailure = () => ({
+  type: CHANGE_PASSWORD_FAILURE,
+});
+export const changePassword = (login, oldPassword, newPassword) => {
+  return (dispatch) => {
+    axios
+      .create({ withCredentials: true })
+      .post(URL + "/changePassword", {
+        login: login,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      })
+      .then((res) => {
+        console.log(res.data);
+        return dispatch(changePasswordSuccess());
+      })
+      .catch((res) => {
+        console.log(res.data);
+        return dispatch(changePasswordFailure());
+      });
+  };
+};

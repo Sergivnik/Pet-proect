@@ -50,6 +50,7 @@ router.post("/saveReportPdf", API.taskSaveReport);
 router.post("/editAddData", API.taskEditAddData);
 router.post("/signUp", API.taskAddNewUser);
 router.post("/signIn", API.taskCheckUser);
+router.post("/changePassword", API.taskChangePassword);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);

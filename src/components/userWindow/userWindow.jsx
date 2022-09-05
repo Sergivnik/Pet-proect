@@ -60,6 +60,7 @@ export const UserWindow = (props) => {
     div.style.top = props.top;
     div.style.left = props.left;
     if (props.width) div.style.width = props.width + "px";
+    if (props.height) div.style.height = props.height + "px";
   }, [props]);
 
   return (

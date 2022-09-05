@@ -19,6 +19,7 @@ import { SpecialTable } from "../specialTable/specialTable.jsx";
 import { Forecast } from "../forecast/forecast.jsx";
 import "./oders.sass";
 import { authSignOut } from "../../actions/auth.js";
+import { ChangePassword } from "../auth/changePassword.jsx";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ export const Oders = () => {
   const [showPrintForm, setShowPrintForm] = useState(false);
   const [showSecretTable, setShowSecretTable] = useState(false);
   const [showDropDownMenu, setShowDropDownMenu] = useState(false);
+  const [showUserWindow, setShowUserWindow] = useState(false);
 
   const [trId, setTrId] = useState(null);
   const [addData, setAddData] = useState(0);
@@ -336,6 +338,9 @@ export const Oders = () => {
   const handleClickSecretWindowClose = () => {
     setShowSecretTable(false);
   };
+  const handleClickUserWindowClose = () => {
+    setShowUserWindow(false);
+  };
   const handleClickEditWindowClose = () => {
     setShowEditDataWindow(false);
   };
@@ -358,6 +363,9 @@ export const Oders = () => {
   };
   const handleClickExit = () => {
     dispatch(authSignOut());
+  };
+  const handleClickUser = () => {
+    setShowUserWindow(true);
   };
   return (
     <React.Fragment>
@@ -434,7 +442,9 @@ export const Oders = () => {
           </button>
         </div>
         <div className="orderMenuUser">
-          <span className="orderMenuUserSpan">{user.name}</span>
+          <span className="orderMenuUserSpan" onClick={handleClickUser}>
+            {user.name}
+          </span>
           <button className="orderMenuUserBtn" onClick={handleClickExit}>
             Выйти
           </button>
@@ -478,6 +488,19 @@ export const Oders = () => {
           <SpecialTable />
         </UserWindow>
       )}
+      {showUserWindow && (
+        <UserWindow
+          header="Смена пароля"
+          width={500}
+          height={371}
+          left="40%"
+          top="15%"
+          handleClickWindowClose={handleClickUserWindowClose}
+          windowId="changePasswordWindow"
+        >
+          <ChangePassword />
+        </UserWindow>
+      )}
       <div
         className="odersDiv"
         onScroll={onScroll}
@@ -512,7 +535,6 @@ export const Oders = () => {
       {requestStatus.status == "LOADING" && (
         <div className="requestStatus">Loading...</div>
       )}
-      {/* {showCreateOder && <CreateOder addOder={addOder} />} */}
     </React.Fragment>
   );
 };

@@ -751,8 +751,9 @@ module.exports.taskCheckUser = (req, res) => {
       res.json(data);
     } else {
       if (data) {
-        console.log(id);
+        console.log(data);
         req.session.userId = id;
+        req.session.login = data.login;
         req.session.name = data.name;
         req.session.role = data.role;
       }
@@ -778,5 +779,19 @@ module.exports.taskSignOut = (req, res) => {
   } else {
     res.status(500);
     res.json({ message: "error" });
+  }
+};
+module.exports.taskChangePassword = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log("API:", req.session.userId, req.session.login, req.body);
+  if (req.session.login == req.body.login) {
+    tasksUser.changePassword(req.session.userId, req.body, (data) => {
+      console.log(data);
+      if (data.error) {
+        res.json(data.error);
+      } else {
+        res.json(data);
+      }
+    });
   }
 };
