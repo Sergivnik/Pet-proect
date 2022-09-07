@@ -108,7 +108,7 @@ export const Oders = () => {
       }
       if (e.ctrlKey && e.code == "KeyK") {
         e.preventDefault();
-        setShowSecretTable(true);
+        if (user.role == "admin") setShowSecretTable(true);
       }
     };
     document.addEventListener("keydown", onKeypress);
