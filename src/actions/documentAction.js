@@ -164,7 +164,7 @@ export const sendEmailSuccess = (id) => ({
 export const sendEmailFailure = () => ({
   type: SEND_EMAIL_FAILURE,
 });
-export const sendEmail = (id, email, text) => {
+export const sendEmail = (id, email, text, app) => {
   let request = DOMENNAME + "/API/sendEmail" + "/" + id;
   if (email != null) {
     request = request + "/" + email;
@@ -176,10 +176,14 @@ export const sendEmail = (id, email, text) => {
   } else {
     request = request + "/";
   }
+  if (app != "") {
+    request = request + "/" + app;
+  } else {
+    request = request + "/";
+  }
   console.log(request);
   return (dispatch) => {
     axios
-      .create({ withCredentials: true })
       .get(request)
       .then((res) => {
         console.log(res.data);

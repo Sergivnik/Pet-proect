@@ -12,7 +12,7 @@ router.options("*", (req, res) => {
     res.set("Access-Control-Allow-Origin", "http://atpivanova.ru:3000");
   }
   res.set("Access-Control-Allow-Headers", "Content-Type");
-  res.set("Access-Control-Allow-Methods", "DELETE, PATCH, POST");
+  res.set("Access-Control-Allow-Methods", "DELETE, PATCH, POST, GET");
   res.set("Access-Control-Allow-Credentials", "true");
   res.send("ok");
 });

@@ -618,7 +618,7 @@ module.exports.taskAddConsignmentNote = (req, res) => {
   });
 };
 module.exports.taskSendEmail = (req, res) => {
-  res.set("Access-Control-Allow-Credentials", "true");
+  //res.set("Access-Control-Allow-Credentials", "true");
   console.log(req.params, req.session.userId);
   const configEmail = require("../models/config.js");
   tasks.getDataById(req.params.id, "oderslist", (data) => {
@@ -674,6 +674,15 @@ module.exports.taskSendEmail = (req, res) => {
           ) {
             attachmentFiles.push({
               path: `./API/Bills/${Year}/${customer}/ttn${accountNumber}.pdf`,
+            });
+          }
+          if (
+            fs.existsSync(
+              `./API/Bills/${Year}/${customer}/app/app${req.params.id}.pdf`
+            )
+          ) {
+            attachmentFiles.push({
+              path: `./API/Bills/${Year}/${customer}/app/app${req.params.id}.pdf`,
             });
           }
         } catch (err) {
