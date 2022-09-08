@@ -20,15 +20,11 @@ router.get("/dataDriverDebt", API.taskGetDebts);
 router.get("/dataContractors", API.taskGetContractors);
 router.get("/getPdf/:id/:typeDoc", API.taskGetPdf);
 router.get("/getPdfWithoutStamp/:id", API.taskGetPdfWithoutStamp);
+
 router.get("/sendEmail/:id/:email/:text/:app", API.taskSendEmail);
 router.get("/sendEmail/:id/:email/", API.taskSendEmail);
 router.get("/sendEmail/:id//", API.taskSendEmail);
 router.get("/sendEmail/:id//:text", API.taskSendEmail);
-router.get("/sendReportEmail/:email", API.taskSendReportEmail);
-router.get("/getReportPdf", API.taskGetReportPdf);
-router.get("/getUser", API.taskGetUser);
-router.get("/signOut", API.taskSignOut);
-
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
 });
@@ -51,6 +47,7 @@ router.post("/editAddData", API.taskEditAddData);
 router.post("/signUp", API.taskAddNewUser);
 router.post("/signIn", API.taskCheckUser);
 router.post("/changePassword", API.taskChangePassword);
+router.post("/sendEmail", API.taskSendEmail);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);

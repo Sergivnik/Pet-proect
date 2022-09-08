@@ -165,26 +165,15 @@ export const sendEmailFailure = () => ({
   type: SEND_EMAIL_FAILURE,
 });
 export const sendEmail = (id, email, text, app) => {
-  let request = DOMENNAME + "/API/sendEmail" + "/" + id;
-  if (email != null) {
-    request = request + "/" + email;
-  } else {
-    request = request + "/";
-  }
-  if (text != "") {
-    request = request + "/" + text;
-  } else {
-    request = request + "/";
-  }
-  if (app != "") {
-    request = request + "/" + app;
-  } else {
-    request = request + "/";
-  }
-  console.log(request);
   return (dispatch) => {
     axios
-      .get(request)
+      .create({ withCredentials: true })
+      .post(DOMENNAME + "/API/sendEmail" + "/", {
+        id: id,
+        email: email,
+        text: text,
+        app: app,
+      })
       .then((res) => {
         console.log(res.data);
         return dispatch(sendEmailSuccess(id));

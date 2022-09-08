@@ -618,10 +618,10 @@ module.exports.taskAddConsignmentNote = (req, res) => {
   });
 };
 module.exports.taskSendEmail = (req, res) => {
-  //res.set("Access-Control-Allow-Credentials", "true");
-  console.log(req.params, req.session.userId);
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.body, req.session.userId);
   const configEmail = require("../models/config.js");
-  tasks.getDataById(req.params.id, "oderslist", (data) => {
+  tasks.getDataById(req.body.id, "oderslist", (data) => {
     if (data.error) {
       res.status(500);
       res.json({ message: data.error });
@@ -637,8 +637,8 @@ module.exports.taskSendEmail = (req, res) => {
           email = email + ", " + data.manager[0].email;
         }
       }
-      if (req.params.email != null) {
-        email = email + ", " + req.params.email;
+      if (req.body.email != null) {
+        email = email + ", " + req.body.email;
       }
       let accountNumber = isNaN(Number(data.accountNumber))
         ? data.accountNumber
@@ -678,11 +678,13 @@ module.exports.taskSendEmail = (req, res) => {
           }
           if (
             fs.existsSync(
-              `./API/Bills/${Year}/${customer}/app/app${req.params.id}.pdf`
-            )
+              `./API/Bills/${Year}/${customer}/app/app${req.body.id}.pdf`
+            ) &&
+            req.body.app
           ) {
+            console.log("application added");
             attachmentFiles.push({
-              path: `./API/Bills/${Year}/${customer}/app/app${req.params.id}.pdf`,
+              path: `./API/Bills/${Year}/${customer}/app/app${req.body.id}.pdf`,
             });
           }
         } catch (err) {
@@ -692,9 +694,9 @@ module.exports.taskSendEmail = (req, res) => {
           from: '"ИП Иванов Сергей" <sergivnik@mail.ru>', // sender address
           to: email, // list of receivers
           subject: subject, // Subject line
-          text: req.params.text ? req.params.text : "",
+          text: req.body.text ? req.body.text : "",
           html: `<p>${
-            req.params.text ? req.params.text : ""
+            req.body.text ? req.body.text : ""
           }</p><b>ИП Иванов С.Н. тел. +7-991-366-13-66</b>`, // html body
           attachments: attachmentFiles,
         });
@@ -707,7 +709,7 @@ module.exports.taskSendEmail = (req, res) => {
               {
                 field: "customerPayment",
                 newValue: 3,
-                id: Number(req.params.id),
+                id: Number(req.body.id),
               },
               req.session.userId,
               true,

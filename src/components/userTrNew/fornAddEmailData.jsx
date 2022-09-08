@@ -19,7 +19,7 @@ export const FormAddEmailData = (props) => {
   let divFormTop = windowHeight / 2 - divFormHeight / 2 - topTD;
 
   const [emailData, setEmailData] = useState({ email: null, text: "" });
-  const [isSendApp, setIsSendApp] = useState("noApp");
+  const [isSendApp, setIsSendApp] = useState(false);
 
   const handleClickClose = () => {
     props.handleClickClose();
@@ -38,11 +38,7 @@ export const FormAddEmailData = (props) => {
     props.handleClickClose();
   };
   const handleChangeApp = () => {
-    if (isSendApp == "noApp") {
-      setIsSendApp("addApp");
-    } else {
-      setIsSendApp("noApp");
-    }
+    setIsSendApp(!isSendApp);
   };
   return (
     <div
@@ -99,8 +95,8 @@ export const FormAddEmailData = (props) => {
           </div>
         </div>
         <div className="addEmailApp">
-          <span>Отправить заявку</span>
-          <input type="checkbox" value={isSendApp} onChange={handleChangeApp} />
+          <span className="addEmailAppSpan">Отправить заявку</span>
+          <input className="addEmailAppInput" type="checkbox" value={isSendApp} onChange={handleChangeApp} />
           <button className="addEmailSend" onClick={handleClickSend}>
             Отправить
           </button>
