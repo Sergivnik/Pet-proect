@@ -182,6 +182,10 @@ export const oderReducer = (store = initialStore, action) => {
               newOder.document = "Факс";
               newOder.dateOfSubmission = now;
               break;
+            case 4:
+              newOder.document = "Сдал";
+              newOder.dateOfSubmission = now;
+              break;
             default:
               break;
           }

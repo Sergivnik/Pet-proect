@@ -1,5 +1,6 @@
 import axios from "axios";
 import { DOMENNAME } from "../middlewares/initialState";
+import { editOder } from "./oderActions";
 
 export const GET_PDF_SUCCESS = "GET_PDF_SUCCESS";
 export const GET_PDF_FAILURE = "GET_PDF_FAILURE";
@@ -149,6 +150,7 @@ export const addConsignmentNote = (id, typeDoc, file) => {
         }
       )
       .then((res) => {
+        dispatch(editOder(id, "document", 1));
         return dispatch(addConsignmentNoteSuccess());
       })
       .catch((e) => {

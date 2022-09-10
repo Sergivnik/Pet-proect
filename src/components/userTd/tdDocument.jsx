@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { dateLocal } from "../myLib/myLib.js";
 
 export const TdDocument = (props) => {
-  const docList = [
-    { _id: 1, value: "Ок" },
-    { _id: 2, value: "Нет" },
-    { _id: 3, value: "Факс" },
-  ];
+  const user = useSelector((state) => state.oderReducer.currentUser);
+
   const dispatch = useDispatch();
 
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
+  const [docList, setDocList] = useState([
+    { _id: 2, value: "Нет" },
+    { _id: 3, value: "Факс" },
+    { _id: 4, value: "Сдал" },
+  ]);
 
   let mouseOut = true;
 
@@ -39,10 +41,21 @@ export const TdDocument = (props) => {
     }
   };
   const setValue = (data) => {
-    dispatch(editOder(currentId, "document", data._id));
-    setShowEdit(false);
-    setCurrentId(null);
-    setCurrentElement(null);
+    let check = true;
+    if (props.document == "Ок") {
+      check = confirm("100%?");
+    }
+    console.log(currentId, "document", data._id);
+    if (check) {
+      dispatch(editOder(currentId, "document", data._id));
+      setShowEdit(false);
+      setCurrentId(null);
+      setCurrentElement(null);
+    } else {
+      setShowEdit(false);
+      setCurrentId(null);
+      setCurrentElement(null);
+    }
   };
 
   useEffect(() => {
@@ -68,6 +81,22 @@ export const TdDocument = (props) => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, [showEdit]);
+  useEffect(() => {
+    if (user.role == "admin") {
+      setDocList([
+        { _id: 1, value: "Ок" },
+        { _id: 2, value: "Нет" },
+        { _id: 3, value: "Факс" },
+        { _id: 4, value: "Сдал" },
+      ]);
+    } else {
+      setDocList([
+        { _id: 2, value: "Нет" },
+        { _id: 3, value: "Факс" },
+        { _id: 4, value: "Сдал" },
+      ]);
+    }
+  }, []);
 
   return (
     <td
