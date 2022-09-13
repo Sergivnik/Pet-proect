@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { InvoiceForm } from "./invoiceForm.jsx";
 import { ActForm } from "./actForm.jsx";
-import { findValueBy_Id } from "../myLib/myLib.js";
+import { findValueBy_Id, dateLocal } from "../myLib/myLib.js";
 import { InputText } from "../myLib/inputText.jsx";
 import {
   createApp,
@@ -50,6 +50,7 @@ export const DocForm = (props) => {
   });
   const [appData, setAppData] = useState({ stamp: true, date: false });
   const [showWayBill, setShowWayBill] = useState(false);
+  const [appEditData, setAppEditData] = useState({});
 
   const handleClickClose = () => {
     props.handleClickClose();
@@ -124,12 +125,20 @@ export const DocForm = (props) => {
     }
     if (showApplication) {
       let htmlDoc = document.querySelector(".applicationForm");
+      console.log(
+        `${props.dataDoc.odersListId[id - 1]} от ${dateLocal(
+          appEditData.appDate
+        )}`
+      );
       dispatch(
         createApp(
           htmlDoc.innerHTML,
           props.dataDoc.odersListId[id - 1],
           year,
-          customer
+          customer,
+          `${props.dataDoc.odersListId[id - 1]} от ${dateLocal(
+            appEditData.appDate
+          )}`
         )
       );
       if (currentApplication + 1 < arrTabId.length) {
@@ -186,6 +195,9 @@ export const DocForm = (props) => {
     obj.wayBillNumber = text;
     setAddData(obj);
     setShowWayBill(false);
+  };
+  const getEditData = (editData) => {
+    setAppEditData(editData);
   };
 
   return (
@@ -387,6 +399,7 @@ export const DocForm = (props) => {
               dataDoc={props.dataDoc}
               id={id}
               stamp={appData.stamp}
+              getEditData={getEditData}
               //currentDate={appData.date}
             />
           </div>

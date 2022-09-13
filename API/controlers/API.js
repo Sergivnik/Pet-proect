@@ -527,8 +527,18 @@ module.exports.taskCreateDocWithoutStamp = (req, res) => {
 module.exports.taskCreateApp = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-  // const puppeteer = require("puppeteer");
-  // var fs = require("fs");
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.body.body.appNumber);
+  let newData = {
+    id: req.body.body.id,
+    field: "applicationNumber",
+    newValue: req.body.body.appNumber,
+  };
+  tasks.edit(newData, req.session.userId, false, (data) => {
+    if (data.error) {
+      res.json(data);
+    }
+  });
   try {
     const exists = fs.existsSync(
       `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app`
@@ -558,7 +568,6 @@ module.exports.taskCreateApp = (req, res) => {
           path: `./API/Bills/${req.body.body.year}/${req.body.body.customer}/app/app${req.body.body.id}.pdf`,
           format: "a4",
         });
-
         await browser.close();
         res.json("success!");
       })();

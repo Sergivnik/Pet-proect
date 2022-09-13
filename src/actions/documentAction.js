@@ -218,25 +218,29 @@ export const createDocWithoutStamp = (
       });
   };
 };
-export const createAppSuccess = () => ({
+export const createAppSuccess = (id, appNumber) => ({
   type: CREATE_APP_SUCCESS,
+  id,
+  appNumber,
 });
 export const createAppFailure = () => ({
   type: CREATE_APP_FAILURE,
 });
-export const createApp = (docHtml, id, year, customer) => {
+export const createApp = (docHtml, id, year, customer, appNumber) => {
   return (dispatch) => {
     axios
+      .create({ withCredentials: true })
       .post(DOMENNAME + "/API/createApp", {
         body: {
           html: docHtml,
           year: year,
           id: id,
           customer: customer,
+          appNumber,
         },
       })
       .then((res) => {
-        return dispatch(createAppSuccess());
+        return dispatch(createAppSuccess(id, appNumber));
       })
       .catch((res) => {
         return dispatch(createAppFailure());

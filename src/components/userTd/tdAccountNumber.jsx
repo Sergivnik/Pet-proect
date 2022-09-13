@@ -20,6 +20,7 @@ export const TdAccountNumber = (props) => {
   const [currentTD, setCurrentTD] = useState(null);
   const [showContextEmail, setShowContextEmail] = useState(true);
   const [typeDoc, setTypeDoc] = useState(null);
+  const [appBtn, setAppBtn] = useState("");
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -85,8 +86,11 @@ export const TdAccountNumber = (props) => {
     setShowEmailData(false);
   };
   const handleClikPrintApp = () => {
-    dispatch(getPdf(currentId, "app"));
-    setShowContextMenu(false);
+    if (appBtn == "Печать заявки") {
+      dispatch(getPdf(currentId, "app"));
+      setShowContextMenu(false);
+    } else {
+    }
   };
 
   useEffect(() => {
@@ -130,6 +134,15 @@ export const TdAccountNumber = (props) => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, [showEdit]);
+  useEffect(() => {
+    if (props.elem) {
+      if (props.elem.applicationNumber) {
+        setAppBtn("Печать заявки");
+      } else {
+        setAppBtn("Создать заявку");
+      }
+    }
+  }, []);
 
   return (
     <td
@@ -157,7 +170,7 @@ export const TdAccountNumber = (props) => {
             Печать без штампа
           </p>
           <p className="contextmenu" onClick={handleClikPrintApp}>
-            Печать заявки
+            {appBtn}
           </p>
           <p className="contextmenu" onClick={handleClickPrintTTN}>
             Печать ТТН

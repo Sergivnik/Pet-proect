@@ -133,6 +133,7 @@ export const UserTr = (props) => {
             currentTR={props.trId}
             handleClickGenerate={handleClickGenerate}
             edit={true}
+            elem={props.elem}
           />
           {props.showDelete &&
             props.elem._id == props.trId &&

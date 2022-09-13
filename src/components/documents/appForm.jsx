@@ -146,9 +146,14 @@ export const AppForm = (props) => {
       (elem) => elem._id == editData.driverId
     );
     if (trackDriverNew) setTrackDriverEdit(trackDriverNew);
-    let trackNew = tracksList.find((elem) => elem._id == trackDriverNew.idTrack);
+    let trackNew = tracksList.find(
+      (elem) => elem._id == trackDriverNew.idTrack
+    );
     if (trackNew) setTrackEdit(trackNew);
     console.log(trackDriverNew);
+  }, [editData]);
+  useEffect(() => {
+    props.getEditData(editData);
   }, [editData]);
 
   const handleChangePoint = (e, index, name) => {

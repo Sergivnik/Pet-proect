@@ -52,6 +52,7 @@ import {
   CREATE_NEW_INVOICE_FAILURE,
   SEND_EMAIL_SUCCESS,
   SEND_EMAIL_FAILURE,
+  CREATE_APP_SUCCESS,
 } from "../actions/documentAction.js";
 import {
   EDIT_ADDDATA_SUCCESS,
@@ -1020,6 +1021,23 @@ export const oderReducer = (store = initialStore, action) => {
     }
     case AUTH_SIGN_OUT_SUCCESS: {
       return { ...store, currentUser: { name: null, role: null } };
+    }
+    case CREATE_APP_SUCCESS: {
+      console.log(action);
+      let index = store.odersList.findIndex((item) => item._id == action.id);
+      let originIndex = store.originOdersList.findIndex(
+        (item) => item._id == action.id
+      );
+      let newOder = store.odersList[index];
+      newOder.applicationNumber = action.appNumber;
+      return update(store, {
+        odersList: {
+          $merge: { [index]: newOder },
+        },
+        originOdersList: {
+          $merge: { [originIndex]: newOder },
+        },
+      });
     }
 
     default:

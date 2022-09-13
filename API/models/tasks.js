@@ -502,6 +502,7 @@ var Tasks = {
     db.end();
   },
   edit: async function (newdata, userId, isAllowed, callback) {
+    console.log(newdata, userId, isAllowed);
     let allowedField = isAllowed;
     switch (newdata.field) {
       case "date":
@@ -578,6 +579,9 @@ var Tasks = {
         break;
       case "sumPartPay":
         change = { partialPaymentAmount: newdata.newValue };
+        break;
+      case "applicationNumber":
+        change = { applicationNumber: newdata.newValue };
         break;
       default:
         break;
