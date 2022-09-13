@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import {
   getPdf,
@@ -10,6 +10,10 @@ import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 import { FormAddEmailData } from "../userTrNew/fornAddEmailData.jsx";
 
 export const TdAccountNumber = (props) => {
+  const orderList = useSelector((state) => state.oderReducer.odersList);
+  const order = props.elem
+    ? orderList.find((elem) => elem._id == props.elem._id)
+    : null;
   const dispatch = useDispatch();
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
@@ -135,14 +139,14 @@ export const TdAccountNumber = (props) => {
     };
   }, [showEdit]);
   useEffect(() => {
-    if (props.elem) {
-      if (props.elem.applicationNumber) {
+    if (order) {
+      if (order.applicationNumber) {
         setAppBtn("Печать заявки");
       } else {
         setAppBtn("Создать заявку");
       }
     }
-  }, []);
+  }, [orderList]);
 
   return (
     <td

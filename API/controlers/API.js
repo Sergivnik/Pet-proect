@@ -534,7 +534,7 @@ module.exports.taskCreateApp = (req, res) => {
     field: "applicationNumber",
     newValue: req.body.body.appNumber,
   };
-  tasks.edit(newData, req.session.userId, false, (data) => {
+  tasks.edit(newData, req.session.userId, true, (data) => {
     if (data.error) {
       res.json(data);
     }
