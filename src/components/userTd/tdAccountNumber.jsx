@@ -8,6 +8,7 @@ import {
 } from "../../actions/documentAction.js";
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 import { FormAddEmailData } from "../userTrNew/fornAddEmailData.jsx";
+import { UserWindow } from "../userWindow/userWindow.jsx";
 
 export const TdAccountNumber = (props) => {
   const orderList = useSelector((state) => state.oderReducer.odersList);
@@ -21,10 +22,12 @@ export const TdAccountNumber = (props) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [showInputFile, setShowInputFile] = useState(false);
   const [showEmailData, setShowEmailData] = useState(false);
+  const [showAppForm, setShowAppForm] = useState(false);
   const [currentTD, setCurrentTD] = useState(null);
   const [showContextEmail, setShowContextEmail] = useState(true);
   const [typeDoc, setTypeDoc] = useState(null);
   const [appBtn, setAppBtn] = useState("");
+  const [top, setTop] = useState(0);
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -89,12 +92,20 @@ export const TdAccountNumber = (props) => {
     setShowInputFile(false);
     setShowEmailData(false);
   };
-  const handleClikPrintApp = () => {
+  const handleClikPrintApp = (e) => {
     if (appBtn == "Печать заявки") {
       dispatch(getPdf(currentId, "app"));
       setShowContextMenu(false);
     } else {
+      let elem = e.currentTarget;
+      if (elem) console.log(elem, elem.getBoundingClientRect());
+      setTop(Math.round(elem.getBoundingClientRect().y - 200));
+      setShowAppForm(true);
+      setShowContextMenu(false);
     }
+  };
+  const handleClickUserWindowClose = () => {
+    setShowAppForm(false);
   };
 
   useEffect(() => {
@@ -219,6 +230,19 @@ export const TdAccountNumber = (props) => {
           typeDoc={typeDoc}
           handleClickClose={handleClickClose}
         />
+      )}
+      {showAppForm && (
+        <UserWindow
+          header="Оформление заявки"
+          width={500}
+          height={371}
+          left="-50vw"
+          top={`-${top}px`}
+          handleClickWindowClose={handleClickUserWindowClose}
+          windowId="fillApplication"
+        >
+          "hi"
+        </UserWindow>
       )}
     </td>
   );
