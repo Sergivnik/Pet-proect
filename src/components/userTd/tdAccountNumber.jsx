@@ -9,6 +9,7 @@ import {
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 import { FormAddEmailData } from "../userTrNew/fornAddEmailData.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
+import { AppFormExtra } from "../documents/appFormExtra.jsx";
 
 export const TdAccountNumber = (props) => {
   const orderList = useSelector((state) => state.oderReducer.odersList);
@@ -31,6 +32,7 @@ export const TdAccountNumber = (props) => {
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
+    if (e.target.tagName != "TD") return false;
     if (props.edit) {
       setShowEdit(true);
       e.currentTarget.parentElement.style.backgroundColor = "#fff";
@@ -234,14 +236,14 @@ export const TdAccountNumber = (props) => {
       {showAppForm && (
         <UserWindow
           header="Оформление заявки"
-          width={500}
-          height={371}
+          width={800}
+          height={800}
           left="-50vw"
           top={`-${top}px`}
           handleClickWindowClose={handleClickUserWindowClose}
           windowId="fillApplication"
         >
-          "hi"
+          <AppFormExtra id={props.elem._id} />
         </UserWindow>
       )}
     </td>
