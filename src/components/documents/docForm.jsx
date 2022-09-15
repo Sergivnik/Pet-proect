@@ -400,6 +400,7 @@ export const DocForm = (props) => {
               id={id}
               stamp={appData.stamp}
               getEditData={getEditData}
+              driverApp={false}
               //currentDate={appData.date}
             />
           </div>

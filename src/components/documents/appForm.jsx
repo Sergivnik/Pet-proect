@@ -23,6 +23,7 @@ export const AppForm = (props) => {
     (state) => state.oderReducer.trackdrivers
   );
   const storelist = useSelector((state) => state.oderReducer.storelist);
+  const driverList = useSelector((state) => state.oderReducer.driverlist);
 
   const order = odersList.find(
     (elem) => elem._id == props.dataDoc.odersListId[props.id - 1]
@@ -30,6 +31,9 @@ export const AppForm = (props) => {
   const client = clientList.find((elem) => elem._id == order.idCustomer);
   const manager = order.idManager
     ? managerList.find((elem) => elem._id == order.idManager)
+    : null;
+  const driver = order.idDriver
+    ? driverList.find((elem) => elem._id == order.idDriver)
     : null;
   const track = order.idTrack
     ? tracksList.find((elem) => elem._id == order.idTrack)
@@ -48,6 +52,7 @@ export const AppForm = (props) => {
     driverId: trackDriver ? trackDriver._id : null,
     managerId: null,
     customerPrice: order.customerPrice,
+    driverPrice: order.driverPrice,
     addCondition: "",
   });
   const [showEditWindow, setShowEditWindow] = useState(false);
@@ -336,14 +341,18 @@ export const AppForm = (props) => {
           <span>Заказчик</span>
         </div>
         <div style={styleCellRight}>
-          <SpanWithList
-            list={clientList}
-            name="customerId"
-            id={editData.customerId}
-            filedId="_id"
-            fieldPrint="companyName"
-            getId={getId}
-          />
+          {props.driverApp ? (
+            "ИП Иванов С.Н."
+          ) : (
+            <SpanWithList
+              list={clientList}
+              name="customerId"
+              id={editData.customerId}
+              filedId="_id"
+              fieldPrint="companyName"
+              getId={getId}
+            />
+          )}
         </div>
       </div>
       <div style={styleDivRow}>
@@ -476,12 +485,16 @@ export const AppForm = (props) => {
           <div style={{ width: "20%" }}>
             <SpanWithText
               name="customerPrice"
-              text={editData.customerPrice}
+              text={
+                props.driverApp ? editData.driverPrice : editData.customerPrice
+              }
               getText={getEditText}
             />
           </div>
           <span style={{ width: "80%" }}>
-            {sumInWords(editData.customerPrice)}
+            {sumInWords(
+              props.driverApp ? editData.driverPrice : editData.customerPrice
+            )}
           </span>
         </div>
       </div>
@@ -622,7 +635,7 @@ export const AppForm = (props) => {
       </div>
       <div style={styleDivRow}>
         <div style={styleDiv50}>
-          <h4>Исполнитель</h4>
+          <h4>{props.driverApp ? "Заказчик" : "Исполнитель"}</h4>
           <p style={{ height: "75px" }}>
             ИП Иванов С.Н. 347923, г. Таганрог Ростовская область, ул.Ломакина
             д.108 кв. 2, ИНН 615408271552
@@ -660,10 +673,17 @@ export const AppForm = (props) => {
           )}
         </div>
         <div style={styleDiv50}>
-          <h4>Заказчик</h4>
-          <p style={{ height: "75px" }}>{`${clientEdit.companyName} ИНН ${
-            clientEdit.TIN ? clientEdit.TIN : ""
-          }, ${clientEdit.address ? clientEdit.address : ""}`}</p>
+          <h4>{props.driverApp ? "Исполнитель" : "Заказчик"}</h4>
+          {!props.driverApp && (
+            <p style={{ height: "75px" }}>{`${clientEdit.companyName} ИНН ${
+              clientEdit.TIN ? clientEdit.TIN : ""
+            }, ${clientEdit.address ? clientEdit.address : ""}`}</p>
+          )}
+          {props.driverApp && (
+            <p style={{ height: "75px" }}>{`${driver.companyName} ИНН ${
+              driver.TIN ? driver.TIN : ""
+            }, ${driver.address ? driver.address : ""}`}</p>
+          )}
           <p style={{ marginTop: "50px" }}>Подпись ______________________</p>
         </div>
       </div>
