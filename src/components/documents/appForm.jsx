@@ -5,11 +5,10 @@ import { DOMENNAME } from "../../middlewares/initialState.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { InputText } from "../myLib/inputText.jsx";
 import { addData } from "../../actions/editDataAction";
-
-import "./billsForm.sass";
 import { SpanWithList } from "../myLib/mySpan/spanWithList.jsx";
 import { SpanWithText } from "../myLib/mySpan/spanWithText.jsx";
 import { SpanWithDate } from "../myLib/mySpan/spanWithDate.jsx";
+import "./billsForm.sass";
 
 export const AppForm = (props) => {
   const dispatch = useDispatch();
@@ -610,7 +609,9 @@ export const AppForm = (props) => {
         <div style={styleCellRight}>
           <span>
             {trackDriverEdit
-              ? `${trackDriverEdit.passportNumber} ${trackDriverEdit.department} выдан ${trackDriverEdit.dateOfIssue}`
+              ? `${trackDriverEdit.passportNumber} ${
+                  trackDriverEdit.department
+                } выдан ${dateLocal(trackDriverEdit.dateOfIssue)}`
               : ""}
           </span>
         </div>
