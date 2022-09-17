@@ -15,6 +15,7 @@ export const FormAddDoc = (props) => {
   let topTD = TD.getBoundingClientRect().top;
   let divFormLeft = windowWidth / 2 - divFormWidth / 2 - leftTD;
   let divFormTop = windowHeight / 2 - divFormHeight / 2 - topTD;
+  console.log(TD);
 
   const [pdfFile, setPdfFile] = useState(null);
   const [hrefFile, setHrefFile] = useState(null);

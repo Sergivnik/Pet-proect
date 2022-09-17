@@ -65,7 +65,8 @@ export const TdAccountNumber = (props) => {
     setShowContextMenu(false);
   };
   const handleClickPrintTTN = () => {
-    dispatch(getPdf(currentId, "ttn"));
+    let a = dispatch(getPdf(currentId, "ttn"));
+    console.log(a);
     setShowContextMenu(false);
   };
   const handleClickPrintWithoutStamp = () => {

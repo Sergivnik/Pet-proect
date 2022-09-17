@@ -7,9 +7,12 @@ import { TrackDriverTr } from "./trackDriverTr.jsx";
 import { TrackDraverAddTr } from "./trackDriverAddTr.jsx";
 import { TrackTr } from "./trackTr.jsx";
 import { TrackAddTr } from "./trackAddTr.jsx";
+import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 import { addData } from "../../actions/editDataAction.js";
 import { dateLocal } from "../myLib/myLib.js";
+import axios from "axios";
 import "./editData.sass";
+import { DOMENNAME } from "../../middlewares/initialState.js";
 
 export const DriverTable = (props) => {
   const dispatch = useDispatch();
@@ -35,6 +38,9 @@ export const DriverTable = (props) => {
   const [currentTrackId, setCurrentTrackId] = useState(null);
   const [showAddTrackDriverTr, setShowAddTrackDriverTr] = useState(false);
   const [showAddTrackTr, setShowAddTrackTr] = useState(false);
+  const [showInputFile, setShowInputFile] = useState(false);
+  const [currentTD, setCurrentTD] = useState(null);
+  const [embedURL, setEmbedURL] = useState("");
 
   useEffect(() => {
     if (chosenId != null) {
@@ -124,10 +130,12 @@ export const DriverTable = (props) => {
     if (markerDiv.id == "driver") {
       setNameAddBtn("Добавить водителя");
       setActiveMarker("driver");
+      setEmbedURL("");
     }
     if (markerDiv.id == "track") {
       setNameAddBtn("Добавить автомобиль");
       setActiveMarker("track");
+      setEmbedURL("");
     }
   };
   const setMarkerStyle = (divId) => {
@@ -138,10 +146,41 @@ export const DriverTable = (props) => {
     }
   };
   const getCurrentTrackDriverId = (id) => {
+    axios
+      .get(DOMENNAME + `/API/getPdf/${id}/driver`, { responseType: "blob" })
+      .then((res) => {
+        let blob = new Blob([res.data], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+        console.log(url);
+        setEmbedURL(url);
+        //URL.revokeObjectURL(embedURL);
+      })
+      .catch((e) => {
+        setEmbedURL("");
+        console.log(e.message);
+      });
     setCurrentTrackDriverId(id);
   };
   const getCurrentTrackId = (id) => {
+    axios
+      .get(DOMENNAME + `/API/getPdf/${id}/track`, { responseType: "blob" })
+      .then((res) => {
+        let blob = new Blob([res.data], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+        console.log(url);
+        setEmbedURL(url);
+        //URL.revokeObjectURL(embedURL);
+      })
+      .catch((e) => {
+        setEmbedURL("");
+        console.log(e.message);
+      });
+
     setCurrentTrackId(id);
+  };
+  const handleOnLoad = (e) => {
+    console.log("file loaded", e);
+    URL.revokeObjectURL(embedURL);
   };
   const handleClickAddInfo = () => {
     if (activeMarker == "driver") {
@@ -188,6 +227,14 @@ export const DriverTable = (props) => {
       document.execCommand("copy") ? res() : rej();
       textArea.remove();
     });
+  };
+  const handleClickAddDoc = () => {
+    let currentElement = document.querySelector(".EDFmainForm");
+    setCurrentTD(currentElement);
+    setShowInputFile(true);
+  };
+  const handleClickClose = () => {
+    setShowInputFile(false);
   };
 
   return (
@@ -250,7 +297,7 @@ export const DriverTable = (props) => {
           </tbody>
         </table>
         {showInfo && (
-          <div>
+          <div className="driverInfoWraper">
             <header className="driverInfoHeader">
               <div className="driverInfoDivMarker">
                 <div
@@ -273,6 +320,13 @@ export const DriverTable = (props) => {
                   Копировать в буфер обмена
                 </button>
               )}
+              {currentTrackDriverId !== null && (
+                <button className="driverAddBtn" onClick={handleClickAddDoc}>
+                  {activeMarker == "driver"
+                    ? "Добавить докумены водителя"
+                    : "Добавить документы АМ"}
+                </button>
+              )}
               <button className="driverAddBtn" onClick={handleClickAddInfo}>
                 {nameAddBtn}
               </button>
@@ -286,7 +340,7 @@ export const DriverTable = (props) => {
                       <td className="trackDriverTdHeader">Полное имя</td>
                       <td className="trackDriverTdHeader">Краткое имя</td>
                       <td className="trackDriverTdHeader">Паспорт номер</td>
-                      <td className="trackDriverTdHeader">Выдан</td>
+                      <td className="trackDriverTdHeader w400">Выдан</td>
                       <td className="trackDriverTdHeader">Дата</td>
                       <td className="trackDriverTdHeader">ВУД</td>
                       <td className="trackDriverTdHeader">Телефон</td>
@@ -345,10 +399,23 @@ export const DriverTable = (props) => {
                   </tbody>
                 </table>
               )}
+              <div className="trackDriverEmbedWrap">
+                <embed src={embedURL} width={500} onLoad={handleOnLoad} />
+              </div>
             </div>
           </div>
         )}
       </div>
+      {showInputFile ? (
+        <FormAddDoc
+          TD={currentTD}
+          currentId={
+            activeMarker == "driver" ? currentTrackDriverId : currentTrackId
+          }
+          typeDoc={activeMarker}
+          handleClickClose={handleClickClose}
+        />
+      ) : null}
     </>
   );
 };

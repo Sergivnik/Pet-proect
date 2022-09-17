@@ -748,5 +748,17 @@ var Tasks = {
     }
     db.end();
   },
+  getDataFromTableById: async (id, table, callback) => {
+    const db = mysql.createPool(options.sql).promise();
+    let dataFromTable = {};
+    try {
+      let [data] = await db.query(`select * FROM ${table} WHERE _id=${id}`);
+      dataFromTable = data[0];
+      callback(dataFromTable);
+    } catch (err) {
+      callback({ error: err });
+    }
+    db.end();
+  },
 };
 module.exports = Tasks;

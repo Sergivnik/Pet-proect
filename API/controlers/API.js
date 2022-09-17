@@ -79,29 +79,65 @@ module.exports.taskGetPdf = (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
   const path = require("path");
   console.log(req.params);
-  tasks.getDataById(req.params.id, "oderslist", (data) => {
-    if (data.error) {
-      res.status(500);
-      res.json({ message: data.error });
-    } else {
-      let Year = data.date.getFullYear();
-      let customer = data.customer[0].value;
-      let pathBills = path.join(__dirname, "..", "Bills");
-      let accountNumber = Number(data.accountNumber);
-      if (isNaN(accountNumber)) {
-        accountNumber = data.accountNumber;
-      }
-      if (req.params.typeDoc == "app") {
-        res.sendFile(
-          `${pathBills}/${Year}/${customer}/${req.params.typeDoc}/app${req.params.id}.pdf`
-        );
+  if (req.params.typeDoc != "driver" && req.params.typeDoc != "track") {
+    tasks.getDataById(req.params.id, "oderslist", (data) => {
+      if (data.error) {
+        res.status(500);
+        res.json({ message: data.error });
       } else {
-        res.sendFile(
-          `${pathBills}/${Year}/${customer}/${req.params.typeDoc}${accountNumber}.pdf`
-        );
+        let Year = data.date.getFullYear();
+        let customer = data.customer[0].value;
+        let pathBills = path.join(__dirname, "..", "Bills");
+        let accountNumber = Number(data.accountNumber);
+        if (isNaN(accountNumber)) {
+          accountNumber = data.accountNumber;
+        }
+        if (req.params.typeDoc == "app") {
+          res.sendFile(
+            `${pathBills}/${Year}/${customer}/${req.params.typeDoc}/app${req.params.id}.pdf`
+          );
+        } else {
+          res.sendFile(
+            `${pathBills}/${Year}/${customer}/${req.params.typeDoc}${accountNumber}.pdf`
+          );
+        }
       }
-    }
-  });
+    });
+  } else {
+    let pathBills = path.join(__dirname, "..", "docs");
+    let table = "";
+    let trackDriver = "";
+    let track = "";
+    let owner = "";
+    if (req.params.typeDoc == "driver") table = "trackdrivers";
+    if (req.params.typeDoc == "track") table = "tracklist";
+    tasks.getDataFromTableById(req.params.id, table, (data) => {
+      if (data.error) {
+        res.status(500);
+        res.json({ message: data.error });
+      } else {
+        console.log(data);
+        if (req.params.typeDoc == "driver") trackDriver = data.name;
+        if (req.params.typeDoc == "track") track = data.value;
+        let idOwner = data.idOwner;
+        tasks.getDataFromTableById(idOwner, "drivers", (data) => {
+          if (data.error) {
+            res.status(500);
+            res.json({ message: data.error });
+          } else {
+            console.log(data);
+            owner = data.value;
+            if (req.params.typeDoc == "driver")
+              res.sendFile(
+                `${pathBills}/${owner}/${trackDriver}/docDriver.pdf`
+              );
+            if (req.params.typeDoc == "track")
+              res.sendFile(`${pathBills}/${owner}/${track}/docTrack.pdf`);
+          }
+        });
+      }
+    });
+  }
 };
 module.exports.taskGetReportPdf = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
@@ -580,51 +616,141 @@ module.exports.taskAddConsignmentNote = (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
   console.log(req.params);
-  tasks.getDataById(req.params.id, "oderslist", (data) => {
-    if (data.error) {
-      res.status(500);
-      res.json({ message: data.error });
-    } else {
-      console.log(data);
-      let Year = data.date.getFullYear();
-      let customer = data.customer[0].value;
-      let accountNumber = isNaN(Number(data.accountNumber))
-        ? data.accountNumber
-        : Number(data.accountNumber);
-      let fs = require("fs");
-      if (req.params.typeDoc == "ttn") {
-        fs.copyFile(
-          `./API/Bills/tempDoc.pdf`,
-          `./API/Bills/${Year}/${customer}/${req.params.typeDoc}${accountNumber}.pdf`,
-          (err) => {
-            if (err) throw err; // не удалось скопировать файл
-            console.log("Файл успешно скопирован");
-            res.json("success!");
-          }
-        );
+  if (req.params.typeDoc != "driver" && req.params.typeDoc != "track") {
+    tasks.getDataById(req.params.id, "oderslist", (data) => {
+      if (data.error) {
+        res.status(500);
+        res.json({ message: data.error });
       } else {
-        try {
-          const exists = fs.existsSync(`./API/Bills/${Year}/${customer}/app`);
-          if (!exists) {
-            fs.mkdirSync(`./API/Bills/${Year}/${customer}/app`, {
-              recursive: true,
-            });
+        console.log(data);
+        let Year = data.date.getFullYear();
+        let customer = data.customer[0].value;
+        let accountNumber = isNaN(Number(data.accountNumber))
+          ? data.accountNumber
+          : Number(data.accountNumber);
+        let fs = require("fs");
+        if (req.params.typeDoc == "ttn") {
+          try {
+            const exists = fs.existsSync(
+              `./API/Bills/${Year}/${customer}/${req.params.typeDoc}`
+            );
+            if (!exists) {
+              fs.mkdirSync(
+                `./API/Bills/${Year}/${customer}/${req.params.typeDoc}`,
+                {
+                  recursive: true,
+                }
+              );
+            }
+          } catch (e) {
+            console.log(e);
           }
-        } catch (e) {
-          console.log(e);
+          fs.copyFile(
+            `./API/Bills/tempDoc.pdf`,
+            `./API/Bills/${Year}/${customer}/${req.params.typeDoc}${accountNumber}.pdf`,
+            (err) => {
+              if (err) throw err; // не удалось скопировать файл
+              console.log("Файл успешно скопирован");
+              res.json("success!");
+            }
+          );
+        } else {
+          try {
+            const exists = fs.existsSync(`./API/Bills/${Year}/${customer}/app`);
+            if (!exists) {
+              fs.mkdirSync(`./API/Bills/${Year}/${customer}/app`, {
+                recursive: true,
+              });
+            }
+          } catch (e) {
+            console.log(e);
+          }
+          fs.copyFile(
+            `./API/Bills/tempDoc.pdf`,
+            `./API/Bills/${Year}/${customer}/app/${req.params.typeDoc}${req.params.id}.pdf`,
+            (err) => {
+              if (err) throw err; // не удалось скопировать файл
+              console.log("Файл успешно скопирован");
+              res.json("success!");
+            }
+          );
         }
-        fs.copyFile(
-          `./API/Bills/tempDoc.pdf`,
-          `./API/Bills/${Year}/${customer}/app/${req.params.typeDoc}${req.params.id}.pdf`,
-          (err) => {
-            if (err) throw err; // не удалось скопировать файл
-            console.log("Файл успешно скопирован");
-            res.json("success!");
-          }
-        );
       }
-    }
-  });
+    });
+  } else {
+    let table = "";
+    let trackDriver = "";
+    let track = "";
+    let owner = "";
+    if (req.params.typeDoc == "driver") table = "trackdrivers";
+    if (req.params.typeDoc == "track") table = "tracklist";
+    tasks.getDataFromTableById(req.params.id, table, (data) => {
+      if (data.error) {
+        res.status(500);
+        res.json({ message: data.error });
+      } else {
+        console.log(data);
+        if (req.params.typeDoc == "driver") trackDriver = data.name;
+        if (req.params.typeDoc == "track") track = data.value;
+        let idOwner = data.idOwner;
+        tasks.getDataFromTableById(idOwner, "drivers", (data) => {
+          if (data.error) {
+            res.status(500);
+            res.json({ message: data.error });
+          } else {
+            console.log(data);
+            owner = data.value;
+            let fs = require("fs");
+            if (req.params.typeDoc == "driver") {
+              try {
+                const exists = fs.existsSync(
+                  `./API/docs/${owner}/${trackDriver}`
+                );
+                if (!exists) {
+                  fs.mkdirSync(`./API/docs/${owner}/${trackDriver}`, {
+                    recursive: true,
+                  });
+                }
+              } catch (e) {
+                console.log(e);
+              }
+              fs.copyFile(
+                `./API/Bills/tempDoc.pdf`,
+                `./API/docs/${owner}/${trackDriver}/docDriver.pdf`,
+                (err) => {
+                  if (err) throw err; // не удалось скопировать файл
+                  console.log("Файл успешно скопирован");
+                  res.json("success!");
+                }
+              );
+            }
+            if (req.params.typeDoc == "track") {
+              try {
+                console.log(`./API/docs/${owner}/${track}`);
+                const exists = fs.existsSync(`./API/docs/${owner}/${track}`);
+                if (!exists) {
+                  fs.mkdirSync(`./API/docs/${owner}/${track}`, {
+                    recursive: true,
+                  });
+                }
+              } catch (e) {
+                console.log(e);
+              }
+              fs.copyFile(
+                `./API/Bills/tempDoc.pdf`,
+                `./API/docs/${owner}/${track}/docTrack.pdf`,
+                (err) => {
+                  if (err) throw err; // не удалось скопировать файл
+                  console.log("Файл успешно скопирован");
+                  res.json("success!");
+                }
+              );
+            }
+          }
+        });
+      }
+    });
+  }
 };
 module.exports.taskSendEmail = (req, res) => {
   res.set("Access-Control-Allow-Credentials", "true");
