@@ -40,6 +40,14 @@ export const FormAddEmailData = (props) => {
   const handleChangeApp = () => {
     setIsSendApp(!isSendApp);
   };
+  useEffect(() => {
+    console.log(props);
+    if (props.text) {
+      let obj = { ...emailData };
+      obj.text = props.text;
+      setEmailData(obj);
+    }
+  }, []);
   return (
     <div
       style={{
@@ -95,8 +103,17 @@ export const FormAddEmailData = (props) => {
           </div>
         </div>
         <div className="addEmailApp">
-          <span className="addEmailAppSpan">Отправить заявку</span>
-          <input className="addEmailAppInput" type="checkbox" value={isSendApp} onChange={handleChangeApp} />
+          <span className="addEmailAppSpan">
+            {props.typeDoc == "driverDocs"
+              ? "Отправить докумены водителя"
+              : "Отправить заявку"}
+          </span>
+          <input
+            className="addEmailAppInput"
+            type="checkbox"
+            value={isSendApp}
+            onChange={handleChangeApp}
+          />
           <button className="addEmailSend" onClick={handleClickSend}>
             Отправить
           </button>

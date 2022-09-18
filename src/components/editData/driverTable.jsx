@@ -13,6 +13,7 @@ import { dateLocal } from "../myLib/myLib.js";
 import axios from "axios";
 import "./editData.sass";
 import { DOMENNAME } from "../../middlewares/initialState.js";
+import { FormAddEmailData } from "../userTrNew/fornAddEmailData.jsx";
 
 export const DriverTable = (props) => {
   const dispatch = useDispatch();
@@ -41,6 +42,8 @@ export const DriverTable = (props) => {
   const [showInputFile, setShowInputFile] = useState(false);
   const [currentTD, setCurrentTD] = useState(null);
   const [embedURL, setEmbedURL] = useState("");
+  const [showEmail, setShowEmail] = useState(false);
+  const [text, setText] = useState("");
 
   useEffect(() => {
     if (chosenId != null) {
@@ -212,6 +215,7 @@ export const DriverTable = (props) => {
     телефон: ${trackdriver.phoneNumber}
     А/М ${track.model} номер ${track.value}
     прицеп номер ${track.trackTrailerLicensePlate}`;
+    setText(bufferText);
     console.log(bufferText);
     let textArea = document.createElement("textarea");
     textArea.value = bufferText;
@@ -235,6 +239,12 @@ export const DriverTable = (props) => {
   };
   const handleClickClose = () => {
     setShowInputFile(false);
+    setShowEmail(false);
+  };
+  const handleClickEmail = () => {
+    let currentElement = document.querySelector(".EDFmainForm");
+    setCurrentTD(currentElement);
+    setShowEmail(true);
   };
 
   return (
@@ -327,6 +337,11 @@ export const DriverTable = (props) => {
                     : "Добавить документы АМ"}
                 </button>
               )}
+              {currentTrackDriverId !== null && (
+                <button className="driverAddBtn" onClick={handleClickEmail}>
+                  Отправить Email
+                </button>
+              )}
               <button className="driverAddBtn" onClick={handleClickAddInfo}>
                 {nameAddBtn}
               </button>
@@ -416,6 +431,15 @@ export const DriverTable = (props) => {
           handleClickClose={handleClickClose}
         />
       ) : null}
+      {showEmail && (
+        <FormAddEmailData
+          TD={currentTD}
+          currentId={currentId}
+          typeDoc={"driverDocs"}
+          text={text}
+          handleClickClose={handleClickClose}
+        />
+      )}
     </>
   );
 };
