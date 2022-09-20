@@ -159,6 +159,19 @@ export const AppForm = (props) => {
   useEffect(() => {
     props.getEditData(editData);
   }, [editData]);
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (e.code == "Escape") {
+        if (showEditWindow) {
+          setShowEditWindow(false);
+        }
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, [showEditWindow]);
 
   const handleChangePoint = (e, index, name) => {
     function padTo2Digits(num) {

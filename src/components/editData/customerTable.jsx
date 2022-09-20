@@ -193,13 +193,14 @@ export const CustomerTable = () => {
           <div className="tableDiv">
             <header className="managerHeader">
               <div className="divAddInfo">
+                <span className="spanAddInfo">{"Особые условия "}</span>
                 <span
                   onDoubleClick={handleChangeAddInfo}
                   onMouseDown={(e) => {
                     e.preventDefault();
                     return false;
                   }}
-                >{`Особые условия ${customerList[0].companyName} ${
+                >{` ${
                   customerList[0].addInfo ? customerList[0].addInfo : ""
                 }`}</span>
                 {showInput && (
