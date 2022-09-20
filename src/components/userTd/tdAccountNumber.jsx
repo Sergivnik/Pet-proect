@@ -91,9 +91,10 @@ export const TdAccountNumber = (props) => {
     //dispatch(sendEmail(currentId));
     setShowContextMenu(false);
   };
-  const handleClickClose = () => {
+  const handleClickClose = (isSuccess) => {
     setShowInputFile(false);
     setShowEmailData(false);
+    if (isSuccess) alert("Не забудьте внести номер заявки в заказ!!!");
   };
   const handleClikPrintApp = (e) => {
     if (appBtn == "Печать заявки") {

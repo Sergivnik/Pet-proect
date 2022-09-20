@@ -130,6 +130,12 @@ export const DocForm = (props) => {
           appEditData.appDate
         )}`
       );
+      let orderId = props.dataDoc.odersListId[id - 1];
+      let order = odersList.find((elem) => elem._id == orderId);
+      if (order.applicationNumber) {
+        let check = confirm("Заявка уже привязана!! Заменить?");
+        if (!check) return false;
+      }
       dispatch(
         createApp(
           htmlDoc.innerHTML,

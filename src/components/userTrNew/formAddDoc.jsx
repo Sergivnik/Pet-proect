@@ -34,11 +34,11 @@ export const FormAddDoc = (props) => {
     }
   };
   const handleClickClose = () => {
-    props.handleClickClose();
+    props.handleClickClose(false);
   };
   const handleClickSave = () => {
     dispatch(addConsignmentNote(props.currentId, props.typeDoc, pdfFile));
-    props.handleClickClose();
+    props.handleClickClose(props.typeDoc == "app");
   };
 
   return (
