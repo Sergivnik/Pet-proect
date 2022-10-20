@@ -119,7 +119,7 @@ export const reportReducer = (store = reportDataStore, action) => {
         date: action.data.dateEnd,
         textInfo: `Долг на ${dateLocal(action.data.dateEnd)}`,
         sum: orderSum[0].sum,
-        type: "outCome",
+        type: "totalInfo",
       });
       orderSum[0].sum = orderSum[0].sum - sumOrder + sumPayment;
       console.log(orderSum);
