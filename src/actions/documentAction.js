@@ -150,7 +150,7 @@ export const addConsignmentNote = (id, typeDoc, file) => {
         }
       )
       .then((res) => {
-        dispatch(editOder(id, "document", 1));
+        if (typeDoc=="ttn") dispatch(editOder(id, "document", 1));
         return dispatch(addConsignmentNoteSuccess());
       })
       .catch((e) => {
