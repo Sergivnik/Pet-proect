@@ -1,21 +1,74 @@
+@media (min-width: 1200px)
+    .odersDivInfo
+        height: 25px
+    .odersDiv
+        height: calc(98vh - 25px)
+    .wrapperForAccount
+        min-width: 320px
+    .smallMenu
+        display: none
+    .odersMenu
+        display: flex
+    .odersMenuVertical
+        display: none
+@media (max-width: 1200px)
+    .odersDivInfo
+        height: 50px
+    .odersDiv
+        height: calc(98vh - 50px)
+        $heightHeader: 50px
+    .wrapperForAccount
+        min-width: 320px
+    .smallMenu
+        display: none
+    .odersMenu
+        display: flex
+    .odersMenuVertical
+        display: none
+@media (max-width:1020px)
+    .wrapperForAccount
+        min-width: 200px
+    .smallMenu
+        display: none
+    .odersMenu
+        display: flex
+    .odersMenuVertical
+        display: none
+@media (max-width:900px)
+    .smallMenu
+        display: block
+    .odersMenu
+        display: none
+    .odersMenuVertical
+        display: flex
 .odersDivInfo
-    height: 4vh
     display: flex
+    justify-content: space-between
+.wrapperForAccount
+    display: flex
+    width: 25%
 .orderDivInfoSpan
-    margin: 0 10px
+    margin-left: 10px
+.spanNoSpace
+    white-space: nowrap
 .odersDiv
     border: 1px solid #000
     background-color: #ccc
-    height: 94vh
     width: 100%
     display: flex
     flex-direction: column
     overflow-y: scroll
 .odersMenu
     position: relative
-    width: 40%
-    display: flex
+    width: 50%
     justify-content: space-around
+.odersMenuVertical
+    position: absolute
+    flex-direction: column
+    top: 58px
+    z-index: 25
+    left: 40%
+    width: 225px
 .odersMenuBtn
     margin: 0 10px
     border: none
@@ -29,7 +82,8 @@
     border: none
 .orderMenuUser
     display: flex
-    width: 35%
+    width: 25%
+    min-width: 240px
     justify-content: end
 .orderMenuUserSpan
     font-family: cursive
@@ -37,7 +91,7 @@
     color: grey
 .orderMenuUserBtn
     border: none
-    margin: 0 30px
+    margin: 0 10px
     height: 22px
 .orderMenuUserBtn:hover
     color: blue

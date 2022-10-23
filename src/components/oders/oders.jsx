@@ -20,6 +20,7 @@ import { Forecast } from "../forecast/forecast.jsx";
 import "./oders.sass";
 import { authSignOut } from "../../actions/auth.js";
 import { ChangePassword } from "../auth/changePassword.jsx";
+import { DOMENNAME } from "../../middlewares/initialState.js";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ export const Oders = () => {
   const [showSecretTable, setShowSecretTable] = useState(false);
   const [showDropDownMenu, setShowDropDownMenu] = useState(false);
   const [showUserWindow, setShowUserWindow] = useState(false);
+  const [showVerticalMenu, setShowVerticalMenu] = useState(false);
 
   const [trId, setTrId] = useState(null);
   const [addData, setAddData] = useState(0);
@@ -283,6 +285,7 @@ export const Oders = () => {
   const [children, setChildren] = useState(null);
   const handleClickBtnMenu = (e) => {
     setShowDropDownMenu(false);
+    setShowVerticalMenu(false);
     if (e.target.name == "dataEdit") {
       setShowEditDataWindow(true);
     }
@@ -367,13 +370,26 @@ export const Oders = () => {
   const handleClickUser = () => {
     setShowUserWindow(true);
   };
+  const handleClickSmallMenu = () => {
+    setShowVerticalMenu(!showVerticalMenu);
+  };
   return (
     <React.Fragment>
       <div className="odersDivInfo">
-        <span className="orderDivInfoSpan">
-          Рас.сч. {sumAccount.toLocaleString()} руб.
-        </span>
-        <Forecast />
+        <div className="wrapperForAccount">
+          <div className="orderDivInfoSpan">
+            <span>Рас.сч. </span>
+            <span className="spanNoSpace">
+              {sumAccount.toLocaleString()} руб.
+            </span>
+          </div>
+          <div className="orderDivInfoSpan">
+            <Forecast />
+          </div>
+        </div>
+        <div className="smallMenu" onClick={handleClickSmallMenu}>
+          <img src={`${DOMENNAME}/img/menu.png`} height="50" width="50" />
+        </div>
         <div className="odersMenu">
           <button className="odersMenuBtn" onClick={handleClickBtnDrop}>
             Платежи
@@ -441,6 +457,75 @@ export const Oders = () => {
             Отчеты
           </button>
         </div>
+        {showVerticalMenu && (
+          <div className="odersMenuVertical">
+            <button className="odersMenuBtn" onClick={handleClickBtnDrop}>
+              Платежи
+            </button>
+            {showDropDownMenu && (
+              <div className="dropDownMenu">
+                <button
+                  name="customPay"
+                  className="odersDropMenuBtn"
+                  onClick={handleClickBtnMenu}
+                >
+                  Поступление от поставщиков
+                </button>
+                <button
+                  name="customPayments"
+                  className="odersDropMenuBtn"
+                  onClick={handleClickBtnMenu}
+                >
+                  Входящие платежы
+                </button>
+                <button
+                  name="driverPay"
+                  className="odersDropMenuBtn"
+                  onClick={handleClickBtnMenu}
+                >
+                  Оплата переозчикам
+                </button>
+                <button
+                  name="otherPay"
+                  className="odersDropMenuBtn"
+                  onClick={handleClickBtnMenu}
+                >
+                  Расходы
+                </button>
+              </div>
+            )}
+
+            <button
+              name="driversDebt"
+              className="odersMenuBtn"
+              onClick={handleClickBtnMenu}
+            >
+              Долг переозчиков
+            </button>
+
+            <button
+              name="bill"
+              className="odersMenuBtn"
+              onClick={handleClickBtnMenu}
+            >
+              Высавление счетов
+            </button>
+            <button
+              name="dataEdit"
+              className="odersMenuBtn"
+              onClick={handleClickBtnMenu}
+            >
+              Внесение данных
+            </button>
+            <button
+              name="reports"
+              className="odersMenuBtn"
+              onClick={handleClickBtnMenu}
+            >
+              Отчеты
+            </button>
+          </div>
+        )}
         <div className="orderMenuUser">
           <span className="orderMenuUserSpan" onClick={handleClickUser}>
             {user.name}
