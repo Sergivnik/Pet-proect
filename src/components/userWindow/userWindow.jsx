@@ -55,12 +55,23 @@ export const UserWindow = (props) => {
     });
   };
   useEffect(() => {
+    let divRoot = document.querySelector("#root");
     let div = document.querySelector(`#${props.windowId}`);
+    let widthScreen = divRoot.clientWidth;
+    let width = props.width ? props.width : 1200;
     div.style.opacity = 0.95;
     div.style.top = props.top;
     div.style.left = props.left;
-    if (props.width) div.style.width = props.width + "px";
+    let left = div.offsetLeft;
+    if (widthScreen > left + width) {
+      if (props.width) div.style.width = props.width + "px";
+    } else {
+      div.style.width = widthScreen + "px";
+      div.style.left = "10px";
+    }
+
     if (props.height) div.style.height = props.height + "px";
+    console.log(widthScreen, left, width);
   }, [props]);
 
   return (
