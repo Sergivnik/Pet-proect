@@ -24,7 +24,16 @@ export const Router = () => {
         path="/something"
         component={checkUser ? SomeComponent : Auth}
       ></Route>
-      <Route exact path="/oders" component={checkUser ? Oders : Auth}></Route>
+      <Route
+        exact
+        path="/oders"
+        component={
+          checkUser &&
+          (user.role == "admin" || user.role == "accounter" || user.role == "logist")
+            ? Oders
+            : Auth
+        }
+      ></Route>
       <Route
         exact
         path="/auth"
