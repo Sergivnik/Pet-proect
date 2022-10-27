@@ -11,6 +11,7 @@ export const App = () => {
       {text}
       <Link to="/something">Something</Link>
       <Link to="/oders">Заказы</Link>
+      <Link to="/customer">Клиент</Link>
       <Link to="/auth">Вход</Link>
     </div>
   );

@@ -6,6 +6,7 @@ import { Oders } from "./oders/oders.jsx";
 import { Auth } from "./auth/auth.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { authGetUser } from "../actions/auth.js";
+import { CustomerOrders } from "./customerPart/customerOrders/customerOrders.jsx";
 
 export const Router = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,22 @@ export const Router = () => {
         path="/oders"
         component={
           checkUser &&
-          (user.role == "admin" || user.role == "accounter" || user.role == "logist")
+          (user.role == "admin" ||
+            user.role == "accounter" ||
+            user.role == "logist")
             ? Oders
+            : Auth
+        }
+      ></Route>
+      <Route
+        exact
+        path="/customer"
+        component={
+          checkUser &&
+          (user.role == "admin" ||
+            user.role == "customerBoss" ||
+            user.role == "customerManager")
+            ? CustomerOrders
             : Auth
         }
       ></Route>

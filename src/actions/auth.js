@@ -55,9 +55,11 @@ export const authSignUp = (data) => {
         body: data,
       })
       .then((res) => {
+        alert("Пользователь успешно добавлен");
         return dispatch(authSignUpSucces(res.data));
       })
       .catch((e) => {
+        alert(e.message);
         console.log(e.message);
         return dispatch(authSignUpFailure(e));
       });

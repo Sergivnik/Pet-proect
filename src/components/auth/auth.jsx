@@ -1,18 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authSignIn, authSignUp } from "../../actions/auth";
+import { ChoiseList } from "../choiseList/choiseList.jsx";
 import "./auth.sass";
 
 export const Auth = () => {
+  const roleList = [
+    { _id: 1, value: "admin" },
+    { _id: 2, value: "accounter" },
+    { _id: 3, value: "logist" },
+    { _id: 4, value: "customerBoss" },
+    { _id: 5, value: "customerManager" },
+  ];
+
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.oderReducer.currentUser);
+  const customerList = useSelector((state) => state.oderReducer.clientList);
+  const managerListFull = useSelector(
+    (state) => state.oderReducer.clientmanager
+  );
 
   const [btnName, setBtnName] = useState("Вход");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
+  const [customerId, setCustomerId] = useState(null);
+  const [managerList, setManagerList] = useState([]);
+  const [managerId, setManagerId] = useState(null);
+
+  useEffect(() => {
+    setManagerList(managerListFull);
+  }, [managerListFull]);
 
   const handleClickSignIn = (e) => {
     let div = e.currentTarget;
@@ -47,18 +67,40 @@ export const Auth = () => {
   const handleChangeName = (e) => {
     setName(e.currentTarget.value);
   };
-  const handleChangeRole = (e) => {
-    setRole(e.currentTarget.value);
+  const handleChangeRole = (data) => {
+    setRole(data.value);
+  };
+  const setIdCustomer = (data) => {
+    setCustomerId(data._id);
+    let arr = managerListFull.filter((elem) => elem.odersId == data._id);
+    setManagerList(arr);
+  };
+  const setIdMamager = (data) => {
+    setManagerId(data._id);
   };
   const handleClickBtn = () => {
     if (btnName === "Зарегистрироваться") {
       dispatch(
-        authSignUp({ login: login, password: password, name: name, role: role })
+        authSignUp({
+          login: login,
+          password: password,
+          name: name,
+          role: role,
+          customerId: customerId,
+          managerID: managerId,
+        })
       );
     }
     if (btnName === "Вход") {
       dispatch(authSignIn({ login: login, password: password }));
     }
+  };
+  const handleLabelGetFocus = (e) => {
+    console.log(e);
+    e.currentTarget.style.zIndex=5
+  };
+  const handleLabelLostFocus = (e) => {
+    e.currentTarget.style.zIndex=0
   };
   return (
     <div className="authContainer">
@@ -102,15 +144,50 @@ export const Auth = () => {
             </label>
           )}
           {btnName == "Зарегистрироваться" && (
-            <label className="authLabel">
-              <span className="authSpan">Роль</span>
-              <input
-                className="authInput"
-                type="text"
-                value={role}
-                onChange={handleChangeRole}
-              />
-            </label>
+            <>
+              <label
+                className="authLabel"
+                onFocus={handleLabelGetFocus}
+                onBlur={handleLabelLostFocus}
+              >
+                <span className="authSpan">Роль</span>
+                <div className="choiseWrap">
+                  <ChoiseList
+                    name="customer"
+                    arrlist={roleList}
+                    setValue={handleChangeRole}
+                  />
+                </div>
+              </label>
+              <label
+                className="authLabel"
+                onFocus={handleLabelGetFocus}
+                onBlur={handleLabelLostFocus}
+              >
+                <span className="authSpan">Клиент</span>
+                <div className="choiseWrap">
+                  <ChoiseList
+                    name="customer"
+                    arrlist={customerList}
+                    setValue={setIdCustomer}
+                  />
+                </div>
+              </label>
+              <label
+                className="authLabel"
+                onFocus={handleLabelGetFocus}
+                onBlur={handleLabelLostFocus}
+              >
+                <span className="authSpan">Менеджер</span>
+                <div className="choiseWrap">
+                  <ChoiseList
+                    name="manager"
+                    arrlist={managerList}
+                    setValue={setIdMamager}
+                  />
+                </div>
+              </label>
+            </>
           )}
         </main>
         <footer className="authFooter">
