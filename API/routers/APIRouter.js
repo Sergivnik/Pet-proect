@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const path = require("path");
 const API = require("../controlers/API.js");
+const customerAPI = require("../controlers/customerAPI.js");
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -23,6 +24,7 @@ router.get("/getPdfWithoutStamp/:id", API.taskGetPdfWithoutStamp);
 router.get("/getReportPdf", API.taskGetReportPdf);
 router.get("/getUser", API.taskGetUser);
 router.get("/signOut", API.taskSignOut);
+router.get("/getCustomerData", customerAPI.taskGet);
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
 });

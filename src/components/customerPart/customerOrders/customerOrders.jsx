@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authSignOut } from "../../../actions/auth";
+import { getCustomerData } from "../../../actions/customerOrderAdtion.js";
 import "./customerOrders.sass";
 
 export const CustomerOrders = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCustomerData());
+  }, [dispatch]);
 
   const user = useSelector((state) => state.oderReducer.currentUser);
 
