@@ -7,10 +7,18 @@ import {
 
 export const customerReducer = (store = customerStore, action) => {
   switch (action.type) {
-   case GET_CUSTOMER_DATA_SUCCESS:{
-
-   }
-   default:
+    case GET_CUSTOMER_DATA_SUCCESS: {
+      return {
+        ...store,
+        ordersList: action.dataServer.ordersList,
+        customerData: action.dataServer.customerData,
+        managerList: action.dataServer.managerList,
+        driversList: action.dataServer.driversList,
+        trackList: action.dataServer.trackList,
+        userList: action.dataServer.userList,
+      };
+    }
+    default:
       return store;
   }
 };

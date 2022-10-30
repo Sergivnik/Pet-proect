@@ -12,10 +12,37 @@ let customerTasks = {
       console.log(user[0].customerId);
       let listOfColumns =
         "_id, date, idLoadingPoint, idUnloadingPoint, customerPrice, document, customerPayment, accountNumber, idTrackDriver, idTrack, idManager, loadingInfo, unloadingInfo, applicationNumber";
-      let [data] = await db.query(
-        `(SELECT ${listOfColumns} FROM oderslist WHERE idCustomer="${user[0].customerId}" ORDER BY _id DESC LIMIT 1000) ORDER BY date, accountNumber, _id`
-      );
+      let data = [];
+      if (user[0].role == "customerBoss") {
+        [data] = await db.query(
+          `(SELECT ${listOfColumns} FROM oderslist WHERE idCustomer=${user[0].customerId} ORDER BY _id DESC LIMIT 1000) ORDER BY date, accountNumber, _id`
+        );
+      } else {
+        [data] = await db.query(
+          `(SELECT ${listOfColumns} FROM oderslist WHERE idCustomer=${user[0].customerId} and idManager=${user[0].managerID} ORDER BY _id DESC LIMIT 1000) ORDER BY date, accountNumber, _id`
+        );
+      }
       allData.ordersList = data;
+      if (user[0].role == "customerBoss") {
+        [data] = await db.query(
+          `SELECT * FROM trackdrivers WHERE _id in (SELECT distinct idTrackDriver FROM oderslist WHERE idCustomer=${user[0].customerId})`
+        );
+      } else {
+        [data] = await db.query(
+          `SELECT * FROM trackdrivers WHERE _id in (SELECT distinct idTrackDriver FROM oderslist WHERE idCustomer=${user[0].customerId} and idManager=${user[0].managerID})`
+        );
+      }
+      allData.driversList = data;
+      if (user[0].role == "customerBoss") {
+        [data] = await db.query(
+          `SELECT * FROM tracklist WHERE _id in (SELECT distinct idTrack FROM oderslist WHERE idCustomer=${user[0].customerId})`
+        );
+      } else {
+        [data] = await db.query(
+          `SELECT * FROM tracklist WHERE _id in (SELECT distinct idTrack FROM oderslist WHERE idCustomer=${user[0].customerId} and idManager=${user[0].managerID})`
+        );
+      }
+      allData.trackList = data;
       [data] = await db.query(
         `SELECT * FROM oders WHERE _id="${user[0].customerId}"`
       );

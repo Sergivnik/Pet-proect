@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authSignOut } from "../../../actions/auth";
 import { getCustomerData } from "../../../actions/customerOrderAdtion.js";
+import { TdDate } from "../../userTd/tdDate.jsx";
 import "./customerOrders.sass";
+import { CustomerTheader } from "./customerTHeader.jsx";
+import { CustomerTr } from "./customerTr.jsx";
 
 export const CustomerOrders = () => {
   const dispatch = useDispatch();
@@ -11,6 +14,10 @@ export const CustomerOrders = () => {
   }, [dispatch]);
 
   const user = useSelector((state) => state.oderReducer.currentUser);
+  const ordersList = useSelector((state) => state.customerReducer.ordersList);
+  const customerData = useSelector(
+    (state) => state.customerReducer.customerData
+  );
 
   const [currentDiv, setCurrentDiv] = useState("Tab1");
   const [content, setContent] = useState("BossContent");
@@ -24,6 +31,7 @@ export const CustomerOrders = () => {
       }
     }
   }, [user, currentDiv]);
+
   const setDivStyle = (divName, role) => {
     let className = "customerOrderHeaderTab";
     if (role != "customerBoss" && divName == "Tab1") {
@@ -47,7 +55,7 @@ export const CustomerOrders = () => {
   };
 
   return (
-    <div>
+    <div className="customerOrderContainer">
       <header className="customerOrdersHeader">
         <span className="customerOrdersHeaderHeader">
           Список заказов автотранспорта
@@ -57,7 +65,7 @@ export const CustomerOrders = () => {
           {"Выйти"}
         </span>
       </header>
-      <main>
+      <main className="customerOrdersMain">
         <header className="customerOrderMainHeader">
           <div
             className={setDivStyle("Tab1", user.role)}
@@ -83,8 +91,24 @@ export const CustomerOrders = () => {
           >
             Активные заказы
           </div>
+          <span className="customerOrderHeaderSpan">
+            {customerData.companyName}
+          </span>
         </header>
-        <div className="customerOrdderContentDiv">{content}</div>
+        <div className="customerOrdderContentDiv">
+          {content == "BossContent" && (
+            <table className="customerOrderContentTable">
+              <CustomerTheader data={ordersList} />
+              <tbody>
+                {ordersList.map((elem) => {
+                  return (
+                    <CustomerTr key={`customerTable${elem._id}`} elem={elem} />
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
       </main>
     </div>
   );
