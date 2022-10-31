@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { TdWithToolTip } from "../../myLib/tdWithToolTip/tdWithToolTip.jsx";
 import { TdDate } from "../../userTd/tdDate.jsx";
-import { TdLoadingPoint } from "../../userTd/tdLoadingPoint.jsx";
 import "./customerOrders.sass";
 
 export const CustomerTr = (props) => {
@@ -57,29 +57,14 @@ export const CustomerTr = (props) => {
   return (
     <tr>
       <TdDate date={elem.date} />
-      <td
-        className="customerOrderTableTd"
-        onMouseOver={handleMouseOverManager}
-        onMouseLeave={handleMouseLeave}
-      >
-        {manager ? manager.value : null}
-        {showDetailsManager && (
-          <div className="divToolTip">{manager ? manager.name : null}</div>
-        )}
-      </td>
-      <td
-        className="customerOrderTableTd"
-        onMouseOver={handleMouseOverDriver}
-        onMouseLeave={handleMouseLeave}
-      >
-        {driver ? driver.name : null}
-        {showDetailsDriver && (
-          <div className="divToolTip">
-            {track ? `${track.model} ${track.value}` : null}
-          </div>
-        )}
-      </td>
-      
+      <TdWithToolTip
+        value={manager ? manager.value : null}
+        toolTip={manager ? manager.name : null}
+      />
+      <TdWithToolTip
+        value={driver ? driver.name : null}
+        toolTip={track ? `${track.model} ${track.value}` : null}
+      />
     </tr>
   );
 };
