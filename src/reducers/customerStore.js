@@ -5,4 +5,6 @@ export const customerStore = {
   driversList: [],
   trackList: [],
   userList: [],
+  citiesList: [],
+  storelist: [],
 };

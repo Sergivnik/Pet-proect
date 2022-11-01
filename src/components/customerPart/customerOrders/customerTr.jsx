@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { TdPoinWithToolTip } from "../../myLib/tdPointWithToolTip/tdPointWithToolTip.jsx";
 import { TdWithToolTip } from "../../myLib/tdWithToolTip/tdWithToolTip.jsx";
 import { TdDate } from "../../userTd/tdDate.jsx";
 import "./customerOrders.sass";
@@ -8,52 +9,46 @@ export const CustomerTr = (props) => {
   const managerList = useSelector((state) => state.customerReducer.managerList);
   const driversList = useSelector((state) => state.customerReducer.driversList);
   const trackList = useSelector((state) => state.customerReducer.trackList);
+  const citiesList = useSelector((state) => state.customerReducer.citiesList);
+  const storelist = useSelector((state) => state.customerReducer.storelist);
 
   let elem = props.elem;
-  let mouseOut = true;
 
   const [manager, setManager] = useState(null);
   const [driver, setDriver] = useState(null);
   const [track, setTrack] = useState(null);
-  const [showDetailsManager, setShowDetailsManager] = useState(false);
-  const [showDetailsDriver, setShowDetailsDriver] = useState(false);
+  const [loadingList, setLoadingList] = useState([]);
+  const [loadingInfo, setLoadingInfo] = useState([]);
+  const [unLoadingList, setUnloadingList] = useState([]);
+  const [unloadingInfo, setUnloadingInfo] = useState([]);
 
   useEffect(() => {
     let currentManager = managerList.find(
       (manager) => manager._id == elem.idManager
     );
+    setManager(currentManager);
     let currentDriver = driversList.find(
       (driver) => driver._id == elem.idTrackDriver
     );
-    let currentTrack = trackList.find((track) => track._id == elem.idTrack);
-    setManager(currentManager);
     setDriver(currentDriver);
+    let currentTrack = trackList.find((track) => track._id == elem.idTrack);
     setTrack(currentTrack);
-  }, [managerList]);
+    let loadingList = elem.idLoadingPoint;
+    let citiesArr = [];
+    loadingList.forEach((point) => {
+      citiesArr.push(citiesList.find((city) => point == city._id).value);
+    });
+    setLoadingList(citiesArr);
+    setLoadingInfo(elem.loadingInfo);
+    let unloadingList = elem.idUnloadingPoint;
+    citiesArr = [];
+    unloadingList.forEach((point) => {
+      citiesArr.push(citiesList.find((city) => point == city._id).value);
+    });
+    setUnloadingList(citiesArr);
+    setUnloadingInfo(elem.loadingInfo);
+  }, []);
 
-  const handleMouseOverManager = () => {
-    mouseOut = false;
-    setTimeout(() => {
-      if (!mouseOut) setShowDetailsManager(true);
-    }, 500);
-    setTimeout(() => {
-      setShowDetailsManager(false);
-    }, 5000);
-  };
-  const handleMouseOverDriver = () => {
-    mouseOut = false;
-    setTimeout(() => {
-      if (!mouseOut) setShowDetailsDriver(true);
-    }, 500);
-    setTimeout(() => {
-      setShowDetailsDriver(false);
-    }, 5000);
-  };
-  const handleMouseLeave = () => {
-    mouseOut = true;
-    setShowDetailsManager(false);
-    setShowDetailsDriver(false);
-  };
   return (
     <tr>
       <TdDate date={elem.date} />
@@ -64,6 +59,11 @@ export const CustomerTr = (props) => {
       <TdWithToolTip
         value={driver ? driver.name : null}
         toolTip={track ? `${track.model} ${track.value}` : null}
+      />
+      <TdPoinWithToolTip pointsList={loadingList} pointInfoList={loadingInfo} />
+      <TdPoinWithToolTip
+        pointsList={unLoadingList}
+        pointInfoList={unloadingInfo}
       />
     </tr>
   );

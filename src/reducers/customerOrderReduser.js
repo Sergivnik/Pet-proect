@@ -16,6 +16,8 @@ export const customerReducer = (store = customerStore, action) => {
         driversList: action.dataServer.driversList,
         trackList: action.dataServer.trackList,
         userList: action.dataServer.userList,
+        citiesList: action.dataServer.citiesList,
+        storelist: action.dataServer.storelist,
       };
     }
     default:

@@ -55,10 +55,15 @@ let customerTasks = {
         `SELECT _id, name, role FROM users WHERE customerId="${user[0].customerId}"`
       );
       allData.userList = data;
+      [data] = await db.query(`SELECT * FROM cities`);
+      allData.citiesList = data;
+      [data] = await db.query(`SELECT * FROM storelist`);
+      allData.storelist = data;
       callBack(allData);
     } catch (err) {
       callBack({ error: err });
     }
+    db.end();
   },
 };
 module.exports = customerTasks;
