@@ -10,12 +10,14 @@ let customerTasks = {
       let user = await db.query(`SELECT * FROM users WHERE _id="${userId}"`);
       user = user[0];
       console.log(user[0].customerId);
+      let whereCondition = `WHERE idCustomer=${user[0].customerId}`;
+      if (user[0].role == "admin") whereCondition = "";
       let listOfColumns =
         "_id, date, idLoadingPoint, idUnloadingPoint, customerPrice, document, customerPayment, accountNumber, idTrackDriver, idTrack, idManager, loadingInfo, unloadingInfo, applicationNumber";
       let data = [];
-      if (user[0].role == "customerBoss") {
+      if (user[0].role == "customerBoss" || user[0].role == "admin") {
         [data] = await db.query(
-          `(SELECT ${listOfColumns} FROM oderslist WHERE idCustomer=${user[0].customerId} ORDER BY _id DESC LIMIT 1000) ORDER BY date, accountNumber, _id`
+          `(SELECT ${listOfColumns} FROM oderslist ${whereCondition} ORDER BY _id DESC LIMIT 1000) ORDER BY date, accountNumber, _id`
         );
       } else {
         [data] = await db.query(
@@ -23,9 +25,9 @@ let customerTasks = {
         );
       }
       allData.ordersList = data;
-      if (user[0].role == "customerBoss") {
+      if (user[0].role == "customerBoss" || user[0].role == "admin") {
         [data] = await db.query(
-          `SELECT * FROM trackdrivers WHERE _id in (SELECT distinct idTrackDriver FROM oderslist WHERE idCustomer=${user[0].customerId})`
+          `SELECT * FROM trackdrivers WHERE _id in (SELECT distinct idTrackDriver FROM oderslist ${whereCondition})`
         );
       } else {
         [data] = await db.query(
@@ -33,9 +35,9 @@ let customerTasks = {
         );
       }
       allData.driversList = data;
-      if (user[0].role == "customerBoss") {
+      if (user[0].role == "customerBoss" || user[0].role == "admin") {
         [data] = await db.query(
-          `SELECT * FROM tracklist WHERE _id in (SELECT distinct idTrack FROM oderslist WHERE idCustomer=${user[0].customerId})`
+          `SELECT * FROM tracklist WHERE _id in (SELECT distinct idTrack FROM oderslist ${whereCondition})`
         );
       } else {
         [data] = await db.query(
@@ -46,14 +48,31 @@ let customerTasks = {
       [data] = await db.query(
         `SELECT * FROM oders WHERE _id="${user[0].customerId}"`
       );
-      allData.customerData = data[0];
-      [data] = await db.query(
-        `SELECT * FROM clientmanager WHERE odersId="${user[0].customerId}"`
-      );
+      console.log(data);
+      if (user[0].role != "admin") {
+        allData.customerData = data[0];
+      } else {
+        allData.customerData = {
+          _id: 5000,
+          value: "Админстратор",
+          companyName: "Админстратор",
+        };
+      }
+      if (user[0].role != "admin") {
+        [data] = await db.query(
+          `SELECT * FROM clientmanager WHERE odersId="${user[0].customerId}"`
+        );
+      } else {
+        [data] = await db.query(`SELECT * FROM clientmanager`);
+      }
       allData.managerList = data;
-      [data] = await db.query(
-        `SELECT _id, name, role FROM users WHERE customerId="${user[0].customerId}"`
-      );
+      if (user[0].role != "admin") {
+        [data] = await db.query(
+          `SELECT _id, name, role FROM users WHERE customerId="${user[0].customerId}"`
+        );
+      } else {
+        [data] = await db.query(`SELECT _id, name, role FROM users`);
+      }
       allData.userList = data;
       [data] = await db.query(`SELECT * FROM cities`);
       allData.citiesList = data;

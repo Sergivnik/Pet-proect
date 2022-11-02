@@ -65,6 +65,9 @@ export const CustomerTr = (props) => {
         pointsList={unLoadingList}
         pointInfoList={unloadingInfo}
       />
+      <td className="customerOrderTd">{elem.customerPrice}</td>
+      <td className="customerOrderTd">{elem.document}</td>
+      <td className="customerOrderTd">{elem.customerPayment}</td>
     </tr>
   );
 };

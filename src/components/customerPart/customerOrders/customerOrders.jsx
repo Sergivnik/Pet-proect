@@ -24,7 +24,7 @@ export const CustomerOrders = () => {
 
   useEffect(() => {
     if (currentDiv == "Tab1") {
-      if (user.role == "customerBoss") {
+      if (user.role == "customerBoss" || user.role == "admin") {
         setContent("BossContent");
       } else {
         setContent("TopSecret");
@@ -92,7 +92,7 @@ export const CustomerOrders = () => {
             Активные заказы
           </div>
           <span className="customerOrderHeaderSpan">
-            {customerData.companyName}
+            {customerData?customerData.companyName:null}
           </span>
         </header>
         <div className="customerOrdderContentDiv">
