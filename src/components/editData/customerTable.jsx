@@ -194,19 +194,23 @@ export const CustomerTable = () => {
             <header className="managerHeader">
               <div className="divAddInfo">
                 <span className="spanAddInfo">{"Особые условия "}</span>
-                <span
-                  onDoubleClick={handleChangeAddInfo}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    return false;
-                  }}
-                >{` ${
-                  customerList[0].addInfo ? customerList[0].addInfo : ""
-                }`}</span>
+                {!showInput && (
+                  <span
+                    className="spanAddInfoInput"
+                    onDoubleClick={handleChangeAddInfo}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      return false;
+                    }}
+                  >{` ${
+                    customerList[0].addInfo ? customerList[0].addInfo : ""
+                  }`}</span>
+                )}
                 {showInput && (
                   <InputText
                     name="addInfo"
                     typeInput="text"
+                    className="inputAddInfo"
                     text={
                       customerList[0].addInfo ? customerList[0].addInfo : ""
                     }

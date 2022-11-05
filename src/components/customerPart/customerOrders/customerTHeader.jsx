@@ -13,6 +13,7 @@ export const CustomerTheader = (props) => {
     priceList: [],
     documentList: [],
     paymentList: [],
+    customerClientList: [],
   });
 
   const getFilteredList = () => {};
@@ -66,6 +67,12 @@ export const CustomerTheader = (props) => {
           name="paymentList"
           title="Оплата"
           listId={filterData.paymentList}
+          getFilteredList={getFilteredList}
+        />
+        <FilterTdList
+          name="paymentList"
+          title="Заказчик"
+          listId={filterData.customerClientList}
           getFilteredList={getFilteredList}
         />
       </tr>

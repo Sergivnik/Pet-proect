@@ -78,6 +78,14 @@ let customerTasks = {
       allData.citiesList = data;
       [data] = await db.query(`SELECT * FROM storelist`);
       allData.storelist = data;
+      [data] = await db.query(
+        `SELECT * FROM customerorders WHERE customerId="${user[0].customerId}" `
+      );
+      allData.customerOrders = data;
+      [data] = await db.query(
+        `SELECT * FROM customerclients WHERE orderId="${user[0].customerId}" `
+      );
+      allData.customerclients = data;
       callBack(allData);
     } catch (err) {
       callBack({ error: err });

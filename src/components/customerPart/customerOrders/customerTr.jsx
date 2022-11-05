@@ -10,7 +10,12 @@ export const CustomerTr = (props) => {
   const driversList = useSelector((state) => state.customerReducer.driversList);
   const trackList = useSelector((state) => state.customerReducer.trackList);
   const citiesList = useSelector((state) => state.customerReducer.citiesList);
-  const storelist = useSelector((state) => state.customerReducer.storelist);
+  const customerclientsList = useSelector(
+    (state) => state.customerReducer.customerclients
+  );
+  const customerOrdersList = useSelector(
+    (state) => state.customerReducer.customerOrders
+  );
 
   let elem = props.elem;
 
@@ -21,6 +26,8 @@ export const CustomerTr = (props) => {
   const [loadingInfo, setLoadingInfo] = useState([]);
   const [unLoadingList, setUnloadingList] = useState([]);
   const [unloadingInfo, setUnloadingInfo] = useState([]);
+  const [customerOrder, setCustomerOrder] = useState({});
+  const [customerClient, setCustomerClient] = useState({});
 
   useEffect(() => {
     let currentManager = managerList.find(
@@ -47,6 +54,15 @@ export const CustomerTr = (props) => {
     });
     setUnloadingList(citiesArr);
     setUnloadingInfo(elem.loadingInfo);
+    let obj = customerOrdersList.find((order) => order.orderId == elem._id);
+    setCustomerOrder(obj);
+    console.log(obj);
+    if (obj) {
+      let customerClient = customerclientsList.find(
+        (client) => client._id == obj.customerClientId
+      );
+      setCustomerClient(customerClient);
+    }
   }, []);
 
   return (
@@ -68,6 +84,10 @@ export const CustomerTr = (props) => {
       <td className="customerOrderTd">{elem.customerPrice}</td>
       <td className="customerOrderTd">{elem.document}</td>
       <td className="customerOrderTd">{elem.customerPayment}</td>
+      <TdWithToolTip
+        value={customerClient ? customerClient.fullName : null}
+        toolTip={customerOrder ? `${customerOrder.textInfo}` : null}
+      />
     </tr>
   );
 };

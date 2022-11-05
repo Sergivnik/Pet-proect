@@ -7,4 +7,6 @@ export const customerStore = {
   userList: [],
   citiesList: [],
   storelist: [],
+  customerOrders: [],
+  customerclients: [],
 };

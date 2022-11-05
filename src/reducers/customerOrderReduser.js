@@ -18,6 +18,8 @@ export const customerReducer = (store = customerStore, action) => {
         userList: action.dataServer.userList,
         citiesList: action.dataServer.citiesList,
         storelist: action.dataServer.storelist,
+        customerOrders: action.dataServer.customerOrders,
+        customerclients: action.dataServer.customerclients,
       };
     }
     default:
