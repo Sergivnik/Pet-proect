@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { FilterDateListTd } from "../../myLib/filterTd/filterDateListTd.jsx";
 import { FilterTdList } from "../../myLib/filterTd/filterTdList.jsx";
 import "./customerOrders.sass";
 
 export const CustomerTheader = (props) => {
+  console.log(props);
+  let data = props.data;
+
   const [filterData, setFilterData] = useState({
-    date: [{ id: 1, value: "2022-10-10" }],
+    date: [],
     managerList: [],
     driverList: [],
     loadingList: [],
@@ -16,12 +20,30 @@ export const CustomerTheader = (props) => {
     customerClientList: [],
   });
 
+  useEffect(() => {
+    let obj = { ...filterData };
+    let uniqueArr = [];
+    let index = 0;
+    data.forEach((elem) => {
+      if (!uniqueArr.includes(elem.date)) {
+        uniqueArr.push(elem.date);
+        let date = new Date(elem.date);
+        let dateStr = `${date.getFullYear()}-${
+          date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+        }-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
+        obj.date.push({ id: index, value: dateStr, checked: true });
+        index++;
+      }
+    });
+    setFilterData(obj);
+    console.log(obj);
+  }, [props]);
   const getFilteredList = () => {};
 
   return (
     <thead className="customerOrderThead">
       <tr>
-        <FilterTdList
+        <FilterDateListTd
           name="dateId"
           title="Дата"
           listId={filterData.date}

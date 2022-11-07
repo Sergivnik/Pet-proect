@@ -13,15 +13,15 @@ let customerTasks = {
       let whereCondition = `WHERE idCustomer=${user[0].customerId}`;
       if (user[0].role == "admin") whereCondition = "";
       let listOfColumns =
-        "_id, date, idLoadingPoint, idUnloadingPoint, customerPrice, document, customerPayment, accountNumber, idTrackDriver, idTrack, idManager, loadingInfo, unloadingInfo, applicationNumber";
+        "oderslist._id, date, idLoadingPoint, idUnloadingPoint, customerPrice, document, customerPayment, accountNumber, idTrackDriver, idTrack, idManager, loadingInfo, unloadingInfo, applicationNumber,customerClientId,textInfo";
       let data = [];
       if (user[0].role == "customerBoss" || user[0].role == "admin") {
         [data] = await db.query(
-          `(SELECT ${listOfColumns} FROM oderslist ${whereCondition} ORDER BY _id DESC LIMIT 1000) ORDER BY date, accountNumber, _id`
+          `(SELECT ${listOfColumns} FROM oderslist left join customerorders on customerorders.orderId=oderslist._id ${whereCondition} ORDER BY _id DESC LIMIT 1000) ORDER BY date, accountNumber, _id`
         );
       } else {
         [data] = await db.query(
-          `(SELECT ${listOfColumns} FROM oderslist WHERE idCustomer=${user[0].customerId} and idManager=${user[0].managerID} ORDER BY _id DESC LIMIT 1000) ORDER BY date, accountNumber, _id`
+          `(SELECT ${listOfColumns} FROM oderslist left join customerorders on customerorders.orderId=oderslist._id WHERE idCustomer=${user[0].customerId} and idManager=${user[0].managerID} ORDER BY _id DESC LIMIT 1000) ORDER BY date, accountNumber, _id`
         );
       }
       allData.ordersList = data;
@@ -78,13 +78,19 @@ let customerTasks = {
       allData.citiesList = data;
       [data] = await db.query(`SELECT * FROM storelist`);
       allData.storelist = data;
-      [data] = await db.query(
-        `SELECT * FROM customerorders WHERE customerId="${user[0].customerId}" `
-      );
-      allData.customerOrders = data;
-      [data] = await db.query(
-        `SELECT * FROM customerclients WHERE orderId="${user[0].customerId}" `
-      );
+      // [data] = await db.query(
+      //   `SELECT * FROM customerorders WHERE customerId="${user[0].customerId}" `
+      // );
+      // allData.customerOrders = data;
+      if (user[0].role != "admin") {
+        [data] = await db.query(
+          `SELECT * FROM customerclients WHERE orderId="${user[0].customerId}" `
+        )
+      }else{
+        [data] = await db.query(
+          `SELECT * FROM customerclients `
+        )
+      }
       allData.customerclients = data;
       callBack(allData);
     } catch (err) {

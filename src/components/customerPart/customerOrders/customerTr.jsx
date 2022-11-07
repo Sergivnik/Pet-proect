@@ -26,7 +26,6 @@ export const CustomerTr = (props) => {
   const [loadingInfo, setLoadingInfo] = useState([]);
   const [unLoadingList, setUnloadingList] = useState([]);
   const [unloadingInfo, setUnloadingInfo] = useState([]);
-  const [customerOrder, setCustomerOrder] = useState({});
   const [customerClient, setCustomerClient] = useState({});
 
   useEffect(() => {
@@ -54,15 +53,10 @@ export const CustomerTr = (props) => {
     });
     setUnloadingList(citiesArr);
     setUnloadingInfo(elem.loadingInfo);
-    let obj = customerOrdersList.find((order) => order.orderId == elem._id);
-    setCustomerOrder(obj);
-    console.log(obj);
-    if (obj) {
-      let customerClient = customerclientsList.find(
-        (client) => client._id == obj.customerClientId
-      );
-      setCustomerClient(customerClient);
-    }
+    let obj = customerclientsList.find(
+      (client) => client._id == elem.customerClientId
+    );
+    setCustomerClient(obj);
   }, []);
 
   return (
@@ -86,7 +80,7 @@ export const CustomerTr = (props) => {
       <td className="customerOrderTd">{elem.customerPayment}</td>
       <TdWithToolTip
         value={customerClient ? customerClient.fullName : null}
-        toolTip={customerOrder ? `${customerOrder.textInfo}` : null}
+        toolTip={elem ? (elem.textInfo ? `${elem.textInfo}` : null) : null}
       />
     </tr>
   );
