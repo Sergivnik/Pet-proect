@@ -4,7 +4,6 @@ import "./filterTd.sass";
 export const FilterDateListTd = (props) => {
   const [showList, setShowList] = useState(false);
   const [listIdValue, setListIdValue] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
   const [text, setText] = useState("");
   const [btnText, setBtnText] = useState("Очистить всё");
   const [classFilterTdDiv, setClassFilterTdDiv] = useState("filterTdDiv");
@@ -21,7 +20,6 @@ export const FilterDateListTd = (props) => {
       setColor("Black");
     }
     setListIdValue(props.listId);
-    setFilteredList(props.listId);
   }, [props.listId]);
   useEffect(() => {
     let dateList = props.listId;
@@ -41,7 +39,6 @@ export const FilterDateListTd = (props) => {
     let arr = listIdValue.filter((elem) => {
       if (regtext.test(elem.value)) return elem;
     });
-    setFilteredList(arr);
   };
   const handleClickFilter = (e) => {
     let tdParent = e.currentTarget.parentNode;
@@ -64,8 +61,7 @@ export const FilterDateListTd = (props) => {
     }
   };
   const handleClickOk = () => {
-    props.getFilteredList(props.name, filteredList);
-    console.log(filteredList);
+    props.getFilteredList(props.name, listIdValue);
     setShowList(false);
   };
   const getMonthsInYear = (year) => {

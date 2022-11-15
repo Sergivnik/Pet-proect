@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authSignOut } from "../../../actions/auth";
-import { getCustomerData } from "../../../actions/customerOrderAdtion.js";
+import { getCustomerData } from "../../../actions/customerOrderAction.js";
 import { TdDate } from "../../userTd/tdDate.jsx";
 import "./customerOrders.sass";
 import { CustomerTheader } from "./customerTHeader.jsx";
@@ -21,6 +21,7 @@ export const CustomerOrders = () => {
 
   const [currentDiv, setCurrentDiv] = useState("Tab1");
   const [content, setContent] = useState("BossContent");
+  const [filtredOrderList, setFiltredOrderList] = useState(ordersList);
 
   useEffect(() => {
     if (currentDiv == "Tab1") {
@@ -31,6 +32,9 @@ export const CustomerOrders = () => {
       }
     }
   }, [user, currentDiv]);
+  useEffect(() => {
+    setFiltredOrderList(ordersList);
+  }, [ordersList]);
 
   const setDivStyle = (divName, role) => {
     let className = "customerOrderHeaderTab";
@@ -52,6 +56,74 @@ export const CustomerOrders = () => {
     if (divName == "Tab1") setContent("BossContent");
     if (divName == "Tab2") setContent("ManagerContent");
     if (divName == "Tab3") setContent("activeContent");
+  };
+
+  const getFilterData = (data) => {
+    let arrOrders = [];
+    const findKey = (key) => {
+      if (key == "date") return "date";
+      if (key == "idManager") return "managerList";
+      if (key == "idTrackDriver") return "driverList";
+      if (key == "idLoadingPoint") return "loadingList";
+      if (key == "idUnloadingPoint") return "unLoadingList";
+      if (key == "customerPrice") return "priceList";
+      if (key == "document") return "documentList";
+      if (key == "customerPayment") return "paymentList";
+      if (key == "customerClientId") return "customerClientList";
+    };
+    ordersList.forEach((elem) => {
+      let condition = true;
+      for (let key in elem) {
+        if (key == "date") {
+          let elemDate = new Date(elem[key]);
+          let elemYear = elemDate.getFullYear();
+          let elemMonth = elemDate.getMonth();
+          let elemDay = elemDate.getDate();
+          let dateText = `${elemYear}-${
+            elemMonth < 9 ? `0${elemMonth + 1}` : `${elemMonth + 1}`
+          }-${elemDay < 10 ? `0${elemDay}` : `${elemDay}`}`;
+          let filter = data[findKey(key)].find(
+            (date) => date.value == dateText
+          );
+          condition = condition && (filter ? filter.checked : false);
+        }
+        if (
+          key == "idManager" ||
+          key == "idTrackDriver" ||
+          key == "customerClientId"
+        ) {
+          let filter = data[findKey(key)].find(
+            (elemId) => elemId.id == elem[key]
+          );
+          condition = condition && (filter ? filter.checked : false);
+        }
+        if (key == "idLoadingPoint" || key == "idUnloadingPoint") {
+          let check = false;
+          elem[key].forEach((idPoint) => {
+            let filter = data[findKey(key)].find(
+              (filterPoint) => filterPoint.id == idPoint
+            );
+            check = check || (filter ? filter.checked : false);
+          });
+          condition = condition && check;
+        }
+        if (key == "customerPrice") {
+          let filter = data[findKey(key)].find(
+            (price) => price.value == elem[key]
+          );
+          condition = condition && (filter ? filter.checked : false);
+        }
+        if (key == "document" || key == "customerPayment") {
+          let value = elem[key] == "Ок" ? "Ок" : "нет";
+          let filter = data[findKey(key)].find(
+            (filterElem) => filterElem.value == value
+          );
+          condition = condition && (filter ? filter.checked : false);
+        }
+      }
+      if (condition) arrOrders.push(elem);
+    });
+    setFiltredOrderList(arrOrders);
   };
 
   return (
@@ -92,15 +164,18 @@ export const CustomerOrders = () => {
             Активные заказы
           </div>
           <span className="customerOrderHeaderSpan">
-            {customerData?customerData.companyName:null}
+            {customerData ? customerData.companyName : null}
           </span>
         </header>
         <div className="customerOrdderContentDiv">
           {content == "BossContent" && (
             <table className="customerOrderContentTable">
-              <CustomerTheader data={ordersList} />
+              <CustomerTheader
+                data={ordersList}
+                getFilterData={getFilterData}
+              />
               <tbody>
-                {ordersList.map((elem) => {
+                {filtredOrderList.map((elem) => {
                   return (
                     <CustomerTr key={`customerTable${elem._id}`} elem={elem} />
                   );

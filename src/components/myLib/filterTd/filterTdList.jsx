@@ -3,8 +3,8 @@ import "./filterTd.sass";
 
 export const FilterTdList = (props) => {
   const [showList, setShowList] = useState(false);
-  const [listIdValue, setListIdValue] = useState([]);
-  const [filteredList, setFilteredLest] = useState([]);
+  const [listIdValue, setListIdValue] = useState(props.listId);
+  const [filteredList, setFilteredList] = useState(props.listId);
   const [text, setText] = useState("");
   const [btnText, setBtnText] = useState("Очистить всё");
   const [classFilterTdDiv, setClassFilterTdDiv] = useState("filterTdDiv");
@@ -18,8 +18,8 @@ export const FilterTdList = (props) => {
       setColor("Black");
     }
     setListIdValue(props.listId);
-    setFilteredLest(props.listId);
-  }, [props.listId]);
+    setFilteredList(props.listId);
+  }, [props.listId, showList]);
 
   const getText = (e) => {
     setText(e.currentTarget.value);
@@ -28,7 +28,7 @@ export const FilterTdList = (props) => {
     let arr = listIdValue.filter((elem) => {
       if (regtext.test(elem.value)) return elem;
     });
-    setFilteredLest(arr);
+    setFilteredList(arr);
   };
   const handleClickFilter = (e) => {
     let tdParent = e.currentTarget.parentNode;
@@ -42,10 +42,11 @@ export const FilterTdList = (props) => {
   };
   const handleClickCheck = (e) => {
     let id = e.currentTarget.id;
+    if (id == "") id = null;
     let [...arr] = filteredList;
     let elemId = arr.find((elem) => elem.id == id);
     elemId.checked = !elemId.checked;
-    setFilteredLest(arr);
+    setFilteredList(arr);
   };
   const handleSelectAll = () => {
     let [...arr] = listIdValue;
@@ -79,7 +80,7 @@ export const FilterTdList = (props) => {
           <div className="filterListDiv">
             {filteredList.map((elem) => {
               return (
-                <label key={elem.id}>
+                <label key={`label${elem.id}`}>
                   <input
                     id={elem.id}
                     type="checkbox"

@@ -76,8 +76,12 @@ export const CustomerTr = (props) => {
         pointInfoList={unloadingInfo}
       />
       <td className="customerOrderTd">{elem.customerPrice}</td>
-      <td className="customerOrderTd">{elem.document}</td>
-      <td className="customerOrderTd">{elem.customerPayment}</td>
+      <td className="customerOrderTd">
+        {elem.document == "Ок" ? "Ок" : "нет"}
+      </td>
+      <td className="customerOrderTd">
+        {elem.customerPayment == "Ок" ? "Ок" : "нет"}
+      </td>
       <TdWithToolTip
         value={customerClient ? customerClient.fullName : null}
         toolTip={elem ? (elem.textInfo ? `${elem.textInfo}` : null) : null}

@@ -3,7 +3,7 @@ import { customerStore } from "./customerStore.js";
 import {
   GET_CUSTOMER_DATA_SUCCESS,
   GET_CUSTOMER_DATA_FAILURE,
-} from "../actions/customerOrderAdtion.js";
+} from "../actions/customerOrderAction.js";
 
 export const customerReducer = (store = customerStore, action) => {
   switch (action.type) {
