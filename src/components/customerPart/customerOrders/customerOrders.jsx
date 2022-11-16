@@ -18,6 +18,12 @@ export const CustomerOrders = () => {
   const customerData = useSelector(
     (state) => state.customerReducer.customerData
   );
+  const customerOrders = useSelector(
+    (state) => state.customerReducer.customerOrders
+  );
+  const customerclients = useSelector(
+    (state) => state.customerReducer.customerclients
+  );
 
   const [currentDiv, setCurrentDiv] = useState("Tab1");
   const [content, setContent] = useState("BossContent");
@@ -29,6 +35,7 @@ export const CustomerOrders = () => {
         setContent("BossContent");
       } else {
         setContent("TopSecret");
+        handleClickTabDiv("Tab2");
       }
     }
   }, [user, currentDiv]);
@@ -178,6 +185,49 @@ export const CustomerOrders = () => {
                 {filtredOrderList.map((elem) => {
                   return (
                     <CustomerTr key={`customerTable${elem._id}`} elem={elem} />
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+          {content == "ManagerContent" && (
+            <table className="customerOrderContentTable">
+              <CustomerTheader
+                data={ordersList}
+                getFilterData={getFilterData}
+              />
+              <tbody>
+                {filtredOrderList.map((elem) => {
+                  return (
+                    <CustomerTr key={`customerTable${elem._id}`} elem={elem} />
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+          {content == "activeContent" && (
+            <table>
+              <thead>
+                <tr>
+                  <td>{"Клиент"}</td>
+                  <td>{"Погрузка"}</td>
+                  <td>{"Выгрузка"}</td>
+                  <td>{"Цена"}</td>
+                  <td>{"Адрес погрузки"}</td>
+                  <td>{"Адрес выгрузкм"}</td>
+                  <td>{"Номер заявки"}</td>
+                  <td>{"Особые условия"}</td>
+                </tr>
+              </thead>
+              <tbody>
+                {customerOrders.map((elem) => {
+                  let client = customerclients.find(
+                    (customer) => customer._id == elem.customerClientId
+                  );
+                  return (
+                    <tr key={`customerOrder${elem._id}`}>
+                      <td>{client ? client.name : null}</td>
+                    </tr>
                   );
                 })}
               </tbody>
