@@ -727,7 +727,7 @@ export const AppForm = (props) => {
           <div>
             {showChoiseList ? (
               <div>
-                <div className="choiseWrap">
+                <div className="choiseWrapStore">
                   <ChoiseList
                     name="store"
                     arrlist={storeFilterList}
