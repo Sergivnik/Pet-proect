@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authSignOut } from "../../../actions/auth";
 import { getCustomerData } from "../../../actions/customerOrderAction.js";
-import { TdDate } from "../../userTd/tdDate.jsx";
-import "./customerOrders.sass";
 import { CustomerTheader } from "./customerTHeader.jsx";
 import { CustomerTr } from "./customerTr.jsx";
+import { ManagerTHeader } from "./managerTHeader.jsx";
+import { ManagerTr } from "./managerTr.jsx";
+import "./customerOrders.sass";
 
 export const CustomerOrders = () => {
   const dispatch = useDispatch();
@@ -132,6 +133,9 @@ export const CustomerOrders = () => {
     });
     setFiltredOrderList(arrOrders);
   };
+  const handleClickCreateApp = () => {
+    alert("Create Application");
+  };
 
   return (
     <div className="customerOrderContainer">
@@ -170,9 +174,14 @@ export const CustomerOrders = () => {
           >
             Активные заказы
           </div>
-          <span className="customerOrderHeaderSpan">
-            {customerData ? customerData.companyName : null}
-          </span>
+          <div className="divWrapSpanButton">
+            <span className="customerOrderHeaderSpan">
+              {customerData ? customerData.companyName : null}
+            </span>
+            {content == "activeContent" && (
+              <button className="buttonCreateApp" onClick={handleClickCreateApp}>{"Создать заявку"}</button>
+            )}
+          </div>
         </header>
         <div className="customerOrdderContentDiv">
           {content == "BossContent" && (
@@ -206,28 +215,12 @@ export const CustomerOrders = () => {
             </table>
           )}
           {content == "activeContent" && (
-            <table>
-              <thead>
-                <tr>
-                  <td>{"Клиент"}</td>
-                  <td>{"Погрузка"}</td>
-                  <td>{"Выгрузка"}</td>
-                  <td>{"Цена"}</td>
-                  <td>{"Адрес погрузки"}</td>
-                  <td>{"Адрес выгрузкм"}</td>
-                  <td>{"Номер заявки"}</td>
-                  <td>{"Особые условия"}</td>
-                </tr>
-              </thead>
+            <table className="customerOrderContentTable">
+              <ManagerTHeader />
               <tbody>
                 {customerOrders.map((elem) => {
-                  let client = customerclients.find(
-                    (customer) => customer._id == elem.customerClientId
-                  );
                   return (
-                    <tr key={`customerOrder${elem._id}`}>
-                      <td>{client ? client.name : null}</td>
-                    </tr>
+                    <ManagerTr key={`customerOrder${elem._id}`} elem={elem} />
                   );
                 })}
               </tbody>
