@@ -6,6 +6,8 @@ import { CustomerTheader } from "./customerTHeader.jsx";
 import { CustomerTr } from "./customerTr.jsx";
 import { ManagerTHeader } from "./managerTHeader.jsx";
 import { ManagerTr } from "./managerTr.jsx";
+import { UserWindow } from "../../userWindow/userWindow.jsx";
+import { CustomerCreateApp } from "./customerCreateApp.jsx";
 import "./customerOrders.sass";
 
 export const CustomerOrders = () => {
@@ -22,13 +24,11 @@ export const CustomerOrders = () => {
   const customerOrders = useSelector(
     (state) => state.customerReducer.customerOrders
   );
-  const customerclients = useSelector(
-    (state) => state.customerReducer.customerclients
-  );
 
   const [currentDiv, setCurrentDiv] = useState("Tab1");
   const [content, setContent] = useState("BossContent");
   const [filtredOrderList, setFiltredOrderList] = useState(ordersList);
+  const [showCreateApp, setShowCreateApp] = useState(false);
 
   useEffect(() => {
     if (currentDiv == "Tab1") {
@@ -134,7 +134,10 @@ export const CustomerOrders = () => {
     setFiltredOrderList(arrOrders);
   };
   const handleClickCreateApp = () => {
-    alert("Create Application");
+    setShowCreateApp(true);
+  };
+  const handleClickEditWindowClose = () => {
+    setShowCreateApp(false);
   };
 
   return (
@@ -179,7 +182,12 @@ export const CustomerOrders = () => {
               {customerData ? customerData.companyName : null}
             </span>
             {content == "activeContent" && (
-              <button className="buttonCreateApp" onClick={handleClickCreateApp}>{"Создать заявку"}</button>
+              <button
+                className="buttonCreateApp"
+                onClick={handleClickCreateApp}
+              >
+                {"Создать заявку"}
+              </button>
             )}
           </div>
         </header>
@@ -228,6 +236,16 @@ export const CustomerOrders = () => {
           )}
         </div>
       </main>
+      {showCreateApp && (
+        <UserWindow
+          header="Создание заявки"
+          width={1200}
+          handleClickWindowClose={handleClickEditWindowClose}
+          windowId="createAppWindow"
+        >
+          <CustomerCreateApp />
+        </UserWindow>
+      )}
     </div>
   );
 };
