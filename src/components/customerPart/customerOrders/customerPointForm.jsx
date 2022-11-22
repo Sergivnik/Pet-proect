@@ -18,24 +18,35 @@ export const CustomerPointForm = (props) => {
 
   useEffect(() => {
     if (props.pointList.length != 0) setShowAddPoint(false);
+    setPointData({});
   }, [props]);
+  // useEffect(() => {
+  //   if (showAddPoint) {
+  //     let inputDate = document.querySelector(".customerPointInput");
+  //     inputDate.focus();
+  //   }
+  // }, [showAddPoint]);
   useEffect(() => {
-    if (showAddPoint) {
-      let inputDate = document.querySelector(".customerPointInput");
-      inputDate.focus();
-    }
-  }, [showAddPoint]);
+    const onKeypress = (e) => {
+      if (e.code == "Escape") {
+        setEditDate(false);
+        setEditPoint(false);
+        setEditStore(false);
+        setEditText(false);
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, []);
 
   const handleDateBlur = (e) => {
     let obj = { ...pointData };
     obj.date = e.currentTarget.value;
-    if (e.currentTarget.value) {
-      setPointData(obj);
-      let inputCity = document.querySelector("#point");
-      inputCity.focus();
-    } else {
-      e.currentTarget.focus();
-    }
+    setPointData(obj);
+    let inputCity = document.querySelector("#point");
+    inputCity.focus();
   };
   const handleDateEnter = (e) => {
     if (e.key == "Enter") {
@@ -58,13 +69,18 @@ export const CustomerPointForm = (props) => {
     let inputStore = document.querySelector("#store");
     inputStore.focus();
   };
-  const handlePointBlur = (e) => {
+  const handlePointBlur = () => {
     if (pointData.idPoint) {
       let inputStore = document.querySelector("#store");
-      e.currentTarget.style.borderColor = "black";
       inputStore.focus();
-    } else {
-      e.currentTarget.style.borderColor = "red";
+    }
+  };
+  const handlePointEnter = (e) => {
+    if (e.key == "Enter") {
+      if (pointData.idPoint) {
+        let inputStore = document.querySelector("#store");
+        inputStore.focus();
+      }
     }
   };
   const setStore = (data) => {
@@ -74,11 +90,57 @@ export const CustomerPointForm = (props) => {
     let inputTextInfo = document.querySelector("#textInfo");
     inputTextInfo.focus();
   };
+  const handleStoreBlur = () => {
+    if (pointData.storeId) {
+      let inputText = document.querySelector("#textInfo");
+      inputText.focus();
+    }
+  };
+  const handleStoreEnter = (e) => {
+    if (e.key == "Enter") {
+      if (pointData.storeId) {
+        let inputText = document.querySelector("#textInfo");
+        inputText.focus();
+      }
+    }
+  };
   const handleBlurText = (e) => {
     let obj = { ...pointData };
     obj.text = e.currentTarget.value;
     setPointData(obj);
-    props.addPointData(obj, props.name);
+    console.log(pointData);
+    if (pointData.date == "" || !pointData.idPoint) {
+      if (pointData.date == "") {
+        let inputDate = document.querySelector("#customerPointDate");
+        inputDate.focus();
+      }
+      if (!pointData.idPoint) {
+        let inputPoint = document.querySelector("#point");
+        inputPoint.focus();
+      }
+    } else {
+      props.addPointData(obj, props.name);
+    }
+  };
+  const handleTextEnter = (e) => {
+    if (e.key == "Enter") {
+      let obj = { ...pointData };
+      obj.text = e.currentTarget.value;
+      setPointData(obj);
+      console.log(pointData);
+      if (pointData.date == "" || !pointData.idPoint) {
+        if (pointData.date == "") {
+          let inputDate = document.querySelector("#customerPointDate");
+          inputDate.focus();
+        }
+        if (!pointData.idPoint) {
+          let inputPoint = document.querySelector("#point");
+          inputPoint.focus();
+        }
+      } else {
+        props.addPointData(obj, props.name);
+      }
+    }
   };
   const handleDblClick = (name, index) => {
     if (name == "date") setEditDate(true);
@@ -104,6 +166,12 @@ export const CustomerPointForm = (props) => {
   const handleEditText = (e) => {
     props.editData(props.name, "text", e.currentTarget.value, selectedIndex);
     setEditText(false);
+  };
+  const handleCkickPlus = () => {
+    setShowAddPoint(true);
+  };
+  const handleClickMinis = (index) => {
+    props.delPoint(props.name, index);
   };
   return (
     <div className="customerPointFormDiv">
@@ -149,6 +217,7 @@ export const CustomerPointForm = (props) => {
                 </div>
               ) : (
                 <span
+                  className="customerPointSpan"
                   onDoubleClick={() => {
                     handleDblClick("date", index);
                   }}
@@ -166,6 +235,7 @@ export const CustomerPointForm = (props) => {
                 </div>
               ) : (
                 <span
+                  className="customerPointSpan"
                   onDoubleClick={() => {
                     handleDblClick("point", index);
                   }}
@@ -183,6 +253,7 @@ export const CustomerPointForm = (props) => {
                 </div>
               ) : (
                 <span
+                  className="customerPointSpan"
                   onDoubleClick={() => {
                     handleDblClick("store", index);
                   }}
@@ -201,6 +272,7 @@ export const CustomerPointForm = (props) => {
                 </div>
               ) : (
                 <span
+                  className="customerPointSpan"
                   onDoubleClick={() => {
                     handleDblClick("text", index);
                   }}
@@ -229,19 +301,28 @@ export const CustomerPointForm = (props) => {
             <div className="customerPointInputWrapper">
               <input
                 type="date"
+                id="customerPointDate"
                 className="customerPointInput"
                 onBlur={handleDateBlur}
                 onKeyDown={handleDateEnter}
               />
             </div>
-            <div className="customerPointInputWrapper" onBlur={handlePointBlur}>
+            <div
+              className="customerPointInputWrapper"
+              onKeyDown={handlePointEnter}
+              onBlur={handlePointBlur}
+            >
               <ChoiseList
                 name="point"
                 arrlist={citiesList}
                 setValue={setPoint}
               />
             </div>
-            <div className="customerPointInputWrapper">
+            <div
+              className="customerPointInputWrapper"
+              onKeyDown={handleStoreEnter}
+              onBlur={handleStoreBlur}
+            >
               <ChoiseList
                 name="store"
                 arrlist={storelistInput}
@@ -254,23 +335,26 @@ export const CustomerPointForm = (props) => {
                 id="textInfo"
                 className="customerPointInput"
                 onBlur={handleBlurText}
+                onKeyDown={handleTextEnter}
               />
             </div>
           </div>
         ) : (
-          <div>
-            <svg viewBox="0 0 120 120" className="PFBtnSvg">
-              <circle
-                cx="60"
-                cy="60"
-                r="50"
-                stroke="black"
-                strokeWidth="10"
-                fill="none"
-              />
-              <rect x="15" y="50" width="90" height="20" rx="10" ry="10" />
-              <rect x="50" y="15" width="20" height="90" rx="10" ry="10" />
-            </svg>
+          <div className="customerPointDataDiv">
+            <div className="wrapprDivSVG" onClick={handleCkickPlus}>
+              <svg viewBox="0 0 120 120" className="PFBtnSvg">
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="50"
+                  stroke="black"
+                  strokeWidth="10"
+                  fill="none"
+                />
+                <rect x="15" y="50" width="90" height="20" rx="10" ry="10" />
+                <rect x="50" y="15" width="20" height="90" rx="10" ry="10" />
+              </svg>
+            </div>
           </div>
         )}
       </main>

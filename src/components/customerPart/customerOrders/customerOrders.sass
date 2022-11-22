@@ -100,15 +100,19 @@
 .createAppH3
    width: 100%
    text-align: center
-.loadingDiv
+.customerDiv
    width: 100%
-.loadingH3
+   display: flex
+   justify-content: center
+.loadingDiv,.unloadingDiv
+   width: 100%
+.loadingH3,.unloadingH3
    width: 100%
    text-align: center
 .customerPointFormDiv
    width: calc( 100% - 10px )
    border: 1px solid #000
-   height: 200px
+   height: 140px
    margin: 0 5px
    box-sizing: border-box
 .customerPointFormHeader
@@ -143,3 +147,39 @@
    border: none
    width: 100%
    padding: 0
+   outline: none
+.customerPointSpan
+   min-width: 100px
+   max-width: 150px
+   height: 20px
+   transition: background-color 2s
+   text-align: center
+.customerPointSpan:hover
+   background-color: #e8e8e8
+.customerAppWeightDiv,.customerAppPriceDiv,.customerAppTextDiv
+   width: 100%
+   display: flex
+   justify-content: center
+   margin: 5px
+.customerAppSpanWeight,.customerAppSpanPrice,.customerAppSpanText,.customerAppSpanClient
+   margin: 0 5px
+.customerAppSpanWeight:hover,.customerAppSpanPrice:hover,.customerAppSpanText:hover,.customerAppSpanClient:hover
+   color: grey
+.customerAppInputWrapper
+   border: 1px solid #000
+   min-width: 100px
+   max-width: 150px
+   height: 20px
+   margin: 0 5px
+.customerAppInput
+   border: none
+   width: 100%
+   padding: 0
+   outline: none
+.customerAppFooter
+   display: flex
+   justify-content: space-around
+   width: 100%
+.customerAppBtn
+   float: right
+   margin: 25px
