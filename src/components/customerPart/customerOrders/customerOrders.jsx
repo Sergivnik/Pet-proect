@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authSignOut } from "../../../actions/auth";
-import { getCustomerData } from "../../../actions/customerOrderAction.js";
+import {
+  getCustomerData,
+  delCustomerApp,
+} from "../../../actions/customerOrderAction.js";
 import { CustomerTheader } from "./customerTHeader.jsx";
 import { CustomerTr } from "./customerTr.jsx";
 import { ManagerTHeader } from "./managerTHeader.jsx";
@@ -29,7 +32,36 @@ export const CustomerOrders = () => {
   const [content, setContent] = useState("BossContent");
   const [filtredOrderList, setFiltredOrderList] = useState(ordersList);
   const [showCreateApp, setShowCreateApp] = useState(false);
+  const [currentId, setCurrentId] = useState(null);
 
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (e.code == "Escape") {
+        setCurrentId(null);
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, []);
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (e.code == "Delete") {
+        console.log(e.code, currentId);
+        if (currentId) {
+          let check = confirm("Удалить заказ?");
+          if (check) {
+            dispatch(delCustomerApp(currentId));
+          }
+        }
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, [currentId]);
   useEffect(() => {
     if (currentDiv == "Tab1") {
       if (user.role == "customerBoss" || user.role == "admin") {
@@ -134,10 +166,18 @@ export const CustomerOrders = () => {
     setFiltredOrderList(arrOrders);
   };
   const handleClickCreateApp = () => {
+    setCurrentId(null);
     setShowCreateApp(true);
   };
   const handleClickEditWindowClose = () => {
     setShowCreateApp(false);
+  };
+  const handleClickManagerTr = (id) => {
+    setCurrentId(id);
+  };
+  const handleDblClickManagerTr = (id) => {
+    setCurrentId(id);
+    setShowCreateApp(true);
   };
 
   return (
@@ -228,7 +268,13 @@ export const CustomerOrders = () => {
               <tbody>
                 {customerOrders.map((elem) => {
                   return (
-                    <ManagerTr key={`customerOrder${elem._id}`} elem={elem} />
+                    <ManagerTr
+                      onClick={handleClickManagerTr}
+                      onDoubleClick={handleDblClickManagerTr}
+                      key={`customerOrder${elem._id}`}
+                      elem={elem}
+                      currentId={currentId}
+                    />
                   );
                 })}
               </tbody>
@@ -243,7 +289,11 @@ export const CustomerOrders = () => {
           handleClickWindowClose={handleClickEditWindowClose}
           windowId="createAppWindow"
         >
-          <CustomerCreateApp id={null} user={user} />
+          <CustomerCreateApp
+            id={currentId}
+            user={user}
+            closeWindow={handleClickEditWindowClose}
+          />
         </UserWindow>
       )}
     </div>

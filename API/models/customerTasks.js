@@ -138,5 +138,59 @@ let customerTasks = {
     }
     db.end();
   },
+  editCustomerApp: async (data, callBack) => {
+    console.log(data);
+    let dataApp = data.appData;
+    const db = mysql.createPool(options.sql).promise();
+    let date = new Date(dataApp.dateOfApp);
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    let day = date.getDate();
+    dateText = `${year}-${month < 9 ? `0${month + 1}` : `${month + 1}`}-${
+      day < 10 ? `0${day}` : `${day}`
+    }`;
+    let customerApp = {
+      dateOfApp: dateText,
+      customerClientId: dataApp.customerClientId,
+      weight: dataApp.weight,
+      idLoadingPoint: JSON.stringify(dataApp.idLoadingPoint),
+      idUnloadingPoint: JSON.stringify(dataApp.idUnloadingPoint),
+      loadingInfo: JSON.stringify(dataApp.loadingInfo),
+      unloadingInfo: JSON.stringify(dataApp.unloadingInfo),
+      dateOfLoading: JSON.stringify(dataApp.dateOfLoading),
+      dateOfUnloading: JSON.stringify(dataApp.dateOfUnloading),
+      loadingStoreId: JSON.stringify(dataApp.loadingStoreId),
+      unloadingStoreId: JSON.stringify(dataApp.unloadingStoreId),
+      customerPrice: dataApp.customerPrice,
+      textInfo: dataApp.textInfo,
+      orderId: dataApp.orderId,
+      customerId: dataApp.customerId,
+      idManager: dataApp.idManager,
+      applicationNumber: dataApp.applicationNumber,
+      loadingText: JSON.stringify(dataApp.loadingText),
+      unloadingText: JSON.stringify(dataApp.unloadingText),
+    };
+    try {
+      await db.query(`UPDATE customerorders SET ? WHERE _id=?`, [
+        customerApp,
+        data.id,
+      ]);
+      callBack("success!");
+    } catch (err) {
+      callBack({ error: err });
+    }
+  },
+  delCustomerApp: async (id, callBack) => {
+    console.log(id);
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      await db.query(`DELETE FROM customerorders WHERE _id=${id}`);
+      callBack("success!");
+    } catch (err) {
+      console.log(err);
+      callBack({ error: err });
+    }
+    db.end();
+  },
 };
 module.exports = customerTasks;

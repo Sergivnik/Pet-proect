@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { SpanWithDate } from "../../myLib/mySpan/spanWithDate.jsx";
 import { CustomerPointForm } from "./customerPointForm.jsx";
 import { ChoiseList } from "../../choiseList/choiseList.jsx";
-import { addCustomerApp } from "../../../actions/customerOrderAction.js";
+import {
+  addCustomerApp,
+  editCustomerApp,
+} from "../../../actions/customerOrderAction.js";
 import "./customerOrders.sass";
 
 export const CustomerCreateApp = (props) => {
@@ -252,10 +255,11 @@ export const CustomerCreateApp = (props) => {
   };
   const handleSaveCustomerApp = () => {
     if (props.id) {
+      dispatch(editCustomerApp(props.id, dataApp));
     } else {
-      console.log(dataApp, user);
       dispatch(addCustomerApp(dataApp));
     }
+    props.closeWindow();
   };
   return (
     <div className="contentDiv">
@@ -385,7 +389,7 @@ export const CustomerCreateApp = (props) => {
         </div>
       </footer>
       <button className="customerAppBtn" onClick={handleSaveCustomerApp}>
-        {"Сохранить"}
+        {props.id ? "Изменить" : "Сохранить"}
       </button>
     </div>
   );

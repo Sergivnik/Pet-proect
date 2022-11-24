@@ -49,6 +49,7 @@ router.post("/signIn", API.taskCheckUser);
 router.post("/changePassword", API.taskChangePassword);
 router.post("/sendEmail", API.taskSendEmail);
 router.post("/addCustomerApp", customerAPI.taskAddCustomerApp);
+router.post("/editCustomerApp", customerAPI.taskEditCustomerApp);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);
@@ -65,5 +66,6 @@ router.delete("/deletedriverDebt/:id", API.taskDeleteDebt);
 router.delete("/deleteData/:id", API.taskDeleteData);
 router.delete("/deleteContractorPayment/:id", API.deleteContractorPayment);
 router.delete("/deleteAddData/:id", API.deleteAddData);
+router.delete("/deleteCustomerApp/:id", customerAPI.taskDelCustomerApp);
 
 module.exports = router;

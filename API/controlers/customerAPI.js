@@ -19,3 +19,11 @@ module.exports.taskAddCustomerApp = (req, res) => {
   res.set("Access-Control-Allow-Credentials", "true");
   tasks.addCustomerApp(req.body, (data) => callBack(data, res));
 };
+module.exports.taskEditCustomerApp = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  tasks.editCustomerApp(req.body, (data) => callBack(data, res));
+};
+module.exports.taskDelCustomerApp = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  tasks.delCustomerApp(req.params.id, (data) => callBack(data, res));
+};

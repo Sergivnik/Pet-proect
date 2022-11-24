@@ -5,6 +5,10 @@ import {
   GET_CUSTOMER_DATA_FAILURE,
   ADD_CUSTOMER_APP_SUCCESS,
   ADD_CUSTOMER_APP_FAILURE,
+  EDIT_CUSTOMER_APP_SUCCESS,
+  EDIT_CUSTOMER_APP_FAILURE,
+  DEL_CUSTOMER_APP_SUCCESS,
+  DEL_CUSTOMER_APP_FAILURE,
 } from "../actions/customerOrderAction.js";
 
 export const customerReducer = (store = customerStore, action) => {
@@ -29,6 +33,23 @@ export const customerReducer = (store = customerStore, action) => {
       let arrCustomerApp = [...store.customerOrders];
       action.appData._id = action.id;
       arrCustomerApp.push(action.appData);
+      return { ...store, customerOrders: arrCustomerApp };
+    }
+    case EDIT_CUSTOMER_APP_SUCCESS: {
+      let arrCustomerApp = [...store.customerOrders];
+      console.log(action);
+      let index = store.customerOrders.findIndex(
+        (elem) => elem._id == action.id
+      );
+      arrCustomerApp[index] = action.appData;
+      arrCustomerApp[index]._id = action.id;
+      return { ...store, customerOrders: arrCustomerApp };
+    }
+    case DEL_CUSTOMER_APP_SUCCESS: {
+      console.log(action);
+      let arrCustomerApp = store.customerOrders.filter(
+        (elem) => elem._id != action.id
+      );
       return { ...store, customerOrders: arrCustomerApp };
     }
     default:
