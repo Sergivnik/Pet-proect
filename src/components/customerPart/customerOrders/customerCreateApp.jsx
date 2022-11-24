@@ -3,15 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { SpanWithDate } from "../../myLib/mySpan/spanWithDate.jsx";
 import { CustomerPointForm } from "./customerPointForm.jsx";
 import { ChoiseList } from "../../choiseList/choiseList.jsx";
+import { addCustomerApp } from "../../../actions/customerOrderAction.js";
 import "./customerOrders.sass";
 
 export const CustomerCreateApp = (props) => {
+  const dispatch = useDispatch();
   const customerOrders = useSelector(
     (state) => state.customerReducer.customerOrders
   );
   const customerclients = useSelector(
     (state) => state.customerReducer.customerclients
   );
+  const user = props.user;
 
   const [appOrder, setAppOrder] = useState({});
   const [text, setText] = useState("");
@@ -30,6 +33,12 @@ export const CustomerCreateApp = (props) => {
     unloadingStoreId: [],
     customerPrice: null,
     textInfo: "",
+    orderId: null,
+    customerId: user.customerId,
+    idManager: user.managerID,
+    applicationNumber: null,
+    loadingText: [],
+    unloadingText: [],
   });
   useEffect(() => {
     if (props.id) {
@@ -49,6 +58,34 @@ export const CustomerCreateApp = (props) => {
         unloadingStoreId: appOrder.unloadingStoreId,
         customerPrice: appOrder.customerPrice,
         textInfo: appOrder.textInfo,
+        orderId: appOrder.orderId,
+        customerId: appOrder.customerId,
+        idManager: appOrder.idManager,
+        applicationNumber: appOrder.applicationNumber,
+        loadingText: appOrder.loadingText,
+        unloadingText: appOrder.unloadingText,
+      });
+    } else {
+      setDataApp({
+        dateOfApp: new Date(),
+        customerClientId: null,
+        weight: null,
+        idLoadingPoint: [],
+        idUnloadingPoint: [],
+        loadingInfo: [],
+        unloadingInfo: [],
+        dateOfLoading: [],
+        dateOfUnloading: [],
+        loadingStoreId: [],
+        unloadingStoreId: [],
+        customerPrice: null,
+        textInfo: "",
+        orderId: null,
+        customerId: user.customerId,
+        idManager: user.managerID,
+        applicationNumber: null,
+        loadingText: [],
+        unloadingText: [],
       });
     }
   }, [props.id]);
@@ -214,8 +251,11 @@ export const CustomerCreateApp = (props) => {
     setText(e.currentTarget.value);
   };
   const handleSaveCustomerApp = () => {
-    console.log(customerOrders);
-    console.log(dataApp);
+    if (props.id) {
+    } else {
+      console.log(dataApp, user);
+      dispatch(addCustomerApp(dataApp));
+    }
   };
   return (
     <div className="contentDiv">

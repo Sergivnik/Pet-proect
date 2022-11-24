@@ -48,6 +48,7 @@ router.post("/signUp", API.taskAddNewUser);
 router.post("/signIn", API.taskCheckUser);
 router.post("/changePassword", API.taskChangePassword);
 router.post("/sendEmail", API.taskSendEmail);
+router.post("/addCustomerApp", customerAPI.taskAddCustomerApp);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);

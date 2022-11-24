@@ -36,7 +36,13 @@ let TasksUser = {
         let check = bcryptjs.compareSync(data.password, user[0].password);
         if (check) {
           callback(
-            { name: user[0].name, role: user[0].role, login: user[0].login },
+            {
+              name: user[0].name,
+              role: user[0].role,
+              login: user[0].login,
+              customerId: user[0].customerId,
+              managerID: user[0].managerID,
+            },
             user[0]._id
           );
         } else {

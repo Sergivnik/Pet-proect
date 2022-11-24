@@ -3,6 +3,8 @@ import { customerStore } from "./customerStore.js";
 import {
   GET_CUSTOMER_DATA_SUCCESS,
   GET_CUSTOMER_DATA_FAILURE,
+  ADD_CUSTOMER_APP_SUCCESS,
+  ADD_CUSTOMER_APP_FAILURE,
 } from "../actions/customerOrderAction.js";
 
 export const customerReducer = (store = customerStore, action) => {
@@ -21,6 +23,13 @@ export const customerReducer = (store = customerStore, action) => {
         customerOrders: action.dataServer.customerOrders,
         customerclients: action.dataServer.customerclients,
       };
+    }
+    case ADD_CUSTOMER_APP_SUCCESS: {
+      console.log(action);
+      let arrCustomerApp = [...store.customerOrders];
+      action.appData._id = action.id;
+      arrCustomerApp.push(action.appData);
+      return { ...store, customerOrders: arrCustomerApp };
     }
     default:
       return store;

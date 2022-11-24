@@ -22,6 +22,7 @@ export const TdPoinWithToolTip = (props) => {
   };
   const handleMouseLeave = () => {
     mouseOut = true;
+    setCurrentIndex(null);
     setShowDetails(false);
   };
   return (

@@ -20,12 +20,6 @@ export const CustomerPointForm = (props) => {
     if (props.pointList.length != 0) setShowAddPoint(false);
     setPointData({});
   }, [props]);
-  // useEffect(() => {
-  //   if (showAddPoint) {
-  //     let inputDate = document.querySelector(".customerPointInput");
-  //     inputDate.focus();
-  //   }
-  // }, [showAddPoint]);
   useEffect(() => {
     const onKeypress = (e) => {
       if (e.code == "Escape") {
@@ -184,9 +178,9 @@ export const CustomerPointForm = (props) => {
       <main className="customerPointFormMain">
         {props.pointList.map((pointId, index) => {
           let point = citiesList.find((point) => point._id == pointId);
-          let store = storelist.find(
-            (store) => store._id == props.storeList[index]
-          );
+          let store = props.storeList
+            ? storelist.find((store) => store._id == props.storeList[index])
+            : null;
           return (
             <div key={`pointData-${index}`} className="customerPointDataDiv">
               <div
@@ -222,7 +216,7 @@ export const CustomerPointForm = (props) => {
                     handleDblClick("date", index);
                   }}
                 >
-                  {props.dateList[index]}
+                  {props.dateList ? props.dateList[index] : null}
                 </span>
               )}
               {editPoint && selectedIndex == index ? (

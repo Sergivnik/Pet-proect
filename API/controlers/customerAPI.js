@@ -15,3 +15,7 @@ module.exports.taskGet = (req, res) => {
   console.log(req.sessionID, req.session.userId);
   tasks.getData(req.session.userId, (data) => callBack(data, res));
 };
+module.exports.taskAddCustomerApp = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  tasks.addCustomerApp(req.body, (data) => callBack(data, res));
+};

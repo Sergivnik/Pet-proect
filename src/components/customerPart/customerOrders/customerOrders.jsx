@@ -243,7 +243,7 @@ export const CustomerOrders = () => {
           handleClickWindowClose={handleClickEditWindowClose}
           windowId="createAppWindow"
         >
-          <CustomerCreateApp />
+          <CustomerCreateApp id={null} user={user} />
         </UserWindow>
       )}
     </div>

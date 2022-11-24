@@ -902,6 +902,8 @@ module.exports.taskCheckUser = (req, res) => {
         req.session.login = data.login;
         req.session.name = data.name;
         req.session.role = data.role;
+        req.session.customerId = data.customerId;
+        req.session.managerID = data.managerID;
       }
       res.json(data);
     }
@@ -911,7 +913,12 @@ module.exports.taskGetUser = (req, res) => {
   res.set("Access-Control-Allow-Credentials", "true");
   console.log(req.sessionID, req.session.userId);
   if (req.session.userId) {
-    let data = { name: req.session.name, role: req.session.role };
+    let data = {
+      name: req.session.name,
+      role: req.session.role,
+      managerID: req.session.managerID,
+      customerId: req.session.customerId,
+    };
     res.json(data);
   } else {
     res.json({ error: "no authorized users" });
