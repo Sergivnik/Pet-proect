@@ -504,6 +504,19 @@ module.exports.taskSaveReport = (req, res) => {
   });
 };
 
+module.exports.taskEditYearConst = (req, res) => {
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  taskReports.editYearConst(req.body, (data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
+
 module.exports.taskEditAddData = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");

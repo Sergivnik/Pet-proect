@@ -65,6 +65,10 @@ import {
   AUTH_SIGN_IN_SUCCESS,
   AUTH_SIGN_OUT_SUCCESS,
 } from "../actions/auth.js";
+import {
+  EDIT_YEAR_CONST_SUCCESS,
+  EDIT_YEAR_CONST_FAILURE,
+} from "../actions/reportActions.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
@@ -1038,6 +1042,12 @@ export const oderReducer = (store = initialStore, action) => {
           $merge: { [originIndex]: newOder },
         },
       });
+    }
+    case EDIT_YEAR_CONST_SUCCESS: {
+      console.log(action);
+      let obj = { ...store.yearconst };
+      obj[action.name] = action.data;
+      return { ...store, yearconst: obj };
     }
 
     default:

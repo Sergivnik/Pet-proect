@@ -25,9 +25,9 @@ export const ContractorsPayments = () => {
   }, [dispatch]);
   useEffect(() => {
     let length = contractorsPaymentsFull.length;
-    if (length > 200) {
+    if (length > 500) {
       setContractorsPayments(
-        contractorsPaymentsFull.slice(length - 200, length)
+        contractorsPaymentsFull.slice(length - 500, length)
       );
     } else {
       setContractorsPayments(contractorsPaymentsFull);

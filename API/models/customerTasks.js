@@ -179,6 +179,7 @@ let customerTasks = {
     } catch (err) {
       callBack({ error: err });
     }
+    db.end();
   },
   delCustomerApp: async (id, callBack) => {
     console.log(id);

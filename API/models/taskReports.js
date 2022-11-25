@@ -76,6 +76,19 @@ let TasksReports = {
       callBack({ error: err });
     }
   },
+  editYearConst: async (data, callBack) => {
+    console.log(data);
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      await db.query(
+        `UPDATE yearconst SET ${data.name}=${data.data} WHERE id=1`
+      );
+      callBack("success!");
+    } catch (err) {
+      callBack({ error: err });
+    }
+    db.end();
+  },
   sendEmail: async (email, callBack) => {
     console.log("send report to Email");
     const configEmail = require("../models/config.js");

@@ -65,7 +65,6 @@ export const TaxesDriver = () => {
       });
       contractorsPayments.forEach((elem) => {
         let date = new Date(elem.date);
-        console.log(elem);
         if (date >= dateBegin && date <= dateEnd && elem.category == 1) {
           arr.push({
             id: index++,
@@ -109,6 +108,11 @@ export const TaxesDriver = () => {
       setShowReport(true);
     }
   };
+
+  useEffect(() => {
+    let div = document.querySelector(".taxReportMainDiv");
+    div.scrollTop = div.scrollHeight;
+  }, [reportData]);
 
   return (
     <div className="divContainer">
@@ -181,8 +185,12 @@ export const TaxesDriver = () => {
                       {elem.date.toLocaleDateString()}
                     </td>
                     <td className="taxReportTableTd">{elem.counterparty}</td>
-                    <td className="taxReportTableTd">{elem.sumIn}</td>
-                    <td className="taxReportTableTd">{elem.sumOut}</td>
+                    <td className="taxReportTableTd">
+                      {elem.sumIn ? elem.sumIn.toLocaleString() : null}
+                    </td>
+                    <td className="taxReportTableTd">
+                      {elem.sumOut ? elem.sumOut.toLocaleString() : null}
+                    </td>
                   </tr>
                 );
               })}
@@ -191,8 +199,8 @@ export const TaxesDriver = () => {
               <tr>
                 <td></td>
                 <td></td>
-                <td>{summIn}</td>
-                <td>{summOut}</td>
+                <td>{summIn ? summIn.toLocaleString() : null}</td>
+                <td>{summOut ? summOut.toLocaleString() : null}</td>
               </tr>
             </tfoot>
           </table>

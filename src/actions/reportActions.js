@@ -9,6 +9,8 @@ export const SEND_REPORT_EMAIL_SUCCESS = "SEND_REPORT_EMAIL_SUCCESS";
 export const SEND_REPORT_EMAIL_FAILURE = "SEND_REPORT_EMAIL_FAILURE";
 export const GET_REPORT_PDF_SUCCESS = "GET_REPORT_PDF_SUCCESS";
 export const GET_REPORT_PDF_FAILURE = "GET_REPORT_PDF_FAILURE";
+export const EDIT_YEAR_CONST_SUCCESS = "EDIT_YEAR_CONST_SUCCESS";
+export const EDIT_YEAR_CONST_FAILURE = "EDIT_YEAR_CONST_FAILURE";
 
 export const getReportData = (data) => {
   console.log(data);
@@ -98,4 +100,26 @@ export const getReportPdfSuccess = (dataServer) => ({
 });
 export const getReportPdfFailure = () => ({
   type: GET_REPORT_PDF_FAILURE,
+});
+export const editYearConst = (name, data) => {
+  return (dispatch) => {
+    axios
+      .post(DOMENNAME + "/API/editYearConst", { name: name, data: data })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(editYearConstSuccess(name, data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        dispatch(editYearConstSuccess());
+      });
+  };
+};
+export const editYearConstSuccess = (name, data) => ({
+  type: EDIT_YEAR_CONST_SUCCESS,
+  name,
+  data,
+});
+export const editYearConstFailure = () => ({
+  type: EDIT_YEAR_CONST_FAILURE,
 });

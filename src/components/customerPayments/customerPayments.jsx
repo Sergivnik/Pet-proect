@@ -98,7 +98,9 @@ export const CustomerPayments = () => {
         let checkSum = false;
         if (filterList.date.length != 0) {
           filterList.date.forEach((dateTxt) => {
-            let dateFromList = new Date(elem.date.toLocaleString()).toDateString();
+            let dateFromList = new Date(
+              elem.date.toLocaleString()
+            ).toDateString();
             let dateFromFilter = new Date(dateTxt).toDateString();
             //dateFromFilter.setHours(0,0,0,0)
             console.log(dateFromList, dateFromFilter);
@@ -145,6 +147,10 @@ export const CustomerPayments = () => {
       setFilteredCustomerPaymentsList(arr);
     }
   }, [filterList, customerPaymentsList]);
+  useEffect(() => {
+    let div = document.querySelector(".customerPaymentsMainDiv");
+    div.scrollTop = div.scrollHeight;
+  }, [filteredCustomerPaymentsList]);
 
   const handleClickFilter = (e) => {
     setShowFilter(true);

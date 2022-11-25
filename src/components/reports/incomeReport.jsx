@@ -5,6 +5,7 @@ import { addData, editData } from "../../actions/editDataAction.js";
 import { TdWithText } from "../myLib/myTd/tdWithText.jsx";
 
 import "./reports.sass";
+import { editYearConst } from "../../actions/reportActions.js";
 
 export const IncomeReport = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,12 @@ export const IncomeReport = () => {
     date: null,
     incomeFirst: null,
   });
+  const [showEditLastYearTaxDebt, setShowEditLastYearTaxDebt] = useState(false);
+  const [lastYearTaxDebt, setLastYearTaxDebt] = useState(
+    yearconst.lastyeartaxdebt
+  );
+  const [showEditTaxAdvance, setShowEditTaxAdvance] = useState(false);
+  const [taxAdvance, setTaxAdvance] = useState(yearconst.taxadvance);
 
   useEffect(() => {
     let addSum = clientList.reduce(
@@ -145,7 +152,7 @@ export const IncomeReport = () => {
       sumAccount +
       customerDebt -
       driverDebt -
-      Number(yearconst.lastyeartxdebt) +
+      Number(yearconst.lastyeartaxdebt) +
       Number(yearconst.taxadvance) -
       currentTax -
       sumPink;
@@ -162,7 +169,36 @@ export const IncomeReport = () => {
     } else {
       setShowBtn(false);
     }
+    let div = document.querySelector(".incomeReportMain");
+    div.scrollTop = div.scrollHeight;
   }, [incomeList]);
+
+  const handleChangeConstInput = (e) => {
+    if (e.currentTarget.name == "lastYearTaxDebt")
+      setLastYearTaxDebt(e.currentTarget.value);
+    if (e.currentTarget.name == "taxAdvdnce")
+      setTaxAdvance(e.currentTarget.value);
+  };
+  const handleEnterInput = (e) => {
+    if (e.code == "Enter" || e.code == "NumpadEnter") {
+      if (e.currentTarget.name == "lastYearTaxDebt") {
+        console.log(lastYearTaxDebt);
+        dispatch(editYearConst("lastyeartaxdebt", lastYearTaxDebt));
+        setShowEditLastYearTaxDebt(false);
+      }
+      if (e.currentTarget.name == "taxAdvdnce") {
+        console.log(lastYearTaxDebt);
+        dispatch(editYearConst("taxadvance", taxAdvance));
+        setShowEditTaxAdvance(false);
+      }
+    }
+  };
+  const handleLastYearDebtDblClick = () => {
+    setShowEditLastYearTaxDebt(true);
+  };
+  const handleTaxAdvanceDblClick = () => {
+    setShowEditTaxAdvance(true);
+  };
 
   const handleClick = () => {
     setShowAddTr(true);
@@ -201,7 +237,6 @@ export const IncomeReport = () => {
           <div className="incomeReportDivWraper">
             <span className="incomeReportSpan">Рас.сч.</span>
             <p className="incomeReportP">
-              {" "}
               {sumAccount ? sumAccount.toLocaleString() + " руб" : null}
             </p>
           </div>
@@ -221,21 +256,47 @@ export const IncomeReport = () => {
             <span className="incomeReportSpan">
               Долг по налогам прошлого года
             </span>
-            <p className="incomeReportP">
-              {yearconst
-                ? Number(yearconst.lastyeartxdebt).toLocaleString() + " руб"
-                : null}
-            </p>
+            {showEditLastYearTaxDebt ? (
+              <input
+                type="number"
+                name="lastYearTaxDebt"
+                value={lastYearTaxDebt}
+                onChange={handleChangeConstInput}
+                onKeyDown={handleEnterInput}
+              />
+            ) : (
+              <p
+                className="incomeReportP"
+                onDoubleClick={handleLastYearDebtDblClick}
+              >
+                {yearconst
+                  ? Number(yearconst.lastyeartaxdebt).toLocaleString() + " руб"
+                  : null}
+              </p>
+            )}
           </div>
           <div className="incomeReportDivWraper">
             <span className="incomeReportSpan">
               Аванм по налогам текущего года
             </span>
-            <p className="incomeReportP">
-              {yearconst
-                ? Number(yearconst.taxadvance).toLocaleString() + " руб"
-                : null}
-            </p>
+            {showEditTaxAdvance ? (
+              <input
+                type="Number"
+                name="taxAdvdnce"
+                value={taxAdvance}
+                onChange={handleChangeConstInput}
+                onKeyDown={handleEnterInput}
+              />
+            ) : (
+              <p
+                className="incomeReportP"
+                onDoubleClick={handleTaxAdvanceDblClick}
+              >
+                {yearconst
+                  ? Number(yearconst.taxadvance).toLocaleString() + " руб"
+                  : null}
+              </p>
+            )}
           </div>
           <div className="incomeReportDivWraper">
             <span className="incomeReportSpan">Налоги текущего года</span>
