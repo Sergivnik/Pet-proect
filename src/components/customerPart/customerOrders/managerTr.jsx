@@ -57,7 +57,7 @@ export const ManagerTr = (props) => {
         {Number(elem.customerPrice).toLocaleString()}
       </td>
       <td className="managerOrderTd">
-        {elem.loadingInfo.map((poitInfo, index) => {
+        {elem.loadingText.map((poitInfo, index) => {
           return (
             <p key={`pointKey${poitInfo}-${index}`} className="managerOrderTdP">
               {poitInfo}
@@ -66,7 +66,7 @@ export const ManagerTr = (props) => {
         })}
       </td>
       <td className="managerOrderTd">
-        {elem.unloadingInfo.map((poitInfo, index) => {
+        {elem.unloadingText.map((poitInfo, index) => {
           return (
             <p key={`pointKey${poitInfo}-${index}`} className="managerOrderTdP">
               {poitInfo}

@@ -14,7 +14,9 @@ export const CustomerPointForm = (props) => {
   const [editDate, setEditDate] = useState(false);
   const [editPoint, setEditPoint] = useState(false);
   const [editStore, setEditStore] = useState(false);
+  const [editAddress, setEditAddress] = useState(false);
   const [editText, setEditText] = useState(false);
+  const [inputAddress, setInputAddress] = useState("");
 
   useEffect(() => {
     if (props.pointList.length != 0) setShowAddPoint(false);
@@ -80,22 +82,44 @@ export const CustomerPointForm = (props) => {
   const setStore = (data) => {
     let obj = { ...pointData };
     obj.storeId = data._id;
+    let store = storelist.find((store) => store._id == data._id);
+    obj.address = store.address;
     setPointData(obj);
+    setInputAddress(store.address);
     let inputTextInfo = document.querySelector("#textInfo");
     inputTextInfo.focus();
   };
   const handleStoreBlur = () => {
     if (pointData.storeId) {
-      let inputText = document.querySelector("#textInfo");
+      let inputText = document.querySelector("#address");
       inputText.focus();
     }
   };
   const handleStoreEnter = (e) => {
     if (e.key == "Enter") {
       if (pointData.storeId) {
-        let inputText = document.querySelector("#textInfo");
+        let inputText = document.querySelector("#address");
         inputText.focus();
       }
+    }
+  };
+  const setAddress = (e) => {
+    setInputAddress(e.currentTarget.value);
+  };
+  const handleBlurAddress = (e) => {
+    let obj = { ...pointData };
+    obj.address = e.currentTarget.value;
+    setPointData(obj);
+    let inputText = document.querySelector("#textInfo");
+    inputText.focus();
+  };
+  const handleAddressEnter = (e) => {
+    if (e.key == "Enter") {
+      let obj = { ...pointData };
+      setPointData(obj);
+      obj.address = e.currentTarget.value;
+      let inputText = document.querySelector("#textInfo");
+      inputText.focus();
     }
   };
   const handleBlurText = (e) => {
@@ -140,6 +164,7 @@ export const CustomerPointForm = (props) => {
     if (name == "date") setEditDate(true);
     if (name == "point") setEditPoint(true);
     if (name == "store") setEditStore(true);
+    if (name == "address") setEditAddress(true);
     if (name == "text") setEditText(true);
     setSelectedIndex(index);
   };
@@ -157,6 +182,10 @@ export const CustomerPointForm = (props) => {
     props.editData(props.name, "store", data._id, selectedIndex);
     setEditStore(false);
   };
+  const handleEditAddress = (e) => {
+    props.editData(props.name, "address", e.currentTarget.value, selectedIndex);
+    setEditAddress(false);
+  };
   const handleEditText = (e) => {
     props.editData(props.name, "text", e.currentTarget.value, selectedIndex);
     setEditText(false);
@@ -173,6 +202,7 @@ export const CustomerPointForm = (props) => {
         <h5 className="customerPointFormHeaderH5">Дата</h5>
         <h5 className="customerPointFormHeaderH5">Город</h5>
         <h5 className="customerPointFormHeaderH5">Склад</h5>
+        <h5 className="customerPointFormHeaderH5">Адрес</h5>
         <h5 className="customerPointFormHeaderH5">Примечание</h5>
       </header>
       <main className="customerPointFormMain">
@@ -255,6 +285,25 @@ export const CustomerPointForm = (props) => {
                   {store ? store.value : null}
                 </span>
               )}
+              {editAddress && selectedIndex == index ? (
+                <div className="customerPointInputWrapper">
+                  <input
+                    type="text"
+                    id="address"
+                    className="customerPointInput"
+                    onBlur={handleEditAddress}
+                  />
+                </div>
+              ) : (
+                <span
+                  className="customerPointSpan"
+                  onDoubleClick={() => {
+                    handleDblClick("address", index);
+                  }}
+                >
+                  {props.addressList[index]}
+                </span>
+              )}
               {editText && selectedIndex == index ? (
                 <div className="customerPointInputWrapper">
                   <input
@@ -321,6 +370,17 @@ export const CustomerPointForm = (props) => {
                 name="store"
                 arrlist={storelistInput}
                 setValue={setStore}
+              />
+            </div>
+            <div className="customerPointInputWrapper">
+              <input
+                type="text"
+                id="address"
+                className="customerPointInput"
+                value={inputAddress}
+                onChange={setAddress}
+                onBlur={handleBlurAddress}
+                onKeyDown={handleAddressEnter}
               />
             </div>
             <div className="customerPointInputWrapper">

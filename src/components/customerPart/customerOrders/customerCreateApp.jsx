@@ -122,12 +122,14 @@ export const CustomerCreateApp = (props) => {
     if (name == "loadingPoint") {
       obj.idLoadingPoint.push(pointData.idPoint);
       obj.loadingInfo.push(pointData.text);
+      obj.loadingText.push(pointData.address);
       obj.dateOfLoading.push(pointData.date);
       obj.loadingStoreId.push(pointData.storeId);
     }
     if (name == "unloadingPoint") {
       obj.idUnloadingPoint.push(pointData.idPoint);
       obj.unloadingInfo.push(pointData.text);
+      obj.unloadingText.push(pointData.address);
       obj.dateOfUnloading.push(pointData.date);
       obj.unloadingStoreId.push(pointData.storeId);
     }
@@ -145,6 +147,9 @@ export const CustomerCreateApp = (props) => {
       if (field == "store") {
         obj.loadingStoreId[index] = data;
       }
+      if (field == "address") {
+        obj.loadingText[index] = data;
+      }
       if (field == "text") {
         obj.loadingInfo[index] = data;
       }
@@ -158,6 +163,9 @@ export const CustomerCreateApp = (props) => {
       }
       if (field == "store") {
         obj.unloadingStoreId[index] = data;
+      }
+      if (field == "address") {
+        obj.unloadingText[index] = data;
       }
       if (field == "text") {
         obj.unloadingInfo[index] = data;
@@ -303,6 +311,7 @@ export const CustomerCreateApp = (props) => {
           dateList={dataApp.dateOfLoading}
           pointList={dataApp.idLoadingPoint}
           storeList={dataApp.loadingStoreId}
+          addressList={dataApp.loadingText}
           infoList={dataApp.loadingInfo}
           addPointData={addPointData}
           editData={editData}
@@ -316,6 +325,7 @@ export const CustomerCreateApp = (props) => {
           dateList={dataApp.dateOfUnloading}
           pointList={dataApp.idUnloadingPoint}
           storeList={dataApp.unloadingStoreId}
+          addressList={dataApp.unloadingText}
           infoList={dataApp.unloadingInfo}
           addPointData={addPointData}
           editData={editData}
