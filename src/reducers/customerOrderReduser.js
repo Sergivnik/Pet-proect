@@ -10,6 +10,12 @@ import {
   DEL_CUSTOMER_APP_SUCCESS,
   DEL_CUSTOMER_APP_FAILURE,
 } from "../actions/customerOrderAction.js";
+import {
+  GET_APPS_SUCCESS,
+  GET_APPS_FAILURE,
+  GET_NEW_APP_SUCCESS,
+  GET_NEW_APP_FAILURE,
+} from "../actions/appAction.js";
 
 export const customerReducer = (store = customerStore, action) => {
   switch (action.type) {
@@ -51,6 +57,19 @@ export const customerReducer = (store = customerStore, action) => {
         (elem) => elem._id != action.id
       );
       return { ...store, customerOrders: arrCustomerApp };
+    }
+    case GET_APPS_SUCCESS: {
+      console.log(action);
+      return { ...store, customerOrders: action.data };
+    }
+    case GET_NEW_APP_SUCCESS: {
+      console.log(action);
+      let oldApp = store.customerOrders.length;
+      if (action.data == oldApp) {
+        return { ...store, newAppNumber: null };
+      } else {
+        return { ...store, newAppNumber: action.data - oldApp };
+      }
     }
     default:
       return store;

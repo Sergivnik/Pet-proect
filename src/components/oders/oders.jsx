@@ -17,13 +17,19 @@ import { BillsForm } from "../documents/billsForm.jsx";
 import { Report } from "../reports/reports.jsx";
 import { SpecialTable } from "../specialTable/specialTable.jsx";
 import { Forecast } from "../forecast/forecast.jsx";
-import "./oders.sass";
 import { authSignOut } from "../../actions/auth.js";
 import { ChangePassword } from "../auth/changePassword.jsx";
 import { DOMENNAME } from "../../middlewares/initialState.js";
+import "./oders.sass";
+import { getApps, getNewApp } from "../../actions/appAction.js";
 
 export const Oders = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getApps());
+    let timerId = setInterval(() => dispatch(getNewApp()), 2000);
+  }, []);
 
   useEffect(() => {
     dispatch(getData());
@@ -40,6 +46,7 @@ export const Oders = () => {
   );
   const requestStatus = useSelector((state) => state.oderReducer.request);
   const user = useSelector((state) => state.oderReducer.currentUser);
+  const numberApps = useSelector((state) => state.customerReducer.newAppNumber);
 
   const [oders, setOders] = useState(odersList.slice(-1000));
 
@@ -55,6 +62,8 @@ export const Oders = () => {
   const [showDropDownMenu, setShowDropDownMenu] = useState(false);
   const [showUserWindow, setShowUserWindow] = useState(false);
   const [showVerticalMenu, setShowVerticalMenu] = useState(false);
+  const [showAppWindow, setShowAppWindow] = useState(false);
+  const [showNewApps, setShowNewApps] = useState(false);
 
   const [trId, setTrId] = useState(null);
   const [addData, setAddData] = useState(0);
@@ -95,6 +104,14 @@ export const Oders = () => {
       100;
     setSumAccount(sum);
   }, [income, expenses]);
+  useEffect(() => {
+    console.log("test");
+    if (numberApps != null) {
+      setShowNewApps(true);
+    } else {
+      setShowNewApps(false);
+    }
+  }, [numberApps]);
 
   useEffect(() => {
     const onKeypress = (e) => {
@@ -289,6 +306,9 @@ export const Oders = () => {
     if (e.target.name == "dataEdit") {
       setShowEditDataWindow(true);
     }
+    if (e.target.name == "customerApp") {
+      setShowAppWindow(true);
+    }
     if (!showWindow) {
       let btnClick = e.target.name;
       if (btnClick == "customPay") {
@@ -346,6 +366,9 @@ export const Oders = () => {
   };
   const handleClickEditWindowClose = () => {
     setShowEditDataWindow(false);
+  };
+  const handleClicAppkWindowClose = () => {
+    setShowAppWindow(false);
   };
   const handleClickMainDiv = () => {
     let contextDiv = document.querySelector(".divContext");
@@ -456,6 +479,13 @@ export const Oders = () => {
           >
             Отчеты
           </button>
+          <button
+            name="customerApp"
+            className="odersMenuBtn"
+            onClick={handleClickBtnMenu}
+          >
+            {showNewApps ? `Заявки ${numberApps}` : "Заявки"}
+          </button>
         </div>
         {showVerticalMenu && (
           <div className="odersMenuVertical">
@@ -524,6 +554,13 @@ export const Oders = () => {
             >
               Отчеты
             </button>
+            <button
+              name="customerApp"
+              className="odersMenuBtn"
+              onClick={handleClickBtnMenu}
+            >
+              Заявки
+            </button>
           </div>
         )}
         <div className="orderMenuUser">
@@ -561,6 +598,18 @@ export const Oders = () => {
           left="12%"
         >
           <EditDataForm />
+        </UserWindow>
+      )}
+      {showAppWindow && (
+        <UserWindow
+          header="Заявки клиентов"
+          width={1400}
+          handleClickWindowClose={handleClicAppkWindowClose}
+          windowId="applicationWindow"
+          top="12%"
+          left="12%"
+        >
+          <div>hi</div>
         </UserWindow>
       )}
       {showSecretTable && (

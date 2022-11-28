@@ -9,4 +9,5 @@ export const customerStore = {
   storelist: [],
   customerOrders: [],
   customerclients: [],
+  newAppNumber: null,
 };

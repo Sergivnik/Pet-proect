@@ -25,6 +25,8 @@ router.get("/getReportPdf", API.taskGetReportPdf);
 router.get("/getUser", API.taskGetUser);
 router.get("/signOut", API.taskSignOut);
 router.get("/getCustomerData", customerAPI.taskGet);
+router.get("/getNewApp", customerAPI.taskGetNewApp);
+router.get("/getApps", customerAPI.taskGetApps);
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
 });

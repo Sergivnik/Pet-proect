@@ -193,5 +193,27 @@ let customerTasks = {
     }
     db.end();
   },
+  getNewApp: async (callBack) => {
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      let [data] = await db.query(`SELECT * FROM customerorders`);
+      callBack(data.length);
+    } catch (err) {
+      console.log(err);
+      callBack({ error: err, message: "failure" });
+    }
+    db.end();
+  },
+  getApps: async (callBack) => {
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      let [data] = await db.query(`SELECT * FROM customerorders`);
+      callBack(data);
+    } catch (err) {
+      console.log(err);
+      callBack({ error: err, message: "failure" });
+    }
+    db.end();
+  },
 };
 module.exports = customerTasks;
