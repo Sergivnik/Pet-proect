@@ -28,7 +28,7 @@ export const Oders = () => {
 
   useEffect(() => {
     dispatch(getApps());
-    let timerId = setInterval(() => dispatch(getNewApp()), 2000);
+    let timerId = setInterval(() => dispatch(getNewApp()), 60000);
   }, []);
 
   useEffect(() => {
@@ -128,6 +128,12 @@ export const Oders = () => {
       if (e.ctrlKey && e.code == "KeyK") {
         e.preventDefault();
         if (user.role == "admin") setShowSecretTable(true);
+      }
+      if (e.code == "Delete") {
+        if (currentElem.completed == 0) {
+          console.log("I am listening Delete", trId, currentElem);
+          handleClickDelete();
+        }
       }
     };
     document.addEventListener("keydown", onKeypress);
@@ -277,17 +283,18 @@ export const Oders = () => {
     setTrId(id);
   };
 
-  const handleClickTR = (event) => {
-    let curTR = event.currentTarget;
+  const handleClickTR = (e, elem) => {
+    setCurrentElem(elem);
+    let curTR = e.currentTarget;
     if (currentTR) currentTR.style.backgroundColor = "#FFF";
     setCurrentTR(curTR);
-    if (event.target.tagName == "TD") {
-      setTrId(event.currentTarget.id);
+    if (e.target.tagName == "TD") {
+      setTrId(e.currentTarget.id);
       curTR.style.backgroundColor = "#ccc";
       setShowDelete(true);
     }
-    if (event.target.tagName == "P") {
-      setTrId(event.currentTarget.id);
+    if (e.target.tagName == "P") {
+      setTrId(e.currentTarget.id);
       curTR.style.backgroundColor = "#ccc";
       setShowDelete(true);
     }

@@ -57,7 +57,9 @@ export const UserTr = (props) => {
         <tr
           id={props.elem._id}
           style={setFontColor()}
-          onClick={props.handleClickTR}
+          onClick={(e) => {
+            props.handleClickTR(e, props.elem);
+          }}
           onContextMenu={props.handleClickTR}
           onMouseDown={(e) => {
             if (e.target.tagName === "TD") e.preventDefault();
@@ -135,11 +137,11 @@ export const UserTr = (props) => {
             edit={true}
             elem={props.elem}
           />
-          {props.showDelete &&
+          {/* {props.showDelete &&
             props.elem._id == props.trId &&
             !props.elem.completed &&
             props.elem.customerPayment != "Ок" && (
-              <td>
+              <td>c
                 <button
                   className="odersTdBtn"
                   onClick={props.handleClickDelete}
@@ -147,17 +149,15 @@ export const UserTr = (props) => {
                   Delete
                 </button>
               </td>
-            )}
+            )} */}
 
-          {props.showDelete &&
-            props.elem.completed &&
-            props.elem._id == props.trId && (
-              <td>
-                <button className="odersTdBtn" onClick={handleClickEdit}>
-                  Edit
-                </button>
-              </td>
-            )}
+          {props.showDelete && props.elem._id == props.trId && (
+            <td>
+              <button className="odersTdBtn" onClick={handleClickEdit}>
+                Edit
+              </button>
+            </td>
+          )}
         </tr>
       ) : (
         <tr>
