@@ -29,6 +29,7 @@ export const TdAccountNumber = (props) => {
   const [typeDoc, setTypeDoc] = useState(null);
   const [appBtn, setAppBtn] = useState("");
   const [top, setTop] = useState(0);
+  const [classTD, setClassTD] = useState("odersTd");
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -138,6 +139,12 @@ export const TdAccountNumber = (props) => {
       setCurrentId(null);
       setShowContextMenu(false);
     }
+    if (props.currentTR == props.elem._id && props.elem.applicationNumber) {
+      console.log(props.currentTR, props.elem._id);
+      setClassTD("odersTd backGroundGrey");
+    } else {
+      setClassTD("odersTd");
+    }
   }, [props.currentTR]);
   useEffect(() => {
     const onKeypress = (e) => {
@@ -165,7 +172,7 @@ export const TdAccountNumber = (props) => {
 
   return (
     <td
-      className="odersTd"
+      className={classTD}
       onDoubleClick={handleDBLClick}
       onContextMenu={handleContaxtMenu}
     >
