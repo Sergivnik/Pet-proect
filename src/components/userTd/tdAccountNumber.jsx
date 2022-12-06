@@ -139,11 +139,13 @@ export const TdAccountNumber = (props) => {
       setCurrentId(null);
       setShowContextMenu(false);
     }
-    if (props.currentTR == props.elem._id && props.elem.applicationNumber) {
-      console.log(props.currentTR, props.elem._id);
-      setClassTD("odersTd backGroundGrey");
-    } else {
-      setClassTD("odersTd");
+    if (props.elem) {
+      if (props.currentTR == props.elem._id && props.elem.applicationNumber) {
+        console.log(props.currentTR, props.elem._id);
+        setClassTD("odersTd backGroundGrey");
+      } else {
+        setClassTD("odersTd");
+      }
     }
   }, [props.currentTR]);
   useEffect(() => {
