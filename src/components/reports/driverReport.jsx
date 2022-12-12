@@ -10,7 +10,9 @@ import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
 import "./reports.sass";
 
 export const DriverReport = () => {
-  const fullOrderList = useSelector((state) => state.oderReducer.originOdersList);
+  const fullOrderList = useSelector(
+    (state) => state.oderReducer.originOdersList
+  );
   const driversList = useSelector((state) => state.oderReducer.driverlist);
   const trackDriverList = useSelector(
     (state) => state.oderReducer.trackdrivers
@@ -24,6 +26,8 @@ export const DriverReport = () => {
   const [reportList, setReportList] = useState([]);
   const [idTrackDriverList, setIdTrackDriverList] = useState([]);
   const [btnValue, setBtnValue] = useState("Отчет");
+  const [isCtrl, setIsCtrl] = useState(false);
+  const [ctrlSum, setCtrlSum] = useState(0);
 
   const getValue = (id, arrObj) => {
     if (id) {
@@ -108,6 +112,15 @@ export const DriverReport = () => {
       });
     });
     printWindow.print();
+  };
+  const getSum = (sum, isCtrl) => {
+    if (isCtrl) {
+      setCtrlSum(ctrlSum + sum);
+      setIsCtrl(true);
+    } else {
+      setCtrlSum(0);
+      setIsCtrl(false);
+    }
   };
 
   return (
@@ -257,6 +270,8 @@ export const DriverReport = () => {
                         <TdDriverPrice
                           driverPrice={elem.driverPrice}
                           driverPayment={elem.driverPayment}
+                          getSum={getSum}
+                          isCtrl={isCtrl}
                         />
                         <td className="driverReportTd">
                           {elem.document == "Нет"
@@ -297,6 +312,7 @@ export const DriverReport = () => {
             );
           })}
       </main>
+      {ctrlSum != 0 ? <span>{`Выделено на сумму ${ctrlSum} руб.`}</span> : null}
     </div>
   );
 };

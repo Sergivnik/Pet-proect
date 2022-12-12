@@ -9,6 +9,7 @@ export const TdDriverPrice = (props) => {
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
+  const [classTd, setClassTd] = useState("userTd tdWidth150");
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -31,6 +32,24 @@ export const TdDriverPrice = (props) => {
       setCurrentId(null);
     }
   };
+  const handleClickCtrl = (e) => {
+    if (props.getSum != undefined) {
+      let sum = Number(props.driverPrice);
+      if (e.ctrlKey) {
+        e.stopPropagation();
+        if (classTd == "userTd tdWidth150") {
+          props.getSum(sum, true);
+          setClassTd("userTd tdWidth150 grey");
+        } else {
+          props.getSum(-sum, true);
+          setClassTd("userTd tdWidth150");
+        }
+      } else {
+        props.getSum(0, false);
+        setClassTd("userTd tdWidth150");
+      }
+    }
+  };
 
   useEffect(() => {
     if (props.currentTR != currentId) {
@@ -41,8 +60,17 @@ export const TdDriverPrice = (props) => {
   useEffect(() => {
     if (currentElement) currentElement.firstChild.focus();
   }, [currentElement]);
+  useEffect(() => {
+    if (!props.isCtrl) {
+      setClassTd("userTd tdWidth150");
+    }
+  }, [props.isCtrl]);
   return (
-    <td className="userTd tdWidth150" onDoubleClick={handleDBLClick}>
+    <td
+      className={classTd}
+      onClick={handleClickCtrl}
+      onDoubleClick={handleDBLClick}
+    >
       {showEdit ? (
         <input name="oderPrice" type="number" onKeyDown={handleEnter} />
       ) : (
@@ -51,4 +79,3 @@ export const TdDriverPrice = (props) => {
     </td>
   );
 };
-
