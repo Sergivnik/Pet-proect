@@ -1,9 +1,9 @@
 import axios from "axios";
-export const DOMENNAME = "http://localhost:3000"; //develop
-//export const DOMENNAME = "http://192.168.0.101:3000";//work
-//export const DOMENNAME = "http://192.168.0.114:3000";//home
-//export const DOMENNAME = "http://31.31.203.198:3000"; //vps
-//export const DOMENNAME = "http://atpivanova.ru:3000"; //vps
+export const DOMENNAME = "http://localhost:80"; //develop
+//export const DOMENNAME = "http://192.168.0.101:80";//work
+//export const DOMENNAME = "http://192.168.0.114:80";//home
+//export const DOMENNAME = "http://31.31.203.198:80"; //vps
+//export const DOMENNAME = "http://atpivanova.ru:80"; //vps
 
 export const URL = DOMENNAME + "/API";
 export const GET_DATA_REQUEST = "DATA::GET_DATA_REQUEST";
