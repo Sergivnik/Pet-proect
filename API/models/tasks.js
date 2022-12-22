@@ -760,5 +760,19 @@ var Tasks = {
     }
     db.end();
   },
+  editField: async (id, table, field, newValue, callback) => {
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      await db.query(
+        `UPDATE ${table} SET ${field} = ${newValue} WHERE _id = ${id}`
+      );
+      console.log(1);
+      callback("success!");
+    } catch (err) {
+      console.log(err);
+      callback({ error: err });
+    }
+    db.end();
+  },
 };
 module.exports = Tasks;

@@ -46,9 +46,9 @@ export const getPdf = (id, typeDoc) => {
       });
   };
 };
-export const getPdfWithoutStampSuccess = (dataServer) => ({
+export const getPdfWithoutStampSuccess = (id) => ({
   type: GET_PDF_WITHOUT_STAMP_SUCCESS,
-  dataServer,
+  id,
 });
 export const getPdfWithoutStampFailure = () => ({
   type: GET_PDF_WITHOUT_STAMP_FAILURE,
@@ -64,6 +64,7 @@ export const getWithoutStampPdf = (id) => {
         const url = URL.createObjectURL(blob);
         let newWin = window.open();
         newWin.location.href = url;
+        dispatch(getPdfWithoutStampSuccess(id));
       })
       .catch((e) => {
         console.log(e.message);
@@ -150,7 +151,7 @@ export const addConsignmentNote = (id, typeDoc, file) => {
         }
       )
       .then((res) => {
-        if (typeDoc=="ttn") dispatch(editOder(id, "document", 1));
+        if (typeDoc == "ttn") dispatch(editOder(id, "document", 1));
         return dispatch(addConsignmentNoteSuccess());
       })
       .catch((e) => {

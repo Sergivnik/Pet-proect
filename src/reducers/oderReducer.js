@@ -53,6 +53,8 @@ import {
   SEND_EMAIL_SUCCESS,
   SEND_EMAIL_FAILURE,
   CREATE_APP_SUCCESS,
+  GET_PDF_WITHOUT_STAMP_SUCCESS,
+  GET_PDF_WITHOUT_STAMP_FAILURE,
 } from "../actions/documentAction.js";
 import {
   EDIT_ADDDATA_SUCCESS,
@@ -1048,6 +1050,23 @@ export const oderReducer = (store = initialStore, action) => {
       let obj = { ...store.yearconst };
       obj[action.name] = action.data;
       return { ...store, yearconst: obj };
+    }
+    case GET_PDF_WITHOUT_STAMP_SUCCESS: {
+      let index = store.odersList.findIndex((order) => order._id == action.id);
+      let originIndex = store.originOdersList.findIndex(
+        (order) => order._id == action.id
+      );
+      let newOrder = store.odersList[index];
+      newOrder.wasItPrinted = 1;
+      console.log(newOrder);
+      return update(store, {
+        odersList: {
+          $merge: { [index]: newOrder },
+        },
+        originOdersList: {
+          $merge: { [originIndex]: newOrder },
+        },
+      });
     }
 
     default:

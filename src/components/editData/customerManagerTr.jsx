@@ -58,6 +58,13 @@ export const CustomerManagerTr = (props) => {
           break;
         case 2:
           obj.phone = e.currentTarget.value;
+          let str = e.currentTarget.value.split("");
+          let newPhone = "";
+          str.forEach((elem) => {
+            if (elem != " " && elem != "-" && elem != "(" && elem != ")")
+              newPhone = newPhone + elem;
+          });
+          obj.phone = newPhone;
           break;
         case 3:
           obj.email = e.currentTarget.value;

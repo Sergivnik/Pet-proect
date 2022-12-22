@@ -46,6 +46,7 @@
     "express-mysql-session": "^2.1.8",
     "express-session": "^1.17.3",
     "file-saver": "^2.0.5",
+    "gsap": "^3.11.3",
     "html-pdf": "^2.2.0",
     "multer": "^1.4.4",
     "mysql2": "^2.2.5",

@@ -116,6 +116,7 @@ export const UserTr = (props) => {
             dateOfSubmission={props.elem.dateOfSubmission}
             currentTR={props.trId}
             edit={true}
+            elem={props.elem}
           />
           <TdCustomerPayment
             customerPayment={props.elem.customerPayment}

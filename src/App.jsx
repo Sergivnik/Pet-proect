@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./app.sass";
+import { Clock } from "./components/myLib/clock/clock.jsx";
 import { DOMENNAME } from "./middlewares/initialState";
+import "./app.sass";
 
 export const App = () => {
   return (
@@ -23,6 +24,7 @@ export const App = () => {
           <Link to="/auth">Вход</Link>
         </div>
       </header>
+      <Clock size={475} color={`#0000ff`} />
     </div>
   );
 };

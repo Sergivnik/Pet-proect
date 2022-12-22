@@ -162,9 +162,16 @@ module.exports.taskGetPdfWithoutStamp = (req, res) => {
       if (isNaN(accountNumber)) {
         accountNumber = data.accountNumber;
       }
-      res.sendFile(
-        `${pathBills}/${Year}/${customer}/docWithoutStamp${accountNumber}.pdf`
-      );
+      tasks.editField(req.params.id, "oderslist", "wasItPrinted", 1, (data) => {
+        if (data.error) {
+          res.status(500);
+          res.json({ message: data.error });
+        } else {
+          res.sendFile(
+            `${pathBills}/${Year}/${customer}/docWithoutStamp${accountNumber}.pdf`
+          );
+        }
+      });
     }
   });
 };

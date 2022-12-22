@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { dateLocal } from "../myLib/myLib.js";
+import "./userTd.sass";
 
 export const TdDocument = (props) => {
   const user = useSelector((state) => state.oderReducer.currentUser);
@@ -18,6 +19,7 @@ export const TdDocument = (props) => {
     { _id: 3, value: "Факс" },
     { _id: 4, value: "Сдал" },
   ]);
+  const [classTd, setClassTd] = useState("userTd");
 
   let mouseOut = true;
 
@@ -97,10 +99,20 @@ export const TdDocument = (props) => {
       ]);
     }
   }, []);
+  useEffect(() => {
+    console.log(props.elem.wasItPrinted);
+    if (props.elem) {
+      if (props.elem.wasItPrinted) {
+        setClassTd("userTd wasPrinted");
+      } else {
+        setClassTd("userTd");
+      }
+    }
+  }, [props]);
 
   return (
     <td
-      className="userTd"
+      className={classTd}
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
       onDoubleClick={handleDBLClick}

@@ -82,6 +82,13 @@ export const CustomerTr = (props) => {
           break;
         case 6:
           obj.phone = e.currentTarget.value;
+          let str = e.currentTarget.value.split("");
+          let newPhone = "";
+          str.forEach((elem) => {
+            if (elem != " " && elem != "-" && elem != "(" && elem != ")")
+              newPhone = newPhone + elem;
+          });
+          obj.phone = newPhone;
           break;
         case 7:
           obj.contract = e.currentTarget.value;

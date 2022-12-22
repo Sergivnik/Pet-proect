@@ -106,6 +106,13 @@ export const CustomerAddTr = (props) => {
           break;
         case 6:
           obj.phone = e.currentTarget.value;
+          let str = e.currentTarget.value.split("");
+          let newPhone = "";
+          str.forEach((elem) => {
+            if (elem != " " && elem != "-" && elem != "(" && elem != ")")
+              newPhone = newPhone + elem;
+          });
+          obj.phone = newPhone;
           if (e.shiftKey) {
             setEditColNumber(editColNumber - 1);
           } else {
