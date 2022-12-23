@@ -10,6 +10,8 @@ import {
   SET_PROXY,
   MAKE_PAYMENT_CUSTOMER_SUCCESS,
   MAKE_PAYMENT_CUSTOMER_FAILURE,
+  DEL_PRINTED_MARK_SUCCESS,
+  DEL_PRINTED_MARK_FAILURE,
 } from "../actions/oderActions.js";
 import {
   GET_DATA_SUCCESS,
@@ -1058,6 +1060,23 @@ export const oderReducer = (store = initialStore, action) => {
       );
       let newOrder = store.odersList[index];
       newOrder.wasItPrinted = 1;
+      console.log(newOrder);
+      return update(store, {
+        odersList: {
+          $merge: { [index]: newOrder },
+        },
+        originOdersList: {
+          $merge: { [originIndex]: newOrder },
+        },
+      });
+    }
+    case DEL_PRINTED_MARK_SUCCESS:{
+      let index = store.odersList.findIndex((order) => order._id == action.id);
+      let originIndex = store.originOdersList.findIndex(
+        (order) => order._id == action.id
+      );
+      let newOrder = store.odersList[index];
+      newOrder.wasItPrinted = 0;
       console.log(newOrder);
       return update(store, {
         odersList: {

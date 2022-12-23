@@ -62,6 +62,7 @@ router.patch("/editDriverDebt", API.editDriverDebt);
 router.patch("/makePaymentDriver", API.makePaymentDriver);
 router.patch("/addDataContractorPayment", API.addDataContractorPayment);
 router.patch("/editData", API.taskEditData);
+router.patch("/delPrintedMark/:id", API.taskDelPrintedMark);
 
 router.delete("/:id", API.taskDel);
 router.delete("/deleteDataPatmenrs/:id", API.taskDeletePayments);

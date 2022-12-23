@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { editOder } from "../../actions/oderActions.js";
+import { editOder, delPrintedMark } from "../../actions/oderActions.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { dateLocal } from "../myLib/myLib.js";
 import "./userTd.sass";
@@ -59,6 +59,10 @@ export const TdDocument = (props) => {
       setCurrentElement(null);
     }
   };
+  const handleRightClick = (e) => {
+    e.preventDefault();
+    if (props.elem) dispatch(delPrintedMark(props.elem._id));
+  };
 
   useEffect(() => {
     if (currentElement) currentElement.firstChild.firstChild.focus();
@@ -100,7 +104,6 @@ export const TdDocument = (props) => {
     }
   }, []);
   useEffect(() => {
-    console.log(props.elem.wasItPrinted);
     if (props.elem) {
       if (props.elem.wasItPrinted) {
         setClassTd("userTd wasPrinted");
@@ -114,6 +117,7 @@ export const TdDocument = (props) => {
     <td
       className={classTd}
       onMouseOver={handleMouseOver}
+      onContextMenu={handleRightClick}
       onMouseLeave={handleMouseLeave}
       onDoubleClick={handleDBLClick}
     >

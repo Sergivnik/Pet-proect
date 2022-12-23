@@ -15,6 +15,8 @@ export const MAKE_PAYMENT_CUSTOMER_SUCCESS =
   "DATA::MAKE_PAYMENT_CUSTOMER_SUCCESS";
 export const MAKE_PAYMENT_CUSTOMER_FAILURE =
   "DATA::MAKE_PAYMENT_CUSTOMER_FAILURE";
+export const DEL_PRINTED_MARK_SUCCESS = "DEL_PRINTED_MARK_SUCCESS";
+export const DEL_PRINTED_MARK_FAILURE = "DEL_PRINTED_MARK_FAILURE";
 
 export const addOder = (data) => {
   return (dispatch) =>
@@ -160,4 +162,26 @@ export const makePaymentCustomerSuccess = (
 export const makePaymentCustomerFailure = (message) => ({
   type: MAKE_PAYMENT_CUSTOMER_FAILURE,
   message,
+});
+
+export const delPrintedMark = (id) => {
+  return (dispatch) => {
+    axios
+      .create({ withCredentials: true })
+      .patch(URL + "/delPrintedMark/" + id)
+      .then((res) => {
+        return dispatch(delPrintedMarkSuccess(id));
+      })
+      .catch((e) => {
+        console.log(e);
+        return dispatch(delPrintedMarkFailure());
+      });
+  };
+};
+export const delPrintedMarkSuccess = (id) => ({
+  type: DEL_PRINTED_MARK_SUCCESS,
+  id,
+});
+export const delPrintedMarkFailure = () => ({
+  type: DEL_PRINTED_MARK_FAILURE,
 });

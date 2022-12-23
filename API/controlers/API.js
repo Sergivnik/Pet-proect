@@ -216,6 +216,25 @@ module.exports.taskEdit = (req, res) => {
     }
   });
 };
+module.exports.taskDelPrintedMark = (req, res) => {
+  res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.session);
+  if (req.session.role == "admin") {
+    tasks.editField(req.params.id, "oderslist", "wasItPrinted", 0, (data) => {
+      if (data.error) {
+        res.status(500);
+        res.json({ message: data.error });
+      } else {
+        res.json(data);
+      }
+    });
+  } else {
+    res.status(500);
+    res.json({ message: data.error });
+  }
+};
 module.exports.taskEditNew = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH");
   res.set("Access-Control-Allow-Headers", "Content-Type");

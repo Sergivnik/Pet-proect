@@ -766,7 +766,6 @@ var Tasks = {
       await db.query(
         `UPDATE ${table} SET ${field} = ${newValue} WHERE _id = ${id}`
       );
-      console.log(1);
       callback("success!");
     } catch (err) {
       console.log(err);
