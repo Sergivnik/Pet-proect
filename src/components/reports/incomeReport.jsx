@@ -114,11 +114,17 @@ export const IncomeReport = () => {
           (sumIn - sumOut) / 100
       );
     } else {
-      setCurrentTax(
-        sumIn / 100 +
+      if (sumIn > sumOut) {
+        let tax =
+          sumIn / 100 +
           (Number(yearconst.fixedincometax) / 365) * daysThisYear +
-          (sumIn - sumOut) / 100
-      );
+          (sumIn - sumOut) / 100;
+        setCurrentTax(tax);
+      } else {
+        let tax =
+          sumIn / 100 + (Number(yearconst.fixedincometax) / 365) * daysThisYear;
+        setCurrentTax(tax);
+      }
     }
   }, [customerPayments, contractorsPayments, driverpayments]);
   useEffect(() => {
