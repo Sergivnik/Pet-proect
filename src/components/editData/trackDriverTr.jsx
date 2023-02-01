@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editData, delData } from "../../actions/editDataAction.js";
-import { findValueBy_Id, dateLocal } from "../myLib/myLib.js";
+import { findValueBy_Id, dateLocal, dateLocalZone } from "../myLib/myLib.js";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 
 import "./editData.sass";
@@ -226,7 +226,7 @@ export const TrackDriverTr = (props) => {
             value={valueInput}
           />
         ) : (
-          dateLocal(elem.dateOfIssue)
+          dateLocalZone(elem.dateOfIssue)
         )}
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>

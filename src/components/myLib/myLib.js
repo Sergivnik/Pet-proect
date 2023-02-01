@@ -11,10 +11,19 @@ export const dateLocal = (date) => {
   if (date == null || date == "") {
     return null;
   } else {
+    let dateNew = new Date(date);
+    return dateNew.toLocaleDateString();
+  }
+};
+export const dateLocalZone = (date) => {
+  if (date == null || date == "") {
+    return null;
+  } else {
     console.log(date);
     let dateNew = new Date(date);
     console.log(dateNew);
     let hour = dateNew.getHours();
+    console.log(dateNew.getTimezoneOffset());
     if (hour != 0) dateNew.setHours(dateNew.getHours() + 24 - hour);
     return dateNew.toLocaleDateString();
   }

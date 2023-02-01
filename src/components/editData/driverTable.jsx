@@ -9,7 +9,7 @@ import { TrackTr } from "./trackTr.jsx";
 import { TrackAddTr } from "./trackAddTr.jsx";
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 import { addData } from "../../actions/editDataAction.js";
-import { dateLocal } from "../myLib/myLib.js";
+import { dateLocal, dateLocalZone } from "../myLib/myLib.js";
 import axios from "axios";
 import "./editData.sass";
 import { DOMENNAME } from "../../middlewares/initialState.js";
@@ -210,7 +210,7 @@ export const DriverTable = (props) => {
     ${trackdriver.name}
     паспорт: ${trackdriver.passportNumber} выдан ${
       trackdriver.department
-    } ${dateLocal(trackdriver.dateOfIssue)}
+    } ${dateLocalZone(trackdriver.dateOfIssue)}
     водительское удостоверение: ${trackdriver.driverLicense}
     телефон: ${trackdriver.phoneNumber}
     А/М ${track.model} номер ${track.value}
