@@ -227,9 +227,11 @@ export const CreateOderNew = (props) => {
       let arr = clientManagerFull.filter((elem) => elem.odersId == value._id);
       setClientManager(arr);
       setShowClientInput(false);
-      let nextFocus =
-        document.querySelectorAll(".containerChoise")[1].firstChild;
-      nextFocus.focus();
+      let choiseElements = document.querySelectorAll(".containerChoise");
+      if (choiseElements.length > 1) {
+        let nextFocus = choiseElements[1].firstChild;
+        nextFocus.focus();
+      }
     }
     if (value.field == "manager") {
       obj.idManager = value._id;

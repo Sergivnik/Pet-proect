@@ -11,8 +11,12 @@ export const dateLocal = (date) => {
   if (date == null || date == "") {
     return null;
   } else {
-    date = new Date(date);
-    return date.toLocaleDateString();
+    console.log(date);
+    let dateNew = new Date(date);
+    console.log(dateNew);
+    let hour = dateNew.getHours();
+    if (hour != 0) dateNew.setHours(dateNew.getHours() + 24 - hour);
+    return dateNew.toLocaleDateString();
   }
 };
 export const dateTimeLocal = (date) => {
