@@ -66,13 +66,13 @@ export const ReconciliationAct = () => {
       setReqData(obj);
     }
   };
-  const handleBlur=(e)=>{
+  const handleBlur = (e) => {
     let { ...obj } = reqData;
-      let date = new Date(e.currentTarget.value);
-      if (e.currentTarget.name == "dateBegin") obj.dateBegin = date;
-      if (e.currentTarget.name == "dateEnd") obj.dateEnd = date;
-      setReqData(obj);
-  }
+    let date = new Date(e.currentTarget.value);
+    if (e.currentTarget.name == "dateBegin") obj.dateBegin = date;
+    if (e.currentTarget.name == "dateEnd") obj.dateEnd = date;
+    setReqData(obj);
+  };
   const handleClickReport = () => {
     if (btnName == "Отчет") {
       dispatch(getReportData(reqData));
@@ -97,6 +97,7 @@ export const ReconciliationAct = () => {
   };
   const handleChecked = () => {
     setStamp(!stamp);
+    setBtnName("Сохранить");
   };
   const handleReset = () => {
     setShowChoise(true);
@@ -113,22 +114,22 @@ export const ReconciliationAct = () => {
   const handlePrint = () => {
     dispatch(getReportPdf());
   };
-  const handleDblClickChose=()=>{
+  const handleDblClickChose = () => {
     setShowChoise(true);
     setBtnName("Отчет");
-  }
-  const handleDblClickDateBegin=()=>{
-    let {...obj}=reqData;
-    obj.dateBegin=null;
+  };
+  const handleDblClickDateBegin = () => {
+    let { ...obj } = reqData;
+    obj.dateBegin = null;
     setReqData(obj);
     setBtnName("Отчет");
-  }
-  const handleDblClickDateEnd=()=>{
-    let {...obj}=reqData;
-    obj.dateEnd=null;
+  };
+  const handleDblClickDateEnd = () => {
+    let { ...obj } = reqData;
+    obj.dateEnd = null;
     setReqData(obj);
     setBtnName("Отчет");
-  }
+  };
 
   return (
     <div className="reconciliationDiv">
@@ -176,23 +177,39 @@ export const ReconciliationAct = () => {
               />
             </div>
           ) : (
-            <span onDoubleClick={handleDblClickChose}>{reqData.value !== null ? reqData.value : ""}</span>
+            <span onDoubleClick={handleDblClickChose}>
+              {reqData.value !== null ? reqData.value : ""}
+            </span>
           )}
           <span>Дата с </span>
           {reqData.dateBegin == null ? (
             <div>
-              <input name="dateBegin" type="date" onKeyDown={handleEnterTab} onBlur={handleBlur}/>
+              <input
+                name="dateBegin"
+                type="date"
+                onKeyDown={handleEnterTab}
+                onBlur={handleBlur}
+              />
             </div>
           ) : (
-            <span onDoubleClick={handleDblClickDateBegin}>{reqData.dateBegin.toLocaleDateString()}</span>
+            <span onDoubleClick={handleDblClickDateBegin}>
+              {reqData.dateBegin.toLocaleDateString()}
+            </span>
           )}
           <span> по </span>
           {reqData.dateEnd == null ? (
             <div>
-              <input name="dateEnd" type="date" onKeyDown={handleEnterTab} onBlur={handleBlur} />
+              <input
+                name="dateEnd"
+                type="date"
+                onKeyDown={handleEnterTab}
+                onBlur={handleBlur}
+              />
             </div>
           ) : (
-            <span onDoubleClick={handleDblClickDateEnd}>{reqData.dateEnd.toLocaleDateString()}</span>
+            <span onDoubleClick={handleDblClickDateEnd}>
+              {reqData.dateEnd.toLocaleDateString()}
+            </span>
           )}
         </div>
       </header>
@@ -282,7 +299,9 @@ export const ReconciliationAct = () => {
                           : ""}
                       </td>
                       <td style={{ border: "1px solid black" }}>
-                        {elem.type == "outCome"||elem.type == "totalInfo" ? elem.sum : ""}
+                        {elem.type == "outCome" || elem.type == "totalInfo"
+                          ? elem.sum
+                          : ""}
                       </td>
                       <td style={{ border: "1px solid black" }}>
                         {debt > 0 ? "" : -debt}
