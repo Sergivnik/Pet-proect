@@ -3,6 +3,7 @@ import { DOMENNAME } from "../middlewares/initialState";
 
 export const GET_REPORT_DATA_SUCCESS = "GET_REPORT_DATA_SUCCESS";
 export const GET_REPORT_DATA_FAILURE = "GET_REPORT_DATA_FAILURE";
+export const SAVE_REPORT_PDF_REQUEST = "SAVE_REPORT_PDF_REQUEST";
 export const SAVE_REPORT_PDF_SUCCESS = "SAVE_REPORT_PDF_SUCCESS";
 export const SAVE_REPORT_PDF_FAILURE = "SAVE_REPORT_PDF_FAILURE";
 export const SEND_REPORT_EMAIL_SUCCESS = "SEND_REPORT_EMAIL_SUCCESS";
@@ -36,6 +37,7 @@ export const getReportDataFailure = () => ({
 });
 export const saveReportPdf = (docHtml) => {
   return (dispatch) => {
+    dispatch(saveReportPdfRequest());
     axios
       .post(DOMENNAME + "/API/saveReportPdf", { body: docHtml })
       .then((res) => {
@@ -48,6 +50,9 @@ export const saveReportPdf = (docHtml) => {
       });
   };
 };
+export const saveReportPdfRequest = () => ({
+  type: SAVE_REPORT_PDF_REQUEST,
+});
 export const saveReportPdfSuccess = () => ({
   type: SAVE_REPORT_PDF_SUCCESS,
 });

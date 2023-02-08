@@ -21,6 +21,9 @@ export const ReconciliationAct = () => {
   const reconciliation = useSelector(
     (state) => state.reportReducer.reconciliation
   );
+  const requestStatus = useSelector(
+    (state) => state.reportReducer.requestStatus
+  );
 
   const [currentTab, setCurrentTab] = useState("TabOrder");
   const [showChoise, setShowChoise] = useState(true);
@@ -82,7 +85,7 @@ export const ReconciliationAct = () => {
     if (btnName == "Сохранить") {
       let reportElement = document.querySelector("#reportElement");
       dispatch(saveReportPdf(reportElement.innerHTML));
-      setBtnName("Отправить Email");
+      //setBtnName("Отправить Email");
     }
     if (btnName == "Отправить Email") {
       let email = customerList.find((elem) => elem._id == reqData.id).email;
@@ -130,6 +133,12 @@ export const ReconciliationAct = () => {
     setReqData(obj);
     setBtnName("Отчет");
   };
+  useEffect(() => {
+    console.log(requestStatus);
+    if (requestStatus == null && btnName == "Сохранить") {
+      setBtnName("Отправить Email");
+    }
+  }, [requestStatus]);
 
   return (
     <div className="reconciliationDiv">
@@ -412,6 +421,7 @@ export const ReconciliationAct = () => {
           </div>
         </main>
       )}
+      {requestStatus == "request" && <div>Saving...</div>}
     </div>
   );
 };

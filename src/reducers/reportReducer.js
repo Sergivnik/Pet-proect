@@ -4,6 +4,9 @@ import { dateLocal } from "../components/myLib/myLib.js";
 import {
   GET_REPORT_DATA_SUCCESS,
   GET_REPORT_DATA_FAILURE,
+  SAVE_REPORT_PDF_REQUEST,
+  SAVE_REPORT_PDF_SUCCESS,
+  SAVE_REPORT_PDF_FAILURE,
 } from "../actions/reportActions.js";
 
 export const reportReducer = (store = reportDataStore, action) => {
@@ -124,6 +127,15 @@ export const reportReducer = (store = reportDataStore, action) => {
       orderSum[0].sum = orderSum[0].sum - sumOrder + sumPayment;
       console.log(orderSum);
       return { ...store, reconciliation: orderSum };
+    }
+    case SAVE_REPORT_PDF_REQUEST: {
+      return { ...store, requestStatus: "request" };
+    }
+    case SAVE_REPORT_PDF_SUCCESS: {
+      return { ...store, requestStatus: null };
+    }
+    case SAVE_REPORT_PDF_FAILURE: {
+      return { ...store, requestStatus: "error" };
     }
     default:
       return store;
