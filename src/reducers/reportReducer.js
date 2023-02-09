@@ -135,7 +135,7 @@ export const reportReducer = (store = reportDataStore, action) => {
       return { ...store, requestStatus: null };
     }
     case SAVE_REPORT_PDF_FAILURE: {
-      return { ...store, requestStatus: "error" };
+      return { ...store, requestStatus: action.message };
     }
     default:
       return store;

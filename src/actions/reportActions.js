@@ -46,7 +46,7 @@ export const saveReportPdf = (docHtml) => {
       })
       .catch((e) => {
         console.log(e.message);
-        return dispatch(saveReportPdfFailure());
+        return dispatch(saveReportPdfFailure(e.message));
       });
   };
 };
@@ -56,8 +56,9 @@ export const saveReportPdfRequest = () => ({
 export const saveReportPdfSuccess = () => ({
   type: SAVE_REPORT_PDF_SUCCESS,
 });
-export const saveReportPdfFailure = () => ({
+export const saveReportPdfFailure = (message) => ({
   type: SAVE_REPORT_PDF_FAILURE,
+  message,
 });
 
 export const sendReportEmail = (email) => {

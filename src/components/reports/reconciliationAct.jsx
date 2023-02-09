@@ -30,6 +30,7 @@ export const ReconciliationAct = () => {
   const [showReport, setShowReport] = useState(false);
   const [stamp, setStamp] = useState(true);
   const [btnName, setBtnName] = useState("Отчет");
+  const [hideError, setHideError] = useState(false);
   const [reqData, setReqData] = useState({
     name: null,
     id: null,
@@ -133,15 +134,19 @@ export const ReconciliationAct = () => {
     setReqData(obj);
     setBtnName("Отчет");
   };
+  const handleClickAny = () => {
+    setHideError(true);
+  };
   useEffect(() => {
     console.log(requestStatus);
+    setHideError(false);
     if (requestStatus == null && btnName == "Сохранить") {
       setBtnName("Отправить Email");
     }
   }, [requestStatus]);
 
   return (
-    <div className="reconciliationDiv">
+    <div className="reconciliationDiv" onClick={handleClickAny}>
       <header style={{ height: "25%" }}>
         <h4 className="headerH">АктСверки</h4>
         <div className="tabsContainer">
@@ -230,6 +235,7 @@ export const ReconciliationAct = () => {
             overflowY: "auto",
             height: "75%",
             backgroundColor: "white",
+            position: "relative",
           }}
         >
           <div style={{ padding: "5mm 5mm 5mm 20mm", fontSize: "16px" }}>
@@ -419,9 +425,14 @@ export const ReconciliationAct = () => {
               )}
             </div>
           </div>
+          {requestStatus == "request" && (
+            <div className="requestStatusReport">Saving...</div>
+          )}
+          {requestStatus != "request" && requestStatus != null && !hideError && (
+            <div className="requestStatusReportError">{requestStatus}</div>
+          )}
         </main>
       )}
-      {requestStatus == "request" && <div>Saving...</div>}
     </div>
   );
 };
