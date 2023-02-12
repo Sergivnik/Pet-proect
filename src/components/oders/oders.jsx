@@ -20,8 +20,9 @@ import { Forecast } from "../forecast/forecast.jsx";
 import { authSignOut } from "../../actions/auth.js";
 import { ChangePassword } from "../auth/changePassword.jsx";
 import { DOMENNAME } from "../../middlewares/initialState.js";
-import "./oders.sass";
 import { getApps, getNewApp } from "../../actions/appAction.js";
+import { CustomerApps } from "../customerPart/cusstomerApp/customerApps.jsx";
+import "./oders.sass";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -616,7 +617,7 @@ export const Oders = () => {
           top="12%"
           left="12%"
         >
-          <div>hi</div>
+          <CustomerApps/>
         </UserWindow>
       )}
       {showSecretTable && (
