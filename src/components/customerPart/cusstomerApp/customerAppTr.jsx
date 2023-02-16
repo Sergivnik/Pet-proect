@@ -8,7 +8,6 @@ import "./customerApps.sass";
 export const CustomerAppTr = (props) => {
   let elem = props.elem;
   const citiesList = useSelector((state) => state.oderReducer.citieslist);
-  const managerList = useSelector((state) => state.customerReducer.managerList);
 
   const [loadingList, setLoadingList] = useState([]);
   const [loadingInfo, setLoadingInfo] = useState([]);

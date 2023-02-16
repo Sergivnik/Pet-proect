@@ -281,29 +281,33 @@ export const CustomerCreateApp = (props) => {
           getDate={getData}
         />
       </h2>
-      <div className="customerDiv">
-        <span>{"Заказчик"}</span>
-        {dataApp.customerClientId ? (
-          <span
-            className="customerAppSpanClient"
-            onDoubleClick={handleDblClickClient}
-          >
-            {customerclients
-              ? customerclients.find(
-                  (customer) => customer._id == dataApp.customerClientId
-                ).name
-              : null}
-          </span>
-        ) : (
-          <div className="customerPointInputWrapper">
-            <ChoiseList
-              name="customer"
-              arrlist={customerList}
-              setValue={setCustomer}
-            />
-          </div>
-        )}
-      </div>
+      {props.children ? (
+        props.children
+      ) : (
+        <div className="customerDiv">
+          <span>{"Заказчик"}</span>
+          {dataApp.customerClientId ? (
+            <span
+              className="customerAppSpanClient"
+              onDoubleClick={handleDblClickClient}
+            >
+              {customerclients
+                ? customerclients.find(
+                    (customer) => customer._id == dataApp.customerClientId
+                  ).name
+                : null}
+            </span>
+          ) : (
+            <div className="customerPointInputWrapper">
+              <ChoiseList
+                name="customer"
+                arrlist={customerList}
+                setValue={setCustomer}
+              />
+            </div>
+          )}
+        </div>
+      )}
       <div className="loadingDiv">
         <h3 className="loadingH3">Погрузка</h3>
         <CustomerPointForm

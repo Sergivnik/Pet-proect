@@ -205,10 +205,23 @@ let customerTasks = {
     db.end();
   },
   getApps: async (callBack) => {
+    let allData = {};
     const db = mysql.createPool(options.sql).promise();
     try {
-      let [data] = await db.query(`SELECT * FROM customerorders`);
-      callBack(data);
+      let data = [];
+      [data] = await db.query(`SELECT * FROM customerorders`);
+      allData.ordersList = data;
+      [data] = await db.query(`SELECT * FROM trackdrivers`);
+      allData.driversList = data;
+      [data]=await db.query(`SELECT * FROM tracklist`);
+      allData.trackList = data;
+      [data] = await db.query(`SELECT * FROM clientmanager`);
+      allData.managerList = data;
+      [data] = await db.query(`SELECT * FROM cities`);
+      allData.citiesList = data;
+      [data] = await db.query(`SELECT * FROM storelist`);
+      allData.storelist = data;
+      callBack(allData);
     } catch (err) {
       console.log(err);
       callBack({ error: err, message: "failure" });

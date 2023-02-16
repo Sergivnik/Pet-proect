@@ -60,7 +60,15 @@ export const customerReducer = (store = customerStore, action) => {
     }
     case GET_APPS_SUCCESS: {
       console.log(action);
-      return { ...store, customerOrders: action.data };
+      return {
+        ...store,
+        customerOrders: action.data.ordersList,
+        driversList: action.data.driversList,
+        trackList: action.data.trackList,
+        managerList: action.data.managerList,
+        citiesList: action.data.citiesList,
+        storelist: action.data.storelist,
+      };
     }
     case GET_NEW_APP_SUCCESS: {
       console.log(action);
