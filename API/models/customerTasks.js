@@ -13,7 +13,7 @@ let customerTasks = {
       let whereCondition = `WHERE idCustomer=${user[0].customerId}`;
       if (user[0].role == "admin") whereCondition = "";
       let listOfColumns =
-        "oderslist._id, date, oderslist.idLoadingPoint, oderslist.idUnloadingPoint, oderslist.customerPrice, document, customerPayment, accountNumber, idTrackDriver, idTrack, oderslist.idManager, oderslist.loadingInfo, oderslist.unloadingInfo, oderslist.applicationNumber,customerClientId,textInfo";
+        "oderslist._id, date, oderslist.idLoadingPoint, oderslist.idUnloadingPoint, oderslist.customerPrice, document, customerPayment, accountNumber, oderslist.idTrackDriver, oderslist.idTrack, oderslist.idManager, oderslist.loadingInfo, oderslist.unloadingInfo, oderslist.applicationNumber,customerClientId,textInfo";
       let data = [];
       if (user[0].role == "customerBoss" || user[0].role == "admin") {
         [data] = await db.query(
@@ -213,7 +213,7 @@ let customerTasks = {
       allData.ordersList = data;
       [data] = await db.query(`SELECT * FROM trackdrivers`);
       allData.driversList = data;
-      [data]=await db.query(`SELECT * FROM tracklist`);
+      [data] = await db.query(`SELECT * FROM tracklist`);
       allData.trackList = data;
       [data] = await db.query(`SELECT * FROM clientmanager`);
       allData.managerList = data;

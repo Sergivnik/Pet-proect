@@ -100,6 +100,12 @@ export const CustomerCreateApp = (props) => {
     });
     setCustomerList(arr);
   }, [customerclients]);
+  useEffect(() => {
+    if (props.dataDriver != null) console.log(props.dataDriver);
+  }, [props.dataDriver]);
+  useEffect(() => {
+    if (props.dataCustomer != null) console.log(props.dataCustomer);
+  }, [props.dataCustomer]);
 
   const getData = (data, name) => {
     let obj = { ...dataApp };

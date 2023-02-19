@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getApps, getNewApp } from "../../../actions/appAction";
 import { CustomerAppTr } from "./customerAppTr.jsx";
 import { UserWindow } from "../../userWindow/userWindow.jsx";
 import { CustomerCreateApp } from "../customerOrders/customerCreateApp.jsx";
+import { AppCustomerDriverPart } from "./appCustomerDriverPart.jsx";
 import "./customerApps.sass";
 
 export const CustomerApps = () => {
@@ -14,6 +14,8 @@ export const CustomerApps = () => {
   const user = useSelector((state) => state.oderReducer.currentUser);
   const [currentId, setCurrentId] = useState(null);
   const [showCreateApp, setShowCreateApp] = useState(false);
+  const [dataDriver, setDataDriver] = useState(null);
+  const [dataCustomer, setDataCustoner] = useState(null);
 
   useEffect(() => {
     const onKeypress = (e) => {
@@ -36,6 +38,12 @@ export const CustomerApps = () => {
   };
   const handleClickEditWindowClose = () => {
     setShowCreateApp(false);
+  };
+  const getDriverData = (data) => {
+    setDataDriver(data);
+  };
+  const getCustomerData = (data) => {
+    setDataCustoner(data);
   };
 
   return (
@@ -86,6 +94,8 @@ export const CustomerApps = () => {
         <UserWindow
           header="Создание заявки"
           width={1200}
+          height={700}
+          top={"10px"}
           handleClickWindowClose={handleClickEditWindowClose}
           windowId="createAppWindow"
         >
@@ -93,8 +103,13 @@ export const CustomerApps = () => {
             id={currentId}
             user={user}
             closeWindow={handleClickEditWindowClose}
+            dataDriver={dataDriver}
+            dataCustomer={dataCustomer}
           >
-            <div>TEST</div>
+            <AppCustomerDriverPart
+              getDriverData={getDriverData}
+              getCustomerData={getCustomerData}
+            />
           </CustomerCreateApp>
         </UserWindow>
       )}
