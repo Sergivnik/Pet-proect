@@ -36,6 +36,9 @@ export const CustomerApps = () => {
   const handleClickCreateApp = () => {
     setShowCreateApp(true);
   };
+  const handleClickEditApp = () => {
+    setShowCreateApp(true);
+  };
   const handleClickEditWindowClose = () => {
     setShowCreateApp(false);
   };
@@ -54,7 +57,9 @@ export const CustomerApps = () => {
             Создать заявку
           </button>
           {currentId != null && (
-            <button className="customerAppMenuBtn">Копировать заявку</button>
+            <button className="customerAppMenuBtn" onClick={handleClickEditApp}>
+              Копировать заявку
+            </button>
           )}
           {currentId != null && (
             <button className="customerAppMenuBtn">Редактировать заявку</button>
@@ -107,6 +112,7 @@ export const CustomerApps = () => {
             dataCustomer={dataCustomer}
           >
             <AppCustomerDriverPart
+              id={currentId}
               getDriverData={getDriverData}
               getCustomerData={getCustomerData}
             />

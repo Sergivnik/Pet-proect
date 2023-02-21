@@ -13,6 +13,7 @@ export const AppCustomerDriverPart = (props) => {
   const managerListFull = useSelector(
     (state) => state.oderReducer.clientmanager
   );
+  const appList = useSelector((state) => state.customerReducer.customerOrders);
 
   const [trackDriverList, setTrackDriverList] = useState(trackDriverListFull);
   const [trackList, setTrackList] = useState(trackListFull);
@@ -28,6 +29,42 @@ export const AppCustomerDriverPart = (props) => {
   const [managerList, setManagerList] = useState(managerListFull);
   const [manager, setManager] = useState(null);
 
+  useEffect(() => {
+    if (props.id) {
+      let app = appList.find((app) => app._id == props.id);
+      if (app.idDriver) {
+        let driver = driverList.find((driver) => driver._id == app.idDriver);
+        setDriver(driver);
+        setShowInputDiver(false);
+      }
+      if (app.idTrackDriver) {
+        let trackDriver = trackDriverListFull.find(
+          (trackDriver) => trackDriver._id == app.idTrackDriver
+        );
+        setTrackDriver(trackDriver);
+        setShowInputTrackDiver(false);
+      }
+      if (app.idTrack) {
+        let track = trackListFull.find((track) => track._id == app.idTrack);
+        setTrack(track);
+        setShowInputTrack(false);
+      }
+      if (app.customerId) {
+        let customer = customerList.find(
+          (customer) => customer._id == app.customerId
+        );
+        setCustomer(customer);
+        setShowInputCustomer(false);
+      }
+      if (app.idManager) {
+        let manager = managerListFull.find(
+          (manager) => manager._id == app.idManager
+        );
+        setManager(manager);
+        setShowInputManager(false);
+      }
+    }
+  }, [props.id]);
   const setValue = (data) => {
     if (data.field == "driver") {
       let driver = driverList.find((driver) => driver._id == data._id);
@@ -46,13 +83,12 @@ export const AppCustomerDriverPart = (props) => {
         (trackDriver) => trackDriver._id == data._id
       );
       setTrackDriver(trackDriver);
+      data.idTrack = trackDriver.idTrack;
       setShowInputTrackDiver(false);
       props.getDriverData(data);
       let track = trackList.find((track) => track._id == trackDriver.idTrack);
       setTrack(track);
       setShowInputTrack(false);
-      //let trackData = { _id: track._id, field: "track", value: track.value };
-      //props.getDriverData(trackData);
     }
     if (data.field == "track") {
       props.getDriverData(data);
@@ -63,7 +99,7 @@ export const AppCustomerDriverPart = (props) => {
       let customer = customerList.find((customer) => customer._id == data._id);
       setCustomer(customer);
       setShowInputCustomer(false);
-      props.getDriverData(data);
+      props.getCustomerData(data);
       let managerList = managerListFull.filter(
         (manager) => manager.odersId == data._id
       );
@@ -73,7 +109,7 @@ export const AppCustomerDriverPart = (props) => {
       let manager = managerList.find((manager) => manager._id == data._id);
       setManager(manager);
       setShowInputManager(false);
-      props.getDriverData(data);
+      props.getCustomerData(data);
     }
   };
   const handleGetFocus = (e) => {
@@ -87,26 +123,26 @@ export const AppCustomerDriverPart = (props) => {
     e.currentTarget.style.zIndex = 0;
   };
   const handleDblClickDriver = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setShowInputDiver(true);
     setShowInputTrackDiver(true);
     setShowInputTrack(true);
   };
   const handleDblClickTrackDriver = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setShowInputTrackDiver(true);
   };
   const handleDblClickTrack = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setShowInputTrack(true);
   };
   const handleDblClickCustomer = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setShowInputCustomer(true);
     setShowInputManager(true);
   };
   const handleDblClickManager = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setShowInputManager(true);
   };
 

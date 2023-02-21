@@ -101,10 +101,34 @@ export const CustomerCreateApp = (props) => {
     setCustomerList(arr);
   }, [customerclients]);
   useEffect(() => {
-    if (props.dataDriver != null) console.log(props.dataDriver);
+    let obj = { ...dataApp };
+    if (props.dataDriver != null) {
+      console.log(props.dataDriver);
+      if (props.dataDriver.field == "driver") {
+        obj.idDriver = props.dataDriver._id;
+      }
+      if (props.dataDriver.field == "trackDriver") {
+        obj.idTrackDriver = props.dataDriver._id;
+        obj.idTrack = props.dataDriver.idTrack;
+      }
+      if (props.dataDriver.field == "track") {
+        obj.idTrack = props.dataDriver._id;
+      }
+      setDataApp(obj);
+    }
   }, [props.dataDriver]);
   useEffect(() => {
-    if (props.dataCustomer != null) console.log(props.dataCustomer);
+    let obj = { ...dataApp };
+    if (props.dataCustomer != null) {
+      console.log(props.dataCustomer);
+      if (props.dataCustomer.field == "customer") {
+        obj.customerId = props.dataCustomer._id;
+      }
+      if (props.dataCustomer.field == "manager") {
+        obj.idManager = props.dataCustomer._id;
+      }
+      setDataApp(obj);
+    }
   }, [props.dataCustomer]);
 
   const getData = (data, name) => {
@@ -268,6 +292,7 @@ export const CustomerCreateApp = (props) => {
     setText(e.currentTarget.value);
   };
   const handleSaveCustomerApp = () => {
+    console.log(dataApp);
     if (props.id) {
       dispatch(editCustomerApp(props.id, dataApp));
     } else {

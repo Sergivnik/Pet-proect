@@ -126,6 +126,9 @@ let customerTasks = {
       applicationNumber: dataApp.applicationNumber,
       loadingText: JSON.stringify(dataApp.loadingText),
       unloadingText: JSON.stringify(dataApp.unloadingText),
+      idDriver: dataApp.idDriver,
+      idTrackDriver: dataApp.idTrackDriver,
+      idTrack: dataApp.idTrack,
     };
     try {
       let [data] = await db.query(
@@ -169,6 +172,9 @@ let customerTasks = {
       applicationNumber: dataApp.applicationNumber,
       loadingText: JSON.stringify(dataApp.loadingText),
       unloadingText: JSON.stringify(dataApp.unloadingText),
+      idDriver: dataApp.idDriver,
+      idTrackDriver: dataApp.idTrackDriver,
+      idTrack: dataApp.idTrack,
     };
     try {
       await db.query(`UPDATE customerorders SET ? WHERE _id=?`, [
