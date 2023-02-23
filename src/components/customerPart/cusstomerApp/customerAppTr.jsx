@@ -30,7 +30,7 @@ export const CustomerAppTr = (props) => {
     });
     setUnloadingList(arrCityName);
     setUnloadingInfo(elem.unloadingInfo);
-  }, []);
+  }, [elem]);
   useEffect(() => {
     if (props.currentId == elem._id) {
       setStyleTr("trGrey");

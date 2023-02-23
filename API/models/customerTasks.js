@@ -78,9 +78,15 @@ let customerTasks = {
       allData.citiesList = data;
       [data] = await db.query(`SELECT * FROM storelist`);
       allData.storelist = data;
-      [data] = await db.query(
-        `SELECT * FROM customerorders WHERE customerId="${user[0].customerId}" `
-      );
+      if (user[0].role != "customerBoss") {
+        [data] = await db.query(
+          `SELECT * FROM customerorders WHERE customerId=${user[0].customerId} and idManager=${user[0].managerID} `
+        );
+      } else {
+        [data] = await db.query(
+          `SELECT * FROM customerorders WHERE customerId=${user[0].customerId} `
+        );
+      }
       allData.customerOrders = data;
       if (user[0].role != "admin") {
         [data] = await db.query(

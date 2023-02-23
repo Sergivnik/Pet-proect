@@ -43,6 +43,37 @@ export const CustomerCreateApp = (props) => {
     loadingText: [],
     unloadingText: [],
   });
+
+  useEffect(() => {
+    let obj = { ...dataApp };
+    if (props.dataDriver != null) {
+      console.log(props.dataDriver);
+      if (props.dataDriver.field == "driver") {
+        obj.idDriver = props.dataDriver._id;
+      }
+      if (props.dataDriver.field == "trackDriver") {
+        obj.idTrackDriver = props.dataDriver._id;
+        obj.idTrack = props.dataDriver.idTrack;
+      }
+      if (props.dataDriver.field == "track") {
+        obj.idTrack = props.dataDriver._id;
+      }
+      setDataApp(obj);
+    }
+  }, [props.dataDriver]);
+  useEffect(() => {
+    let obj = { ...dataApp };
+    if (props.dataCustomer != null) {
+      console.log(props.dataCustomer);
+      if (props.dataCustomer.field == "customer") {
+        obj.customerId = props.dataCustomer._id;
+      }
+      if (props.dataCustomer.field == "manager") {
+        obj.idManager = props.dataCustomer._id;
+      }
+      setDataApp(obj);
+    }
+  }, [props.dataCustomer]);
   useEffect(() => {
     if (props.id) {
       let appOrder = customerOrders.find((order) => order._id == props.id);
@@ -67,6 +98,9 @@ export const CustomerCreateApp = (props) => {
         applicationNumber: appOrder.applicationNumber,
         loadingText: appOrder.loadingText,
         unloadingText: appOrder.unloadingText,
+        idDriver: appOrder.idDriver,
+        idTrackDriver: appOrder.idTrackDriver,
+        idTrack: appOrder.idTrack,
       });
     } else {
       setDataApp({
@@ -100,36 +134,6 @@ export const CustomerCreateApp = (props) => {
     });
     setCustomerList(arr);
   }, [customerclients]);
-  useEffect(() => {
-    let obj = { ...dataApp };
-    if (props.dataDriver != null) {
-      console.log(props.dataDriver);
-      if (props.dataDriver.field == "driver") {
-        obj.idDriver = props.dataDriver._id;
-      }
-      if (props.dataDriver.field == "trackDriver") {
-        obj.idTrackDriver = props.dataDriver._id;
-        obj.idTrack = props.dataDriver.idTrack;
-      }
-      if (props.dataDriver.field == "track") {
-        obj.idTrack = props.dataDriver._id;
-      }
-      setDataApp(obj);
-    }
-  }, [props.dataDriver]);
-  useEffect(() => {
-    let obj = { ...dataApp };
-    if (props.dataCustomer != null) {
-      console.log(props.dataCustomer);
-      if (props.dataCustomer.field == "customer") {
-        obj.customerId = props.dataCustomer._id;
-      }
-      if (props.dataCustomer.field == "manager") {
-        obj.idManager = props.dataCustomer._id;
-      }
-      setDataApp(obj);
-    }
-  }, [props.dataCustomer]);
 
   const getData = (data, name) => {
     let obj = { ...dataApp };

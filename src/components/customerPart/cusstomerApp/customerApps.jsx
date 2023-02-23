@@ -29,7 +29,7 @@ export const CustomerApps = () => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, []);
-
+  
   const getId = (id) => {
     setCurrentId(id);
   };
@@ -53,16 +53,20 @@ export const CustomerApps = () => {
     <div className="customerAppContainer">
       <menu className="customerAppMenu">
         <div className="customerAppMenuBtnContainer">
-          <button className="customerAppMenuBtn" onClick={handleClickCreateApp}>
-            Создать заявку
-          </button>
-          {currentId != null && (
+          {currentId == null ? (
+            <button
+              className="customerAppMenuBtn"
+              onClick={handleClickCreateApp}
+            >
+              Создать заявку
+            </button>
+          ) : (
             <button className="customerAppMenuBtn" onClick={handleClickEditApp}>
-              Копировать заявку
+              Редактировать заявку
             </button>
           )}
           {currentId != null && (
-            <button className="customerAppMenuBtn">Редактировать заявку</button>
+            <button className="customerAppMenuBtn">Копировать заявку</button>
           )}
           {currentId != null && (
             <button className="customerAppMenuBtn">Удалить заявку</button>
