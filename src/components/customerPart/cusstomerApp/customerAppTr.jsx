@@ -42,8 +42,19 @@ export const CustomerAppTr = (props) => {
   const handleClickTr = () => {
     props.getId(elem._id);
   };
+  const handleDblClick = (e) => {
+    e.preventDefault();
+    props.dubleClick();
+  };
+  const preventDefaultDBL = (e) => {
+    e.preventDefault();
+  };
   return (
-    <tr className={styleTr} onClick={handleClickTr}>
+    <tr
+      className={styleTr}
+      onClick={handleClickTr}
+      onDoubleClick={handleDblClick}
+    >
       <TdCustomer idCustomer={elem.customerId} idManager={elem.idManager} />
       <TdDate date={elem.dateOfApp} />
       <TdPoinWithToolTip pointsList={loadingList} pointInfoList={loadingInfo} />
@@ -51,7 +62,7 @@ export const CustomerAppTr = (props) => {
         pointsList={unLoadingList}
         pointInfoList={unloadingInfo}
       />
-      <td className="customerAppBodyTd">
+      <td className="customerAppBodyTd" onMouseDown={preventDefaultDBL}>
         {elem.customerPrice
           ? Number(elem.customerPrice).toLocaleString()
           : null}

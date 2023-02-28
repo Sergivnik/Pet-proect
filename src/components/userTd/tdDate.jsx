@@ -33,6 +33,10 @@ export const TdDate = (props) => {
     setShowEdit(false);
     setCurrentId(null);
   };
+  const preventDefaultDBL = (e) => {
+    e.preventDefault();
+  };
+  
   useEffect(() => {
     if (props.currentTR != currentId) {
       setShowEdit(false);
@@ -40,7 +44,11 @@ export const TdDate = (props) => {
     }
   }, [props.currentTR]);
   return (
-    <td className="odersTd" onDoubleClick={handleDBLClick}>
+    <td
+      className="odersTd"
+      onDoubleClick={handleDBLClick}
+      onMouseDown={preventDefaultDBL}
+    >
       {showEdit ? (
         <input
           className="tdDateInput"

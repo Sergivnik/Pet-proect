@@ -12,7 +12,7 @@ export const TdCustomer = (props) => {
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
-  
+
   let mouseOut = true;
 
   const getValue = (id, arrObj) => {
@@ -36,6 +36,7 @@ export const TdCustomer = (props) => {
     setShowDetails(false);
   };
   const handleDBLClick = (e) => {
+    e.preventDefault();
     let element = e.currentTarget;
     if (props.edit) {
       setShowEdit(true);
@@ -58,6 +59,12 @@ export const TdCustomer = (props) => {
       setCurrentElement(null);
     }
   };
+
+  const preventDefaultDBL = (e) => {
+    console.log(e);
+    e.preventDefault();
+  };
+
   useEffect(() => {
     if (currentElement) currentElement.firstChild.firstChild.focus();
   }, [currentElement]);
@@ -73,6 +80,7 @@ export const TdCustomer = (props) => {
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
       onDoubleClick={handleDBLClick}
+      onMouseDown={preventDefaultDBL}
       onKeyDown={handleESC}
     >
       {showEdit ? (

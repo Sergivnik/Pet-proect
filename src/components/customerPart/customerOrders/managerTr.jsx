@@ -28,14 +28,19 @@ export const ManagerTr = (props) => {
   const dandleDblClickTR = () => {
     props.onDoubleClick(props.elem._id);
   };
+  const preventDefaultDBL = (e) => {
+    e.preventDefault();
+  };
   return (
     <tr
       className={isChosenStyle(props.elem._id)}
       onClick={handleClickTr}
       onDoubleClick={dandleDblClickTR}
     >
-      <td className="managerOrderTd">{client ? client.name : null}</td>
-      <td className="managerOrderTd">
+      <td className="managerOrderTd" onMouseDown={preventDefaultDBL}>
+        {client ? client.name : null}
+      </td>
+      <td className="managerOrderTd" onMouseDown={preventDefaultDBL}>
         {elem.idLoadingPoint.map((poitId, index) => {
           return (
             <p key={`pointKey${poitId}-${index}`} className="managerOrderTdP">
@@ -44,7 +49,7 @@ export const ManagerTr = (props) => {
           );
         })}
       </td>
-      <td className="managerOrderTd">
+      <td className="managerOrderTd" onMouseDown={preventDefaultDBL}>
         {elem.idUnloadingPoint.map((poitId, index) => {
           return (
             <p key={`pointKey${poitId}-${index}`} className="managerOrderTdP">
@@ -53,10 +58,10 @@ export const ManagerTr = (props) => {
           );
         })}
       </td>
-      <td className="managerOrderTd">
+      <td className="managerOrderTd" onMouseDown={preventDefaultDBL}>
         {Number(elem.customerPrice).toLocaleString()}
       </td>
-      <td className="managerOrderTd">
+      <td className="managerOrderTd" onMouseDown={preventDefaultDBL}>
         {elem.loadingText.map((poitInfo, index) => {
           return (
             <p key={`pointKey${poitInfo}-${index}`} className="managerOrderTdP">
@@ -65,7 +70,7 @@ export const ManagerTr = (props) => {
           );
         })}
       </td>
-      <td className="managerOrderTd">
+      <td className="managerOrderTd" onMouseDown={preventDefaultDBL}>
         {elem.unloadingText.map((poitInfo, index) => {
           return (
             <p key={`pointKey${poitInfo}-${index}`} className="managerOrderTdP">
@@ -74,8 +79,12 @@ export const ManagerTr = (props) => {
           );
         })}
       </td>
-      <td className="managerOrderTd">{elem.applicationNumber}</td>
-      <td className="managerOrderTd">{elem.textInfo}</td>
+      <td className="managerOrderTd" onMouseDown={preventDefaultDBL}>
+        {elem.applicationNumber}
+      </td>
+      <td className="managerOrderTd" onMouseDown={preventDefaultDBL}>
+        {elem.textInfo}
+      </td>
     </tr>
   );
 };

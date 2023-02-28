@@ -25,8 +25,12 @@ export const TdPoinWithToolTip = (props) => {
     setCurrentIndex(null);
     setShowDetails(false);
   };
+  const preventDefaultDBL = (e) => {
+    console.log(e);
+    e.preventDefault();
+  };
   return (
-    <td className="pointWithToolTipTd">
+    <td className="pointWithToolTipTd" onMouseDown={preventDefaultDBL}>
       {pointsList.map((elem, index) => {
         return (
           <p

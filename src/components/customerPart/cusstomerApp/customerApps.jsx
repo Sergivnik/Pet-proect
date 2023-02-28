@@ -29,7 +29,7 @@ export const CustomerApps = () => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, []);
-  
+
   const getId = (id) => {
     setCurrentId(id);
   };
@@ -47,6 +47,9 @@ export const CustomerApps = () => {
   };
   const getCustomerData = (data) => {
     setDataCustoner(data);
+  };
+  const handleDubleClick = () => {
+    setShowCreateApp(true);
   };
 
   return (
@@ -93,6 +96,7 @@ export const CustomerApps = () => {
                   elem={elem}
                   getId={getId}
                   currentId={currentId}
+                  dubleClick={handleDubleClick}
                 />
               );
             })}
