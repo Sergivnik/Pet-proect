@@ -637,9 +637,17 @@ var Tasks = {
         `select * FROM pet_proect.oderslist where _id=${data.arr[0].id}`
       );
       let customerId = dataOder[0].idCustomer;
-      if (sumChosenOders == data.sumCustomerPayment + data.extraPayments) {
+      console.log(sumChosenOders);
+      console.log(data.sumCustomerPayment + data.extraPayments);
+      console.log(
+        sumChosenOders == data.sumCustomerPayment + data.extraPayments
+      );
+      if (
+        sumChosenOders ==
+        Number(data.sumCustomerPayment) + Number(data.extraPayments)
+      ) {
         await db.query(
-          `UPDATE oders SET extraPayments=${Null} WHERE _id=${customerId}`
+          `UPDATE oders SET extraPayments=Null WHERE _id=${customerId}`
         );
       } else {
         await db.query(
