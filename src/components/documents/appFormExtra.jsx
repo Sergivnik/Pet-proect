@@ -69,6 +69,7 @@ export const AppFormExtra = (props) => {
             stamp={stamp}
             getEditData={getEditData}
             driverApp={driverApp}
+            isLogistApp={props.isLogistApp}
             //currentDate={appData.date}
           />
         </div>

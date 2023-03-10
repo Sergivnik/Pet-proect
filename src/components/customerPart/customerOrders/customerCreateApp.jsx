@@ -297,7 +297,7 @@ export const CustomerCreateApp = (props) => {
   };
   const handleSaveCustomerApp = () => {
     console.log(dataApp);
-    if (props.id) {
+    if (props.id && !props.copyApp) {
       dispatch(editCustomerApp(props.id, dataApp));
     } else {
       dispatch(addCustomerApp(dataApp));
@@ -438,7 +438,7 @@ export const CustomerCreateApp = (props) => {
         </div>
       </footer>
       <button className="customerAppBtn" onClick={handleSaveCustomerApp}>
-        {props.id ? "Изменить" : "Сохранить"}
+        {props.id && !props.copyApp ? "Изменить" : "Сохранить"}
       </button>
     </div>
   );

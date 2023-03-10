@@ -23,11 +23,16 @@ export const AppForm = (props) => {
   );
   const storelist = useSelector((state) => state.oderReducer.storelist);
   const driverList = useSelector((state) => state.oderReducer.driverlist);
+  const appList = useSelector((state) => state.customerReducer.customerOrders);
 
-  const order = odersList.find(
-    (elem) => elem._id == props.dataDoc.odersListId[props.id - 1]
-  );
-  const client = clientList.find((elem) => elem._id == order.idCustomer);
+  const order = props.isLogistApp
+    ? appList.find((app) => app._id == props.dataDoc.odersListId[props.id - 1])
+    : odersList.find(
+        (elem) => elem._id == props.dataDoc.odersListId[props.id - 1]
+      );
+  const client = props.isLogistApp
+    ? clientList.find((client) => client._id == order.customerId)
+    : clientList.find((elem) => elem._id == order.idCustomer);
   const manager = order.idManager
     ? managerList.find((elem) => elem._id == order.idManager)
     : null;
@@ -42,7 +47,7 @@ export const AppForm = (props) => {
     : null;
 
   const [editData, setEditData] = useState({
-    appDate: order.date,
+    appDate: props.isLogistApp ? order.dateOfApp : order.date,
     goodsName: "",
     goodsWeight: 20,
     loadingData: [],
@@ -110,28 +115,53 @@ export const AppForm = (props) => {
     obj.managerId = order.idManager;
     order.idLoadingPoint.forEach((idCity, index) => {
       const point = citiesList.find((elem) => elem._id == idCity).value;
-      const addInfo = order.loadingInfo[index] ? order.loadingInfo[index] : "";
+      const storeId = order.loadingStoreId ? order.loadingStoreId[index] : null;
+      let addInfo = "";
+      let storeName = "";
+      if (storeId == null) {
+        addInfo = order.loadingInfo[index] ? order.loadingInfo[index] : "";
+        storeName = "по ТТН";
+      } else {
+        const store = storelist.find((store) => store._id == storeId);
+        addInfo = store.address;
+        storeName = store.value;
+      }
       obj.loadingData.push({
         text: `${point}, ${addInfo}`,
         point: `${point}`,
-        store: "по ТТН",
-        date: dateLocal(order.date),
+        store: storeName,
+        date: dateLocal(
+          props.isLogistApp ? order.dateOfLoading[index] : order.date
+        ),
         edit: false,
       });
     });
     order.idUnloadingPoint.forEach((idCity, index) => {
       const point = citiesList.find((elem) => elem._id == idCity).value;
-      const addInfo = order.unloadingInfo[index]
-        ? order.loadingInfo[index]
-        : "";
+      const storeId = order.unloadingStoreId
+        ? order.unloadingStoreId[index]
+        : null;
+      let addInfo = "";
+      let storeName = "";
+      if (storeId == null) {
+        addInfo = order.unloadingInfo[index] ? order.unloadingInfo[index] : "";
+        storeName = "по ТТН";
+      } else {
+        const store = storelist.find((store) => store._id == storeId);
+        addInfo = store.address;
+        storeName = store.value;
+      }
       obj.unLoadingData.push({
         text: `${point}, ${addInfo}`,
         point: `${point}`,
-        store: "по ТТН",
-        date: dateLocal(order.date),
+        store: storeName,
+        date: dateLocal(
+          props.isLogistApp ? order.dateOfUnloading[index] : order.date
+        ),
         edit: false,
       });
     });
+    obj.addCondition = order.textInfo ? order.textInfo : "";
     setEditData(obj);
   }, []);
   useEffect(() => {

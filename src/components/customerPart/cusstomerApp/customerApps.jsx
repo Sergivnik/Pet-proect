@@ -4,6 +4,8 @@ import { CustomerAppTr } from "./customerAppTr.jsx";
 import { UserWindow } from "../../userWindow/userWindow.jsx";
 import { CustomerCreateApp } from "../customerOrders/customerCreateApp.jsx";
 import { AppCustomerDriverPart } from "./appCustomerDriverPart.jsx";
+import { delCustomerApp } from "../../../actions/customerOrderAction.js";
+import { AppFormExtra } from "../../documents/appFormExtra.jsx";
 import "./customerApps.sass";
 
 export const CustomerApps = () => {
@@ -16,6 +18,8 @@ export const CustomerApps = () => {
   const [showCreateApp, setShowCreateApp] = useState(false);
   const [dataDriver, setDataDriver] = useState(null);
   const [dataCustomer, setDataCustoner] = useState(null);
+  const [copyApp, setCopyApp] = useState(false);
+  const [showPrintApp, setShowPrintApp] = useState(false);
 
   useEffect(() => {
     const onKeypress = (e) => {
@@ -51,6 +55,20 @@ export const CustomerApps = () => {
   const handleDubleClick = () => {
     setShowCreateApp(true);
   };
+  const handleClickCopy = () => {
+    setCopyApp(true);
+    setShowCreateApp(true);
+  };
+  const handlecleckDelete = () => {
+    dispatch(delCustomerApp(currentId));
+  };
+  const handlecleckPrint = () => {
+    setShowPrintApp(true);
+  };
+  const handlecleckCreateOrder = () => {};
+  const handleClickUserWindowClose = () => {
+    setShowPrintApp(false);
+  };
 
   return (
     <div className="customerAppContainer">
@@ -69,10 +87,27 @@ export const CustomerApps = () => {
             </button>
           )}
           {currentId != null && (
-            <button className="customerAppMenuBtn">Копировать заявку</button>
+            <button className="customerAppMenuBtn" onClick={handleClickCopy}>
+              Копировать заявку
+            </button>
           )}
           {currentId != null && (
-            <button className="customerAppMenuBtn">Удалить заявку</button>
+            <button className="customerAppMenuBtn" onClick={handlecleckDelete}>
+              Удалить заявку
+            </button>
+          )}
+          {currentId != null && (
+            <button className="customerAppMenuBtn" onClick={handlecleckPrint}>
+              Печать заявки
+            </button>
+          )}
+          {currentId != null && (
+            <button
+              className="customerAppMenuBtn"
+              onClick={handlecleckCreateOrder}
+            >
+              Создать заказ
+            </button>
           )}
         </div>
         <div className="customerAppMenuFilterContainer">Всякие галочки</div>
@@ -118,6 +153,7 @@ export const CustomerApps = () => {
             closeWindow={handleClickEditWindowClose}
             dataDriver={dataDriver}
             dataCustomer={dataCustomer}
+            copyApp={copyApp}
           >
             <AppCustomerDriverPart
               id={currentId}
@@ -125,6 +161,19 @@ export const CustomerApps = () => {
               getCustomerData={getCustomerData}
             />
           </CustomerCreateApp>
+        </UserWindow>
+      )}
+      {showPrintApp && (
+        <UserWindow
+          header="Оформление заявки"
+          width={800}
+          height={800}
+          left="20vw"
+          top="-20px"
+          handleClickWindowClose={handleClickUserWindowClose}
+          windowId="fillApplication"
+        >
+          <AppFormExtra id={currentId} isLogistApp={true} />
         </UserWindow>
       )}
     </div>
