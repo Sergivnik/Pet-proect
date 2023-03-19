@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppForm } from "./appForm.jsx";
 import { findValueBy_Id, dateLocal } from "../myLib/myLib.js";
 import { createApp } from "../../actions/documentAction.js";
+import { saveReportPdf, getReportPdf } from "../../actions/reportActions.js";
 import "./billsForm.sass";
 
 export const AppFormExtra = (props) => {
@@ -10,6 +11,9 @@ export const AppFormExtra = (props) => {
 
   const ordersList = useSelector((state) => state.oderReducer.originOdersList);
   const clientList = useSelector((state) => state.oderReducer.clientList);
+  const requestStatus = useSelector(
+    (state) => state.reportReducer.requestStatus
+  );
 
   const order = findValueBy_Id(props.id, ordersList);
   const customer = findValueBy_Id(order.idCustomer, clientList).value;
@@ -19,29 +23,52 @@ export const AppFormExtra = (props) => {
   const [stamp, setStamp] = useState(true);
   const [driverApp, setDriverApp] = useState(false);
   const [appEditData, setAppEditData] = useState({});
+  const [nameBtn, setNameBtn] = useState("Сохранить");
+  const [isPressedSave, setIspressedSave] = useState(false);
 
   const getEditData = (editData) => {
     setAppEditData(editData);
   };
   const handleClickStamp = () => {
     setStamp(!stamp);
+    setNameBtn("Сохранить");
+    setIspressedSave(false);
   };
   const handleClickDriverApp = () => {
     setDriverApp(!driverApp);
+    setNameBtn("Сохранить");
+    setIspressedSave(false);
   };
   const handleSave = () => {
     console.log(props.id, year, customer);
     let htmlDoc = document.querySelector(".applicationForm");
-    dispatch(
-      createApp(
-        htmlDoc.innerHTML,
-        props.id,
-        year,
-        customer,
-        `${props.id} от ${dateLocal(appEditData.appDate)}`
-      )
-    );
+    if (props.isLogistApp) {
+      if (nameBtn == "Сохранить") {
+        dispatch(saveReportPdf(htmlDoc.innerHTML));
+        setIspressedSave(true);
+      }
+      if (nameBtn == "Печать") {
+        dispatch(getReportPdf());
+      }
+    } else {
+      dispatch(
+        createApp(
+          htmlDoc.innerHTML,
+          props.id,
+          year,
+          customer,
+          `${props.id} от ${dateLocal(appEditData.appDate)}`
+        )
+      );
+    }
   };
+  useEffect(() => {
+    console.log(requestStatus);
+    //setHideError(false);
+    if (requestStatus == null && nameBtn == "Сохранить" && isPressedSave) {
+      setNameBtn("Печать");
+    }
+  }, [requestStatus]);
   return (
     <div className="appFormExtraContaiter">
       <header className="appFormExtraHeader">
@@ -58,7 +85,7 @@ export const AppFormExtra = (props) => {
           />
         </label>
         <button className="appFormExtraBtn" onClick={handleSave}>
-          Сохранить
+          {nameBtn}
         </button>
       </header>
       <main className="appFormExtraMain">

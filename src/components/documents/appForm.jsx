@@ -180,9 +180,9 @@ export const AppForm = (props) => {
       (elem) => elem._id == editData.driverId
     );
     if (trackDriverNew) setTrackDriverEdit(trackDriverNew);
-    let trackNew = tracksList.find(
-      (elem) => elem._id == trackDriverNew.idTrack
-    );
+    let trackNew = trackDriverNew
+      ? tracksList.find((elem) => elem._id == trackDriverNew.idTrack)
+      : null;
     if (trackNew) setTrackEdit(trackNew);
     console.log(trackDriverNew);
   }, [editData]);

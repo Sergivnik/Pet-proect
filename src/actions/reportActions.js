@@ -36,6 +36,7 @@ export const getReportDataFailure = () => ({
   type: GET_REPORT_DATA_FAILURE,
 });
 export const saveReportPdf = (docHtml) => {
+  console.log(docHtml);
   return (dispatch) => {
     dispatch(saveReportPdfRequest());
     axios
