@@ -6,6 +6,8 @@ import { CustomerCreateApp } from "../customerOrders/customerCreateApp.jsx";
 import { AppCustomerDriverPart } from "./appCustomerDriverPart.jsx";
 import { delCustomerApp } from "../../../actions/customerOrderAction.js";
 import { AppFormExtra } from "../../documents/appFormExtra.jsx";
+import { CreateOderNew } from "../../createOder/createOderNew.jsx";
+import { dateLocal } from "../../myLib/myLib.js";
 import "./customerApps.sass";
 
 export const CustomerApps = () => {
@@ -20,6 +22,8 @@ export const CustomerApps = () => {
   const [dataCustomer, setDataCustoner] = useState(null);
   const [copyApp, setCopyApp] = useState(false);
   const [showPrintApp, setShowPrintApp] = useState(false);
+  const [showCreateOrder, setShowCreateOrder] = useState(false);
+  const [orderData, setOrderData] = useState({});
 
   useEffect(() => {
     const onKeypress = (e) => {
@@ -36,6 +40,28 @@ export const CustomerApps = () => {
 
   const getId = (id) => {
     setCurrentId(id);
+    let currentApp = appList.find((app) => app._id == id);
+    let offLoadingDate =
+      currentApp.dateOfUnloading[currentApp.dateOfUnloading.length - 1];
+    let order = {
+      date: offLoadingDate,
+      idDriver: currentApp.idDriver,
+      idCustomer: currentApp.customerId,
+      idLoadingPoint: currentApp.idLoadingPoint,
+      idUnloadingPoint: currentApp.idUnloadingPoint,
+      customerPrice: currentApp.customerPrice,
+      idTrackDriver: currentApp.idTrackDriver,
+      idTrack: currentApp.idTrack,
+      idManager: currentApp.idManager,
+      loadingInfo: currentApp.loadingText,
+      unloadingInfo: currentApp.unloadingText,
+      applicationNumber: `${currentApp._id} от ${dateLocal(
+        currentApp.dateOfApp
+      )}`,
+      completed: false,
+      colorTR: null,
+    };
+    setOrderData(order);
   };
   const handleClickCreateApp = () => {
     setShowCreateApp(true);
@@ -65,9 +91,14 @@ export const CustomerApps = () => {
   const handlecleckPrint = () => {
     setShowPrintApp(true);
   };
-  const handlecleckCreateOrder = () => {};
+  const handlecleckCreateOrder = () => {
+    setShowCreateOrder(true);
+  };
   const handleClickUserWindowClose = () => {
     setShowPrintApp(false);
+  };
+  const handleClickSave = () => {
+    setShowCreateOrder(false);
   };
 
   return (
@@ -174,6 +205,22 @@ export const CustomerApps = () => {
           windowId="fillApplication"
         >
           <AppFormExtra id={currentId} isLogistApp={true} />
+        </UserWindow>
+      )}
+      {showCreateOrder && (
+        <UserWindow
+          header="Создание заказа"
+          width={1200}
+          height={400}
+          top={"10px"}
+          handleClickWindowClose={handleClickSave}
+          windowId="createOrderWindow"
+        >
+          <CreateOderNew
+            elem={orderData}
+            isMadeFromApp={true}
+            addOder={handleClickSave}
+          />
         </UserWindow>
       )}
     </div>

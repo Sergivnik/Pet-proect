@@ -4,9 +4,8 @@ import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { PointsForm } from "./pointsForm.jsx";
 import { addOder, editOderNew } from "../../actions/oderActions.js";
 import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
-import "./createOder.sass";
 import { InputText } from "../myLib/inputText.jsx";
-import e from "cors";
+import "./createOder.sass";
 
 export const CreateOderNew = (props) => {
   const driverlist = useSelector((state) => state.oderReducer.driverlist);
@@ -60,7 +59,7 @@ export const CreateOderNew = (props) => {
       obj.valueUnloadingPoint = [];
       if (obj.loadingInfo == null) obj.loadingInfo = [];
       if (obj.unloadingInfo == null) obj.unloadingInfo = [];
-      if (props.clickSave) {
+      if (props.clickSave || props.isMadeFromApp) {
         if (obj.date != null) {
           setShowDateInput(false);
         }
@@ -123,7 +122,11 @@ export const CreateOderNew = (props) => {
       setOdersData(obj);
       if (props.clickSave) setBtnName("Сохранить");
       setShowClientPrice(false);
-      setShowDriverPrice(false);
+      if (props.isMadeFromApp) {
+        setShowDriverPrice(true);
+      } else {
+        setShowDriverPrice(false);
+      }
     }
   }, []);
 

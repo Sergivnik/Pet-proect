@@ -26,7 +26,6 @@ export const TdPoinWithToolTip = (props) => {
     setShowDetails(false);
   };
   const preventDefaultDBL = (e) => {
-    console.log(e);
     e.preventDefault();
   };
   return (
