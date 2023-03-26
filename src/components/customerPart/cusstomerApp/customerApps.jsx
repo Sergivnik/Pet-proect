@@ -24,6 +24,8 @@ export const CustomerApps = () => {
   const [showPrintApp, setShowPrintApp] = useState(false);
   const [showCreateOrder, setShowCreateOrder] = useState(false);
   const [orderData, setOrderData] = useState({});
+  const [appListFiltred, setAppListFiltred] = useState(appList);
+  const [isOrderLinked, setIsOrderLinked] = useState(true);
 
   useEffect(() => {
     const onKeypress = (e) => {
@@ -37,6 +39,10 @@ export const CustomerApps = () => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, []);
+  useEffect(() => {
+    let arr = appList.filter((elem) => elem.orderId == null);
+    setAppListFiltred(arr);
+  }, [appList]);
 
   const getId = (id) => {
     setCurrentId(id);
@@ -100,6 +106,15 @@ export const CustomerApps = () => {
   const handleClickSave = () => {
     setShowCreateOrder(false);
   };
+  const handleChangeOrderLink = () => {
+    setIsOrderLinked(!isOrderLinked);
+    if (isOrderLinked) {
+      setAppListFiltred(appList);
+    } else {
+      let arr = appList.filter((elem) => elem.orderId == null);
+      setAppListFiltred(arr);
+    }
+  };
 
   return (
     <div className="customerAppContainer">
@@ -141,7 +156,16 @@ export const CustomerApps = () => {
             </button>
           )}
         </div>
-        <div className="customerAppMenuFilterContainer">Всякие галочки</div>
+        <div className="customerAppMenuFilterContainer">
+          <label>
+            <input
+              type="checkbox"
+              checked={isOrderLinked}
+              onChange={handleChangeOrderLink}
+            />
+            Без заказов
+          </label>
+        </div>
       </menu>
       <main className="customerAppMain">
         <table className="customerAppTable">
@@ -152,10 +176,11 @@ export const CustomerApps = () => {
               <td className="customerAppTd">Пункты погрузки</td>
               <td className="customerAppTd">Пункты выгрузки</td>
               <td className="customerAppTd">Цена</td>
+              <td className="customerAppTd">Заказ</td>
             </tr>
           </thead>
           <tbody>
-            {appList.map((elem) => {
+            {appListFiltred.map((elem) => {
               return (
                 <CustomerAppTr
                   key={`customerAppTr${elem._id}`}
@@ -219,6 +244,7 @@ export const CustomerApps = () => {
           <CreateOderNew
             elem={orderData}
             isMadeFromApp={true}
+            appId={currentId}
             addOder={handleClickSave}
           />
         </UserWindow>

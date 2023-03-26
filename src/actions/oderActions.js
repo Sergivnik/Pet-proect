@@ -17,6 +17,8 @@ export const MAKE_PAYMENT_CUSTOMER_FAILURE =
   "DATA::MAKE_PAYMENT_CUSTOMER_FAILURE";
 export const DEL_PRINTED_MARK_SUCCESS = "DEL_PRINTED_MARK_SUCCESS";
 export const DEL_PRINTED_MARK_FAILURE = "DEL_PRINTED_MARK_FAILURE";
+export const ADD_ORDER_APP_SUCCESS = "ADD_ORDER_APP_SUCCESS";
+export const ADD_ORDER_APP_FAILURE = "ADD_ORDER_APP_FAILURE";
 
 export const addOder = (data) => {
   return (dispatch) =>
@@ -184,4 +186,31 @@ export const delPrintedMarkSuccess = (id) => ({
 });
 export const delPrintedMarkFailure = () => ({
   type: DEL_PRINTED_MARK_FAILURE,
+});
+export const addOrderApp = (data, appId) => {
+  return (dispatch) => {
+    axios
+      .post(URL + "/addOrderApp", {
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        appId: appId,
+      })
+      .then((res) => {
+        return dispatch(addOrderAppSuccess(res.data, data, appId));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        return dispatch(addOrderAppFailure(e.message));
+      });
+  };
+};
+const addOrderAppSuccess = (dataServer, data, appId) => ({
+  type: ADD_ORDER_APP_SUCCESS,
+  dataServer,
+  data,
+  appId,
+});
+const addOrderAppFailure = (e) => ({
+  type: ADD_ORDER_APP_FAILURE,
+  e,
 });

@@ -67,6 +67,7 @@ export const CustomerAppTr = (props) => {
           ? Number(elem.customerPrice).toLocaleString()
           : null}
       </td>
+      <td className="customerAppBodyTd">{elem.orderId ? "привязан" : ""}</td>
     </tr>
   );
 };

@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { PointsForm } from "./pointsForm.jsx";
-import { addOder, editOderNew } from "../../actions/oderActions.js";
+import {
+  addOder,
+  addOrderApp,
+  editOderNew,
+} from "../../actions/oderActions.js";
 import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
 import { InputText } from "../myLib/inputText.jsx";
 import "./createOder.sass";
@@ -362,8 +366,13 @@ export const CreateOderNew = (props) => {
     }
     if (check) {
       if (btnName == "Добавить") {
-        dispatch(addOder(odersData));
-        props.addOder();
+        if (props.isMadeFromApp) {
+          dispatch(addOrderApp(odersData, props.appId));
+          props.addOder();
+        } else {
+          dispatch(addOder(odersData));
+          props.addOder();
+        }
       }
       if (btnName == "Сохранить") {
         let isChanged = false;

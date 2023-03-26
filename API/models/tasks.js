@@ -781,5 +781,49 @@ var Tasks = {
     }
     db.end();
   },
+  addOrderApp: async function (data, appId, callback) {
+    console.log("addOrderApp", data, appId);
+    data = JSON.parse(data);
+    let oder = {
+      date: data.date,
+      idDriver: data.idDriver,
+      idCustomer: data.idCustomer,
+      idLoadingPoint: JSON.stringify(data.idLoadingPoint),
+      idUnloadingPoint: JSON.stringify(data.idUnloadingPoint),
+      customerPrice: data.customerPrice,
+      driverPrice: data.driverPrice,
+      idManager: data.idManager,
+      idTrackDriver: data.idTrackDriver,
+      idTrack: data.idTrack,
+      loadingInfo: JSON.stringify(data.loadingInfo),
+      unloadingInfo: JSON.stringify(data.unloadingInfo),
+      completed: data.completed,
+      applicationNumber: data.applicationNumber,
+      colorTR: data.colorTR,
+    };
+    let addData = {
+      customerId: data.idCustomer,
+      sum: data.price,
+      interest: data.interest,
+      orderId: null,
+    };
+    if (oder.customerPrice === "") oder.customerPrice = null;
+    if (oder.driverPrice === "") oder.driverPrice = null;
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      let [data] = await db.query("INSERT INTO oderslist SET ?", oder);
+      await db.query(
+        `UPDATE customerorders set orderId =${data.insertId} WHERE _id=${appId}`
+      );
+      addData.orderId = data.insertId;
+      if (oder.colorTR == "hotpink") {
+        await db.query(`INSERT INTO addtable SET ?`, addData);
+      }
+      callback(data);
+    } catch (err) {
+      callback({ error: err });
+    }
+    db.end();
+  },
 };
 module.exports = Tasks;

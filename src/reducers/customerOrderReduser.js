@@ -16,6 +16,10 @@ import {
   GET_NEW_APP_SUCCESS,
   GET_NEW_APP_FAILURE,
 } from "../actions/appAction.js";
+import {
+  ADD_ORDER_APP_SUCCESS,
+  ADD_ORDER_APP_FAILURE,
+} from "../actions/oderActions.js";
 
 export const customerReducer = (store = customerStore, action) => {
   switch (action.type) {
@@ -78,6 +82,15 @@ export const customerReducer = (store = customerStore, action) => {
       } else {
         return { ...store, newAppNumber: action.data - oldApp };
       }
+    }
+    case ADD_ORDER_APP_SUCCESS: {
+      console.log(action);
+      let arrCustomerApp = [...store.customerOrders];
+      let index = store.customerOrders.findIndex(
+        (elem) => elem._id == action.appId
+      );
+      arrCustomerApp[index].orderId = action.dataServer.insertId;
+      return { ...store, customerOrders: arrCustomerApp };
     }
     default:
       return store;
