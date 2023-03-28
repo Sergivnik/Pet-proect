@@ -306,7 +306,7 @@ export const ReconciliationAct = () => {
                         {elem.type == "inCome"
                           ? `${
                               reqData.name == "customer"
-                                ? elem.sum
+                                ? Number(elem.sum).toLocaleString()
                                 : `${elem.sum - elem.sumOfDebts} (${
                                     elem.sumOfDebts
                                   })`
@@ -315,14 +315,14 @@ export const ReconciliationAct = () => {
                       </td>
                       <td style={{ border: "1px solid black" }}>
                         {elem.type == "outCome" || elem.type == "totalInfo"
-                          ? elem.sum
+                          ? Number(elem.sum).toLocaleString()
                           : ""}
                       </td>
                       <td style={{ border: "1px solid black" }}>
-                        {debt > 0 ? "" : -debt}
+                        {debt > 0 ? "" : -Number(debt).toLocaleString()}
                       </td>
                       <td style={{ border: "1px solid black" }}>
-                        {debt > 0 ? debt : ""}
+                        {debt > 0 ? Number(debt).toLocaleString() : ""}
                       </td>
                     </tr>
                   );
@@ -349,11 +349,17 @@ export const ReconciliationAct = () => {
                   <td style={{ border: "1px solid black" }}>
                     {reconciliation.length != 0 ? reconciliation[0].sum : ""}
                   </td>
-                  <td style={{ border: "1px solid black" }}>{income}</td>
-                  <td style={{ border: "1px solid black" }}>{outcome}</td>
+                  <td style={{ border: "1px solid black" }}>
+                    {Number(income).toLocaleString()}
+                  </td>
+                  <td style={{ border: "1px solid black" }}>
+                    {Number(outcome).toLocaleString()}
+                  </td>
                   <td style={{ border: "1px solid black" }} colSpan={2}>
                     {reconciliation.length != 0
-                      ? reconciliation[reconciliation.length - 1].sum
+                      ? Number(
+                          reconciliation[reconciliation.length - 1].sum
+                        ).toLocaleString()
                       : ""}
                   </td>
                 </tr>
@@ -428,9 +434,11 @@ export const ReconciliationAct = () => {
           {requestStatus == "request" && (
             <div className="requestStatusReport">Saving...</div>
           )}
-          {requestStatus != "request" && requestStatus != null && !hideError && (
-            <div className="requestStatusReportError">{requestStatus}</div>
-          )}
+          {requestStatus != "request" &&
+            requestStatus != null &&
+            !hideError && (
+              <div className="requestStatusReportError">{requestStatus}</div>
+            )}
         </main>
       )}
     </div>
