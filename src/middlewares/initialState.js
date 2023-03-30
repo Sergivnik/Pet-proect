@@ -9,6 +9,8 @@ export const URL = DOMENNAME + "/API";
 export const GET_DATA_REQUEST = "DATA::GET_DATA_REQUEST";
 export const GET_DATA_SUCCESS = "DATA::GET_DATA_SUCCESS";
 export const GET_DATA_FAILURE = "DATA::GET_DATA_FAILURE";
+export const GET_DATA_SUCCESS5000 = "DATA::GET_DATA_SUCCESS5000";
+export const GET_DATA_FAILURE5000 = "DATA::GET_DATA_FAILURE5000";
 export const GET_FILTER_SUCCESS = "DATA::GET_FILTER_FAILURE";
 export const GET_FILTER_FAILURE = "DATA::GET_FILTER_FAILURE";
 export const FILTER_DATA = "FILTER_DATA";
@@ -98,6 +100,26 @@ export const getData = () => {
       });
   };
 };
+export const getData5000 = () => {
+  return (dispatch) => {
+    axios
+      .get(URL + "/data5000")
+      .then((res) => {
+        return dispatch(getDataSuccess5000(res.data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        return dispatch(getDataFailure5000());
+      });
+  };
+};
+export const getDataSuccess5000 = (dataServer) => ({
+  type: GET_DATA_SUCCESS5000,
+  dataServer,
+});
+export const getDataFailure5000 = () => ({
+  type: GET_DATA_FAILURE5000,
+});
 export const getDataPaymentsSuccess = (dataServer) => ({
   type: GET_PAYMENTS_DATA_SUCCESS,
   dataServer,

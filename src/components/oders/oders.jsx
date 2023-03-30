@@ -9,7 +9,11 @@ import { CustomerPayments } from "../customerPayments/customerPayments.jsx";
 import { DriverPaymentForm } from "../driverComponents/driverPaymentForm.jsx";
 import { DriverDebtForm } from "../driverComponents/driverDebtForm.jsx";
 import { ContractorsPayments } from "../contractors/contractorsPayments.jsx";
-import { getData, filterData } from "../../middlewares/initialState.js";
+import {
+  getData,
+  filterData,
+  getData5000,
+} from "../../middlewares/initialState.js";
 import { delOder } from "../../actions/oderActions.js";
 import { EditDataForm } from "../editData/editDataForm.jsx";
 import { PrintFormBill } from "../printForm/printFormBill.jsx";
@@ -145,6 +149,14 @@ export const Oders = () => {
 
   useEffect(() => {
     let length = odersList.length;
+    let condotion = true;
+    for (let key in filterList) {
+      if (filterList[key].length > 0) {
+        condotion = false;
+        break;
+      }
+    }
+    if (condotion && length > 0 && length != 5000) dispatch(getData5000());
     console.log(length);
     if (length > 100) {
       setOders(odersList.slice(length - 100 - addData, length - addData));
@@ -617,7 +629,7 @@ export const Oders = () => {
           top="12%"
           left="12%"
         >
-          <CustomerApps/>
+          <CustomerApps />
         </UserWindow>
       )}
       {showSecretTable && (

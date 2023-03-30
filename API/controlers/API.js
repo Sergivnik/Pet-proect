@@ -21,6 +21,17 @@ module.exports.taskGet = (req, res) => {
     }
   });
 };
+module.exports.taskGet5000 = (req, res) => {
+  console.log("req");
+  tasks.order5000((data) => {
+    if (data.error) {
+      res.status(500);
+      res.json({ message: data.error });
+    } else {
+      res.json(data);
+    }
+  });
+};
 module.exports.taskGetPayments = (req, res) => {
   tasksPayments.list((data) => {
     if (data.error) {
@@ -192,7 +203,7 @@ module.exports.taskAdd = (req, res) => {
 module.exports.taskAddOrderApp = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
-  
+
   tasks.addOrderApp(req.body.body, req.body.appId, (data) => {
     if (data.error) {
       res.status(500);

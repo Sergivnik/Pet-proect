@@ -9,6 +9,7 @@ const dateToSqlString = (dateSomeFormate) => {
 };
 var Tasks = {
   list: async function (callback) {
+    console.log("list");
     let allData = {};
     const db = mysql.createPool(options.sql).promise();
     try {
@@ -21,7 +22,7 @@ var Tasks = {
       [data] = await db.query("SELECT * FROM oders order by value");
       allData.clientList = data;
       [data] = await db.query(
-        `(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 5000) ORDER BY date, accountNumber, _id`
+        `(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 500) ORDER BY date, accountNumber, _id`
       );
       allData.odersList = data;
       [data] = await db.query(
@@ -99,6 +100,19 @@ var Tasks = {
       [data] = await db.query(`SELECT * FROM yearconst`);
       allData.yearconst = data;
       callback(allData);
+      db.end();
+    } catch (err) {
+      callback({ error: err });
+    }
+  },
+  order5000: async function (callback) {
+    console.log("order5000");
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      let [data] = await db.query(
+        `(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 5000) ORDER BY date, accountNumber, _id`
+      );
+      callback(data);
       db.end();
     } catch (err) {
       callback({ error: err });

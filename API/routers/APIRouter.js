@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get("/data", API.taskGet);
+router.get("/data5000", API.taskGet5000);
 router.get("/dataPayments", API.taskGetPayments);
 router.get("/dataDriverDebt", API.taskGetDebts);
 router.get("/dataContractors", API.taskGetContractors);

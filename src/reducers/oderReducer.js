@@ -25,6 +25,7 @@ import {
   GET_PAYMENTS_DATA_FAILURE,
   DELETE_PAYMENT_DATA_SUCCESS,
   DELETE_PAYMENT_DATA_FAILURE,
+  GET_DATA_SUCCESS5000,
 } from "../middlewares/initialState.js";
 import {
   GET_DATA_DRIVER_DEBT_SUCCESS,
@@ -111,9 +112,9 @@ export const oderReducer = (store = initialStore, action) => {
         },
       });
     }
-    case ADD_ORDER_APP_SUCCESS:{
+    case ADD_ORDER_APP_SUCCESS: {
       console.log(action);
-      
+
       return update(store, {
         odersList: {
           $merge: {
@@ -550,6 +551,40 @@ export const oderReducer = (store = initialStore, action) => {
           status: "SUCCESS",
           error: null,
         },
+      };
+    }
+    case GET_DATA_SUCCESS5000: {
+      let ordersList = action.dataServer.sort((a, b) => {
+        if (a.date < b.date) return -1;
+        if (a.date > b.date) return 1;
+        if (a.date == b.date) {
+          let condotion =
+            (b.accountNumber == null || b.accountNumber == "") &&
+            a.accountNumber;
+          if (condotion) return -1;
+          if (
+            (b.accountNumber == null || b.accountNumber == "") &&
+            (a.accountNumber == null || a.accountNumber == "")
+          ) {
+            if (a._id < b._id) return -1;
+            if (a._id > b._id) return 1;
+          }
+          if (a.accountNumber < b.accountNumber) return -1;
+          if (a.accountNumber > b.accountNumber) return 1;
+          if (a.accountNumber == b.accountNumber) {
+            if (a._id < b._id) return -1;
+            if (a._id > b._id) return 1;
+          }
+        }
+      });
+      let clone = [];
+      ordersList.forEach((elem) => {
+        clone.push(Object.assign({}, elem));
+      });
+      return {
+        ...store,
+        odersList: ordersList,
+        originOdersList: clone,
       };
     }
     case GET_DATA_FAILURE: {
