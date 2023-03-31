@@ -121,7 +121,8 @@ export const TdAccountNumber = (props) => {
         customerPayment == "Нет" ||
         customerPayment == "Печать" ||
         customerPayment == "Мыло" ||
-        customerPayment == "Ок"
+        customerPayment == "Ок" ||
+        customerPayment == "Почта"
       ) {
         setShowContextEmail(true);
       } else {

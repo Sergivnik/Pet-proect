@@ -902,7 +902,10 @@ module.exports.taskSendEmail = (req, res) => {
 
       main()
         .then(() => {
-          if (data.order.customerPayment != "Ок") {
+          if (
+            data.order.customerPayment == "Нет" ||
+            data.order.customerPayment == "Печать"
+          ) {
             tasks.edit(
               {
                 field: "customerPayment",
