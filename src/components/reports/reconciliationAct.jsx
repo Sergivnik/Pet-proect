@@ -319,7 +319,7 @@ export const ReconciliationAct = () => {
                           : ""}
                       </td>
                       <td style={{ border: "1px solid black" }}>
-                        {debt > 0 ? "" : -Number(debt).toLocaleString()}
+                        {debt > 0 ? "" : (-Number(debt)).toLocaleString()}
                       </td>
                       <td style={{ border: "1px solid black" }}>
                         {debt > 0 ? Number(debt).toLocaleString() : ""}
