@@ -3,9 +3,9 @@ import "./choiseList.sass";
 
 // arr1 - first list
 // arr2 - second list
-// field1 - field of object from first list wich use for search 
-// field2 - field of object from second list wich use for search 
-// field3 - another field of object from first list wich use for search 
+// field1 - field of object from first list wich use for search
+// field2 - field of object from second list wich use for search
+// field3 - another field of object from first list wich use for search
 // fieldSearch - field of object from second list wich use as result of searching
 // setValue - function where get result of searching as object {_id:id}
 // reset - clear the field of searching
@@ -65,8 +65,8 @@ export const ChoiseTwoList = (props) => {
   const handleOptionClick = (e) => {
     console.log(e.currentTarget);
     let id = e.currentTarget.value;
-    props.setValue({ _id: id });
-    let elem = list.find((elem) => (elem.id == id));
+    let elem = list.find((elem) => elem.id == id);
+    props.setValue({ _id: id, value: elem.value });
     setText(elem.value2 != undefined ? elem.value2 : elem.value);
     setShowSelect(false);
   };
@@ -74,8 +74,8 @@ export const ChoiseTwoList = (props) => {
     console.log(e.currentTarget);
     if (e.key == "Enter") {
       let id = e.currentTarget.value;
-      props.setValue({ _id: id });
-      let elem = list.find((elem) => (elem.id == id));
+      let elem = list.find((elem) => elem.id == id);
+      props.setValue({ _id: id, value: elem.value });
       setText(elem.value2 != undefined ? elem.value2 : elem.value);
       setShowSelect(false);
     }

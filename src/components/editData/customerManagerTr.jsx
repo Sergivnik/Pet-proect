@@ -11,6 +11,7 @@ export const CustomerManagerTr = (props) => {
   const clientListFull = useSelector((state) => state.oderReducer.clientList);
 
   let elem = props.elem;
+  console.log(props);
   const [colNumber, setColNumber] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
   const [styleTr, setStyleTr] = useState(null);
@@ -97,6 +98,8 @@ export const CustomerManagerTr = (props) => {
       setColNumber(null);
       setStyleTr(null);
       setStileTd("customerManagerTd");
+    }else{
+      setStyleTr("customerActiveTr");
     }
   }, [props.currentId]);
   useEffect(() => {

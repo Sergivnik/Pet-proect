@@ -25,6 +25,7 @@ export const CustomerManagerTable = () => {
     let arr = clientManagerFull.filter((elem) => elem.odersId == data._id);
     setClientManager(arr);
     setChosenId(data._id);
+    console.log(data);
   };
   const handleChangeBox = (e) => {
     if (e.currentTarget.checked) {

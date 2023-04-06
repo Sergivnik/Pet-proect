@@ -37,6 +37,8 @@ export const CustomerTable = () => {
     setShowManagerTable(true);
     setClientManager(arrManager);
     console.log(data);
+    let manager = arrManager.find((manager) => manager.phone == data.value);
+    if (manager) setCurrentId(manager._id);
   };
   const handleChangeBox = (e) => {
     if (e.currentTarget.checked) {
