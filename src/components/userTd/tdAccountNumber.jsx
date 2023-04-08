@@ -30,6 +30,7 @@ export const TdAccountNumber = (props) => {
   const [appBtn, setAppBtn] = useState("");
   const [top, setTop] = useState(0);
   const [classTD, setClassTD] = useState("odersTd");
+  const [divBottomCoord, setDivBottomCoord] = useState(null);
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -60,6 +61,8 @@ export const TdAccountNumber = (props) => {
     e.preventDefault();
     setCurrentId(e.currentTarget.parentElement.id);
     setShowContextMenu(true);
+    let div = document.querySelector(".odersDiv");
+    setDivBottomCoord(div.clientHeight - e.clientY);
   };
   const handleClickPrint = () => {
     dispatch(getPdf(currentId, "doc"));
@@ -115,7 +118,18 @@ export const TdAccountNumber = (props) => {
 
   useEffect(() => {
     if (showContextMenu) {
-      let DivContext = document.querySelector(".divContext");
+      let DivContextAll = document.querySelectorAll(".divContext");
+      let DivContext;
+      if (DivContextAll.length > 1) {
+        DivContext = DivContextAll[1];
+      } else {
+        DivContext = DivContextAll[0];
+      }
+      let heghtDivContext = DivContext.clientHeight;
+      if (divBottomCoord - heghtDivContext < 0) {
+        DivContext.style.top =
+          DivContext.offsetTop + divBottomCoord - heghtDivContext + "px";
+      }
       let customerPayment = props.customerPayment;
       if (
         customerPayment == "Нет" ||
@@ -187,11 +201,7 @@ export const TdAccountNumber = (props) => {
         props.accountNumber
       )}
       {showContextMenu ? (
-        <div tabIndex="0" className="divContext" /* onBlur={handleBlur} */>
-          {/* <p className="contextmenu" onClick={handleClickGenerate}>
-            Сформировать
-          </p>
-          <hr /> */}
+        <div tabIndex="0" className="divContext">
           <p className="contextmenu" onClick={handleClickPrint}>
             Печать
           </p>

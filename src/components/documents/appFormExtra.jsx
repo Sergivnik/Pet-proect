@@ -100,6 +100,7 @@ export const AppFormExtra = (props) => {
             //currentDate={appData.date}
           />
         </div>
+        {requestStatus && <div className="divSaving">Saving...</div>}
       </main>
     </div>
   );

@@ -119,7 +119,13 @@ export const AppForm = (props) => {
       let addInfo = "";
       let storeName = "";
       if (storeId == null) {
-        addInfo = order.loadingInfo[index] ? order.loadingInfo[index] : "";
+        if (order.loadingText[index] != "") {
+          addInfo = order.loadingText[index];
+          let text = order.loadingInfo[index] ? order.loadingInfo[index] : "";
+          if (text) addInfo = addInfo + ", " + text;
+        } else {
+          addInfo = order.loadingInfo[index] ? order.loadingInfo[index] : "";
+        }
         storeName = "по ТТН";
       } else {
         const store = storelist.find((store) => store._id == storeId);
@@ -144,7 +150,17 @@ export const AppForm = (props) => {
       let addInfo = "";
       let storeName = "";
       if (storeId == null) {
-        addInfo = order.unloadingInfo[index] ? order.unloadingInfo[index] : "";
+        if (order.unloadingText[index] != "") {
+          addInfo = order.unloadingText[index];
+          let text = order.unloadingInfo[index]
+            ? order.unloadingInfo[index]
+            : "";
+          if (text) addInfo = addInfo + ", " + text;
+        } else {
+          addInfo = order.unloadingInfo[index]
+            ? order.unloadingInfo[index]
+            : "";
+        }
         storeName = "по ТТН";
       } else {
         const store = storelist.find((store) => store._id == storeId);
