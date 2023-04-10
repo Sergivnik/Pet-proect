@@ -119,14 +119,16 @@ export const AppForm = (props) => {
       let addInfo = "";
       let storeName = "";
       if (storeId == null) {
-        if (order.loadingText[index] != "") {
-          addInfo = order.loadingText[index];
-          let text = order.loadingInfo[index] ? order.loadingInfo[index] : "";
-          if (text) addInfo = addInfo + ", " + text;
-        } else {
-          addInfo = order.loadingInfo[index] ? order.loadingInfo[index] : "";
+        if (order.loadingText) {
+          if (order.loadingText[index] != "") {
+            addInfo = order.loadingText[index];
+            let text = order.loadingInfo[index] ? order.loadingInfo[index] : "";
+            if (text) addInfo = addInfo + ", " + text;
+          } else {
+            addInfo = order.loadingInfo[index] ? order.loadingInfo[index] : "";
+          }
+          storeName = "по ТТН";
         }
-        storeName = "по ТТН";
       } else {
         const store = storelist.find((store) => store._id == storeId);
         addInfo = store.address;
@@ -150,18 +152,20 @@ export const AppForm = (props) => {
       let addInfo = "";
       let storeName = "";
       if (storeId == null) {
-        if (order.unloadingText[index] != "") {
-          addInfo = order.unloadingText[index];
-          let text = order.unloadingInfo[index]
-            ? order.unloadingInfo[index]
-            : "";
-          if (text) addInfo = addInfo + ", " + text;
-        } else {
-          addInfo = order.unloadingInfo[index]
-            ? order.unloadingInfo[index]
-            : "";
+        if (order.unloadingText) {
+          if (order.unloadingText[index] != "") {
+            addInfo = order.unloadingText[index];
+            let text = order.unloadingInfo[index]
+              ? order.unloadingInfo[index]
+              : "";
+            if (text) addInfo = addInfo + ", " + text;
+          } else {
+            addInfo = order.unloadingInfo[index]
+              ? order.unloadingInfo[index]
+              : "";
+          }
+          storeName = "по ТТН";
         }
-        storeName = "по ТТН";
       } else {
         const store = storelist.find((store) => store._id == storeId);
         addInfo = store.address;
