@@ -210,7 +210,7 @@ export const DriverTable = (props) => {
     ${trackdriver.name}
     паспорт: ${trackdriver.passportNumber} выдан ${
       trackdriver.department
-    } ${dateLocalZone(trackdriver.dateOfIssue)}
+    } ${dateLocal(trackdriver.dateOfIssue)}
     водительское удостоверение: ${trackdriver.driverLicense}
     телефон: ${trackdriver.phoneNumber}
     А/М ${track.model} номер ${track.value}

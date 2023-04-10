@@ -226,7 +226,7 @@ export const TrackDriverTr = (props) => {
             value={valueInput}
           />
         ) : (
-          dateLocalZone(elem.dateOfIssue)
+          dateLocal(elem.dateOfIssue)
         )}
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>
