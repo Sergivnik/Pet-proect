@@ -355,7 +355,7 @@ export const InvoiceForm = (props) => {
         </table>
         <div style={{ position: "relative", height: "100px" }}>
           <p style={{ marginTop: "50px" }}>
-            Индивидуальный предпрениматель _____________________________Иванов
+            Индивидуальный предприниматель _____________________________Иванов
             С.Н.
           </p>
           {props.stamp && (

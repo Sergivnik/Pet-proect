@@ -55,7 +55,7 @@ module.exports = (dataById) => {
             <br>
             <div class="divStamp">
                 <p>Срок действия доверенности по ${dayAddTen}.${monthAddTen}.${yearAddTen}</p>
-                <p>Индивидуальный предпрениматель _____________________________Иванов С.Н.</p>
+                <p>Индивидуальный предприниматель _____________________________Иванов С.Н.</p>
     
     
                 <img class="stamp" height="150" width="150" src="http://localhost:3000/img/stamp.png">
