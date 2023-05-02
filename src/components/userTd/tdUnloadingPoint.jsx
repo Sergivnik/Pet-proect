@@ -101,7 +101,7 @@ export const TdUnoadingPoint = (props) => {
   }, [showContextMenu, showEdit]);
 
   return (
-    <td className="userTd">
+    <td className="userTd mobileViewOff">
       {pointUnloadInfo && (
         <div className="oderTdTooltip">{pointUnloadInfo}</div>
       )}

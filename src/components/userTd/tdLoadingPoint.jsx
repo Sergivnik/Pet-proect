@@ -101,7 +101,7 @@ export const TdLoadingPoint = (props) => {
   }, [showContextMenu, showEdit]);
 
   return (
-    <td className="userTd">
+    <td className="userTd mobileViewOff">
       {pointLoadInfo && <div className="oderTdTooltip">{pointLoadInfo}</div>}
       {props.idLoadingPoint.map((idCity, index) =>
         showEdit ? (

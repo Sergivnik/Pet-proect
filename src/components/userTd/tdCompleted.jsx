@@ -44,7 +44,7 @@ const dispatch = useDispatch();
   }, [props.currentTR]);
 
   return (
-    <td className="userTd tdWidth150" onDoubleClick={handleDBLClick}>
+    <td className="userTd tdWidth150 mobileViewOff" onDoubleClick={handleDBLClick}>
       {showEdit ? (
         <div>
           <span>

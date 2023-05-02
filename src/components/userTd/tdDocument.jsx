@@ -106,9 +106,9 @@ export const TdDocument = (props) => {
   useEffect(() => {
     if (props.elem) {
       if (props.elem.wasItPrinted) {
-        setClassTd("userTd wasPrinted");
+        setClassTd("userTd wasPrinted mobileViewOff");
       } else {
-        setClassTd("userTd");
+        setClassTd("userTd mobileViewOff");
       }
     }
   }, [props]);
