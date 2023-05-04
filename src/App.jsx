@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock } from "./components/myLib/clock/clock.jsx";
 import { DOMENNAME } from "./middlewares/initialState";
 import "./app.sass";
 
 export const App = () => {
+  const backgroundImage = `url(${DOMENNAME}/img/trackPhone.png)`;
+  const divStyle = {
+    backgroundImage: backgroundImage,
+    height: "calc(100vh - 16px)",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  };
   return (
-    <div className="appRootDiv">
+    <div className="appRootDiv" style={divStyle}>
       <header className="appRootHeader">
         <div className="appRootLogo">
           <img
@@ -24,7 +31,9 @@ export const App = () => {
           <Link to="/auth">Вход</Link>
         </div>
       </header>
-      <Clock size={475} color={`#0000ff`} />
+      <div className="appClockContainer">
+        <Clock size={175} color={`#0000ff`} />
+      </div>
     </div>
   );
 };
