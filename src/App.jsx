@@ -5,20 +5,53 @@ import { DOMENNAME } from "./middlewares/initialState";
 import "./app.sass";
 
 export const App = () => {
-  const backgroundImage = `url(${DOMENNAME}/img/trackPhone.png)`;
-  const divStyle = {
+  const [backgroundImage, setBackgroundImage] = useState();
+  const [counter, setCounter] = useState(0);
+  let divStyle = {
     backgroundImage: backgroundImage,
     height: "calc(100vh - 16px)",
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
+
+  useEffect(() => {
+    switch (counter) {
+      case 0:
+        setBackgroundImage(`url(${DOMENNAME}/img/trackPhone.png)`);
+        break;
+      case 1:
+        setBackgroundImage(`url(${DOMENNAME}/img/trackPhone1.jpg)`);
+        break;
+      case 2:
+        setBackgroundImage(`url(${DOMENNAME}/img/trackPhone3.png)`);
+        break;
+      case 3:
+        setBackgroundImage(`url(${DOMENNAME}/img/trackPhone5.png)`);
+        break;
+      default:
+        break;
+    }
+    setTimeout(() => {
+      if (counter <= 3) {
+        setCounter(counter + 1);
+      } else {
+        setCounter(0);
+      }
+    }, 10000);
+    divStyle = {
+      backgroundImage: backgroundImage,
+      height: "calc(100vh - 16px)",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    };
+  }, [counter]);
   return (
     <div className="appRootDiv" style={divStyle}>
       <header className="appRootHeader">
         <div className="appRootLogo">
           <img
             className="appRootImg"
-            src={`${DOMENNAME}/img/track3.png`}
+            src={`${DOMENNAME}/img/track.png`}
             height="50"
             width="80"
           />
