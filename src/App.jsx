@@ -32,7 +32,7 @@ export const App = () => {
         break;
     }
     setTimeout(() => {
-      if (counter <= 3) {
+      if (counter < 3) {
         setCounter(counter + 1);
       } else {
         setCounter(0);
