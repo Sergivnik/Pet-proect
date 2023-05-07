@@ -162,14 +162,14 @@ export const UserTr = (props) => {
         </tr>
       ) : (
         <tr>
-          <td colSpan="13">
+          <td colSpan="13" className="orderNewCreateTD">
             <CreateOderNew elem={props.elem} clickSave={handleClickSave} />
           </td>
-          <td>
+          {/* <td>
             <button className="odersTdBtn" onClick={handleClickEdit}>
               Edit
             </button>
-          </td>
+          </td> */}
         </tr>
       )}
       {showDocForm && (
