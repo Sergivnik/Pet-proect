@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock } from "./components/myLib/clock/clock.jsx";
 import { DOMENNAME } from "./middlewares/initialState";
-//import { Canvas, useLoader } from 'react-three-fiber';
+import { Canvas } from 'react-three-fiber';
 import "./app.sass";
 
 export const App = () => {
@@ -107,6 +107,7 @@ export const App = () => {
       <div className="appClockContainer">
         <Clock size={175} color={`#0000ff`} />
       </div>
+      <Canvas></Canvas>
     </div>
   );
 };
