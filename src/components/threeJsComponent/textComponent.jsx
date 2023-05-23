@@ -4,8 +4,6 @@ import { Canvas, useLoader } from "@react-three/fiber";
 import {
   Center,
   Text3D,
-  OrbitControls,
-  MeshTransmissionMaterial,
 } from "@react-three/drei";
 import { DOMENNAME } from "../../middlewares/initialState";
 import Roboto from "./Roboto_Regular.json";
@@ -18,7 +16,7 @@ export const Text3DComponent = () => {
   return (
     <Center>
       <Text3D font={Roboto}>{"children"}
-      <meshNormalMaterial/>
+      <meshBasicMaterial color={0xff0000}/>
       </Text3D>
     </Center>
   );
