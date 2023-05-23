@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock } from "./components/myLib/clock/clock.jsx";
 import { DOMENNAME } from "./middlewares/initialState";
-import { Canvas } from 'react-three-fiber';
+import { Canvas } from "react-three-fiber";
 import "./app.sass";
 import { Text3DComponent } from "./components/threeJsComponent/textComponent.jsx";
+import { PerspectiveCamera } from "@react-three/drei";
 
 export const App = () => {
   const slogans = [
-    "Наша компания - ваш надежный партнер в перевозках.",
-    "Гарантированная безопасность и сохранность ваших грузов.",
-    "Мы доставим ваш груз туда, куда вам нужно, без проблем.",
-    "Ваш груз в надежных руках – доверьтесь профессионалам.",
+    "Наша компания - ваш надежный\n партнер в перевозках.",
+    "Гарантированная безопасность\n и сохранность ваших грузов.",
+    "Мы доставим ваш груз туда,\n куда вам нужно, без проблем.",
+    "Ваш груз в надежных руках\n – доверьтесь профессионалам.",
   ];
   const [backgroundImage, setBackgroundImage] = useState();
   const [counter, setCounter] = useState(null);
@@ -108,7 +109,17 @@ export const App = () => {
       <div className="appClockContainer">
         <Clock size={175} color={`#0000ff`} />
       </div>
-      <Canvas><Text3DComponent/></Canvas>
+      <div className="appCanvasContainer">
+        <Canvas>
+          <PerspectiveCamera
+            makeDefault
+            position={[0, 0, 20]}
+            near={30}
+            far={45}
+          />
+          <Text3DComponent text={currentSlogan} />
+        </Canvas>
+      </div>
     </div>
   );
 };
