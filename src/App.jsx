@@ -4,6 +4,7 @@ import { Clock } from "./components/myLib/clock/clock.jsx";
 import { DOMENNAME } from "./middlewares/initialState";
 import { Canvas } from 'react-three-fiber';
 import "./app.sass";
+import { Text3DComponent } from "./components/threeJsComponent/textComponent.jsx";
 
 export const App = () => {
   const slogans = [
@@ -107,7 +108,7 @@ export const App = () => {
       <div className="appClockContainer">
         <Clock size={175} color={`#0000ff`} />
       </div>
-      <Canvas></Canvas>
+      <Canvas><Text3DComponent/></Canvas>
     </div>
   );
 };
