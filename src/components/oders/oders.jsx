@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { UserThead } from "./userThead.jsx";
 import { UserTr } from "./userTr.jsx";
@@ -420,6 +421,16 @@ export const Oders = () => {
     <React.Fragment>
       <div className="odersDivInfo">
         <div className="wrapperForAccount">
+          <div className="orderLogo">
+            <Link to="/">
+              <img
+                className="orderLogoImg"
+                src={`${DOMENNAME}/img/track2.png`}
+                height="25"
+                width="40"
+              />
+            </Link>
+          </div>
           <div className="orderDivInfoSpan">
             <span>Рас.сч. </span>
             <span className="spanNoSpace">
