@@ -425,7 +425,7 @@ export const Oders = () => {
             <Link to="/">
               <img
                 className="orderLogoImg"
-                src={`${DOMENNAME}/img/track2.png`}
+                src={`${DOMENNAME}/img/track.jpg`}
                 height="25"
                 width="40"
               />
