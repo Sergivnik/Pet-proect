@@ -113,10 +113,11 @@ export const App = () => {
         <Canvas>
           <PerspectiveCamera
             makeDefault
-            position={[0, 0, 20]}
+            position={[0, 3, 20]}
             near={30}
             far={45}
           />
+          <directionalLight color="white" position={[0, 0, 55]} />
           <Text3DComponent text={currentSlogan} />
         </Canvas>
       </div>
