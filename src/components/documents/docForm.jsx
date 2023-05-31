@@ -51,6 +51,7 @@ export const DocForm = (props) => {
   const [appData, setAppData] = useState({ stamp: true, date: false });
   const [showWayBill, setShowWayBill] = useState(false);
   const [appEditData, setAppEditData] = useState({});
+  const [saveBtnName, setSaveBtnName] = useState("Сохранить Счет");
 
   const handleClickClose = () => {
     props.handleClickClose();
@@ -62,16 +63,19 @@ export const DocForm = (props) => {
       setShowInvoice(true);
       setShowApplication(false);
       setShowDocWithoutStamp(false);
+      setSaveBtnName("Сохранить Счет");
     }
     if (typeOfTab == "docWithoutStamp") {
       setShowInvoice(false);
       setShowApplication(false);
       setShowDocWithoutStamp(true);
+      setSaveBtnName("Соранить без печати");
     }
     if (typeOfTab == "application") {
       setCurrentApplication(1);
       setShowInvoice(false);
       setShowApplication(true);
+      setSaveBtnName("Добавить Заявку");
       setShowDocWithoutStamp(false);
     }
   };
@@ -105,6 +109,7 @@ export const DocForm = (props) => {
       setShowInvoice(false);
       setShowApplication(false);
       setShowDocWithoutStamp(true);
+      setSaveBtnName("Соранить без печати");
     }
     if (showDocWithoutStamp) {
       let htmlDoc = document.querySelector(".docWithoutStamp");
@@ -121,6 +126,7 @@ export const DocForm = (props) => {
       setShowInvoice(false);
       setShowDocWithoutStamp(false);
       setShowApplication(true);
+      setSaveBtnName("Добавить Заявку");
       setCurrentApplication(2);
     }
     if (showApplication) {
@@ -151,6 +157,8 @@ export const DocForm = (props) => {
         setId(currentApplication);
         setTabId(arrTabId[currentApplication + 1]);
         setCurrentApplication(currentApplication + 1);
+      } else {
+        setSaveBtnName("Готово");
       }
     }
   };
@@ -281,13 +289,6 @@ export const DocForm = (props) => {
             checked={appData.stamp}
             onChange={handleClickCheckBox}
           />
-          {/* <span>Текущая дата</span>
-          <input
-            type="checkbox"
-            name="dateApp"
-            checked={appData.date}
-            onChange={handleClickCheckBox}
-          /> */}
         </div>
       </div>
       <div className="tabList">
@@ -328,9 +329,7 @@ export const DocForm = (props) => {
             {showAddStr ? "Удалить строку" : "Добавить строку"}
           </button>
           <button className="docFormBtn" onClick={handleClickBtn}>
-            {showInvoice && "Сохранить Счет"}
-            {showDocWithoutStamp && "Соранить без печати"}
-            {showApplication && "Добавить Заявку"}
+            {saveBtnName}
           </button>
         </div>
       </div>

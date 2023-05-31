@@ -28,13 +28,20 @@ import { DOMENNAME } from "../../middlewares/initialState.js";
 import { getApps, getNewApp } from "../../actions/appAction.js";
 import { CustomerApps } from "../customerPart/cusstomerApp/customerApps.jsx";
 import "./oders.sass";
+import { getNewTasks } from "../../actions/tasksActions.js";
 
 export const Oders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getApps());
-    let timerId = setInterval(() => dispatch(getNewApp()), 60000);
+    let timerId = setInterval(() => {
+      dispatch(getNewApp());
+      dispatch(getNewTasks());
+    }, 60000);
+    return () => {
+      clearInterval(timerId);
+    };
   }, []);
 
   useEffect(() => {
@@ -53,6 +60,7 @@ export const Oders = () => {
   const requestStatus = useSelector((state) => state.oderReducer.request);
   const user = useSelector((state) => state.oderReducer.currentUser);
   const numberApps = useSelector((state) => state.customerReducer.newAppNumber);
+  const tasksNumber = useSelector((state) => state.tasksReducer.tasksNumber);
 
   const [oders, setOders] = useState(odersList.slice(-1000));
 
@@ -70,6 +78,7 @@ export const Oders = () => {
   const [showVerticalMenu, setShowVerticalMenu] = useState(false);
   const [showAppWindow, setShowAppWindow] = useState(false);
   const [showNewApps, setShowNewApps] = useState(false);
+  const [showTasks, setShowTasks] = useState(false);
 
   const [trId, setTrId] = useState(null);
   const [addData, setAddData] = useState(0);
@@ -417,6 +426,12 @@ export const Oders = () => {
   const handleClickSmallMenu = () => {
     setShowVerticalMenu(!showVerticalMenu);
   };
+  const handleClickTasks = () => {
+    setShowTasks(true);
+  };
+  const handleClickTaskWindowClose = () => {
+    setShowTasks(false);
+  };
   return (
     <React.Fragment>
       <div className="odersDivInfo">
@@ -595,6 +610,11 @@ export const Oders = () => {
           </div>
         )}
         <div className="orderMenuUser">
+          {tasksNumber != null && tasksNumber != 0 && (
+            <div className="orderMenuUserCircle" onClick={handleClickTasks}>
+              {tasksNumber}
+            </div>
+          )}
           <span className="orderMenuUserSpan" onClick={handleClickUser}>
             {user.name}
           </span>
@@ -697,6 +717,16 @@ export const Oders = () => {
           </tbody>
         </table>
       </div>
+      {showTasks && (
+        <UserWindow
+          header="Список дел"
+          width={1400}
+          handleClickWindowClose={handleClickTaskWindowClose}
+          windowId="tasksWindow"
+        >
+          <div>Tasks</div>
+        </UserWindow>
+      )}
       {requestStatus.status == "LOADING" && (
         <div className="requestStatus">Loading...</div>
       )}

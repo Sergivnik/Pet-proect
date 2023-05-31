@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require("path");
 const API = require("../controlers/API.js");
 const customerAPI = require("../controlers/customerAPI.js");
+const tasksAPI = require("../controlers/tasksAPI.js");
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -27,6 +28,7 @@ router.get("/getUser", API.taskGetUser);
 router.get("/signOut", API.taskSignOut);
 router.get("/getCustomerData", customerAPI.taskGet);
 router.get("/getNewApp", customerAPI.taskGetNewApp);
+router.get("/getNewTasks", tasksAPI.tasksGetNew);
 router.get("/getApps", customerAPI.taskGetApps);
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
