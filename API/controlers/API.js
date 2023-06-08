@@ -980,6 +980,7 @@ module.exports.taskGetUser = (req, res) => {
   console.log(req.sessionID, req.session.userId);
   if (req.session.userId) {
     let data = {
+      _id: req.session.userId,
       name: req.session.name,
       role: req.session.role,
       managerID: req.session.managerID,

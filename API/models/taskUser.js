@@ -42,6 +42,7 @@ let TasksUser = {
               login: user[0].login,
               customerId: user[0].customerId,
               managerID: user[0].managerID,
+              _id: user[0]._id,
             },
             user[0]._id
           );

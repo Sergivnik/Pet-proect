@@ -1,0 +1,133 @@
+.taskTableContainer
+  width: 100%
+  height: calc( 100% - 25px )
+  border: 1px solid #000
+  box-sizing: border-box
+  position: relative
+  padding: 0 5px 5px 5px
+.tasksHeader
+  width: 100%
+  height: 30px
+  display: flex
+  justify-content: space-around
+.tasksTabContainer
+  width: 30%
+  height: 100%
+  margin: 0
+  display: flex
+  justify-content: start
+.tasksBtnContainer
+  width: 70%
+  height: 100%
+  margin: 0
+  padding: 5px 0 0 0
+  display: flex
+  justify-content: space-around
+.taskTabDiv
+  height: 20px
+  width: 50%
+  margin-top: 10px
+  text-align: center
+  border: 1px solid #000
+  box-sizing: border-box
+  margin-left: -1px
+.taskTableMain
+  width: calc( 100% - 10px)
+  height: calc( 100% - 40px)
+  border: 1px solid #000
+  margin: -1px
+  overflow-y: auto
+  padding: 5px
+.tasksMenuBtn
+  height: 20px
+.taskTable
+  width: calc( 100% - 10px )
+  border-collapse: collapse
+  margin: 5px
+.taskTableTd
+  border: 1px solid #000
+  text-align: center
+.taskCreateMainDiv
+  width: calc( 100% - 10px )
+  height: calc( 100% - 25px )
+  padding: 5px
+.taskCreateGetter
+  border: 1px solid #000
+  box-sizing: border-box
+  width: 100%
+  height: calc( 25% - 5px )
+  display: flex
+  padding: 10px
+.taskCreateWho
+  width: 20%
+  display: flex
+  align-self: center
+.taskCreateOrganization
+  width: 40%
+  display: flex
+  align-self: center
+  flex-direction: column
+  padding: 5px
+.taskCreateCoworker
+  width: 40%
+  display: flex
+  align-self: center
+  flex-direction: column
+  padding: 5px
+.taskCreateH4
+  margin: 0 0 10px 0
+  text-align: center
+.taskCreateChoiseWrapper
+  position: relative
+  height: 20px
+  border: 1px solid #000
+  box-sizing: border-box
+.taskCreateSpan
+  text-align: center
+  user-select: none
+  width: 100%
+  display: block
+.taskCreateMessage
+  border: 1px solid #000
+  box-sizing: border-box
+  width: 100%
+  height: calc( 55% - 5px )
+  margin-top: -1px
+.taskCreateInput
+  width: 100%
+  height: 100%
+  box-sizing: border-box
+.taskCreateBtn
+  float: right
+  margin: calc(5% - 11px)
+  height: 22px
+.requestStatusDiv
+  width: 150px
+  height: 50px
+  position: absolute
+  top: calc(50% - 25px)
+  left: calc(50% - 75px)
+  font-size: 30px
+  text-align: center
+  color: blue
+  animation-name: blink
+  animation-duration: 4s
+  animation-iteration-count: infinite
+@keyframes blink
+  0%
+    opacity: 0.5
+    color: blue
+  25%
+    color: yellow
+  50%
+    opacity: 1
+    color: blue
+  75%
+    color: yellow
+  100%
+    opacity: 0.5
+    color: blue
+.borderBottomWhite
+  border-bottom-color: white
+.backGroundColorGrey
+  background-color: rgb(204, 204, 204)

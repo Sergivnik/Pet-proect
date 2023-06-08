@@ -27,14 +27,16 @@ import { ChangePassword } from "../auth/changePassword.jsx";
 import { DOMENNAME } from "../../middlewares/initialState.js";
 import { getApps, getNewApp } from "../../actions/appAction.js";
 import { CustomerApps } from "../customerPart/cusstomerApp/customerApps.jsx";
-import "./oders.sass";
 import { getNewTasks } from "../../actions/tasksActions.js";
+import { UserTaskTable } from "../userTask/userTaskTable.jsx";
+import "./oders.sass";
 
 export const Oders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getApps());
+    dispatch(getNewTasks());
     let timerId = setInterval(() => {
       dispatch(getNewApp());
       dispatch(getNewTasks());
@@ -720,11 +722,11 @@ export const Oders = () => {
       {showTasks && (
         <UserWindow
           header="Список дел"
-          width={1400}
+          width={1200}
           handleClickWindowClose={handleClickTaskWindowClose}
           windowId="tasksWindow"
         >
-          <div>Tasks</div>
+          <UserTaskTable />
         </UserWindow>
       )}
       {requestStatus.status == "LOADING" && (

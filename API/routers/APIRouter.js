@@ -29,6 +29,7 @@ router.get("/signOut", API.taskSignOut);
 router.get("/getCustomerData", customerAPI.taskGet);
 router.get("/getNewApp", customerAPI.taskGetNewApp);
 router.get("/getNewTasks", tasksAPI.tasksGetNew);
+router.get("/getDataTasks", tasksAPI.tasksGetData);
 router.get("/getApps", customerAPI.taskGetApps);
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
@@ -57,6 +58,7 @@ router.post("/changePassword", API.taskChangePassword);
 router.post("/sendEmail", API.taskSendEmail);
 router.post("/addCustomerApp", customerAPI.taskAddCustomerApp);
 router.post("/editCustomerApp", customerAPI.taskEditCustomerApp);
+router.post("/addNewTask", tasksAPI.tasksAddData);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);

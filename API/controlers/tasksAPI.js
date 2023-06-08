@@ -15,3 +15,13 @@ module.exports.tasksGetNew = (req, res) => {
   console.log(req.sessionID, req.session.userId);
   tasks.getTasksNumber(req.session.userId, (data) => callBack(data, res));
 };
+module.exports.tasksGetData = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.sessionID, req.session.userId);
+  tasks.getTasksData(req.session.userId, (data) => callBack(data, res));
+};
+module.exports.tasksAddData = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.body, req.session.userId);
+  tasks.addNewTask(req.body, (data) => callBack(data, res));
+};
