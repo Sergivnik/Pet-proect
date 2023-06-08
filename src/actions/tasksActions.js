@@ -9,6 +9,9 @@ export const GET_DATA_TASKS_FAILURE = "GET_DATA_TASKS_FAILURE";
 export const ADD_NEW_TASK_SUCCESS = "ADD_NEW_TASK_SUCCESS";
 export const ADD_NEW_TASK_REQUEST = "ADD_NEW_TASK_REQUEST";
 export const ADD_NEW_TASK_FAILURE = "ADD_NEW_TASK_FAILURE";
+export const EDIT_TASK_SUCCESS = "EDIT_TASK_SUCCESS";
+export const EDIT_TASK_REQUEST = "EDIT_TASK_REQUEST";
+export const EDIT_TASK_FAILURE = "EDIT_TASK_FAILURE";
 
 export const getNewTasks = () => {
   return (dispatch) => {
@@ -86,4 +89,37 @@ export const addNewTaskSuccess = (id, newTask) => ({
 });
 export const addNewTaskFailure = () => ({
   type: ADD_NEW_TASK_FAILURE,
+});
+
+export const editTask = (id, editField, newValue) => {
+  return (dispatch) => {
+    dispatch(editTaskRequest());
+    axios
+      .create({ withCredentials: true })
+      .patch(URL + "/editTask", {
+        id: id,
+        editField: editField,
+        newValue: newValue,
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(editTaskSuccess(id, editField, newValue));
+      })
+      .catch((e) => {
+        console.log(e);
+        dispatch(editTaskFailure());
+      });
+  };
+};
+export const editTaskRequest = () => ({
+  type: EDIT_TASK_REQUEST,
+});
+export const editTaskSuccess = (id, editField, newValue) => ({
+  type: EDIT_TASK_SUCCESS,
+  id,
+  editField,
+  newValue,
+});
+export const editTaskFailure = () => ({
+  type: EDIT_TASK_FAILURE,
 });

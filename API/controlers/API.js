@@ -11,6 +11,17 @@ var tasksUser = require("../models/taskUser.js");
 const puppeteer = require("puppeteer");
 var fs = require("fs");
 
+const writeLogToFile = (logData) => {
+  const logFilePath = "./API/Bills/logfile.txt"; // Путь к файлу логов
+  const logString = `[${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}] ${logData}\n`;
+
+  fs.appendFile(logFilePath, logString, (err) => {
+    if (err) {
+      console.error("Ошибка при записи лога:", err);
+    }
+  });
+};
+
 module.exports.taskGet = (req, res) => {
   tasks.list((data) => {
     if (data.error) {
@@ -440,6 +451,7 @@ module.exports.taskDeletePayments = (req, res) => {
 const pdfTemplate = require("../documents/powerOfAttorney.js");
 
 const pdf = require("html-pdf");
+const { log } = require("util");
 module.exports.taskProxy = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
   res.set("Access-Control-Allow-Headers", "Content-Type");
@@ -964,6 +976,7 @@ module.exports.taskCheckUser = (req, res) => {
     } else {
       if (data) {
         console.log(data);
+        writeLogToFile(data.name);
         req.session.userId = id;
         req.session.login = data.login;
         req.session.name = data.name;
@@ -977,7 +990,8 @@ module.exports.taskCheckUser = (req, res) => {
 };
 module.exports.taskGetUser = (req, res) => {
   res.set("Access-Control-Allow-Credentials", "true");
-  console.log(req.sessionID, req.session.userId);
+  console.log(1, req.sessionID, req.session.userId);
+  writeLogToFile(req.session.name);
   if (req.session.userId) {
     let data = {
       _id: req.session.userId,

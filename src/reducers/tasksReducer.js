@@ -8,6 +8,9 @@ import {
   ADD_NEW_TASK_SUCCESS,
   ADD_NEW_TASK_REQUEST,
   ADD_NEW_TASK_FAILURE,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_REQUEST,
+  EDIT_TASK_FAILURE,
 } from "../actions/tasksActions";
 
 export const tasksReducer = (store = tasksDataStore, action) => {
@@ -50,6 +53,19 @@ export const tasksReducer = (store = tasksDataStore, action) => {
       let newTask = action.newTask;
       newTask._id = action.id;
       arrTasks.push(newTask);
+      return { ...store, taskList: arrTasks, statusOfRequest: null };
+    }
+
+    case EDIT_TASK_REQUEST: {
+      return { ...store, statusOfRequest: "Saving" };
+    }
+    case EDIT_TASK_FAILURE: {
+      return { ...store, statusOfRequest: "Error" };
+    }
+    case EDIT_TASK_SUCCESS: {
+      let arrTasks = [...store.taskList];
+      let index = arrTasks.findIndex((elem) => elem._id == action.id);
+      arrTasks[index][action.editField] = action.newValue;
       return { ...store, taskList: arrTasks, statusOfRequest: null };
     }
     default:

@@ -25,3 +25,8 @@ module.exports.tasksAddData = (req, res) => {
   console.log(req.body, req.session.userId);
   tasks.addNewTask(req.body, (data) => callBack(data, res));
 };
+module.exports.taskEditData = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.body, req.session.userId);
+  tasks.editTask(req.body, (data) => callBack(data, res));
+};

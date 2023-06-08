@@ -40,7 +40,7 @@ export const Oders = () => {
     let timerId = setInterval(() => {
       dispatch(getNewApp());
       dispatch(getNewTasks());
-    }, 60000);
+    }, 60000*5);
     return () => {
       clearInterval(timerId);
     };

@@ -56,5 +56,19 @@ let tasksTasks = {
     }
     db.end();
   },
+  editTask: async (data, callBack) => {
+    console.log(`edit task data:`, data);
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      await db.query(
+        `UPDATE taskstable SET ${data.editField} = ? WHERE _id=?`,
+        [data.newValue, data.id]
+      );
+      callBack("Success!");
+    } catch (err) {
+      callBack({ error: err });
+    }
+    db.end();
+  },
 };
 module.exports = tasksTasks;

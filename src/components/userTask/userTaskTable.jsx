@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getDataTasks } from "../../actions/tasksActions";
+import { editTask, getDataTasks } from "../../actions/tasksActions";
 import { UserTaskTr } from "./userTaskTr.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
 import { UserCreateTask } from "./userTaskCreate.jsx";
@@ -80,6 +80,27 @@ export const UserTaskTable = () => {
   const handleClickUserWindowClose = () => {
     setShowCreateWindow(false);
   };
+  const hendleClickRead = () => {
+    if (currentTaskId != null) {
+      dispatch(editTask(currentTaskId, "statusOfTask", "Прочитано"));
+    } else {
+      alert("Не выбрано задание!");
+    }
+  };
+  const handleClickComplete = () => {
+    if (currentTaskId != null) {
+      dispatch(editTask(currentTaskId, "statusOfTask", "Выполнено"));
+    } else {
+      alert("Не выбрано задание!");
+    }
+  };
+  const handleClickCheck = () => {
+    if (currentTaskId != null) {
+      dispatch(editTask(currentTaskId, "statusOfTask", "Проверено"));
+    } else {
+      alert("Не выбрано задание!");
+    }
+  };
   return (
     <div className="taskTableContainer">
       <header className="tasksHeader">
@@ -105,13 +126,19 @@ export const UserTaskTable = () => {
           </button>
           {tabId == "taskTab1" && (
             <React.Fragment>
-              <button className="tasksMenuBtn">Прочитано</button>
-              <button className="tasksMenuBtn">Выполнено</button>
+              <button className="tasksMenuBtn" onClick={hendleClickRead}>
+                Прочитано
+              </button>
+              <button className="tasksMenuBtn" onClick={handleClickComplete}>
+                Выполнено
+              </button>
             </React.Fragment>
           )}
           {tabId == "taskTab2" && (
             <React.Fragment>
-              <button className="tasksMenuBtn">Проверено</button>
+              <button className="tasksMenuBtn" onClick={handleClickCheck}>
+                Проверено
+              </button>
               <button className="tasksMenuBtn">Удалить</button>
             </React.Fragment>
           )}
