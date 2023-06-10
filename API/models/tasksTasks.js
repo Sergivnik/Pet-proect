@@ -70,5 +70,17 @@ let tasksTasks = {
     }
     db.end();
   },
+  delTask: async (id, callBack) => {
+    console.log(`delete `, id);
+    const db = mysql.createPool(options.sql).promise();
+    try {
+      await db.query(`DELETE FROM taskstable WHERE _id=${id}`);
+      callBack("Success!");
+    } catch (err) {
+      console.log(err);
+      callBack({ error: err });
+    }
+    db.end();
+  },
 };
 module.exports = tasksTasks;

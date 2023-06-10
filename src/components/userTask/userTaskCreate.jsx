@@ -72,6 +72,7 @@ export const UserCreateTask = (props) => {
     };
     console.log(task);
     dispatch(addNewTask(task));
+    props.handleClickWindowClose();
   };
   return (
     <div className="taskCreateMainDiv">

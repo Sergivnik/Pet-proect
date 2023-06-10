@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { editTask, getDataTasks } from "../../actions/tasksActions";
+import { delTask, editTask, getDataTasks } from "../../actions/tasksActions";
 import { UserTaskTr } from "./userTaskTr.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
 import { UserCreateTask } from "./userTaskCreate.jsx";
@@ -33,22 +33,52 @@ export const UserTaskTable = () => {
   const [taskList, setTaskList] = useState([]);
   const [currentTaskId, setCurrentTaskId] = useState(null);
   const [showCreateWindow, setShowCreateWindow] = useState(false);
+  const [statusCheck, setStatusCheck] = useState({
+    new: true,
+    read: true,
+    complete: true,
+    checked: true,
+  });
+
+  const checkStatusCheck = (statusOfTask, tab) => {
+    let check = false;
+    if (statusOfTask == "Новое" && statusCheck.new) check = true;
+    if (statusOfTask == "Прочитано" && statusCheck.read) check = true;
+    if (statusOfTask == "Выполнено" && statusCheck.complete) check = true;
+    if (statusOfTask == "Проверено" && statusCheck.checked) {
+      if (tab == "taskTab1") check = false;
+      if (tab == "taskTab2") check = true;
+    }
+    return check;
+  };
 
   const handleTabDivClick = (e) => {
-    let taskId = e.currentTarget.id;
-    setTabId(taskId);
-    if (taskId == "taskTab1") {
-      let taskList = taskListFull.filter((task) => task.userId == user._id);
+    let tab = e.currentTarget.id;
+    setTabId(tab);
+    if (tab == "taskTab1") {
+      let [...taskList] = taskListFull.filter(
+        (task) =>
+          task.userId == user._id && checkStatusCheck(task.statusOfTask, tab)
+      );
       setTaskList(taskList);
     }
-    if (taskId == "taskTab2") {
-      let taskList = taskListFull.filter((task) => task.senderId == user._id);
+    if (tab == "taskTab2") {
+      let [...taskList] = taskListFull.filter(
+        (task) =>
+          task.senderId == user._id && checkStatusCheck(task.statusOfTask, tab)
+      );
       setTaskList(taskList);
     }
   };
 
   useEffect(() => {
-    let taskList = taskListFull.filter((task) => task.userId == user._id);
+    let [...taskList] = taskListFull.filter(
+      (task) =>
+        task.userId == user._id &&
+        (task.statusOfTask == "Новое" ||
+          task.statusOfTask == "Прочитано" ||
+          task.statusOfTask == "Выполнено")
+    );
     setTaskList(taskList);
   }, [taskListFull]);
   useEffect(() => {
@@ -63,6 +93,23 @@ export const UserTaskTable = () => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, [currentTaskId, showCreateWindow]);
+  useEffect(() => {
+    if (tabId == "taskTab1") {
+      let [...taskList] = taskListFull.filter(
+        (task) =>
+          task.userId == user._id && checkStatusCheck(task.statusOfTask, tabId)
+      );
+      setTaskList(taskList);
+    }
+    if (tabId == "taskTab2") {
+      let [...taskList] = taskListFull.filter(
+        (task) =>
+          task.senderId == user._id &&
+          checkStatusCheck(task.statusOfTask, tabId)
+      );
+      setTaskList(taskList);
+    }
+  }, [statusCheck]);
 
   const taskTabDivStyle = (id) => {
     if (id == tabId) {
@@ -100,6 +147,19 @@ export const UserTaskTable = () => {
     } else {
       alert("Не выбрано задание!");
     }
+  };
+  const handleClickDelete = () => {
+    if (currentTaskId != null) {
+      dispatch(delTask(currentTaskId));
+    } else {
+      alert("Не выбрано задание!");
+    }
+  };
+  const handleChangeCheck = (e) => {
+    let name = e.currentTarget.name;
+    let status = { ...statusCheck };
+    status[name] = !status[name];
+    setStatusCheck(status);
   };
   return (
     <div className="taskTableContainer">
@@ -139,7 +199,9 @@ export const UserTaskTable = () => {
               <button className="tasksMenuBtn" onClick={handleClickCheck}>
                 Проверено
               </button>
-              <button className="tasksMenuBtn">Удалить</button>
+              <button className="tasksMenuBtn" onClick={handleClickDelete}>
+                Удалить
+              </button>
             </React.Fragment>
           )}
         </menu>
@@ -152,7 +214,49 @@ export const UserTaskTable = () => {
                 {tabId == "taskTab1" ? "Отправитель" : "Получатель"}
               </td>
               <td className="taskTableTd">Задание</td>
-              <td className="taskTableTd">Статус</td>
+              <td className="taskTableTd">
+                <span>Статус</span>
+                <div className="taskTableCheckContainer">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={statusCheck.new}
+                      name="new"
+                      onChange={handleChangeCheck}
+                    />
+                    Новые
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={statusCheck.read}
+                      name="read"
+                      onChange={handleChangeCheck}
+                    />
+                    Прочитан
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={statusCheck.complete}
+                      name="complete"
+                      onChange={handleChangeCheck}
+                    />
+                    Выполнен
+                  </label>
+                  {tabId == "taskTab2" && (
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={statusCheck.checked}
+                        name="checked"
+                        onChange={handleChangeCheck}
+                      />
+                      Проверен
+                    </label>
+                  )}
+                </div>
+              </td>
             </tr>
           </thead>
           <tbody>
@@ -183,6 +287,7 @@ export const UserTaskTable = () => {
               clientList={clientList}
               userList={userList}
               user={user}
+              handleClickWindowClose={handleClickUserWindowClose}
             />
           </UserWindow>
         )}

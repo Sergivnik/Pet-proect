@@ -12,6 +12,9 @@ export const ADD_NEW_TASK_FAILURE = "ADD_NEW_TASK_FAILURE";
 export const EDIT_TASK_SUCCESS = "EDIT_TASK_SUCCESS";
 export const EDIT_TASK_REQUEST = "EDIT_TASK_REQUEST";
 export const EDIT_TASK_FAILURE = "EDIT_TASK_FAILURE";
+export const DEL_TASK_SUCCESS = "DEL_TASK_SUCCESS";
+export const DEL_TASK_REQUEST = "DEL_TASK_REQUEST";
+export const DEL_TASK_FAILURE = "DEL_TASK_FAILURE";
 
 export const getNewTasks = () => {
   return (dispatch) => {
@@ -122,4 +125,31 @@ export const editTaskSuccess = (id, editField, newValue) => ({
 });
 export const editTaskFailure = () => ({
   type: EDIT_TASK_FAILURE,
+});
+
+export const delTask = (id) => {
+  return (dispatch) => {
+    dispatch(delTaskRequest());
+    axios
+      .create({ withCredentials: true })
+      .delete(URL + "/delTask/" + id)
+      .then((res) => {
+        console.log(res.data);
+        dispatch(delTaskSuccess(id));
+      })
+      .catch((e) => {
+        console.log(e);
+        dispatch(delTaskFailure());
+      });
+  };
+};
+export const delTaskRequest = () => ({
+  type: DEL_TASK_REQUEST,
+});
+export const delTaskSuccess = (id) => ({
+  type: DEL_TASK_SUCCESS,
+  id,
+});
+export const delTaskFailure = () => ({
+  type: DEL_TASK_FAILURE,
 });

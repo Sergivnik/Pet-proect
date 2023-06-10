@@ -30,3 +30,8 @@ module.exports.taskEditData = (req, res) => {
   console.log(req.body, req.session.userId);
   tasks.editTask(req.body, (data) => callBack(data, res));
 };
+module.exports.taskDelData = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.params.id, req.session.userId);
+  tasks.delTask(req.params.id, (data) => callBack(data, res));
+};
