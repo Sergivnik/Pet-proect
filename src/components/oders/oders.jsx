@@ -40,7 +40,7 @@ export const Oders = () => {
     let timerId = setInterval(() => {
       dispatch(getNewApp());
       dispatch(getNewTasks());
-    }, 60000*5);
+    }, 60000 * 5);
     return () => {
       clearInterval(timerId);
     };
@@ -145,6 +145,9 @@ export const Oders = () => {
       if (e.ctrlKey && e.code == "KeyK") {
         e.preventDefault();
         if (user.role == "admin") setShowSecretTable(true);
+      }
+      if (e.ctrlKey && e.code == "KeyI") {
+        setShowTasks(true);
       }
       if (e.code == "Delete") {
         if (currentElem.completed == 0) {

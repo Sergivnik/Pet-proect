@@ -80,7 +80,7 @@ export const UserTaskTable = () => {
           task.statusOfTask == "Выполнено")
     );
     setTaskList(taskList);
-  }, [taskListFull]);
+  }, []);
   useEffect(() => {
     const onKeypress = (e) => {
       if (e.code == "Escape") {
@@ -109,7 +109,7 @@ export const UserTaskTable = () => {
       );
       setTaskList(taskList);
     }
-  }, [statusCheck]);
+  }, [statusCheck, taskListFull]);
 
   const taskTabDivStyle = (id) => {
     if (id == tabId) {
