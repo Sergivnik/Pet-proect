@@ -8,4 +8,3 @@ API/models/bcryptjs.js
 API/public/main.bundle.js
 API/public/main.bundle.js.map
 API/Bills/logfile.txt
-*.txt
