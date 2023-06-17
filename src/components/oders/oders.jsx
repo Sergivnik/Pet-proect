@@ -112,13 +112,15 @@ export const Oders = () => {
     setAddData(0);
   }, []);
   useEffect(() => {
+    console.log(income, expenses, addSum);
     let addSum = clientList.reduce(
       (s, item) => s + Number(item.extraPayments),
       0
     );
-    let sum =
-      Math.floor((Number(income) - Number(expenses) + addSum + 0.0) * 100) /
-      100;
+    let income100 = Math.round(Number(income) * 100);
+    let expenses100 = Math.round(Number(expenses) * 100);
+    let addSum100 = Math.round(Number(addSum) * 100);
+    let sum = (income100 - expenses100 + addSum100) / 100;
     setSumAccount(sum);
   }, [income, expenses]);
   useEffect(() => {
@@ -146,7 +148,8 @@ export const Oders = () => {
         e.preventDefault();
         if (user.role == "admin") setShowSecretTable(true);
       }
-      if (e.ctrlKey && e.code == "KeyI") {
+      if (e.ctrlKey && e.code == "KeyP") {
+        e.preventDefault();
         setShowTasks(true);
       }
       if (e.code == "Delete") {
@@ -160,7 +163,7 @@ export const Oders = () => {
     return () => {
       document.removeEventListener("keydown", onKeypress);
     };
-  }, [trId, showDelete, showWindow]);
+  }, [trId, showDelete, showWindow, showSecretTable, showTasks]);
 
   useEffect(() => {
     let length = odersList.length;
