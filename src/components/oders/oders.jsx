@@ -30,6 +30,7 @@ import { CustomerApps } from "../customerPart/cusstomerApp/customerApps.jsx";
 import { getNewTasks } from "../../actions/tasksActions.js";
 import { UserTaskTable } from "../userTask/userTaskTable.jsx";
 import "./oders.sass";
+import { MenuUser } from "./taskBar/menuUser/menuUser.jsx";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -617,19 +618,13 @@ export const Oders = () => {
             </button>
           </div>
         )}
-        <div className="orderMenuUser">
-          {tasksNumber != null && tasksNumber != 0 && (
-            <div className="orderMenuUserCircle" onClick={handleClickTasks}>
-              {tasksNumber}
-            </div>
-          )}
-          <span className="orderMenuUserSpan" onClick={handleClickUser}>
-            {user.name}
-          </span>
-          <button className="orderMenuUserBtn" onClick={handleClickExit}>
-            Выйти
-          </button>
-        </div>
+        <MenuUser
+          tasksNumber={tasksNumber}
+          user={user}
+          handleClickTasks={handleClickTasks}
+          handleClickUser={handleClickUser}
+          handleClickExit={handleClickExit}
+        />
       </div>
       {showWindow && (
         <UserWindow
