@@ -30,6 +30,7 @@ import { UserTaskTable } from "../userTask/userTaskTable.jsx";
 import "./oders.sass";
 import { MenuUser } from "./taskBar/menuUser/menuUser.jsx";
 import { MenuAccount } from "./taskBar/menuAccount/menuAccount.jsx";
+import { MenuMain } from "./taskBar/menuAccount/menuMain/menuMain.jsx";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -444,159 +445,15 @@ export const Oders = () => {
     <React.Fragment>
       <div className="odersDivInfo">
         <MenuAccount sumAccount={sumAccount} />
-        <div className="smallMenu" onClick={handleClickSmallMenu}>
-          <img src={`${DOMENNAME}/img/menu.png`} height="50" width="50" />
-        </div>
-        <div className="odersMenu">
-          <button className="odersMenuBtn" onClick={handleClickBtnDrop}>
-            Платежи
-          </button>
-          {showDropDownMenu && (
-            <div className="dropDownMenu">
-              <button
-                name="customPay"
-                className="odersDropMenuBtn"
-                onClick={handleClickBtnMenu}
-              >
-                Поступление от поставщиков
-              </button>
-              <button
-                name="customPayments"
-                className="odersDropMenuBtn"
-                onClick={handleClickBtnMenu}
-              >
-                Входящие платежы
-              </button>
-              <button
-                name="driverPay"
-                className="odersDropMenuBtn"
-                onClick={handleClickBtnMenu}
-              >
-                Оплата переозчикам
-              </button>
-              <button
-                name="otherPay"
-                className="odersDropMenuBtn"
-                onClick={handleClickBtnMenu}
-              >
-                Расходы
-              </button>
-            </div>
-          )}
-
-          <button
-            name="driversDebt"
-            className="odersMenuBtn"
-            onClick={handleClickBtnMenu}
-          >
-            Долг переозчиков
-          </button>
-
-          <button
-            name="bill"
-            className="odersMenuBtn"
-            onClick={handleClickBtnMenu}
-          >
-            Высавление счетов
-          </button>
-          <button
-            name="dataEdit"
-            className="odersMenuBtn"
-            onClick={handleClickBtnMenu}
-          >
-            Внесение данных
-          </button>
-          <button
-            name="reports"
-            className="odersMenuBtn"
-            onClick={handleClickBtnMenu}
-          >
-            Отчеты
-          </button>
-          <button
-            name="customerApp"
-            className="odersMenuBtn"
-            onClick={handleClickBtnMenu}
-          >
-            {showNewApps ? `Заявки ${numberApps}` : "Заявки"}
-          </button>
-        </div>
-        {showVerticalMenu && (
-          <div className="odersMenuVertical">
-            <button className="odersMenuBtn" onClick={handleClickBtnDrop}>
-              Платежи
-            </button>
-            {showDropDownMenu && (
-              <div className="dropDownMenu">
-                <button
-                  name="customPay"
-                  className="odersDropMenuBtn"
-                  onClick={handleClickBtnMenu}
-                >
-                  Поступление от поставщиков
-                </button>
-                <button
-                  name="customPayments"
-                  className="odersDropMenuBtn"
-                  onClick={handleClickBtnMenu}
-                >
-                  Входящие платежы
-                </button>
-                <button
-                  name="driverPay"
-                  className="odersDropMenuBtn"
-                  onClick={handleClickBtnMenu}
-                >
-                  Оплата переозчикам
-                </button>
-                <button
-                  name="otherPay"
-                  className="odersDropMenuBtn"
-                  onClick={handleClickBtnMenu}
-                >
-                  Расходы
-                </button>
-              </div>
-            )}
-
-            <button
-              name="driversDebt"
-              className="odersMenuBtn"
-              onClick={handleClickBtnMenu}
-            >
-              Долг переозчиков
-            </button>
-
-            <button
-              name="bill"
-              className="odersMenuBtn"
-              onClick={handleClickBtnMenu}
-            >
-              Высавление счетов
-            </button>
-            <button
-              name="dataEdit"
-              className="odersMenuBtn"
-              onClick={handleClickBtnMenu}
-            >
-              Внесение данных
-            </button>
-            <button
-              name="reports"
-              className="odersMenuBtn"
-              onClick={handleClickBtnMenu}
-            >
-              Отчеты
-            </button>
-            <button
-              name="customerApp"
-              className="odersMenuBtn"
-              onClick={handleClickBtnMenu}
-            >
-              Заявки
-            </button>
-          </div>
-        )}
+        <MenuMain
+          handleClickSmallMenu={handleClickSmallMenu}
+          handleClickBtnDrop={handleClickBtnDrop}
+          showDropDownMenu={showDropDownMenu}
+          handleClickBtnMenu={handleClickBtnMenu}
+          showNewApps={showNewApps}
+          numberApps={numberApps}
+          showVerticalMenu={showVerticalMenu}
+        />
         <MenuUser
           tasksNumber={tasksNumber}
           user={user}
