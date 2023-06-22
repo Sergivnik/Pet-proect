@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { UserThead } from "./userThead.jsx";
 import { UserTr } from "./userTr.jsx";
@@ -21,7 +20,6 @@ import { PrintFormBill } from "../printForm/printFormBill.jsx";
 import { BillsForm } from "../documents/billsForm.jsx";
 import { Report } from "../reports/reports.jsx";
 import { SpecialTable } from "../specialTable/specialTable.jsx";
-import { Forecast } from "../forecast/forecast.jsx";
 import { authSignOut } from "../../actions/auth.js";
 import { ChangePassword } from "../auth/changePassword.jsx";
 import { DOMENNAME } from "../../middlewares/initialState.js";
@@ -31,6 +29,7 @@ import { getNewTasks } from "../../actions/tasksActions.js";
 import { UserTaskTable } from "../userTask/userTaskTable.jsx";
 import "./oders.sass";
 import { MenuUser } from "./taskBar/menuUser/menuUser.jsx";
+import { MenuAccount } from "./taskBar/menuAccount/menuAccount.jsx";
 
 export const Oders = () => {
   const dispatch = useDispatch();
@@ -444,27 +443,7 @@ export const Oders = () => {
   return (
     <React.Fragment>
       <div className="odersDivInfo">
-        <div className="wrapperForAccount">
-          <div className="orderLogo">
-            <Link to="/">
-              <img
-                className="orderLogoImg"
-                src={`${DOMENNAME}/img/track.jpg`}
-                height="25"
-                width="40"
-              />
-            </Link>
-          </div>
-          <div className="orderDivInfoSpan">
-            <span>Рас.сч. </span>
-            <span className="spanNoSpace">
-              {sumAccount.toLocaleString()} руб.
-            </span>
-          </div>
-          <div className="orderDivInfoSpan">
-            <Forecast />
-          </div>
-        </div>
+        <MenuAccount sumAccount={sumAccount} />
         <div className="smallMenu" onClick={handleClickSmallMenu}>
           <img src={`${DOMENNAME}/img/menu.png`} height="50" width="50" />
         </div>

@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "../../oders.sass";
+import "./menuUser.sass";
 
 export const MenuUser = (props) => {
-  let tasksNumber = props.tasksNumber;
-  let user = props.user;
+  const {
+    tasksNumber,
+    user,
+    handleClickTasks,
+    handleClickUser,
+    handleClickExit,
+  } = props;
   let showTimeout;
   let hideTimeout;
   const [isHovered, setIsHovered] = useState(false);
@@ -44,13 +50,13 @@ export const MenuUser = (props) => {
   return (
     <div className="orderMenuUser">
       {tasksNumber != null && tasksNumber != 0 && (
-        <div className="orderMenuUserCircle" onClick={props.handleClickTasks}>
+        <div className="orderMenuUserCircle" onClick={handleClickTasks}>
           {tasksNumber}
         </div>
       )}
       <span
         className="orderMenuUserSpan"
-        onClick={props.handleClickUser}
+        onClick={handleClickUser}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -61,7 +67,7 @@ export const MenuUser = (props) => {
           </div>
         )}
       </span>
-      <button className="orderMenuUserBtn" onClick={props.handleClickExit}>
+      <button className="orderMenuUserBtn" onClick={handleClickExit}>
         Выйти
       </button>
     </div>
