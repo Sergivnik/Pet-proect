@@ -32,6 +32,18 @@ export const MenuUser = (props) => {
       clearTimeout(showTimeout);
     }
   };
+  const handleClickTasksSpan = (e) => {
+    if (e.target.className === "tooltipSpanTask") handleClickTasks();
+  };
+  const handleClickUserSpan = (e) => {
+    if (e.target.className === "orderMenuUserSpan") handleClickUser();
+  };
+  const handleClickLogSpan = (e) => {
+    if (e.target.className === "tooltipSpanTask") {
+      alert("hi, " + user.role);
+      console.log();
+    }
+  };
 
   useEffect(() => {
     return () => {
@@ -55,14 +67,21 @@ export const MenuUser = (props) => {
       )}
       <span
         className="orderMenuUserSpan"
-        onClick={handleClickUser}
+        onClick={handleClickUserSpan}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         {user.name}
         {isTooltipVisible && isHovered && (
           <div className="tooltip">
-            Для входа в список заданий нажать ctrl+З
+            <span onClick={handleClickTasksSpan} className="tooltipSpanTask">
+              Вход в список заданий ctrl+З
+            </span>
+            {user.role == "admin" && (
+              <span className="tooltipSpanTask" onClick={handleClickLogSpan}>
+                Отчет логов ctrl+О
+              </span>
+            )}
           </div>
         )}
       </span>
