@@ -35,3 +35,17 @@ module.exports.taskDelData = (req, res) => {
   console.log(req.params.id, req.session.userId);
   tasks.delTask(req.params.id, (data) => callBack(data, res));
 };
+module.exports.sendLog = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log("sendLog:", req.session.userId);
+  const fs = require('fs');
+  const filePath = "./API/Bills/logfile.txt";
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Ошибка сервера');
+    } else {
+      res.send(data);
+    }
+  });
+};

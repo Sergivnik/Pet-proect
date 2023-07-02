@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./menuUser.sass";
+import { checkLog } from "../../../../actions/tasksActions";
+import { UserWindow } from "../../../userWindow/userWindow.jsx";
 
 export const MenuUser = (props) => {
+  const logList = useSelector((state) => state.tasksReducer.logList);
+  const dispatch = useDispatch();
   const {
     tasksNumber,
     user,
@@ -13,6 +18,7 @@ export const MenuUser = (props) => {
   let hideTimeout;
   const [isHovered, setIsHovered] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [showLogs, setShowLogs] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -39,10 +45,15 @@ export const MenuUser = (props) => {
     if (e.target.className === "orderMenuUserSpan") handleClickUser();
   };
   const handleClickLogSpan = (e) => {
+    console.log("logList:", logList);
     if (e.target.className === "tooltipSpanTask") {
-      alert("hi, " + user.role);
-      console.log();
+      dispatch(checkLog());
+      setShowLogs(true);
+      setIsTooltipVisible(false);
     }
+  };
+  const handleClickWindowClose = () => {
+    setShowLogs(false);
   };
 
   useEffect(() => {
@@ -58,6 +69,7 @@ export const MenuUser = (props) => {
       }
     }, 1000);
   }, [isHovered]);
+
   return (
     <div className="orderMenuUser">
       {tasksNumber != null && tasksNumber != 0 && (
@@ -88,6 +100,36 @@ export const MenuUser = (props) => {
       <button className="orderMenuUserBtn" onClick={handleClickExit}>
         Выйти
       </button>
+      {showLogs && (
+        <UserWindow
+          header="Список логов"
+          width={400}
+          handleClickWindowClose={handleClickWindowClose}
+          windowId="logsWindow"
+          left="-40%"
+        >
+          <dir className="logWrapper">
+            <table>
+              <thead>
+                <tr>
+                  <td>Дата время</td>
+                  <td>ФИО</td>
+                </tr>
+              </thead>
+              <tbody>
+                {logList.map((log) => {
+                  return (
+                    <tr key={`log${log.id}`}>
+                      <td>{log.date}</td>
+                      <td>{log.name}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </dir>
+        </UserWindow>
+      )}
     </div>
   );
 };

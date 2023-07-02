@@ -15,6 +15,9 @@ export const EDIT_TASK_FAILURE = "EDIT_TASK_FAILURE";
 export const DEL_TASK_SUCCESS = "DEL_TASK_SUCCESS";
 export const DEL_TASK_REQUEST = "DEL_TASK_REQUEST";
 export const DEL_TASK_FAILURE = "DEL_TASK_FAILURE";
+export const CHECK_LOG_SUCCESS = "CHECK_LOG_SUCCESS";
+export const CHECK_LOG_REQUEST = "CHECK_LOG_REQUEST";
+export const CHECK_LOG_FAILURE = "CHECK_LOG_FAILURE";
 
 export const getNewTasks = () => {
   return (dispatch) => {
@@ -152,4 +155,30 @@ export const delTaskSuccess = (id) => ({
 });
 export const delTaskFailure = () => ({
   type: DEL_TASK_FAILURE,
+});
+
+export const checkLog = () => {
+  return (dispatch) => {
+    dispatch(checkLogRequest());
+    axios
+      .create({ withCredentials: true })
+      .get(URL + "/getLogTxt")
+      .then((res) => {
+        dispatch(checkLogSuccess(res.data));
+      })
+      .catch((e) => {
+        console.log(e);
+        dispatch(checkLogFailure());
+      });
+  };
+};
+export const checkLogRequest = () => ({
+  type: CHECK_LOG_REQUEST,
+});
+export const checkLogSuccess = (logText) => ({
+  type: CHECK_LOG_SUCCESS,
+  logText,
+});
+export const checkLogFailure = () => ({
+  type: CHECK_LOG_FAILURE,
 });

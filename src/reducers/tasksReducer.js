@@ -14,6 +14,9 @@ import {
   DEL_TASK_SUCCESS,
   DEL_TASK_REQUEST,
   DEL_TASK_FAILURE,
+  CHECK_LOG_SUCCESS,
+  CHECK_LOG_REQUEST,
+  CHECK_LOG_FAILURE,
 } from "../actions/tasksActions";
 
 export const tasksReducer = (store = tasksDataStore, action) => {
@@ -81,6 +84,40 @@ export const tasksReducer = (store = tasksDataStore, action) => {
       let arrTasks = [...store.taskList];
       let arr = arrTasks.filter((elem) => elem._id != action.id);
       return { ...store, taskList: arr, statusOfRequest: null };
+    }
+    case CHECK_LOG_REQUEST: {
+      return { ...store, statusOfRequest: "Deleting..." };
+    }
+    case CHECK_LOG_FAILURE: {
+      return { ...store, statusOfRequest: "Error!!!" };
+    }
+    case CHECK_LOG_SUCCESS: {
+      const fileContent = action.logText;
+
+      // Функция для парсинга текстового файла
+      function parseTextFile(content) {
+        const lines = content.split("\n");
+        const result = [];
+
+        for (const line of lines) {
+          if (line.trim() === "") {
+            continue; // Пропускаем пустые строки
+          }
+
+          const [dateTime, name] = line.split("] ");
+          const date = dateTime.substring(1); // Исключаем начальный "["
+
+          result.push({ id: result.length + 1, date, name });
+        }
+
+        return result;
+      }
+
+      // Вызов функции для парсинга текстового файла
+      const parsedData = parseTextFile(fileContent);
+
+      //console.log(parsedData);
+      return { ...store, logList: parsedData };
     }
     default:
       return store;

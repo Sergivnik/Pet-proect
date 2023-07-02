@@ -3,4 +3,5 @@ export const tasksDataStore = {
   tasksNumber: null,
   userList: [],
   statusOfRequest: null,
+  logList: [],
 };

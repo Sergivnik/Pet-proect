@@ -31,6 +31,7 @@ router.get("/getNewApp", customerAPI.taskGetNewApp);
 router.get("/getNewTasks", tasksAPI.tasksGetNew);
 router.get("/getDataTasks", tasksAPI.tasksGetData);
 router.get("/getApps", customerAPI.taskGetApps);
+router.get("/getLogTxt", tasksAPI.sendLog);
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
 });
