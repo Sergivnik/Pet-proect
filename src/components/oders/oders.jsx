@@ -133,6 +133,9 @@ export const Oders = () => {
   }, [numberApps]);
 
   useEffect(() => {
+    if (tasksNumber > 0) setShowTasks(true);
+  }, [tasksNumber]);
+  useEffect(() => {
     const onKeypress = (e) => {
       if (e.code == "Escape") {
         if (currentTR) currentTR.style.backgroundColor = "#FFF";
