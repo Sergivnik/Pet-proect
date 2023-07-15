@@ -6,8 +6,11 @@ import { CustomerManagerTr } from "./customerManagerTr.jsx";
 import { CustomerManagerAddTr } from "./customerManagerAddTr.jsx";
 import { addData, editData } from "../../actions/editDataAction.js";
 import { ChoiseTwoList } from "../choiseList/choiseTwoList.jsx";
-import "./editData.sass";
 import { InputText } from "../myLib/inputText.jsx";
+import { CustomerAccountTr } from "./customerAccountTr.jsx";
+import { UserWindow } from "../userWindow/userWindow.jsx";
+import "./editData.sass";
+import { CustomerAddDiv } from "./customerAddDiv.jsx";
 
 export const CustomerTable = () => {
   const dispatch = useDispatch();
@@ -88,6 +91,9 @@ export const CustomerTable = () => {
     dispatch(editData(obj, "oders"));
     console.log(obj);
     setShowInput(false);
+  };
+  const handleClickWindowClose = () => {
+    setShowAddTr(false);
   };
 
   useEffect(() => {
@@ -186,13 +192,42 @@ export const CustomerTable = () => {
                 />
               );
             })}
-            {showAddTr && (
-              <CustomerAddTr handleAddCustomer={handleAddCustomer} />
-            )}
           </tbody>
         </table>
+        {showAddTr && (
+          // <CustomerAddTr handleAddCustomer={handleAddCustomer} />
+          <UserWindow
+            header="Добавить нового Клиента"
+            width={1200}
+            handleClickWindowClose={handleClickWindowClose}
+            windowId="customerAddWindow"
+          >
+            <CustomerAddDiv handleAddCustomer={handleAddCustomer} />
+          </UserWindow>
+        )}
+        {customerList.length == 1 && (
+          <table className="customerTbl">
+            <thead>
+              <tr>
+                <td className="customerTdHeader">КПП</td>
+                <td className="customerTdHeader">ОГРН</td>
+                <td className="customerTdHeader">
+                  ФИО директора в род. падеже
+                </td>
+                <td className="customerTdHeader">БИК</td>
+                <td className="customerTdHeader">р/сч</td>
+                <td className="customerTdHeader">кор/сч</td>
+                <td className="customerTdHeader">Банк</td>
+                <td className="customerTdHeader">Адрес банка</td>
+              </tr>
+            </thead>
+            <tbody>
+              <CustomerAccountTr customer={customerList[0]} />
+            </tbody>
+          </table>
+        )}
         {showManagerTable && (
-          <div className="tableDiv">
+          <div className="tableManagerDiv">
             <header className="managerHeader">
               <div className="divAddInfo">
                 <span className="spanAddInfo">{"Особые условия "}</span>
@@ -204,9 +239,13 @@ export const CustomerTable = () => {
                       e.preventDefault();
                       return false;
                     }}
-                  >{` ${
-                    customerList[0].addInfo ? customerList[0].addInfo : ""
-                  }`}</span>
+                  >
+                    {customerList[0]
+                      ? ` ${
+                          customerList[0].addInfo ? customerList[0].addInfo : ""
+                        }`
+                      : ""}
+                  </span>
                 )}
                 {showInput && (
                   <InputText
