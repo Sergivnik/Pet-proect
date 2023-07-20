@@ -4,6 +4,7 @@ const path = require("path");
 const API = require("../controlers/API.js");
 const customerAPI = require("../controlers/customerAPI.js");
 const tasksAPI = require("../controlers/tasksAPI.js");
+const docAPI = require("../controlers/docAPI.js");
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -24,6 +25,7 @@ router.get("/dataContractors", API.taskGetContractors);
 router.get("/getPdf/:id/:typeDoc", API.taskGetPdf);
 router.get("/getPdfWithoutStamp/:id", API.taskGetPdfWithoutStamp);
 router.get("/getReportPdf", API.taskGetReportPdf);
+router.get("/getContractPdf", docAPI.taskGetPdfContract);
 router.get("/getUser", API.taskGetUser);
 router.get("/signOut", API.taskSignOut);
 router.get("/getCustomerData", customerAPI.taskGet);
@@ -44,6 +46,7 @@ router.post("/addPdf/:id", API.taskAddPdfDoc);
 router.post("/createDoc", API.taskCreateDoc);
 router.post("/createDocWithoutStamp", API.taskCreateDocWithoutStamp);
 router.post("/createApp", API.taskCreateApp);
+router.post("/addContract", docAPI.taskCreateContract);
 router.post(
   "/addConsignmentNote/:id/:typeDoc",
   upload.single("fileData"),

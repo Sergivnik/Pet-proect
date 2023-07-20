@@ -334,17 +334,15 @@ export const CustomerAccountTr = (props) => {
       </tr>
       {showSuggestions &&
         requestTIN.map((elem, index) => {
+          let kpp = elem.data.kpp ? elem.data.kpp : "";
+          let address = elem.data.address ? elem.data.address.value : "";
           return (
             <tr
               key={`suggestion${index}`}
               onClick={() => handleClickSuggestion(index)}
             >
               <td className="suggestionTd" colSpan={8}>
-                {elem.value +
-                  " КПП " +
-                  elem.data.kpp +
-                  " " +
-                  elem.data.address.value}
+                {elem.value + " КПП " + kpp + " " + address}
               </td>
             </tr>
           );

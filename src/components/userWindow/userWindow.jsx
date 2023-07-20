@@ -26,7 +26,7 @@ export const UserWindow = (props) => {
   const handleClickClose = () => {
     let div = document.querySelector(`#${props.windowId}`);
     div.style.opacity = 0.1;
-    setTimeout(props.handleClickWindowClose, 1000);
+    setTimeout(props.handleClickWindowClose(props.windowId), 1000);
   };
   const handleClickFullSize = (e) => {
     let div = document.querySelector(`#${props.windowId}`);

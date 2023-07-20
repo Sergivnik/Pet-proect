@@ -1,5 +1,11 @@
 const mysql = require("mysql2");
 const options = require("./config.js");
+const puppeteer = require("puppeteer");
+const fs = require("fs");
+const util = require("util"); // Добавьте эту строку для подключения модуля util
+const path = require("path");
+const writeFileAsync = util.promisify(fs.writeFile);
+const unlinkAsync = util.promisify(fs.unlink);
 
 var TaskDocs = {
   add: async function (listId, docNumber, callback) {
@@ -21,6 +27,43 @@ var TaskDocs = {
       callback({ error: err });
     }
     db.end();
+  },
+  createContract: async (customer, html, css, callBack) => {
+    try {
+      const cssFilePath = path.join(__dirname, "temp.css");
+      await writeFileAsync(cssFilePath, css, "utf8");
+
+      const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
+      const page = await browser.newPage();
+      await page.setContent(html);
+      await page.addStyleTag({ path: cssFilePath });
+
+      const pdfBuffer = await page.pdf({
+        format: "A4",
+        margin: {
+          top: "5mm",
+          bottom: "5mm",
+          left: "10mm",
+          right: "0mm",
+        },
+        printBackground: true,
+      });
+
+      await browser.close();
+
+      const exists = fs.existsSync(`./API/contracts/${customer.value}`);
+      if (!exists) {
+        fs.mkdirSync(`./API/contracts/${customer.value}`, { recursive: true });
+      }
+
+      const pdfFilePath = `./API/contracts/${customer.value}/contract.pdf`;
+      await writeFileAsync(pdfFilePath, pdfBuffer);
+      await unlinkAsync(cssFilePath);
+
+      callBack("success!");
+    } catch (err) {
+      callBack({ error: err });
+    }
   },
 };
 

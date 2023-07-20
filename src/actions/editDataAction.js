@@ -7,6 +7,9 @@ export const ADD_DATA_SUCCESS = "ADD_DATA_SUCCESS";
 export const ADD_DATA_FAILURE = "ADD_DATA_FAILURE";
 export const DEL_DATA_SUCCESS = "DEL_DATA_SUCCESS";
 export const DEL_DATA_FAILURE = "DEL_DATA_FAILURE";
+export const ADD_CONTRACT_REQUEST = "ADD_CONTRACT_REQUEST";
+export const ADD_CONTRACT_FAILURE = "ADD_CONTRACT_FAILURE";
+export const ADD_CONTRACT_SUCCESS = "ADD_CONTRACT_SUCCESS";
 
 export const editDataSuccess = (dataServer, newData, editTable) => ({
   type: EDIT_DATA_SUCCESS,
@@ -88,3 +91,33 @@ export const delData = (id, editTable) => {
       });
   };
 };
+
+export const addContract = (customer, html, css) => {
+  return (dispatch) => {
+    dispatch(addContractRequest());
+    axios
+      .create({ withCredentials: true })
+      .post(URL + "/addContract", {
+        customer: customer,
+        html: html,
+        css: css,
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(addContractSuccess());
+      })
+      .catch((e) => {
+        console.log(e);
+        dispatch(addContractFailure());
+      });
+  };
+};
+export const addContractRequest = () => ({
+  type: ADD_CONTRACT_REQUEST,
+});
+export const addContractSuccess = () => ({
+  type: ADD_CONTRACT_SUCCESS,
+});
+export const addContractFailure = () => ({
+  type: ADD_CONTRACT_FAILURE,
+});

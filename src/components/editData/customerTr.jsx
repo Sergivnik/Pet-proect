@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 import { editData, delData } from "../../actions/editDataAction.js";
+import { DOMENNAME } from "../../middlewares/initialState.js";
 
 import "./editData.sass";
 
@@ -111,6 +113,22 @@ export const CustomerTr = (props) => {
     if (password == "Пароль") {
       dispatch(delData(elem._id, "oders"));
     }
+  };
+  const handleLoadContract = () => {
+    axios
+      .get(`${DOMENNAME}/API/getContractPDF?customer=${elem.value}`, {
+        responseType: "blob",
+      })
+      .then((response) => {
+        const url = URL.createObjectURL(
+          new Blob([response.data], { type: "application/pdf" })
+        );
+        window.open(url, "_blank");
+        URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Ошибка при загрузке PDF:", error);
+      });
   };
 
   useEffect(() => {
@@ -238,7 +256,25 @@ export const CustomerTr = (props) => {
             value={value}
           />
         ) : (
-          elem.contract
+          <div className="contractSvgTd">
+            <span>{elem.contract}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              onClick={handleLoadContract}
+            >
+              <path d="M19 9V7a7 7 0 0 0-14 0v2"></path>
+              <polyline points="16 13 12 17 8 13"></polyline>
+              <line x1="12" y1="17" x2="12" y2="9"></line>{" "}
+            </svg>
+          </div>
         )}
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>

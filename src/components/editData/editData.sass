@@ -88,7 +88,7 @@
    padding: 0
    border: none
    height: 100%
-.driverAddBtn,.trackAddBtn,.pointAddBtn,.managerAddBtn
+.driverAddBtn,.trackAddBtn,.pointAddBtn,.managerAddBtn,.addContractBtn
    background-color: #e0d185
    height: 20px
    margin-bottom: 5px
@@ -121,9 +121,12 @@
    height: calc( 100% - 22px )
 .divWithoutBottom
    border-bottom: 1px solid #decf7f
+.addContractBtnWrap
+   width: 15%
 .divAddInfo
    display: flex
-   width: 700px
+   width: 60%
+   min-width: 600px
    margin-top: 5px
    justify-content: space-around
 .spanAddInfo
@@ -132,6 +135,8 @@
    width: calc( 100% - 200px )
 .inputAddInfo
    width: calc( 100% - 200px )
+.spanAddInfoInput:hover
+   background-color: #decf7f
 .storeTable
    width: 90%
    border-collapse: collapse
@@ -168,14 +173,23 @@
 .customerAddFooter
    width: 100%
    height: 25px
-   margin: 50px
+   margin: 50px 0
+   display: flex
 .customerAddSpanHeader
    width: 20%
+   height: 18px
    display: inline-block
 .customerAddSpanInfo
    width: 60%
    height: 18px
    display: inline-block
+.customerAddSpanInfo:hover
+   background-color: #f5edbf
 .customerAddButtonWrapper
    width: 20%
+   height: 18px
    display: inline-block
+.contractSvgTd
+   width: 100%
+   display: flex
+   justify-content: space-between

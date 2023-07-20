@@ -9,8 +9,9 @@ import { ChoiseTwoList } from "../choiseList/choiseTwoList.jsx";
 import { InputText } from "../myLib/inputText.jsx";
 import { CustomerAccountTr } from "./customerAccountTr.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
-import "./editData.sass";
 import { CustomerAddDiv } from "./customerAddDiv.jsx";
+import { ContractForm } from "./contractForm/contractForm.jsx";
+import "./editData.sass";
 
 export const CustomerTable = () => {
   const dispatch = useDispatch();
@@ -20,11 +21,13 @@ export const CustomerTable = () => {
   );
 
   const [customerList, setCustomerList] = useState(clientListFull);
+  const [currentCustomer, setCurrentCustomer] = useState(null);
   const [clientManager, setClientManager] = useState(clientManagerFull);
   const [check, setCheck] = useState(true);
   const [chosenId, setChosenId] = useState(null);
   const [currentId, setCurrentId] = useState(null);
   const [showAddTr, setShowAddTr] = useState(false);
+  const [showAddContract, setShowAddContract] = useState(false);
   const [showManagerTable, setShowManagerTable] = useState(false);
   const [showAddManagerTr, setShowAddManagerTr] = useState(false);
   const [showInput, setShowInput] = useState(false);
@@ -39,6 +42,7 @@ export const CustomerTable = () => {
     setChosenId(data._id);
     setShowManagerTable(true);
     setClientManager(arrManager);
+    setCurrentCustomer(arr[0]);
     console.log(data);
     let manager = arrManager.find((manager) => manager.phone == data.value);
     if (manager) setCurrentId(manager._id);
@@ -47,6 +51,7 @@ export const CustomerTable = () => {
     if (e.currentTarget.checked) {
       let [...arr] = clientListFull;
       setCheck(true);
+      setCurrentCustomer(null);
       setCustomerList(arr.filter((elem) => elem.active == 1));
     } else {
       setCustomerList(clientListFull);
@@ -67,6 +72,7 @@ export const CustomerTable = () => {
     setChosenId(null);
     setReset(true);
     setShowManagerTable(false);
+    setCurrentCustomer(null);
     if (check) {
       setCustomerList(clientListFull.filter((elem) => elem.active == 1));
     } else {
@@ -92,8 +98,12 @@ export const CustomerTable = () => {
     console.log(obj);
     setShowInput(false);
   };
-  const handleClickWindowClose = () => {
-    setShowAddTr(false);
+  const handleClickWindowClose = (windowId) => {
+    if (windowId == "customerAddWindow") setShowAddTr(false);
+    if (windowId == "contractAddWindow") setShowAddContract(false);
+  };
+  const handleClickAddContract = () => {
+    setShowAddContract(true);
   };
 
   useEffect(() => {
@@ -111,6 +121,7 @@ export const CustomerTable = () => {
         setCustomerList(clientListFull);
       }
     }
+    //setCurrentCustomer(null);
   }, [clientListFull]);
   useEffect(() => {
     setReset(false);
@@ -141,7 +152,7 @@ export const CustomerTable = () => {
   }, [showInput]);
 
   return (
-    <>
+    <React.Fragment>
       <h2 className="customerH2">Таблица заказчиков</h2>
       <div className="customerFilter">
         <span>Заказчик</span>
@@ -229,6 +240,14 @@ export const CustomerTable = () => {
         {showManagerTable && (
           <div className="tableManagerDiv">
             <header className="managerHeader">
+              <div className="addContractBtnWrap">
+                <button
+                  className="addContractBtn"
+                  onClick={handleClickAddContract}
+                >
+                  Создать договор
+                </button>
+              </div>
               <div className="divAddInfo">
                 <span className="spanAddInfo">{"Особые условия "}</span>
                 {!showInput && (
@@ -295,6 +314,16 @@ export const CustomerTable = () => {
           </div>
         )}
       </div>
-    </>
+      {showAddContract && (
+        <UserWindow
+          header="Создание нового договора"
+          width={800}
+          handleClickWindowClose={handleClickWindowClose}
+          windowId="contractAddWindow"
+        >
+          <ContractForm currentCustomer={currentCustomer} />
+        </UserWindow>
+      )}
+    </React.Fragment>
   );
 };
