@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editOder } from "../../actions/oderActions.js";
-import {
-  getPdf,
-  getWithoutStampPdf,
-  sendEmail,
-} from "../../actions/documentAction.js";
+import { getPdf, getWithoutStampPdf } from "../../actions/documentAction.js";
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 import { FormAddEmailData } from "../userTrNew/fornAddEmailData.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
 import { AppFormExtra } from "../documents/appFormExtra.jsx";
+import { DocForm } from "../documents/docForm.jsx";
 
 export const TdAccountNumber = (props) => {
   const orderList = useSelector((state) => state.oderReducer.odersList);
@@ -31,6 +28,8 @@ export const TdAccountNumber = (props) => {
   const [top, setTop] = useState(0);
   const [classTD, setClassTD] = useState("odersTd");
   const [divBottomCoord, setDivBottomCoord] = useState(null);
+  const [showDocForm, setShowDocForm] = useState(false);
+  const [printObj, setPrintObj] = useState({ number: null, odersListId: [] });
 
   const handleDBLClick = (e) => {
     let element = e.currentTarget;
@@ -77,10 +76,6 @@ export const TdAccountNumber = (props) => {
     dispatch(getWithoutStampPdf(currentId));
     setShowContextMenu(false);
   };
-  const handleClickGenerate = () => {
-    props.handleClickGenerate(props.currentTR);
-    setShowContextMenu(false);
-  };
   const handleClickAddDoc = (e, typeDoc) => {
     let TD = e.currentTarget.parentElement.parentElement;
     setCurrentTD(TD);
@@ -92,7 +87,6 @@ export const TdAccountNumber = (props) => {
     let TD = e.currentTarget.parentElement.parentElement;
     setCurrentTD(TD);
     setShowEmailData(true);
-    //dispatch(sendEmail(currentId));
     setShowContextMenu(false);
   };
   const handleClickClose = (isSuccess) => {
@@ -112,6 +106,39 @@ export const TdAccountNumber = (props) => {
       setShowContextMenu(false);
     }
   };
+  const handleCreateBill = () => {
+    let i = orderList.length - 1;
+    while (orderList[i].accountNumber == null) {
+      i = i - 1;
+    }
+    let { ...obj } = printObj;
+    obj.number = Number(orderList[i].accountNumber) + 1;
+    obj.odersListId = [props.elem._id];
+    setPrintObj(obj);
+    setShowDocForm(true);
+    setShowContextMenu(false);
+  };
+  const handleChangeBill = () => {
+    let { ...obj } = printObj;
+    obj.number = Number(props.elem.accountNumber);
+    obj.odersListId = [props.elem._id];
+    setPrintObj(obj);
+    setShowDocForm(true);
+    setShowContextMenu(false);
+    if (props.elem.customerPayment == "Ок") {
+      alert("Счет уже оплачен!!!");
+      setShowDocForm(false);
+    }
+  };
+  const handleClickCloseDoc = () => {
+    setShowDocForm(false);
+  };
+  const getNewNumber = (newNumber) => {
+    let { ...obj } = printObj;
+    obj.number = newNumber;
+    setPrintObj(obj);
+  };
+
   const handleClickUserWindowClose = () => {
     setShowAppForm(false);
   };
@@ -221,6 +248,15 @@ export const TdAccountNumber = (props) => {
           >
             Добавить ТТН
           </p>
+          {props.accountNumber == null || props.accountNumber == "" ? (
+            <p className="contextmenu" onClick={handleCreateBill}>
+              Создать счет
+            </p>
+          ) : (
+            <p className="contextmenu" onClick={handleChangeBill}>
+              Изменить счет
+            </p>
+          )}
           <p
             className="contextmenu"
             onClick={(e) => handleClickAddDoc(e, "app")}
@@ -267,6 +303,13 @@ export const TdAccountNumber = (props) => {
         >
           <AppFormExtra id={props.elem._id} />
         </UserWindow>
+      )}
+      {showDocForm && (
+        <DocForm
+          dataDoc={printObj}
+          handleClickClose={handleClickCloseDoc}
+          getNewNumber={getNewNumber}
+        />
       )}
     </td>
   );

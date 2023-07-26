@@ -9,8 +9,8 @@ import { TdCustomerPrice } from "../userTd/tdCustomerPrice.jsx";
 import { TdDocument } from "../userTd/tdDocument.jsx";
 import { TdAccountNumber } from "../userTd/tdAccountNumber.jsx";
 import { TdDriverPrice } from "../userTd/tdDriverPrice.jsx";
-import "./billsForm.sass";
 import { DocForm } from "./docForm.jsx";
+import "./billsForm.sass";
 
 export const BillsForm = () => {
   const odersList = useSelector((state) => state.oderReducer.originOdersList);

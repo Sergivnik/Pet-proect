@@ -138,20 +138,6 @@ export const UserTr = (props) => {
             edit={true}
             elem={props.elem}
           />
-          {/* {props.showDelete &&
-            props.elem._id == props.trId &&
-            !props.elem.completed &&
-            props.elem.customerPayment != "Ок" && (
-              <td>c
-                <button
-                  className="odersTdBtn"
-                  onClick={props.handleClickDelete}
-                >
-                  Delete
-                </button>
-              </td>
-            )} */}
-
           {props.showDelete && props.elem._id == props.trId && (
             <td>
               <button className="odersTdBtn" onClick={handleClickEdit}>
