@@ -67,6 +67,12 @@ export const TdCustomerPayment = (props) => {
       setCurrentId(null);
     }
   };
+  const handleChangeDate = (e) => {
+    setCurrentId(e.currentTarget.parentElement.parentElement.id);
+    console.log("Change Date:",props.currentTR);
+    e.stopPropagation();
+    setGetDate(true);
+  };
 
   useEffect(() => {
     if (currentElement) currentElement.firstChild.firstChild.focus();
@@ -113,7 +119,7 @@ export const TdCustomerPayment = (props) => {
         props.customerPayment
       )}
       {showDetails && (
-        <div className="oderTdTooltip">
+        <div className="oderTdTooltip" onDoubleClick={handleChangeDate}>
           {props.customerPayment == "Мыло"
             ? dateTimeLocal(props.dateOfPromise)
             : dateLocal(props.dateOfPromise)}
