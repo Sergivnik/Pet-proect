@@ -48,7 +48,17 @@ export const ContractorAddForm = (props) => {
     setPaymentsData(obj);
   };
   const handleClickAdd = () => {
-    props.handleClickAdd(paymentsData);
+    console.log(paymentsData);
+    if (
+      paymentsData.date != null &&
+      paymentsData.idContractor != null &&
+      paymentsData.category != null &&
+      paymentsData.sum != null
+    ) {
+      props.handleClickAdd(paymentsData);
+    }else{
+      alert("Введены не все данные!!!")
+    }
   };
   return (
     <div className={classMainDiv}>
