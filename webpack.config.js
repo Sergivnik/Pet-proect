@@ -37,7 +37,7 @@ module.exports = {
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         include: path.resolve(__dirname, "src"),
         loader: "babel-loader",
         exclude: /node_modules/,

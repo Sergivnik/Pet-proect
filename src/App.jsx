@@ -6,6 +6,7 @@ import { Canvas } from "react-three-fiber";
 import "./app.sass";
 import { Text3DComponent } from "./components/threeJsComponent/textComponent.jsx";
 import { PerspectiveCamera } from "@react-three/drei";
+import { MyComponent } from "./components/tsx/component.tsx";
 
 export const App = () => {
   const slogans = [
@@ -108,6 +109,9 @@ export const App = () => {
       </div>
       <div className="appClockContainer">
         <Clock size={175} color={`#0000ff`} />
+      </div>
+      <div>
+        <MyComponent text="Type Script is working!!!" />
       </div>
       <div className="appCanvasContainer">
         <Canvas>

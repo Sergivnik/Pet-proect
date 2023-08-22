@@ -185,7 +185,7 @@ export const CustomerPaymentForm = () => {
         </div>
       )}
       <div className="customerPaymentOdersDiv">
-        <table className="odersTable">
+        <table className="customerPaymentOrdersTable">
           {idChoisenCustomer && (
             <tbody className="odersTbody">
               {oders.map((elem) => {
