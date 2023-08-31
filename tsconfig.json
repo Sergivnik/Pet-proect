@@ -1,0 +1,17 @@
+{
+  "compilerOptions":{
+    "jsx": "react",
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx"
+  ]
+
+}

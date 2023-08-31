@@ -3,6 +3,7 @@ import { DriverReport } from "./driverReport.jsx";
 import { ReconciliationAct } from "./reconciliationAct.jsx";
 import { TaxesDriver } from "./taxesReport.jsx";
 import { IncomeReport } from "./incomeReport.jsx";
+import { CardReport } from "./cardReport.tsx";
 
 import "./reports.sass";
 
@@ -24,6 +25,8 @@ export const Report = () => {
       case "incomeReport":
         setCurrentReport(<IncomeReport />);
         break;
+      case "cardReport":
+        setCurrentReport(<CardReport/>)
       default:
         break;
     }
@@ -58,6 +61,13 @@ export const Report = () => {
           onClick={handleClickBtnMenu}
         >
           Отчет по доходам
+        </button>
+        <button
+          name="cardReport"
+          className="headerReportBtn"
+          onClick={handleClickBtnMenu}
+        >
+          Карта
         </button>
       </header>
       <main className="reportTable">{currentReport}</main>
