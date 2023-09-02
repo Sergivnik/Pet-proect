@@ -84,6 +84,9 @@ export const CardReport = () => {
   const customerList: Driver[] = useSelector(
     (state: any) => state.oderReducer.clientList
   );
+  const orderList: any = useSelector(
+    (state: any) => state.oderReducer.originOdersList
+  );
 
   const [unReturnedDebt, setUnReturnedDebt] = useState<Debt[] | null>(null);
   const [unClosedCustomerDebt, setUnClosedCustomerDebt] = useState<
@@ -91,6 +94,7 @@ export const CardReport = () => {
   >(null);
   const [choiseSum, setChoisenSum] = useState<number>(0);
   const [isCtrl, setIsCtrl] = useState<boolean>(false);
+  const [isCardChecked, setIsCardChecked] = useState<boolean>(true);
 
   useEffect(() => {
     dispatch(getDataDriverDebt());
@@ -125,8 +129,43 @@ export const CardReport = () => {
       }
     }
   };
+  const handleClickCardChecked = () => {
+    setIsCardChecked(!isCardChecked);
+    if (isCardChecked) {
+      let unReturnedDebt: Debt[] = driverDebtCard.filter(
+        (debt: Debt) => debt.card == false
+      );
+      let unClosedCustomerDebt: CustomerAddDebt[] = customerDebtCard.filter(
+        (debt: CustomerAddDebt) => debt.card == false
+      );
+      setUnReturnedDebt(unReturnedDebt);
+      setUnClosedCustomerDebt(unClosedCustomerDebt);
+    } else {
+      let unReturnedDebt: Debt[] = driverDebtCard.filter(
+        (debt: Debt) => debt.card == false || debt.debtClosed != "Ок"
+      );
+      let unClosedCustomerDebt: CustomerAddDebt[] = customerDebtCard.filter(
+        (debt: CustomerAddDebt) =>
+          debt.safe == false ||
+          debt.card == false ||
+          debt.customerPayment == false ||
+          debt.returnPayment == false
+      );
+      setUnReturnedDebt(unReturnedDebt);
+      setUnClosedCustomerDebt(unClosedCustomerDebt);
+    }
+  };
+
   return (
     <div className="mainReportForm" onClick={handleClickDiv}>
+      <label>
+        На карту
+        <input
+          type="checkBox"
+          checked={isCardChecked}
+          onChange={handleClickCardChecked}
+        />
+      </label>
       <table className="cardReportTable">
         <thead className="cardReportThead">
           <tr>
@@ -161,13 +200,6 @@ export const CardReport = () => {
                       isCtrl={isCtrl}
                       handleClickSumm={handleClickSumm}
                     />
-                    {/* <td
-                      data-name="sumTd"
-                      className="cardReportTd"
-                      onClick={(e) => handleClickSumm(e, debt.sumOfDebt)}
-                    >
-                      {debt ? debt.sumOfDebt : null}
-                    </td> */}
                     <td className="cardReportTd">
                       {debt ? debt.debtClosed : null}
                     </td>
@@ -200,6 +232,13 @@ export const CardReport = () => {
         <tbody>
           {unClosedCustomerDebt
             ? unClosedCustomerDebt.map((debt: CustomerAddDebt) => {
+                let order: any = orderList.find(
+                  (order: any) => order._id == debt.orderId
+                );
+                let sumOfdebt: number =
+                  ((order.customerPrice - debt.sum) * (100 - debt.interest)) /
+                  100;
+                console.log(sumOfdebt);
                 return (
                   <tr key={`customerDebt${debt.id}`}>
                     <td className="cardReportTd">
@@ -208,19 +247,10 @@ export const CardReport = () => {
                         : null}
                     </td>
                     <TdSum
-                      sum={debt ? debt.sum : null}
+                      sum={sumOfdebt}
                       isCtrl={isCtrl}
                       handleClickSumm={handleClickSumm}
                     />
-                    {/* <td
-                      data-name="sumTd"
-                      className="cardReportTd"
-                      onClick={(e) => {
-                        handleClickSumm(e, debt.sum);
-                      }}
-                    >
-                      {debt ? debt.sum : null}
-                    </td> */}
                     <td className="cardReportTd">
                       {debt ? (debt.safe ? "Ок" : "нет") : null}
                     </td>
