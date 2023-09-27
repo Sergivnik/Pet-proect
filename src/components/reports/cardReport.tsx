@@ -69,6 +69,10 @@ interface Customer {
   bankName: string;
   bankAddress: string;
 }
+interface cardTransaction {
+  driverDebtsId: number[];
+  customerDebtsId: number[];
+}
 export const CardReport = () => {
   const dispatch: any = useDispatch();
 
@@ -95,6 +99,10 @@ export const CardReport = () => {
   const [choiseSum, setChoisenSum] = useState<number>(0);
   const [isCtrl, setIsCtrl] = useState<boolean>(false);
   const [isCardChecked, setIsCardChecked] = useState<boolean>(true);
+  const [cardTransaction, setCardTransaction] = useState<cardTransaction>({
+    driverDebtsId: [],
+    customerDebtsId: [],
+  });
 
   useEffect(() => {
     dispatch(getDataDriverDebt());
@@ -118,7 +126,7 @@ export const CardReport = () => {
   const handleClickSumm = (sum: number) => {
     setChoisenSum(choiseSum + sum);
   };
-  const handleClickDiv = (e) => {
+  const handleClickDiv = (e: any) => {
     let nameElem = e.target.getAttribute("data-name");
     if (nameElem != "sumTd") {
       setChoisenSum(0);
@@ -155,121 +163,163 @@ export const CardReport = () => {
       setUnClosedCustomerDebt(unClosedCustomerDebt);
     }
   };
+  const handleClickCardDebt = (typeOfDebt: string, id: number) => {
+    if (typeOfDebt === "driver") {
+      let arr: number[] = cardTransaction.driverDebtsId;
+      if (arr.includes(id)) {
+        let index: number = arr.findIndex((debtId: number) => debtId == id);
+        arr.splice(index, 1);
+      } else {
+        arr.push(id);
+      }
+      setCardTransaction({
+        driverDebtsId: arr,
+        customerDebtsId: cardTransaction.customerDebtsId,
+      });
+    }
+    if (typeOfDebt === "customer") {
+      let arr: number[] = cardTransaction.customerDebtsId;
+      if (arr.includes(id)) {
+        let index: number = arr.findIndex((debtId: number) => debtId == id);
+        arr.splice(index, 1);
+      } else {
+        arr.push(id);
+      }
+      setCardTransaction({
+        driverDebtsId: cardTransaction.driverDebtsId,
+        customerDebtsId: arr,
+      });
+    }
+  };
 
   return (
-    <div className="mainReportForm" onClick={handleClickDiv}>
-      <label>
-        На карту
-        <input
-          type="checkBox"
-          checked={isCardChecked}
-          onChange={handleClickCardChecked}
-        />
-      </label>
-      <table className="cardReportTable">
-        <thead className="cardReportThead">
-          <tr>
-            <td className="cardReportTd">Дата</td>
-            <td className="cardReportTd">Водитель</td>
-            <td className="cardReportTd">Категория</td>
-            <td className="cardReportTd">Сумма</td>
-            <td className="cardReportTd">Долг закрыт</td>
-            <td className="cardReportTd">Примечание</td>
-            <td className="cardReportTd">Остаток долга</td>
-            <td className="cardReportTd">Карта</td>
-          </tr>
-        </thead>
-        <tbody>
-          {unReturnedDebt
-            ? unReturnedDebt.map((debt: Debt) => {
-                return (
-                  <tr key={`driverDebt${debt.id}`}>
-                    <td className="cardReportTd">
-                      {debt ? dateLocal(debt.date) : null}
-                    </td>
-                    <td className="cardReportTd">
-                      {debt
-                        ? findValueBy_Id(debt.idDriver, driverList).value
-                        : null}
-                    </td>
-                    <td className="cardReportTd">
-                      {debt ? debt.category : null}
-                    </td>
-                    <TdSum
-                      sum={debt ? debt.sumOfDebt : null}
-                      isCtrl={isCtrl}
-                      handleClickSumm={handleClickSumm}
-                    />
-                    <td className="cardReportTd">
-                      {debt ? debt.debtClosed : null}
-                    </td>
-                    <td className="cardReportTd">
-                      {debt ? debt.addInfo : null}
-                    </td>
-                    <td className="cardReportTd">
-                      {debt.paidPartOfDebt ? debt.paidPartOfDebt : "0.00"}
-                    </td>
-                    <td className="cardReportTd">
-                      {debt ? (debt.card ? "Ок" : "нет") : null}
-                    </td>
-                  </tr>
-                );
-              })
-            : null}
-        </tbody>
-      </table>
-      <table className="cardReportTable">
-        <thead className="cardReportThead">
-          <tr>
-            <td className="cardReportTd">Клиент</td>
-            <td className="cardReportTd">Сумма</td>
-            <td className="cardReportTd">Карта</td>
-            <td className="cardReportTd">Оплата заказа</td>
-            <td className="cardReportTd">Оплата клиенту</td>
-            <td className="cardReportTd">Дата оплаты</td>
-          </tr>
-        </thead>
-        <tbody>
-          {unClosedCustomerDebt
-            ? unClosedCustomerDebt.map((debt: CustomerAddDebt) => {
-                let order: any = orderList.find(
-                  (order: any) => order._id == debt.orderId
-                );
-                let sumOfdebt: number =
-                  ((order.customerPrice - debt.sum) * (100 - debt.interest)) /
-                  100;
-                console.log(sumOfdebt);
-                return (
-                  <tr key={`customerDebt${debt.id}`}>
-                    <td className="cardReportTd">
-                      {debt
-                        ? findValueBy_Id(debt.customerId, customerList).value
-                        : null}
-                    </td>
-                    <TdSum
-                      sum={sumOfdebt}
-                      isCtrl={isCtrl}
-                      handleClickSumm={handleClickSumm}
-                    />
-                    <td className="cardReportTd">
-                      {debt ? (debt.safe ? "Ок" : "нет") : null}
-                    </td>
-                    <td className="cardReportTd">
-                      {debt ? (debt.customerPayment ? "Ок" : "нет") : null}
-                    </td>
-                    <td className="cardReportTd">
-                      {debt ? (debt.returnPayment ? "Ок" : "нет") : null}
-                    </td>
-                    <td className="cardReportTd">
-                      {debt ? dateLocal(debt.date) : null}
-                    </td>
-                  </tr>
-                );
-              })
-            : null}
-        </tbody>
-      </table>
-      <p>{choiseSum}</p>
+    <div className="mainCardReportForm" onClick={handleClickDiv}>
+      <header className="mainReportFormHeader">
+        <label>
+          На карту
+          <input
+            type="checkBox"
+            checked={isCardChecked}
+            onChange={handleClickCardChecked}
+          />
+        </label>
+        <p className="cardReportSumP">{choiseSum}</p>
+      </header>
+      <div className="tableWrapper">
+        <table className="cardReportTable">
+          <thead className="cardReportThead">
+            <tr>
+              <td className="cardReportTd">Дата</td>
+              <td className="cardReportTd">Водитель</td>
+              <td className="cardReportTd">Категория</td>
+              <td className="cardReportTd">Сумма</td>
+              <td className="cardReportTd">Долг закрыт</td>
+              <td className="cardReportTd">Примечание</td>
+              <td className="cardReportTd">Остаток долга</td>
+              <td className="cardReportTd">Карта</td>
+            </tr>
+          </thead>
+          <tbody>
+            {unReturnedDebt
+              ? unReturnedDebt.map((debt: Debt) => {
+                  return (
+                    <tr
+                      key={`driverDebt${debt.id}`}
+                      onClick={() => handleClickCardDebt("driver", debt.id)}
+                    >
+                      <td className="cardReportTd">
+                        {debt ? dateLocal(debt.date) : null}
+                      </td>
+                      <td className="cardReportTd">
+                        {debt
+                          ? findValueBy_Id(debt.idDriver, driverList).value
+                          : null}
+                      </td>
+                      <td className="cardReportTd">
+                        {debt ? debt.category : null}
+                      </td>
+                      <TdSum
+                        sum={debt ? debt.sumOfDebt : null}
+                        isCtrl={isCtrl}
+                        handleClickSumm={handleClickSumm}
+                      />
+                      <td className="cardReportTd">
+                        {debt ? debt.debtClosed : null}
+                      </td>
+                      <td className="cardReportTd">
+                        {debt ? debt.addInfo : null}
+                      </td>
+                      <td className="cardReportTd">
+                        {debt.paidPartOfDebt ? debt.paidPartOfDebt : "0.00"}
+                      </td>
+                      <td className="cardReportTd">
+                        {debt ? (debt.card ? "Ок" : "нет") : null}
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
+        <table className="cardReportTable">
+          <thead className="cardReportThead">
+            <tr>
+              <td className="cardReportTd">Клиент</td>
+              <td className="cardReportTd">Сумма</td>
+              <td className="cardReportTd">Сейф</td>
+              <td className="cardReportTd">Карта</td>
+              <td className="cardReportTd">Оплата заказа</td>
+              <td className="cardReportTd">Оплата клиенту</td>
+              <td className="cardReportTd">Дата оплаты</td>
+            </tr>
+          </thead>
+          <tbody>
+            {unClosedCustomerDebt
+              ? unClosedCustomerDebt.map((debt: CustomerAddDebt) => {
+                  let order: any = orderList.find(
+                    (order: any) => order._id == debt.orderId
+                  );
+                  let sumOfdebt: number =
+                    ((order.customerPrice - debt.sum) * (100 - debt.interest)) /
+                    100;
+                  console.log(sumOfdebt);
+                  return (
+                    <tr
+                      key={`customerDebt${debt.id}`}
+                      onClick={() => handleClickCardDebt("customer", debt.id)}
+                    >
+                      <td className="cardReportTd">
+                        {debt
+                          ? findValueBy_Id(debt.customerId, customerList).value
+                          : null}
+                      </td>
+                      <TdSum
+                        sum={sumOfdebt}
+                        isCtrl={isCtrl}
+                        handleClickSumm={handleClickSumm}
+                      />
+                      <td className="cardReportTd">
+                        {debt ? (debt.safe ? "Ок" : "нет") : null}
+                      </td>
+                      <td className="cardReportTd">
+                        {debt ? (debt.card ? "Ок" : "нет") : null}
+                      </td>
+                      <td className="cardReportTd">
+                        {debt ? (debt.customerPayment ? "Ок" : "нет") : null}
+                      </td>
+                      <td className="cardReportTd">
+                        {debt ? (debt.returnPayment ? "Ок" : "нет") : null}
+                      </td>
+                      <td className="cardReportTd">
+                        {debt ? dateLocal(debt.date) : null}
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
