@@ -5,6 +5,7 @@ import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
 import { TdSum } from "./tdSum.tsx";
 
 import "./reports.sass";
+import { useSelect } from "@react-three/drei";
 type Category = "Топливо" | "Проценты" | "Пинк" | "Аванс" | "Прочее";
 
 type DebtClosed = "Ок" | "нет" | "частично";
@@ -103,6 +104,23 @@ export const CardReport = () => {
     driverDebtsId: [],
     customerDebtsId: [],
   });
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [sumSelected, setSumSelected] = useState<number>(0);
+
+  const setStyle = (typeOfDebt: string, id: number) => {
+    if (typeOfDebt === "driver") {
+      let arr: number[] = cardTransaction.driverDebtsId;
+      if (arr.includes(id)) {
+        return "markedTr";
+      } else return "";
+    }
+    if (typeOfDebt === "customer") {
+      let arr: number[] = cardTransaction.customerDebtsId;
+      if (arr.includes(id)) {
+        return "markedTr";
+      } else return "";
+    }
+  };
 
   useEffect(() => {
     dispatch(getDataDriverDebt());
@@ -123,6 +141,34 @@ export const CardReport = () => {
     setUnClosedCustomerDebt(unClosedCustomerDebt);
   }, [driverDebtCard, customerDebtCard]);
 
+  useEffect(() => {
+    if (
+      cardTransaction.driverDebtsId.length ||
+      cardTransaction.customerDebtsId.length
+    ) {
+      setIsSelected(true);
+      let sumToCard: number = 0;
+      let arrDriver: number[] = cardTransaction.driverDebtsId;
+      let arrCustomer: number[] = cardTransaction.customerDebtsId;
+      unReturnedDebt.map((debt) => {
+        if (arrDriver.includes(debt.id)) {
+          sumToCard = sumToCard + Number(debt.sumOfDebt);
+        }
+      });
+      unClosedCustomerDebt.map((debt: CustomerAddDebt) => {
+        if (arrCustomer.includes(debt.id)) {
+          let order: any = orderList.find(
+            (order: any) => order._id == debt.orderId
+          );
+          let sumOfdebt: number =
+            ((order.customerPrice - debt.sum) * (100 - debt.interest)) / 100;
+          sumToCard = sumToCard + sumOfdebt;
+        }
+      });
+      setSumSelected(sumToCard);
+    } else setIsSelected(false);
+  }, [cardTransaction]);
+
   const handleClickSumm = (sum: number) => {
     setChoisenSum(choiseSum + sum);
   };
@@ -132,9 +178,7 @@ export const CardReport = () => {
       setChoisenSum(0);
       setIsCtrl(false);
     } else {
-      if (e.ctrlKey) {
-        setIsCtrl(true);
-      }
+      setIsCtrl(true);
     }
   };
   const handleClickCardChecked = () => {
@@ -163,32 +207,34 @@ export const CardReport = () => {
       setUnClosedCustomerDebt(unClosedCustomerDebt);
     }
   };
-  const handleClickCardDebt = (typeOfDebt: string, id: number) => {
-    if (typeOfDebt === "driver") {
-      let arr: number[] = cardTransaction.driverDebtsId;
-      if (arr.includes(id)) {
-        let index: number = arr.findIndex((debtId: number) => debtId == id);
-        arr.splice(index, 1);
-      } else {
-        arr.push(id);
+  const handleClickCardDebt = (e: any, typeOfDebt: string, id: number) => {
+    if (!e.ctrlKey) {
+      if (typeOfDebt === "driver") {
+        let arr: number[] = cardTransaction.driverDebtsId;
+        if (arr.includes(id)) {
+          let index: number = arr.findIndex((debtId: number) => debtId == id);
+          arr.splice(index, 1);
+        } else {
+          arr.push(id);
+        }
+        setCardTransaction({
+          driverDebtsId: arr,
+          customerDebtsId: cardTransaction.customerDebtsId,
+        });
       }
-      setCardTransaction({
-        driverDebtsId: arr,
-        customerDebtsId: cardTransaction.customerDebtsId,
-      });
-    }
-    if (typeOfDebt === "customer") {
-      let arr: number[] = cardTransaction.customerDebtsId;
-      if (arr.includes(id)) {
-        let index: number = arr.findIndex((debtId: number) => debtId == id);
-        arr.splice(index, 1);
-      } else {
-        arr.push(id);
+      if (typeOfDebt === "customer") {
+        let arr: number[] = cardTransaction.customerDebtsId;
+        if (arr.includes(id)) {
+          let index: number = arr.findIndex((debtId: number) => debtId == id);
+          arr.splice(index, 1);
+        } else {
+          arr.push(id);
+        }
+        setCardTransaction({
+          driverDebtsId: cardTransaction.driverDebtsId,
+          customerDebtsId: arr,
+        });
       }
-      setCardTransaction({
-        driverDebtsId: cardTransaction.driverDebtsId,
-        customerDebtsId: arr,
-      });
     }
   };
 
@@ -203,6 +249,12 @@ export const CardReport = () => {
             onChange={handleClickCardChecked}
           />
         </label>
+        {isSelected && (
+          <div className="cardReportTransactionWrap">
+            <p className="cardReportSumP">К переводу на карту {sumSelected}</p>
+            <button className="cardRepornTransactionBtn">Провести</button>
+          </div>
+        )}
         <p className="cardReportSumP">{choiseSum}</p>
       </header>
       <div className="tableWrapper">
@@ -225,7 +277,8 @@ export const CardReport = () => {
                   return (
                     <tr
                       key={`driverDebt${debt.id}`}
-                      onClick={() => handleClickCardDebt("driver", debt.id)}
+                      className={setStyle("driver", debt.id)}
+                      onClick={(e) => handleClickCardDebt(e, "driver", debt.id)}
                     >
                       <td className="cardReportTd">
                         {debt ? dateLocal(debt.date) : null}
@@ -286,7 +339,10 @@ export const CardReport = () => {
                   return (
                     <tr
                       key={`customerDebt${debt.id}`}
-                      onClick={() => handleClickCardDebt("customer", debt.id)}
+                      className={setStyle("customer", debt.id)}
+                      onClick={(e) =>
+                        handleClickCardDebt(e, "customer", debt.id)
+                      }
                     >
                       <td className="cardReportTd">
                         {debt
