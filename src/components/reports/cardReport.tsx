@@ -237,6 +237,9 @@ export const CardReport = () => {
       }
     }
   };
+  const handleClickBtn = () => {
+    console.log(cardTransaction);
+  };
 
   return (
     <div className="mainCardReportForm" onClick={handleClickDiv}>
@@ -252,7 +255,12 @@ export const CardReport = () => {
         {isSelected && (
           <div className="cardReportTransactionWrap">
             <p className="cardReportSumP">К переводу на карту {sumSelected}</p>
-            <button className="cardRepornTransactionBtn">Провести</button>
+            <button
+              className="cardRepornTransactionBtn"
+              onClick={handleClickBtn}
+            >
+              Провести
+            </button>
           </div>
         )}
         <p className="cardReportSumP">{choiseSum}</p>
@@ -335,7 +343,6 @@ export const CardReport = () => {
                   let sumOfdebt: number =
                     ((order.customerPrice - debt.sum) * (100 - debt.interest)) /
                     100;
-                  console.log(sumOfdebt);
                   return (
                     <tr
                       key={`customerDebt${debt.id}`}
