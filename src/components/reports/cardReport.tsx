@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getDataDriverDebt } from "../../actions/driverActions.js";
+import { makeCardPayment } from "../../actions/cardAction.js";
 import { dateLocal, findValueBy_Id } from "../myLib/myLib.js";
 import { TdSum } from "./tdSum.tsx";
 
 import "./reports.sass";
-import { useSelect } from "@react-three/drei";
+
 type Category = "Топливо" | "Проценты" | "Пинк" | "Аванс" | "Прочее";
 
 type DebtClosed = "Ок" | "нет" | "частично";
@@ -207,9 +208,14 @@ export const CardReport = () => {
       setUnClosedCustomerDebt(unClosedCustomerDebt);
     }
   };
-  const handleClickCardDebt = (e: any, typeOfDebt: string, id: number) => {
+  const handleClickCardDebt = (
+    e: any,
+    typeOfDebt: string,
+    id: number,
+    card: boolean
+  ) => {
     if (!e.ctrlKey) {
-      if (typeOfDebt === "driver") {
+      if (typeOfDebt === "driver" && !card) {
         let arr: number[] = cardTransaction.driverDebtsId;
         if (arr.includes(id)) {
           let index: number = arr.findIndex((debtId: number) => debtId == id);
@@ -222,7 +228,7 @@ export const CardReport = () => {
           customerDebtsId: cardTransaction.customerDebtsId,
         });
       }
-      if (typeOfDebt === "customer") {
+      if (typeOfDebt === "customer" && !card) {
         let arr: number[] = cardTransaction.customerDebtsId;
         if (arr.includes(id)) {
           let index: number = arr.findIndex((debtId: number) => debtId == id);
@@ -239,6 +245,7 @@ export const CardReport = () => {
   };
   const handleClickBtn = () => {
     console.log(cardTransaction);
+    dispatch(makeCardPayment(cardTransaction));
   };
 
   return (
@@ -286,7 +293,9 @@ export const CardReport = () => {
                     <tr
                       key={`driverDebt${debt.id}`}
                       className={setStyle("driver", debt.id)}
-                      onClick={(e) => handleClickCardDebt(e, "driver", debt.id)}
+                      onClick={(e) =>
+                        handleClickCardDebt(e, "driver", debt.id, debt.card)
+                      }
                     >
                       <td className="cardReportTd">
                         {debt ? dateLocal(debt.date) : null}
@@ -348,7 +357,7 @@ export const CardReport = () => {
                       key={`customerDebt${debt.id}`}
                       className={setStyle("customer", debt.id)}
                       onClick={(e) =>
-                        handleClickCardDebt(e, "customer", debt.id)
+                        handleClickCardDebt(e, "customer", debt.id, debt.card)
                       }
                     >
                       <td className="cardReportTd">

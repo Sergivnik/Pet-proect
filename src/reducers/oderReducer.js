@@ -79,6 +79,11 @@ import {
   EDIT_YEAR_CONST_SUCCESS,
   EDIT_YEAR_CONST_FAILURE,
 } from "../actions/reportActions.js";
+import {
+  MAKE_CARD_PAYMENT_REQUEST,
+  MAKE_CARD_PAYMENT_FAILURE,
+  MAKE_CARD_PAYMENT_SUCCESS,
+} from "../actions/cardAction.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
@@ -1169,6 +1174,63 @@ export const oderReducer = (store = initialStore, action) => {
     }
     case ADD_CONTRACT_SUCCESS: {
       return { ...store, request: {} };
+    }
+
+    case MAKE_CARD_PAYMENT_REQUEST: {
+      return { ...store, request: { status: "REQUEST" } };
+    }
+    case MAKE_CARD_PAYMENT_FAILURE: {
+      return { ...store, request: { status: "FAILURE", error: "error" } };
+    }
+    case MAKE_CARD_PAYMENT_SUCCESS: {
+      let now = new Date();
+      let Year = now.getFullYear();
+      let Month = now.getMonth();
+      let Day = now.getDate();
+      let date = `${Year}-${Month}-${Day}`;
+      let sumOfDriverDebts = action.dataServer.sumOfDriverDebts;
+      let sumOfCustomerDebts = action.dataServer.sumOfCustomerDebts;
+      let expenses =
+        Number(store.expenses) + sumOfDriverDebts + sumOfCustomerDebts;
+      let [...addtable] = store.addtable;
+      let customerDebtsId = action.data.customerDebtsId;
+      customerDebtsId.forEach((id) => {
+        let index = addtable.findIndex((debt) => debt.id == id);
+        addtable[index].card = 1;
+      });
+      let [...contractorsPayments] = store.contractorsPayments;
+      if (action.dataServer.customerPaymentId) {
+        contractorsPayments.push({
+          id: action.dataServer.customerPaymentId,
+          idContractor: 5,
+          date: date,
+          sum: action.dataServer.sumOfCustomerDebts,
+          category: 3,
+        });
+      }
+      if (action.dataServer.driverPaymentId) {
+        contractorsPayments.push({
+          id: action.dataServer.driverPaymentId,
+          idContractor: 5,
+          date: date,
+          sum: action.dataServer.sumOfDriverDebts,
+          category: 2,
+        });
+      }
+      let [...driverDebtList] = store.driverDebtList;
+      let driverDebtsId = action.data.driverDebtsId;
+      driverDebtsId.forEach((id) => {
+        let index = driverDebtList.findIndex((debt) => debt.id == id);
+        driverDebtList[index].card = 1;
+      });
+
+      return {
+        ...store,
+        expenses: expenses,
+        addtable: [...addtable],
+        contractorsPayments: contractorsPayments,
+        driverDebtList: driverDebtList,
+      };
     }
 
     default:

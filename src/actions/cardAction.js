@@ -13,11 +13,22 @@ export const makeCardPayment = (data) => {
       .post(URL + "/makeCardPayment", data)
       .then((res) => {
         console.log(res.data);
-        dispatch(makeCardPaymentSuccess(res.data))
+        dispatch(makeCardPaymentSuccess(data, res.data));
       })
-      .catch((e)=>{
-        console.log(e);
-        dispatch(makeCardPaymentFailure())
-      })
+      .catch((e) => {
+        console.log(e, data);
+        dispatch(makeCardPaymentFailure());
+      });
   };
 };
+export const makeCardPaymentRequest = () => ({
+  type: MAKE_CARD_PAYMENT_REQUEST,
+});
+export const makeCardPaymentSuccess = (data, dataServer) => ({
+  type: MAKE_CARD_PAYMENT_SUCCESS,
+  data,
+  dataServer,
+});
+export const makeCardPaymentFailure = () => ({
+  type: MAKE_CARD_PAYMENT_FAILURE,
+});

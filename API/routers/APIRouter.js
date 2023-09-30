@@ -5,6 +5,7 @@ const API = require("../controlers/API.js");
 const customerAPI = require("../controlers/customerAPI.js");
 const tasksAPI = require("../controlers/tasksAPI.js");
 const docAPI = require("../controlers/docAPI.js");
+const cardAPI = require("../controlers/cardAPI.js");
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -63,6 +64,7 @@ router.post("/sendEmail", API.taskSendEmail);
 router.post("/addCustomerApp", customerAPI.taskAddCustomerApp);
 router.post("/editCustomerApp", customerAPI.taskEditCustomerApp);
 router.post("/addNewTask", tasksAPI.tasksAddData);
+router.post("/makeCardPayment", cardAPI.makeCardPayment);
 
 router.patch("/edit", API.taskEdit);
 router.patch("/editOderNew", API.taskEditNew);
