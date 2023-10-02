@@ -33,18 +33,26 @@ let TascsCard = {
         console.log(sumOfCustomerDebts);
       }
       let now = new Date();
-      let Year = now.getFullYear();
-      let Month = now.getMonth();
-      let Day = now.getDate();
+      let Year = String(now.getFullYear());
+      let Month = String(now.getMonth() + 1);
+      let Day = String(now.getDate());
       let cardPayment = {
-        date: `${Year}-${Month}-${Day}`,
+        date:
+          Year +
+          "-" +
+          (Month <= 9 ? "0" + Month : Month) +
+          "-" +
+          (Day <= 9 ? "0" + Day : Day),
         sumOfPayment: sumOfDriverDebts + sumOfCustomerDebts,
         listOfDebts: JSON.stringify(data),
       };
       if (data.driverDebtsId.length > 0 || data.customerDebtsId.length > 0) {
-        await db.query(
-          `INSERT cardpayment(date,sumOfPayment,listOfDebts) VALUES (${cardPayment.date},${cardPayment.sumOfPayment},'${cardPayment.listOfDebts}');`
+        console.log(
+          cardPayment.date,
+          cardPayment.sumOfPayment,
+          "${cardPayment.listOfDebts}"
         );
+        await db.query(`INSERT INTO cardpayment set ?`, cardPayment);
       }
       if (data.driverDebtsId.length > 0) {
         await db.query(

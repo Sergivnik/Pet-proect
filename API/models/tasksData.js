@@ -165,7 +165,7 @@ let TasksDada = {
           callback({ error: err });
         }
         break;
-        case "clientmanager":
+      case "clientmanager":
         try {
           let [data] = await db.query(
             `SELECT * FROM oderslist where idManager=${id}`
