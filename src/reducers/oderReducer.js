@@ -121,8 +121,6 @@ export const oderReducer = (store = initialStore, action) => {
       });
     }
     case ADD_ORDER_APP_SUCCESS: {
-      console.log(action);
-
       return update(store, {
         odersList: {
           $merge: {
@@ -437,10 +435,16 @@ export const oderReducer = (store = initialStore, action) => {
         if (a.date < b.date) return -1;
         if (a.date > b.date) return 1;
         if (a.date == b.date) {
-          let condotion =
+          if (
             (b.accountNumber == null || b.accountNumber == "") &&
-            a.accountNumber;
-          if (condotion) return -1;
+            a.accountNumber
+          )
+            return -1;
+          if (
+            (a.accountNumber == null || a.accountNumber == "") &&
+            b.accountNumber
+          )
+            return 1;
           if (
             (b.accountNumber == null || b.accountNumber == "") &&
             (a.accountNumber == null || a.accountNumber == "")
@@ -494,10 +498,16 @@ export const oderReducer = (store = initialStore, action) => {
         if (a.date < b.date) return -1;
         if (a.date > b.date) return 1;
         if (a.date == b.date) {
-          let condotion =
+          if (
             (b.accountNumber == null || b.accountNumber == "") &&
-            a.accountNumber;
-          if (condotion) return -1;
+            a.accountNumber
+          )
+            return -1;
+          if (
+            (a.accountNumber == null || a.accountNumber == "") &&
+            b.accountNumber
+          )
+            return 1;
           if (
             (b.accountNumber == null || b.accountNumber == "") &&
             (a.accountNumber == null || a.accountNumber == "")
