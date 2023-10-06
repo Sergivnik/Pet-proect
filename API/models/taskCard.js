@@ -81,6 +81,7 @@ let TascsCard = {
     } catch (err) {
       callBack({ error: err });
     }
+    db.end();
   },
 };
 

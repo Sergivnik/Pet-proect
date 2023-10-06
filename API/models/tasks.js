@@ -100,10 +100,10 @@ var Tasks = {
       [data] = await db.query(`SELECT * FROM yearconst`);
       allData.yearconst = data;
       callback(allData);
-      db.end();
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
   order5000: async function (callback) {
     console.log("order5000");
@@ -113,10 +113,10 @@ var Tasks = {
         `(SELECT * FROM oderslist ORDER BY _id DESC LIMIT 5000) ORDER BY date, accountNumber, _id`
       );
       callback(data);
-      db.end();
     } catch (err) {
       callback({ error: err });
     }
+    db.end();
   },
 
   filter: async function (datafilter, callback) {
