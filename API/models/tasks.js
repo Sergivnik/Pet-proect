@@ -554,6 +554,7 @@ var Tasks = {
         change = { document: newdata.newValue, dateOfSubmission: now };
         break;
       case "customerPayment":
+        if (newdata.newValue == 5) allowedField = true;
         if (newdata.newValue == 1 || newdata.newValue == 2) {
           change = {
             customerPayment: newdata.newValue,
