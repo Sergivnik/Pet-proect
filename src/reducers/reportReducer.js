@@ -8,6 +8,10 @@ import {
   SAVE_REPORT_PDF_SUCCESS,
   SAVE_REPORT_PDF_FAILURE,
 } from "../actions/reportActions.js";
+import {
+  CREATE_APP_REQUEST,
+  CREATE_APP_SUCCESS,
+} from "../actions/documentAction.js";
 
 export const reportReducer = (store = reportDataStore, action) => {
   switch (action.type) {
@@ -130,6 +134,12 @@ export const reportReducer = (store = reportDataStore, action) => {
     }
     case SAVE_REPORT_PDF_REQUEST: {
       return { ...store, requestStatus: "request" };
+    }
+    case CREATE_APP_REQUEST: {
+      return { ...store, requestStatus: "request" };
+    }
+    case CREATE_APP_SUCCESS: {
+      return { ...store, requestStatus: null };
     }
     case SAVE_REPORT_PDF_SUCCESS: {
       return { ...store, requestStatus: null };

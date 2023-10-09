@@ -17,8 +17,9 @@ export const DriverPaymentForm = () => {
   }, []);
   const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const driversList = useSelector((state) => state.oderReducer.driverlist);
-  const driverDebtList = useSelector(
-    (state) => state.oderReducer.driverDebtList
+  const driverDebtList = useSelector((state) => state.oderReducer.trackdrivers);
+  const trackDriverList = useSelector(
+    (state) => state.oderReducer.trackdrivers
   );
 
   const [odersWithoutPayment, setOdersWithoutPayment] = useState([]);
@@ -42,6 +43,7 @@ export const DriverPaymentForm = () => {
   const [choiceEnabled, setChoiceEnabled] = useState(false);
   const [partialDebt, setPartialDebt] = useState({ id: null, sum: null });
   const [isDebtsChosen, setIsDebtsChosen] = useState(false);
+  const [trakDriverSum, setTrackDriverSum] = useState([]);
 
   useEffect(() => {
     let arr = odersList.filter((elem) => elem.driverPayment != "Ок");
@@ -98,6 +100,7 @@ export const DriverPaymentForm = () => {
     setCurrentDriverSumOfDebts(null);
     setIsDebtsChosen(false);
     setShowInputFieldOfDebt(true);
+    setTrackDriverSum([]);
     if (sumDebt != 0) {
       setShowDebts(true);
     } else setShowDebts(false);
@@ -120,16 +123,36 @@ export const DriverPaymentForm = () => {
   const choiseOders = (oderId, driverPrice) => {
     let [...arr] = chosenOders;
     let sum = currentDriverSumOfOders;
+    let [...arrTrackDriver] = trakDriverSum;
+    let order = odersList.find((order) => order._id == oderId);
+    let indexTrackDriver = arrTrackDriver.findIndex(
+      (trackDriver) => trackDriver.id == order.idTrackDriver
+    );
+    if (indexTrackDriver == -1) {
+      indexTrackDriver = arrTrackDriver.length;
+      arrTrackDriver.push({
+        id: order.idTrackDriver,
+        sum: 0,
+        name: trackDriverList.find(
+          (trackdriver) => trackdriver._id == order.idTrackDriver
+        ).value,
+      });
+    }
     if (!arr.includes(oderId)) {
       arr.push(oderId);
       sum = sum + driverPrice;
+      arrTrackDriver[indexTrackDriver].sum =
+        arrTrackDriver[indexTrackDriver].sum + driverPrice;
     } else {
       let index = arr.findIndex((elem) => elem == oderId);
       arr.splice(index, 1);
       sum = sum - driverPrice;
+      arrTrackDriver[indexTrackDriver].sum =
+        arrTrackDriver[indexTrackDriver].sum - driverPrice;
     }
     setChosenOders(arr);
     setCurrentDriverSumOfOders(sum);
+    setTrackDriverSum(arrTrackDriver);
     if (!showDebts) setShowBtn(true);
   };
   const choiseDebts = (debtId, sumOfDebt) => {
@@ -218,6 +241,17 @@ export const DriverPaymentForm = () => {
           <div className="driverPaymentDetails">
             <p className="driverPaymentChoiseP">Выбрано для оплаты</p>
             <div>{currentDriverSumOfOders}</div>
+            <div>
+              {trakDriverSum.map((trakDriver) => {
+                return (
+                  <p className="trackDriverP">
+                    {trakDriver.name}
+                    {"   "}
+                    {trakDriver.sum}
+                  </p>
+                );
+              })}
+            </div>
           </div>
         )}
         {showDebts && (
