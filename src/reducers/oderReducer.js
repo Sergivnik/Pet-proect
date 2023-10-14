@@ -786,6 +786,9 @@ export const oderReducer = (store = initialStore, action) => {
       if (action.data.editField == "debtClosed") {
         arr[index].debtClosed = action.data.newValue;
       }
+      if (action.data.editField == "card") {
+        arr[index].card = action.data.newValue;
+      }
       return {
         ...store,
         driverDebtList: arr,

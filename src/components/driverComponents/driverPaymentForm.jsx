@@ -244,7 +244,10 @@ export const DriverPaymentForm = () => {
             <div>
               {trakDriverSum.map((trakDriver) => {
                 return (
-                  <p className="trackDriverP">
+                  <p
+                    className="trackDriverP"
+                    key={`keyTrackDriver${trakDriver.id}`}
+                  >
                     {trakDriver.name}
                     {"   "}
                     {trakDriver.sum}

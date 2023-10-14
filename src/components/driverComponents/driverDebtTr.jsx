@@ -25,6 +25,7 @@ export const DriverDebtTr = (props) => {
   const [showEditSum, setShowEditSum] = useState(false);
   const [showEditAddInfo, setShowEditAddInfo] = useState(false);
   const [showEditDebtStatus, setShowEditDebtStatus] = useState(false);
+  const [showEditDebtCard, setShowEditDebtCard] = useState(false);
   useEffect(() => {
     if (elem.id == props.deleteId) {
       setClassNameTr("driverDebtMainTd driverDebtMark");
@@ -66,6 +67,9 @@ export const DriverDebtTr = (props) => {
     if (e.currentTarget.cellIndex == 5) {
       setShowEditDebtStatus(true);
     }
+    if (e.currentTarget.cellIndex == 6) {
+      setShowEditDebtCard(true);
+    }
   };
   const handleGetDate = (e) => {
     setDateOfPayment(e.target.value);
@@ -100,6 +104,16 @@ export const DriverDebtTr = (props) => {
         })
       );
       setShowEditDebtStatus(false);
+    }
+    if (showEditDebtCard) {
+      dispatch(
+        editDataDriverDebt({
+          id: elem.id,
+          editField: "card",
+          newValue: data.value == "нет" ? 0 : 1,
+        })
+      );
+      setShowEditDebtCard(false);
     }
   };
   const handleLostFocus = (e) => {
@@ -218,6 +232,22 @@ export const DriverDebtTr = (props) => {
             </div>
           ) : (
             elem.debtClosed
+          )}
+        </td>
+        <td className="driverDebtMainTr" onDoubleClick={handleDblClick}>
+          {showEditDebtCard ? (
+            <div className="driverDebtCreateChoise">
+              <ChoiseList
+                name="card"
+                arrlist={[
+                  { _id: 1, value: "Ок" },
+                  { _id: 2, value: "нет" },
+                ]}
+                setValue={setEditValue}
+              />
+            </div>
+          ) : (
+            elem.card==1?"Ок":"нет"
           )}
         </td>
       </tr>

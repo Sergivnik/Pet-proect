@@ -461,6 +461,7 @@ export const DriverDebtForm = () => {
                   />
                 )}
               </td>
+              <td className="driverDebtMainHeaderTd">Карта</td>
             </tr>
           </thead>
           <tbody>
