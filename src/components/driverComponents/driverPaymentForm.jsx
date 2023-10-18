@@ -17,7 +17,7 @@ export const DriverPaymentForm = () => {
   }, []);
   const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const driversList = useSelector((state) => state.oderReducer.driverlist);
-  const driverDebtList = useSelector((state) => state.oderReducer.trackdrivers);
+  const driverDebtList = useSelector((state) => state.oderReducer.driverDebtList);
   const trackDriverList = useSelector(
     (state) => state.oderReducer.trackdrivers
   );
