@@ -246,8 +246,10 @@ export const DriverDebtTr = (props) => {
                 setValue={setEditValue}
               />
             </div>
+          ) : elem.card == 1 ? (
+            "Ок"
           ) : (
-            elem.card==1?"Ок":"нет"
+            "нет"
           )}
         </td>
       </tr>

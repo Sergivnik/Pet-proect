@@ -70,7 +70,7 @@ export const DriverDebtForm = () => {
   useEffect(() => {
     let div = document.getElementsByClassName("driverDebtTableDiv")[0];
     div.scrollTop = div.scrollHeight;
-  }, [filteredDriverDebtList]);
+  }, [filteredDriverDebtList, showCreateDebt]);
 
   useEffect(() => {
     if (
@@ -464,7 +464,7 @@ export const DriverDebtForm = () => {
               <td className="driverDebtMainHeaderTd">Карта</td>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="driverDebtMainBody">
             {filteredDriverDebtList.map((elem) => {
               return (
                 <DriverDebtTr
