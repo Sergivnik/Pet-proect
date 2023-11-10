@@ -186,12 +186,22 @@ export const CreateOderNew = (props) => {
       if (e.target.value != "") setShowAppInput(false);
     }
     if (e.target.className == "crOderPriceInput") {
-      obj.customerPrice = e.target.value;
-      if (e.target.value != "") setShowClientPrice(false);
+      if (props.elem.customerPayment != "Ок") {
+        obj.customerPrice = e.target.value;
+        if (e.target.value != "") setShowClientPrice(false);
+      } else {
+        alert("Change is unacceptable!!!");
+        setShowClientPrice(false);
+      }
     }
     if (e.target.className == "crOderDriverPriceInput") {
-      obj.driverPrice = e.target.value;
-      if (e.target.value != "") setShowDriverPrice(false);
+      if (props.elem.driverPayment != "Ок") {
+        obj.driverPrice = e.target.value;
+        if (e.target.value != "") setShowDriverPrice(false);
+      }else{
+        alert("Change is unacceptable!!!");
+        setShowDriverPrice(false);
+      }
     }
     setOdersData(obj);
   };
