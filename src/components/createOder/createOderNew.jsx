@@ -186,7 +186,7 @@ export const CreateOderNew = (props) => {
       if (e.target.value != "") setShowAppInput(false);
     }
     if (e.target.className == "crOderPriceInput") {
-      if (props.elem.customerPayment != "Ок") {
+      if (props.elem ? props.elem.customerPayment != "Ок" : true) {
         obj.customerPrice = e.target.value;
         if (e.target.value != "") setShowClientPrice(false);
       } else {
@@ -195,10 +195,10 @@ export const CreateOderNew = (props) => {
       }
     }
     if (e.target.className == "crOderDriverPriceInput") {
-      if (props.elem.driverPayment != "Ок") {
+      if (props.elem ? props.elem.driverPayment != "Ок" : true) {
         obj.driverPrice = e.target.value;
         if (e.target.value != "") setShowDriverPrice(false);
-      }else{
+      } else {
         alert("Change is unacceptable!!!");
         setShowDriverPrice(false);
       }
