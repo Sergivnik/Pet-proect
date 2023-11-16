@@ -9,8 +9,9 @@ export const DriverTableTR = (props) => {
   let elem = props.elem;
   const [colNumber, setColNumber] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
-  const [styleTr, setStyleTr] = useState(null);
+  const [styleTr, setStyleTr] = useState("driverNotActiveTr");
   const [valueInput, setValueInput] = useState(null);
+  const [isContext, setIsContext] = useState(false);
 
   const handleDBLclick = (e) => {
     let column = e.currentTarget.cellIndex;
@@ -99,11 +100,22 @@ export const DriverTableTR = (props) => {
   const handleChange = (e) => {
     setValueInput(e.currentTarget.value);
   };
+  const handleContext = (e) => {
+    e.preventDefault();
+    setIsContext(true);
+    props.getCurrentId(elem._id);
+    setStyleTr("driverActiveTr");
+  };
+  const handleClickCreateDoc = () => {};
+  const handleClickAddDoc = () => {};
+  const handleClickPrintDoc = () => {};
+  const handleClickDeleteDoc = () => {};
 
   useEffect(() => {
     if (props.currentId != elem._id) {
       setColNumber(null);
-      setStyleTr(null);
+      setStyleTr("driverNotActiveTr");
+      setIsContext(false);
     }
   }, [props.currentId]);
   useEffect(() => {
@@ -113,6 +125,7 @@ export const DriverTableTR = (props) => {
     const onKeypress = (e) => {
       if (e.code == "Escape") {
         setColNumber(null);
+        setIsContext(false);
       }
     };
     document.addEventListener("keydown", onKeypress);
@@ -120,9 +133,14 @@ export const DriverTableTR = (props) => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, []);
-  
+
   return (
-    <tr key={"driver" + elem._id} onClick={handleClickTr} className={styleTr}>
+    <tr
+      key={"driver" + elem._id}
+      onClick={handleClickTr}
+      className={styleTr}
+      onContextMenu={handleContext}
+    >
       <td className="driverTd" onDoubleClick={handleDBLclick}>
         {colNumber == 0 ? (
           <input
@@ -256,6 +274,22 @@ export const DriverTableTR = (props) => {
           </div>
         )}
       </td>
+      {isContext && (
+        <div className="divContextMenu">
+          <p className="pContextMenu" onClick={handleClickCreateDoc}>
+            Создать документ
+          </p>
+          <p className="pContextMenu" onClick={handleClickAddDoc}>
+            Добавить документ
+          </p>
+          <p className="pContextMenu" onClick={handleClickPrintDoc}>
+            Печать документ
+          </p>
+          <p className="pContextMenu" onClick={handleClickDeleteDoc}>
+            Удалить документ
+          </p>
+        </div>
+      )}
     </tr>
   );
 };

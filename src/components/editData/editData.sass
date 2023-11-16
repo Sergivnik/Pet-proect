@@ -93,7 +93,11 @@
    height: 20px
    margin-bottom: 5px
 .driverActiveTr,.pointActiveTr,.customerActiveTr
+   position: relative
    background-color: #d4a338
+.driverNotActiveTr
+   position: relative
+   z-index: 1
 .tdZ10
    z-index: 10
 .managerHeader
@@ -193,3 +197,16 @@
    width: 100%
    display: flex
    justify-content: space-between
+.divContextMenu
+   position: absolute
+   right: 50px
+   top: 10px
+   width: 160px
+   border: 1px solid #000000
+   background-color: #f5e8c4
+   z-index: 5
+.pContextMenu
+   margin: 0
+   padding: 5px
+.pContextMenu:hover
+   background-color: #d7c6a0
