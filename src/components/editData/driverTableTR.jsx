@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { editData, delData } from "../../actions/editDataAction.js";
 
 import "./editData.sass";
+import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
+import { getPdf } from "../../actions/documentAction.js";
 
 export const DriverTableTR = (props) => {
   const dispatch = useDispatch();
@@ -106,10 +108,22 @@ export const DriverTableTR = (props) => {
     props.getCurrentId(elem._id);
     setStyleTr("driverActiveTr");
   };
-  const handleClickCreateDoc = () => {};
-  const handleClickAddDoc = () => {};
-  const handleClickPrintDoc = () => {};
-  const handleClickDeleteDoc = () => {};
+  const handleClickCreateDoc = () => {
+    props.openFormAddDoc(props.elem._id);
+    setIsContext(false);
+  };
+  const handleClickAddDoc = () => {
+    //props.openFormAddDoc();
+    setIsContext(false);
+  };
+  const handleClickPrintDoc = () => {
+    dispatch(getPdf(elem._id, "ownerDoc"));
+    setIsContext(false);
+  };
+  const handleClickDeleteDoc = () => {
+    //props.openFormAddDoc();
+    setIsContext(false);
+  };
 
   useEffect(() => {
     if (props.currentId != elem._id) {
@@ -273,23 +287,23 @@ export const DriverTableTR = (props) => {
             </svg>
           </div>
         )}
+        {isContext && (
+          <div className="divContextMenu">
+            <p className="pContextMenu" onClick={handleClickCreateDoc}>
+              Создать документ
+            </p>
+            <p className="pContextMenu" onClick={handleClickAddDoc}>
+              Добавить документ
+            </p>
+            <p className="pContextMenu" onClick={handleClickPrintDoc}>
+              Печать документ
+            </p>
+            <p className="pContextMenu" onClick={handleClickDeleteDoc}>
+              Удалить документ
+            </p>
+          </div>
+        )}
       </td>
-      {isContext && (
-        <div className="divContextMenu">
-          <p className="pContextMenu" onClick={handleClickCreateDoc}>
-            Создать документ
-          </p>
-          <p className="pContextMenu" onClick={handleClickAddDoc}>
-            Добавить документ
-          </p>
-          <p className="pContextMenu" onClick={handleClickPrintDoc}>
-            Печать документ
-          </p>
-          <p className="pContextMenu" onClick={handleClickDeleteDoc}>
-            Удалить документ
-          </p>
-        </div>
-      )}
     </tr>
   );
 };

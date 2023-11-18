@@ -37,6 +37,7 @@ export const DriverTable = (props) => {
   const [activeMarker, setActiveMarker] = useState("driver");
   const [currentTrackDriverId, setCurrentTrackDriverId] = useState(null);
   const [currentTrackId, setCurrentTrackId] = useState(null);
+  const [currentOwnerId, setCurrentOwnerId] = useState(null);
   const [showAddTrackDriverTr, setShowAddTrackDriverTr] = useState(false);
   const [showAddTrackTr, setShowAddTrackTr] = useState(false);
   const [showInputFile, setShowInputFile] = useState(false);
@@ -246,6 +247,13 @@ export const DriverTable = (props) => {
     setCurrentTD(currentElement);
     setShowEmail(true);
   };
+  const openFormAddDoc = (id) => {
+    let currentElement = document.querySelector(".EDFmainForm");
+    setCurrentTD(currentElement);
+    setActiveMarker("owner");
+    setCurrentOwnerId(id);
+    setShowInputFile(true);
+  };
 
   return (
     <>
@@ -300,6 +308,7 @@ export const DriverTable = (props) => {
                   elem={elem}
                   getCurrentId={getCurrentId}
                   currentId={currentId}
+                  openFormAddDoc={openFormAddDoc}
                 />
               );
             })}
@@ -350,7 +359,7 @@ export const DriverTable = (props) => {
               {activeMarker == "driver" && (
                 <table className="trackDriverTbl">
                   <thead>
-                    <tr>
+                    <tr className="trackDriverTr">
                       <td className="trackDriverTdHeader">Имя</td>
                       <td className="trackDriverTdHeader">Полное имя</td>
                       <td className="trackDriverTdHeader">Краткое имя</td>
@@ -425,7 +434,11 @@ export const DriverTable = (props) => {
         <FormAddDoc
           TD={currentTD}
           currentId={
-            activeMarker == "driver" ? currentTrackDriverId : currentTrackId
+            activeMarker == "driver"
+              ? currentTrackDriverId
+              : activeMarker == "owner"
+              ? currentOwnerId
+              : currentTrackId
           }
           typeDoc={activeMarker}
           handleClickClose={handleClickClose}

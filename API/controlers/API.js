@@ -101,7 +101,26 @@ module.exports.taskGetPdf = (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
   const path = require("path");
   console.log(req.params);
-  if (req.params.typeDoc != "driver" && req.params.typeDoc != "track") {
+  if (req.params.typeDoc == "ownerDoc") {
+    let pathBills = path.join(__dirname, "..", "docs");
+    tasks.getDataFromTableById(req.params.id, "drivers", (data) => {
+      if (data.error) {
+        res.status(500);
+        res.json({ message: data.error });
+      } else {
+        console.log(data);
+        let owner = data.value;
+        res.sendFile(
+          `${pathBills}/${owner}/docOwner.pdf`
+        );
+      }
+    });
+  }
+  if (
+    req.params.typeDoc != "driver" &&
+    req.params.typeDoc != "track" &&
+    req.params.typeDoc != "ownerDoc"
+  ) {
     tasks.getDataById(req.params.id, "oderslist", (data) => {
       if (data.error) {
         res.status(500);
@@ -125,7 +144,8 @@ module.exports.taskGetPdf = (req, res) => {
         }
       }
     });
-  } else {
+  }
+  if (req.params.typeDoc == "driver" || req.params.typeDoc == "track") {
     let pathBills = path.join(__dirname, "..", "docs");
     let table = "";
     let trackDriver = "";
@@ -691,7 +711,42 @@ module.exports.taskAddConsignmentNote = (req, res) => {
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
   console.log(req.params);
-  if (req.params.typeDoc != "driver" && req.params.typeDoc != "track") {
+  if (req.params.typeDoc == "owner") {
+    tasks.getDataFromTableById(req.params.id, "drivers", (data) => {
+      if (data.error) {
+        res.status(500);
+        res.json({ message: data.error });
+      } else {
+        console.log(data);
+        owner = data.value;
+        let fs = require("fs");
+        try {
+          const exists = fs.existsSync(`./API/docs/${owner}`);
+          if (!exists) {
+            fs.mkdirSync(`./API/docs/${owner}`, {
+              recursive: true,
+            });
+          }
+        } catch (e) {
+          console.log(e);
+        }
+        fs.copyFile(
+          `./API/Bills/tempDoc.pdf`,
+          `./API/docs/${owner}/docOwner.pdf`,
+          (err) => {
+            if (err) throw err; // не удалось скопировать файл
+            console.log("Файл успешно скопирован");
+            res.json("success!");
+          }
+        );
+      }
+    });
+  }
+  if (
+    req.params.typeDoc != "driver" &&
+    req.params.typeDoc != "track" &&
+    req.params.typeDoc != "owner"
+  ) {
     tasks.getDataById(req.params.id, "oderslist", (data) => {
       if (data.error) {
         res.status(500);
@@ -752,7 +807,8 @@ module.exports.taskAddConsignmentNote = (req, res) => {
         }
       }
     });
-  } else {
+  }
+  if (req.params.typeDoc == "driver" || req.params.typeDoc == "track") {
     let table = "";
     let trackDriver = "";
     let track = "";
