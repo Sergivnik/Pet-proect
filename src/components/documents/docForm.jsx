@@ -46,6 +46,7 @@ export const DocForm = (props) => {
     contract: false,
     aplication: false,
     trackTrailer: false,
+    reason: false,
     wayBillNumber: "",
   });
   const [appData, setAppData] = useState({ stamp: true, date: false });
@@ -177,6 +178,7 @@ export const DocForm = (props) => {
   const handleClickCheckBox = (e) => {
     let { ...obj } = addData;
     let objApp = { ...appData };
+    console.log("hi");
     switch (e.currentTarget.name) {
       case "wayBill":
         obj.wayBill = !obj.wayBill;
@@ -197,6 +199,10 @@ export const DocForm = (props) => {
         break;
       case "dateApp":
         objApp.date = !objApp.date;
+        setAppData(objApp);
+        break;
+      case "reason":
+        obj.reason = !obj.reason;
         setAppData(objApp);
         break;
       default:
@@ -278,6 +284,13 @@ export const DocForm = (props) => {
             type="checkbox"
             name="trackTrailer"
             checked={addData.waytrackTrailerBill}
+            onChange={handleClickCheckBox}
+          />
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;Основание</span>
+          <input
+            type="checkbox"
+            name="reason"
+            checked={addData.reason}
             onChange={handleClickCheckBox}
           />
         </div>

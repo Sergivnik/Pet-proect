@@ -140,6 +140,33 @@ export const ActForm = (props) => {
               <br /> {customer.address}
             </div>
           </div>
+          {props.addData.reason && (
+            <div>
+              <div
+                style={{
+                  padding: "5px",
+                  verticalAlign: "top",
+                  float: "left",
+                  display: "inline-block",
+                  width: "10%",
+                  marginTop: "30px",
+                }}
+              >
+                Основание:
+              </div>
+              <div
+                style={{
+                  padding: "5px",
+                  fontWeight: "700",
+                  float: "right",
+                  display: "inline-block",
+                  width: "86%",
+                }}
+              >
+                {"ИГК 00000000727736233463"}
+              </div>
+            </div>
+          )}
         </div>
 
         <table
