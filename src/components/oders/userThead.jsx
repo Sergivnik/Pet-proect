@@ -254,6 +254,7 @@ export const UserThead = (props) => {
                 { _id: 1, value: "Ок" },
                 { _id: 2, value: "Нет" },
                 { _id: 3, value: "Факс" },
+                { _id: 4, value: "Сдал" },
               ]}
               filterList={props.filterList.documents}
               closeFilter={closeFilter}
