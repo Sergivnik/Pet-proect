@@ -12,6 +12,7 @@ import { UserWindow } from "../userWindow/userWindow.jsx";
 import { CustomerAddDiv } from "./customerAddDiv.jsx";
 import { ContractForm } from "./contractForm/contractForm.jsx";
 import "./editData.sass";
+import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 
 export const CustomerTable = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,8 @@ export const CustomerTable = () => {
   const [showAddManagerTr, setShowAddManagerTr] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [reset, setReset] = useState(false);
+  const [showAddPdfFile, setShowAddPdfFile] = useState(false);
+  const [currentTD, setCurrentTD] = useState(null);
 
   const setValue = (data) => {
     let arr = clientListFull.filter((elem) => elem._id == data._id);
@@ -104,6 +107,14 @@ export const CustomerTable = () => {
   };
   const handleClickAddContract = () => {
     setShowAddContract(true);
+  };
+  const handleClickAddPdfContract = () => {
+    let currentElement = document.querySelector(".EDFmainForm");
+    setCurrentTD(currentElement);
+    setShowAddPdfFile(true);
+  };
+  const handleClickClose = () => {
+    setShowAddPdfFile(false);
   };
 
   useEffect(() => {
@@ -247,6 +258,12 @@ export const CustomerTable = () => {
                 >
                   Создать договор
                 </button>
+                <button
+                  className="addContractBtn"
+                  onClick={handleClickAddPdfContract}
+                >
+                  Добавить договор
+                </button>
               </div>
               <div className="divAddInfo">
                 <span className="spanAddInfo">{"Особые условия "}</span>
@@ -323,6 +340,14 @@ export const CustomerTable = () => {
         >
           <ContractForm currentCustomer={currentCustomer} />
         </UserWindow>
+      )}
+      {showAddPdfFile && (
+        <FormAddDoc
+          TD={currentTD}
+          currentId={chosenId}
+          typeDoc="customerContract"
+          handleClickClose={handleClickClose}
+        />
       )}
     </React.Fragment>
   );

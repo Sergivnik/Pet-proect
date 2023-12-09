@@ -110,16 +110,14 @@ module.exports.taskGetPdf = (req, res) => {
       } else {
         console.log(data);
         let owner = data.value;
-        res.sendFile(
-          `${pathBills}/${owner}/docOwner.pdf`
-        );
+        res.sendFile(`${pathBills}/${owner}/docOwner.pdf`);
       }
     });
   }
   if (
     req.params.typeDoc != "driver" &&
     req.params.typeDoc != "track" &&
-    req.params.typeDoc != "ownerDoc"
+    req.params.typeDoc != "ownerDoc" 
   ) {
     tasks.getDataById(req.params.id, "oderslist", (data) => {
       if (data.error) {
@@ -742,10 +740,42 @@ module.exports.taskAddConsignmentNote = (req, res) => {
       }
     });
   }
+  if (req.params.typeDoc == "customerContract") {
+    tasks.getDataFromTableById(req.params.id, "oders", (data) => {
+      if (data.error) {
+        res.status(500);
+        res.json({ message: data.error });
+      } else {
+        console.log(data);
+        customer = data.value;
+        let fs = require("fs");
+        try {
+          const exists = fs.existsSync(`./API/contracts/${customer}`);
+          if (!exists) {
+            fs.mkdirSync(`./API/contracts/${customer}`, {
+              recursive: true,
+            });
+          }
+        } catch (e) {
+          console.log(e);
+        }
+        fs.copyFile(
+          `./API/Bills/tempDoc.pdf`,
+          `./API/contracts/${customer}/contract.pdf`,
+          (err) => {
+            if (err) throw err; // не удалось скопировать файл
+            console.log("Файл успешно скопирован");
+            res.json("success!");
+          }
+        );
+      }
+    });
+  }
   if (
     req.params.typeDoc != "driver" &&
     req.params.typeDoc != "track" &&
-    req.params.typeDoc != "owner"
+    req.params.typeDoc != "owner" &&
+    req.params.typeDoc != "customerContract"
   ) {
     tasks.getDataById(req.params.id, "oderslist", (data) => {
       if (data.error) {
