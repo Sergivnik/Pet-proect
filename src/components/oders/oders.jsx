@@ -29,6 +29,7 @@ import { UserTaskTable } from "../userTask/userTaskTable.jsx";
 import { MenuUser } from "./taskBar/menuUser/menuUser.jsx";
 import { MenuAccount } from "./taskBar/menuAccount/menuAccount.jsx";
 import { MenuMain } from "./taskBar/menuAccount/menuMain/menuMain.jsx";
+import { PostForm } from "../postForm/postForm.tsx";
 import "./oders.sass";
 
 export const Oders = () => {
@@ -81,6 +82,7 @@ export const Oders = () => {
   const [showAppWindow, setShowAppWindow] = useState(false);
   const [showNewApps, setShowNewApps] = useState(false);
   const [showTasks, setShowTasks] = useState(false);
+  const [showPostForm, setShowPostForm] = useState(false);
 
   const [trId, setTrId] = useState(null);
   const [addData, setAddData] = useState(0);
@@ -350,6 +352,9 @@ export const Oders = () => {
     if (e.target.name == "customerApp") {
       setShowAppWindow(true);
     }
+    if (e.target.name == "post") {
+      setShowPostForm(true);
+    }
     if (!showWindow) {
       let btnClick = e.target.name;
       if (btnClick == "customPay") {
@@ -410,6 +415,9 @@ export const Oders = () => {
   };
   const handleClicAppkWindowClose = () => {
     setShowAppWindow(false);
+  };
+  const handleClickPostWindowClose = () => {
+    setShowPostForm(false);
   };
   const handleClickMainDiv = () => {
     let contextDiv = document.querySelector(".divContext");
@@ -525,6 +533,18 @@ export const Oders = () => {
           windowId="changePasswordWindow"
         >
           <ChangePassword />
+        </UserWindow>
+      )}
+      {showPostForm && (
+        <UserWindow
+          header="Почта"
+          width={1400}
+          handleClickWindowClose={handleClickPostWindowClose}
+          windowId="postWindow"
+          top="12%"
+          left="12%"
+        >
+          <PostForm />
         </UserWindow>
       )}
       <div

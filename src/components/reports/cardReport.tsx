@@ -49,7 +49,7 @@ interface Driver {
   addInfo: string;
 }
 
-interface Customer {
+export interface Customer {
   id: number;
   value: string;
   extraPayments: number;

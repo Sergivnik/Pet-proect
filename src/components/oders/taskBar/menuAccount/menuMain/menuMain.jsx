@@ -51,6 +51,13 @@ export const MenuMain = (props) => {
             >
               Расходы
             </button>
+            <button
+              name="post"
+              className="odersDropMenuBtn"
+              onClick={handleClickBtnMenu}
+            >
+              Почта
+            </button>
           </div>
         )}
 
