@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { Customer } from "../reports/cardReport.tsx";
+import { TdDriver } from "../userTd/tdDriver.jsx";
+import { TdLoadingPoint } from "../userTd/tdLoadingPoint.jsx";
+import { TdUnoadingPoint } from "../userTd/tdUnloadingPoint.jsx";
 
 import "./postForm.sass";
 
@@ -94,7 +97,7 @@ export const PostForm = () => {
               if (checkBoxNoPay) {
                 if (order.customerPayment != "Ок") return order;
               } else {
-                if (order.customerPayment == "Ок") return order;
+                return order;
               }
             }
           }
@@ -193,19 +196,44 @@ export const PostForm = () => {
       </header>
       <main className="postFormMain">
         {showOrderList && (
-          <table>
-            <thead>
+          <table className="postFormTable">
+            <thead className="postFormThead">
               <tr>
-                <td>Дата</td>
+                <td className="postFormTdHead">Дата</td>
+                <td className="postFormTdHead">Водитель</td>
+                <td className="postFormTdHead">Заказчик</td>
+                <td className="postFormTdHead">Загрузка</td>
+                <td className="postFormTdHead">Разгрузка</td>
+                <td className="postFormTdHead">Стоимость рейса</td>
+                <td className="postFormTdHead">Статус оплаты</td>
+                <td className="postFormTdHead">Номер акта</td>
+                <td className="postFormTdHead">Номер трека</td>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="postFormTbody">
               {postOrderList.map((order: Order) => {
                 return (
                   <tr key={`order-${order._id}`}>
-                    <td>{new Date(order.date).toLocaleDateString()}</td>
-                    <td>{order.customerPayment}</td>
-                    <td>{order.accountNumber}</td>
+                    <td className="postFormTdBody">
+                      {new Date(order.date).toLocaleDateString()}
+                    </td>
+                    <TdDriver
+                      idDriver={order.idDriver}
+                      idTrackDriver={order.idTrackDriver}
+                    />
+                    <td className="postFormTdBody">{custometShort.value}</td>
+                    <TdLoadingPoint
+                      idLoadingPoint={order.idLoadingPoint}
+                      loadingInfo={order.loadingInfo}
+                    />
+                    <TdUnoadingPoint
+                      idUnloadingPoint={order.idUnloadingPoint}
+                      unLoadingInfo={order.unloadingInfo}
+                    />
+                    <td className="postFormTdBody">{order.customerPrice}</td>
+                    <td className="postFormTdBody">{order.customerPayment}</td>
+                    <td className="postFormTdBody">{order.accountNumber}</td>
+                    <td className="postFormTdBody">{order.postTracker}</td>
                   </tr>
                 );
               })}
