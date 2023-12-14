@@ -76,6 +76,7 @@ export const PostForm = () => {
     null
   );
   const [postOrderList, setPostOrderList] = useState<Order[]>(orderList);
+  const [choisenList, setCoisenList] = useState<number[]>([]);
 
   useEffect(() => {
     let date: Date = new Date(dateBegin);
@@ -137,6 +138,23 @@ export const PostForm = () => {
     setCheckBoxPost(!checkBoxPost);
     setShowOrderList(true);
   };
+  const handleClickOrder = (id) => {
+    let arr = [...choisenList];
+    if (!arr.includes(id)) {
+      arr.push(id);
+    } else {
+      let index = arr.findIndex((elem) => elem == id);
+      arr.splice(index, 1);
+    }
+    setCoisenList(arr);
+  };
+  const isChoisenStyle = (id): string => {
+    if (choisenList.includes(id)) {
+      return "choisenTr";
+    } else {
+      return "";
+    }
+  };
 
   return (
     <div className="postFormWrapper">
@@ -195,51 +213,63 @@ export const PostForm = () => {
         </div>
       </header>
       <main className="postFormMain">
-        {showOrderList && (
-          <table className="postFormTable">
-            <thead className="postFormThead">
-              <tr>
-                <td className="postFormTdHead">Дата</td>
-                <td className="postFormTdHead">Водитель</td>
-                <td className="postFormTdHead">Заказчик</td>
-                <td className="postFormTdHead">Загрузка</td>
-                <td className="postFormTdHead">Разгрузка</td>
-                <td className="postFormTdHead">Стоимость рейса</td>
-                <td className="postFormTdHead">Статус оплаты</td>
-                <td className="postFormTdHead">Номер акта</td>
-                <td className="postFormTdHead">Номер трека</td>
-              </tr>
-            </thead>
-            <tbody className="postFormTbody">
-              {postOrderList.map((order: Order) => {
-                return (
-                  <tr key={`order-${order._id}`}>
-                    <td className="postFormTdBody">
-                      {new Date(order.date).toLocaleDateString()}
-                    </td>
-                    <TdDriver
-                      idDriver={order.idDriver}
-                      idTrackDriver={order.idTrackDriver}
-                    />
-                    <td className="postFormTdBody">{custometShort.value}</td>
-                    <TdLoadingPoint
-                      idLoadingPoint={order.idLoadingPoint}
-                      loadingInfo={order.loadingInfo}
-                    />
-                    <TdUnoadingPoint
-                      idUnloadingPoint={order.idUnloadingPoint}
-                      unLoadingInfo={order.unloadingInfo}
-                    />
-                    <td className="postFormTdBody">{order.customerPrice}</td>
-                    <td className="postFormTdBody">{order.customerPayment}</td>
-                    <td className="postFormTdBody">{order.accountNumber}</td>
-                    <td className="postFormTdBody">{order.postTracker}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        )}
+        <div className="postFormInputTrackWrapper"></div>
+        <div className="postFormTableWrapper">
+          {showOrderList && (
+            <table className="postFormTable">
+              <thead className="postFormThead">
+                <tr>
+                  <td className="postFormTdHead">Дата</td>
+                  <td className="postFormTdHead">Водитель</td>
+                  <td className="postFormTdHead">Заказчик</td>
+                  <td className="postFormTdHead">Загрузка</td>
+                  <td className="postFormTdHead">Разгрузка</td>
+                  <td className="postFormTdHead">Стоимость рейса</td>
+                  <td className="postFormTdHead">Статус оплаты</td>
+                  <td className="postFormTdHead">Номер акта</td>
+                  <td className="postFormTdHead">Номер трека</td>
+                </tr>
+              </thead>
+              <tbody className="postFormTbody">
+                {postOrderList.map((order: Order) => {
+                  let id: number = order._id;
+                  return (
+                    <tr
+                      key={`order-${id}`}
+                      className={isChoisenStyle(id)}
+                      onClick={() => {
+                        handleClickOrder(id);
+                      }}
+                    >
+                      <td className="postFormTdBody">
+                        {new Date(order.date).toLocaleDateString()}
+                      </td>
+                      <TdDriver
+                        idDriver={order.idDriver}
+                        idTrackDriver={order.idTrackDriver}
+                      />
+                      <td className="postFormTdBody">{custometShort.value}</td>
+                      <TdLoadingPoint
+                        idLoadingPoint={order.idLoadingPoint}
+                        loadingInfo={order.loadingInfo}
+                      />
+                      <TdUnoadingPoint
+                        idUnloadingPoint={order.idUnloadingPoint}
+                        unLoadingInfo={order.unloadingInfo}
+                      />
+                      <td className="postFormTdBody">{order.customerPrice}</td>
+                      <td className="postFormTdBody">
+                        {order.customerPayment}
+                      </td>
+                      <td className="postFormTdBody">{order.accountNumber}</td>
+                      <td className="postFormTdBody">{order.postTracker}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
       </main>
     </div>
   );
