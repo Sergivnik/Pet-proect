@@ -76,7 +76,10 @@ export const PostForm = () => {
     null
   );
   const [postOrderList, setPostOrderList] = useState<Order[]>(orderList);
-  const [choisenList, setCoisenList] = useState<number[]>([]);
+  const [choisenList, setChoisenList] = useState<number[]>([]);
+  const [accountList, setAccountList] = useState<number[]>([]);
+  const [postTrackNumber, setPostTrackNumber] = useState<string>("");
+  const [showInputTrack, setShowInputTrack] = useState<boolean>(true);
 
   useEffect(() => {
     let date: Date = new Date(dateBegin);
@@ -138,21 +141,47 @@ export const PostForm = () => {
     setCheckBoxPost(!checkBoxPost);
     setShowOrderList(true);
   };
-  const handleClickOrder = (id) => {
-    let arr = [...choisenList];
-    if (!arr.includes(id)) {
-      arr.push(id);
+  const handleClickOrder = (id, accountNumber) => {
+    let arrId = [...choisenList];
+    let arrAccount = [...accountList];
+    if (!arrId.includes(id)) {
+      arrId.push(id);
+      arrAccount.push(accountNumber);
     } else {
-      let index = arr.findIndex((elem) => elem == id);
-      arr.splice(index, 1);
+      let index = arrId.findIndex((elem) => elem == id);
+      arrId.splice(index, 1);
+      arrAccount.splice(index, 1);
     }
-    setCoisenList(arr);
+    setChoisenList(arrId);
+    setAccountList(arrAccount);
   };
   const isChoisenStyle = (id): string => {
     if (choisenList.includes(id)) {
       return "choisenTr";
     } else {
       return "";
+    }
+  };
+  const makeStingFromList = (list: number[]) => {
+    let text: string = "";
+    list.forEach((elem) => {
+      text = `${text},  акт № ${elem}`;
+    });
+    return text.slice(1);
+  };
+  const handleGetPostTrack = (e) => {
+    setPostTrackNumber(e.target.value);
+  };
+  const handleTrackInputBlur = () => {
+    setShowInputTrack(false);
+  };
+  const handleDblClickTrackInput = (e) => {
+    e.preventDefault();
+    setShowInputTrack(true);
+  };
+  const handleClickBtnTrackNumber = () => {
+    if (choisenList.length > 0 && postTrackNumber != "") {
+      alert(`${postTrackNumber} и ${makeStingFromList(choisenList)}`);
     }
   };
 
@@ -213,7 +242,32 @@ export const PostForm = () => {
         </div>
       </header>
       <main className="postFormMain">
-        <div className="postFormInputTrackWrapper"></div>
+        <div className="postFormInputTrackWrapper">
+          <div
+            className="trackNumberWrapper"
+            onDoubleClick={handleDblClickTrackInput}
+          >
+            <span className="trackNumberSpan">Номер трека</span>
+            {showInputTrack ? (
+              <input
+                type="text"
+                value={postTrackNumber}
+                onChange={handleGetPostTrack}
+                onBlur={handleTrackInputBlur}
+              />
+            ) : (
+              <span>{postTrackNumber}</span>
+            )}
+          </div>
+          <span className="spanAccountList">
+            Список актов: {makeStingFromList(accountList)}
+          </span>
+          <div className="trackBtnWrapper">
+            <button onClick={handleClickBtnTrackNumber}>
+              Добавить трек к заказам
+            </button>
+          </div>
+        </div>
         <div className="postFormTableWrapper">
           {showOrderList && (
             <table className="postFormTable">
@@ -238,7 +292,7 @@ export const PostForm = () => {
                       key={`order-${id}`}
                       className={isChoisenStyle(id)}
                       onClick={() => {
-                        handleClickOrder(id);
+                        handleClickOrder(id, order.accountNumber);
                       }}
                     >
                       <td className="postFormTdBody">
