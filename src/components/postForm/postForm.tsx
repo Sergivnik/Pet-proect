@@ -5,6 +5,7 @@ import { Customer } from "../reports/cardReport.tsx";
 import { TdDriver } from "../userTd/tdDriver.jsx";
 import { TdLoadingPoint } from "../userTd/tdLoadingPoint.jsx";
 import { TdUnoadingPoint } from "../userTd/tdUnloadingPoint.jsx";
+import { addPostTrack } from "../../actions/postAction.js";
 
 import "./postForm.sass";
 
@@ -56,6 +57,8 @@ export interface Order {
 }
 
 export const PostForm = () => {
+  const dispatch: any = useDispatch();
+
   let now: Date = new Date();
   let year: number = now.getFullYear();
   let dateString: string = `${year}-01-01`;
@@ -182,6 +185,12 @@ export const PostForm = () => {
   const handleClickBtnTrackNumber = () => {
     if (choisenList.length > 0 && postTrackNumber != "") {
       alert(`${postTrackNumber} и ${makeStingFromList(choisenList)}`);
+      dispatch(
+        addPostTrack({
+          postTrackNumber: postTrackNumber,
+          orderList: choisenList,
+        })
+      );
     }
   };
 
