@@ -68,6 +68,7 @@ export const PostForm = () => {
   const orderList: Order[] = useSelector(
     (state: any) => state.oderReducer.originOdersList
   );
+  const status: any = useSelector((state: any) => state.oderReducer.request);
 
   const [showChoiseList, setShowChoiseList] = useState<boolean>(true);
   const [showChoiseDate, setShowChoiseDate] = useState<boolean>(true);
@@ -184,7 +185,6 @@ export const PostForm = () => {
   };
   const handleClickBtnTrackNumber = () => {
     if (choisenList.length > 0 && postTrackNumber != "") {
-      alert(`${postTrackNumber} и ${makeStingFromList(choisenList)}`);
       dispatch(
         addPostTrack({
           postTrackNumber: postTrackNumber,
@@ -334,6 +334,9 @@ export const PostForm = () => {
           )}
         </div>
       </main>
+      {status.status == "REQUEST" && (
+        <div className="requestStatus">REQUEST</div>
+      )}
     </div>
   );
 };

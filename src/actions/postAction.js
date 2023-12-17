@@ -17,7 +17,7 @@ export const addPostTrack = (data) => {
       })
       .catch((e) => {
         console.log(e, res.data);
-        dispatch(addPostTrackFailure());
+        dispatch(addPostTrackFailure(res.data));
       });
   };
 };
@@ -28,6 +28,7 @@ export const addPostTrackSuccess = (data) => ({
   type: ADD_POST_TRACK_SUCCESS,
   data,
 });
-export const addPostTrackFailure = () => ({
+export const addPostTrackFailure = (data) => ({
   type: ADD_POST_TRACK_FAILURE,
+  data,
 });

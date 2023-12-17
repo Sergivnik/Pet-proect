@@ -84,6 +84,11 @@ import {
   MAKE_CARD_PAYMENT_FAILURE,
   MAKE_CARD_PAYMENT_SUCCESS,
 } from "../actions/cardAction.js";
+import {
+  ADD_POST_TRACK_SUCCESS,
+  ADD_POST_TRACK_REQUEST,
+  ADD_POST_TRACK_FAILURE,
+} from "../actions/postAction.js";
 
 export const oderReducer = (store = initialStore, action) => {
   switch (action.type) {
@@ -1244,6 +1249,22 @@ export const oderReducer = (store = initialStore, action) => {
         contractorsPayments: contractorsPayments,
         driverDebtList: driverDebtList,
       };
+    }
+    case ADD_POST_TRACK_SUCCESS: {
+      let listOfOders = action.data.orderList;
+      let newOrderList = [...store.originOdersList];
+      listOfOders.forEach((id) => {
+        let index = newOrderList.findIndex((order) => order._id == id);
+        newOrderList[index].postTracker = action.data.postTrackNumber;
+      });
+      return { ...store, odersList: newOrderList, request: {} };
+    }
+    case ADD_POST_TRACK_REQUEST: {
+      return { ...store, request: { status: "REQUEST" } };
+    }
+    case ADD_POST_TRACK_FAILURE: {
+      alert(action.data.error);
+      return { ...store, request: {} };
     }
 
     default:

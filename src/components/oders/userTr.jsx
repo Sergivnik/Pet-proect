@@ -122,6 +122,7 @@ export const UserTr = (props) => {
             customerPayment={props.elem.customerPayment}
             dateOfPromise={props.elem.dateOfPromise}
             currentTR={props.trId}
+            postTrack={props.elem.postTracker}
             edit={true}
           />
           <TdDriverPayment

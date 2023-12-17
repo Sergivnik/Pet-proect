@@ -69,7 +69,7 @@ export const TdCustomerPayment = (props) => {
   };
   const handleChangeDate = (e) => {
     setCurrentId(e.currentTarget.parentElement.parentElement.id);
-    console.log("Change Date:",props.currentTR);
+    console.log("Change Date:", props.currentTR);
     e.stopPropagation();
     setGetDate(true);
   };
@@ -120,9 +120,20 @@ export const TdCustomerPayment = (props) => {
       )}
       {showDetails && (
         <div className="oderTdTooltip" onDoubleClick={handleChangeDate}>
-          {props.customerPayment == "Мыло"
-            ? dateTimeLocal(props.dateOfPromise)
-            : dateLocal(props.dateOfPromise)}
+          <span className="spanTdPaymentToolTip">
+            {props.customerPayment == "Мыло"
+              ? dateTimeLocal(props.dateOfPromise)
+              : dateLocal(props.dateOfPromise)}
+          </span>
+          {props.postTrack && (
+            <a
+              className="aToolTip"
+              target="blank"
+              href={`https://www.pochta.ru/tracking?barcode=${props.postTrack}`}
+            >
+              {props.postTrack}
+            </a>
+          )}
         </div>
       )}
       {getDate && (
