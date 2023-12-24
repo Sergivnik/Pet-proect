@@ -21,6 +21,9 @@ export const GET_PDF_WITHOUT_STAMP_FAILURE = "GET_PDF_WITHOUT_STAMP_FAILURE";
 export const CREATE_APP_SUCCESS = "CREATE_APP_SUCCESS";
 export const CREATE_APP_FAILURE = "CREATE_APP_FAILURE";
 export const CREATE_APP_REQUEST = "CREATE_APP_REQUEST";
+export const CREATE_SOMEDOC_NEW_SUCCESS = "CREATE_SOMEDOC_NEW_SUCCESS";
+export const CREATE_SOMEDOC_NEW_FAILURE = "CREATE_SOMEDOC_NEW_FAILURE";
+export const CREATE_SOMEDOC_NEW_REQUEST = "CREATE_SOMEDOC_NEW_REQUEST";
 
 export const getPdfSuccess = (dataServer) => ({
   type: GET_PDF_SUCCESS,
@@ -131,19 +134,19 @@ export const createNewInvoice = (
   };
 };
 
-export const addConsignmentNoteSuccess = () => ({
+export const addSomePdfDocSuccess = () => ({
   type: ADD_CONSIGNMENT_NOTE_SUCCESS,
 });
-export const addConsignmentNoteFailure = () => ({
+export const addSomePdfDocFailure = () => ({
   type: ADD_CONSIGNMENT_NOTE_FAILURE,
 });
-export const addConsignmentNote = (id, typeDoc, file) => {
+export const addSomePdfDoc = (id, typeDoc, file) => {
   var formData = new FormData();
   formData.set("fileData", file, "fileData");
   return (dispatch) => {
     axios
       .post(
-        DOMENNAME + "/API/addConsignmentNote" + "/" + id + "/" + typeDoc,
+        DOMENNAME + "/API/addSomePdfDoc" + "/" + id + "/" + typeDoc,
         formData,
         {
           headers: {
@@ -153,11 +156,11 @@ export const addConsignmentNote = (id, typeDoc, file) => {
       )
       .then((res) => {
         if (typeDoc == "ttn") dispatch(editOder(id, "document", 1));
-        return dispatch(addConsignmentNoteSuccess());
+        return dispatch(addSomePdfDocSuccess());
       })
       .catch((e) => {
         console.log(e.message);
-        dispatch(addConsignmentNoteFailure());
+        dispatch(addSomePdfDocFailure());
       });
   };
 };
@@ -250,6 +253,28 @@ export const createApp = (docHtml, id, year, customer, appNumber) => {
       })
       .catch((res) => {
         return dispatch(createAppFailure());
+      });
+  };
+};
+export const addSomeDocNew = (id, typeDoc, file) => {
+  let formData = new FormData();
+  formData.append("file", file);
+  formData.append("id", id);
+  formData.append("typeDoc", typeDoc);
+  return (dispatch) => {
+    axios
+      .post(DOMENNAME + "/API/addSomePdfDocNew", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (typeDoc == "ttn") dispatch(editOder(id, "document", 1));
+        return dispatch(addSomePdfDocSuccess());
+      })
+      .catch((e) => {
+        console.log(e);
+        dispatch(addSomePdfDocFailure());
       });
   };
 };

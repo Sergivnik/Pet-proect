@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addConsignmentNote } from "../../actions/documentAction";
+import { addSomeDocNew, addSomePdfDoc } from "../../actions/documentAction";
 
 import "./userTrNew.sass";
 
@@ -37,7 +37,7 @@ export const FormAddDoc = (props) => {
     props.handleClickClose(false);
   };
   const handleClickSave = () => {
-    dispatch(addConsignmentNote(props.currentId, props.typeDoc, pdfFile));
+    dispatch(addSomeDocNew(props.currentId, props.typeDoc, pdfFile));
     props.handleClickClose(props.typeDoc == "app");
   };
 

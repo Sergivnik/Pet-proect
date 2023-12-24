@@ -117,7 +117,7 @@ module.exports.taskGetPdf = (req, res) => {
   if (
     req.params.typeDoc != "driver" &&
     req.params.typeDoc != "track" &&
-    req.params.typeDoc != "ownerDoc" 
+    req.params.typeDoc != "ownerDoc"
   ) {
     tasks.getDataById(req.params.id, "oderslist", (data) => {
       if (data.error) {
@@ -704,7 +704,7 @@ module.exports.taskCreateApp = (req, res) => {
   );
 };
 
-module.exports.taskAddConsignmentNote = (req, res) => {
+module.exports.taskAddSomePdfDoc = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 

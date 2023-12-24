@@ -65,6 +65,19 @@ var TaskDocs = {
       callBack({ error: err });
     }
   },
+  getDataFromTableByIdAsyhc: async (id,table)=>{
+    const db = mysql.createPool(options.sql).promise();
+    let dataFromTable = {};
+    try {
+      const [data] = await db.query(`SELECT * FROM ${table} WHERE _id=${id}`);
+      dataFromTable = data[0];
+      return dataFromTable;
+    } catch (err) {
+      return { error: err };
+    } finally {
+      db.end();
+    }
+  }
 };
 
 module.exports = TaskDocs;

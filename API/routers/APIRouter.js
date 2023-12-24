@@ -9,14 +9,15 @@ const cardAPI = require("../controlers/cardAPI.js");
 const postAPI = require("../controlers/postAPI.js");
 
 const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./API/Bills/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, "tempDoc.pdf");
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./API/Bills/");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, "tempDoc.pdf");
+//   },
+// });
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.get("/data", API.taskGet);
@@ -49,11 +50,12 @@ router.post("/createDoc", API.taskCreateDoc);
 router.post("/createDocWithoutStamp", API.taskCreateDocWithoutStamp);
 router.post("/createApp", API.taskCreateApp);
 router.post("/addContract", docAPI.taskCreateContract);
-router.post(
-  "/addConsignmentNote/:id/:typeDoc",
-  upload.single("fileData"),
-  API.taskAddConsignmentNote
-);
+// router.post(
+//   "/addSomePdfDoc/:id/:typeDoc",
+//   upload.single("fileData"),
+//   API.taskAddSomePdfDoc
+// );
+router.post("/addSomePdfDocNew", upload.single('file'), docAPI.taskCreatePdfDocNew);
 router.post("/getReportData", API.taskGetReport);
 router.post("/saveReportPdf", API.taskSaveReport);
 router.post("/editYearConst", API.taskEditYearConst);
