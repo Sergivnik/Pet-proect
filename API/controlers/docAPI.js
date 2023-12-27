@@ -53,6 +53,7 @@ module.exports.taskCreatePdfDocNew = async (req, res) => {
   const typeDoc = req.body.typeDoc;
   const id = req.body.id;
   const file = req.file;
+  const permission = req.body.permission;
   let fileName = "";
   let filePath = "";
 
@@ -133,17 +134,41 @@ module.exports.taskCreatePdfDocNew = async (req, res) => {
       // Создаем каталог, если его нет
       await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
     }
-    // Записываем данные файла на сервер
-    fs.writeFile(filePath, file.buffer, (err) => {
-      if (err) {
-        console.error("Error saving file:", err);
-        res.status(500).send("Error saving file");
-      } else {
-        console.log("File saved:", fileName);
-        // Отправляем успешный ответ клиенту
-        res.status(200).send("File saved successfully");
+    try {
+      const stats = await fs.promises.stat(filePath);
+      if (stats.isFile()) {
+        // Файл существует
+        console.log("File exists:", filePath);
+
+        if (permission == "true") {
+          fs.writeFile(filePath, file.buffer, (err) => {
+            if (err) {
+              console.error("Error saving file:", err);
+              res.status(500).send("Error saving file");
+            } else {
+              console.log("File saved:", fileName);
+              // Отправляем успешный ответ клиенту
+              res.status(200).send("File saved successfully");
+            }
+          });
+        } else {
+          console.log("File didn't saved. Need permission");
+          res.status(200).send("File exist");
+        }
       }
-    });
+    } catch {
+      // Записываем данные файла на сервер
+      fs.writeFile(filePath, file.buffer, (err) => {
+        if (err) {
+          console.error("Error saving file:", err);
+          res.status(500).send("Error saving file");
+        } else {
+          console.log("File saved:", fileName);
+          // Отправляем успешный ответ клиенту
+          res.status(200).send("File saved successfully");
+        }
+      });
+    }
   } catch (error) {
     console.error("Error saving file:", error);
     res.status(500).send("Error saving file");

@@ -261,6 +261,7 @@ export const addSomeDocNew = (id, typeDoc, file) => {
   formData.append("file", file);
   formData.append("id", id);
   formData.append("typeDoc", typeDoc);
+  formData.append("permission", false);
   return (dispatch) => {
     axios
       .post(DOMENNAME + "/API/addSomePdfDocNew", formData, {
@@ -269,8 +270,29 @@ export const addSomeDocNew = (id, typeDoc, file) => {
         },
       })
       .then((res) => {
-        if (typeDoc == "ttn") dispatch(editOder(id, "document", 1));
-        return dispatch(addSomePdfDocSuccess());
+        if (res.data == "File exist") {
+          let permission = confirm("Файл существует. Заменить?");
+          if (permission) {
+            formData.set("permission", true);
+            axios
+              .post(DOMENNAME + "/API/addSomePdfDocNew", formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              })
+              .then((res) => {
+                if (typeDoc == "ttn") dispatch(editOder(id, "document", 1));
+                return dispatch(addSomePdfDocSuccess());
+              })
+              .catch((e) => {
+                console.log(e);
+                dispatch(addSomePdfDocFailure());
+              });
+          }
+        } else {
+          if (typeDoc == "ttn") dispatch(editOder(id, "document", 1));
+          return dispatch(addSomePdfDocSuccess());
+        }
       })
       .catch((e) => {
         console.log(e);
