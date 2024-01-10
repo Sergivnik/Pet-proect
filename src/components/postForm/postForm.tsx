@@ -121,6 +121,8 @@ export const PostForm = () => {
     setShowChoiseList(false);
     setCustomerShort({ _id: data._id, value: data.value });
     setShowOrderList(true);
+    setChoisenList([]);
+    setAccountList([]);
   };
   const handleChoiseDblClick = (e) => {
     e.preventDefault();
@@ -191,6 +193,8 @@ export const PostForm = () => {
           orderList: choisenList,
         })
       );
+      setChoisenList([]);
+      setAccountList([]);
     }
   };
 
