@@ -185,6 +185,30 @@ let TasksDada = {
           callback({ error: err });
         }
         break;
+      case "storelist":
+        try {
+          let [data] = await db.query(
+            `SELECT * FROM customerorders where JSON_CONTAINS(loadingStoreId, '${id}');`
+          );
+          check = data.length;
+          [data] = await db.query(
+            `SELECT * FROM customerorders where JSON_CONTAINS(unloadingStoreId, '${id}');`
+          );
+          check = check + data.length;
+          if (check == 0) {
+            await db.query(`DELETE FROM storelist WHERE _id=${id}`);
+            callback("success!");
+          } else {
+            callback({
+              error: "Данный склад нельхя удалить",
+              NoErr: "userErr1",
+            });
+          }
+        } catch (err) {
+          console.log(err);
+          callback({ error: err });
+        }
+        break;
     }
     db.end();
   },

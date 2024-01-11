@@ -1020,6 +1020,13 @@ export const oderReducer = (store = initialStore, action) => {
           );
           arrManagers.splice(indexManager, 1);
           return { ...store, clientmanager: arrManagers };
+        case "storelist":
+          let [...arrStories] = store.storelist;
+          let indexStore = arrStories.findIndex(
+            (elem) => elem._id == action.id
+          );
+          arrStories.splice(indexStore, 1);
+          return { ...store, storelist: arrStories };
         default:
           break;
       }

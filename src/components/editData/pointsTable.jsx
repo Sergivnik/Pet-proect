@@ -5,6 +5,7 @@ import { addData, editData, delData } from "../../actions/editDataAction.js";
 
 import "./editData.sass";
 import { SpanWithText } from "../myLib/mySpan/spanWithText.jsx";
+import { InputText } from "../myLib/inputText.jsx";
 
 export const PointsTable = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ export const PointsTable = () => {
   const [storeListFiltered, setStoreListFiltered] = useState(storelist);
   const [city, setCity] = useState("");
   const [currentStore, setCurrentStore] = useState(null);
+  const [showAddStoreTr, setShowAddStoreTr] = useState(false);
+  const [newStore, setNewStore] = useState({});
 
   const setValue = (data) => {
     let arr = citieslistFull.filter((elem) => elem._id == data._id);
@@ -31,6 +34,7 @@ export const PointsTable = () => {
     setShowStoreList(true);
     let arrStore = storelist.filter((elem) => elem.idCity == data._id);
     setStoreListFiltered(arrStore);
+    setNewStore({ idCity: data._id, address: null, value: null });
   };
   const handleClickTr = (id) => {
     setChosenId(id);
@@ -114,12 +118,35 @@ export const PointsTable = () => {
     setShowStoreList(false);
   };
   const handleClickStore = (elem) => {
+    console.log(elem);
     setCurrentStore(elem);
   };
   const getEditText = (text, name) => {
     let obj = { ...currentStore };
     obj[name] = text;
     dispatch(editData(obj, "storelist"));
+  };
+  const styleStoreTr = (elem) => {
+    if (currentStore) {
+      if (elem._id == currentStore._id) {
+        return "storeTrChoisen";
+      } else {
+        return "";
+      }
+    }
+  };
+  const handleClickAddStore = () => {
+    setCurrentStore(null);
+    setShowAddStoreTr(!showAddStoreTr);
+    if (showAddStoreTr) {
+      dispatch(addData(newStore, "storelist"));
+    }
+  };
+  const handleChangeStore = (name, text) => {
+    let objStore = { ...newStore };
+    if (name == "storeName") objStore.value = text;
+    if (name == "storeAddress") objStore.address = text;
+    setNewStore(objStore);
   };
 
   useEffect(() => {
@@ -130,6 +157,12 @@ export const PointsTable = () => {
       setCitieslist(citieslistFull);
     }
   }, [citieslistFull]);
+  useEffect(() => {
+    if (chosenPoint != null) {
+      let arrStore = storelist.filter((elem) => elem.idCity == chosenPoint);
+      setStoreListFiltered(arrStore);
+    }
+  }, [storelist]);
   useEffect(() => {
     if (currentElement) currentElement.firstChild.focus();
   }, [currentElement]);
@@ -144,6 +177,17 @@ export const PointsTable = () => {
       input.focus();
     }
   }, [colNumber]);
+  useEffect(() => {
+    const onKeypress = (e) => {
+      if (e.code == "Delete") {
+        dispatch(delData(currentStore._id, "storelist"));
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, [currentStore]);
   return (
     <>
       <h2 className="pointsH2">ТАблица пунктов погрузки/выгрузки</h2>
@@ -251,45 +295,80 @@ export const PointsTable = () => {
           </tbody>
         </table>
         {showStoreList && (
-          <table className="storeTable">
-            <thead>
-              <tr>
-                <td className="storeTd">Склад</td>
-                <td className="storeTd">Город</td>
-                <td className="storeTd">Адрес</td>
-              </tr>
-            </thead>
-            <tbody>
-              {storeListFiltered.map((elem) => {
-                return (
-                  <tr
-                    key={`store${elem._id}`}
-                    onClick={() => handleClickStore(elem)}
-                  >
+          <div>
+            <table className="storeTable">
+              <thead>
+                <tr>
+                  <td className="storeTd">Склад</td>
+                  <td className="storeTd">Город</td>
+                  <td className="storeTd">Адрес</td>
+                </tr>
+              </thead>
+              <tbody>
+                {storeListFiltered.map((elem) => {
+                  return (
+                    <tr
+                      key={`store${elem._id}`}
+                      onClick={() => handleClickStore(elem)}
+                      className={styleStoreTr(elem)}
+                    >
+                      <td className="storeTd">
+                        <div className="containerSpan">
+                          <SpanWithText
+                            name="value"
+                            text={elem.value}
+                            getText={getEditText}
+                          />
+                        </div>
+                      </td>
+                      <td className="storeTd">{city}</td>
+                      <td className="storeTd">
+                        <div className="containerSpan">
+                          <SpanWithText
+                            name="address"
+                            text={elem.address}
+                            getText={getEditText}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+                {showAddStoreTr && (
+                  <tr className="storeAddTr">
                     <td className="storeTd">
-                      <div className="containerSpan">
-                        <SpanWithText
-                          name="value"
-                          text={elem.value}
-                          getText={getEditText}
+                      {newStore.value == null ? (
+                        <InputText
+                          name="storeName"
+                          typeInput="text"
+                          text={newStore.value ? newStore.value : ""}
+                          getText={handleChangeStore}
                         />
-                      </div>
+                      ) : (
+                        newStore.value
+                      )}
                     </td>
                     <td className="storeTd">{city}</td>
                     <td className="storeTd">
-                      <div className="containerSpan">
-                        <SpanWithText
-                          name="address"
-                          text={elem.address}
-                          getText={getEditText}
+                      {newStore.address == null ? (
+                        <InputText
+                          name="storeAddress"
+                          typeInput="text"
+                          text={newStore.address ? newStore.address : ""}
+                          getText={handleChangeStore}
                         />
-                      </div>
+                      ) : (
+                        newStore.address
+                      )}
                     </td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+            <button className="storeFormAddBtn" onClick={handleClickAddStore}>
+              {showAddStoreTr ? "Сохранить склад" : "Добавить склад"}
+            </button>
+          </div>
         )}
       </div>
     </>

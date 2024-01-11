@@ -157,7 +157,7 @@ export const Oders = () => {
         e.preventDefault();
         setShowTasks(true);
       }
-      if (e.code == "Delete") {
+      if (e.code == "Delete" && currentElem) {
         if (currentElem.completed == 0) {
           console.log("I am listening Delete", trId, currentElem);
           handleClickDelete();

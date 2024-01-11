@@ -17,9 +17,9 @@ export const InputText = (props) => {
     let input = document.querySelector(".inputText");
     input.focus();
   }, []);
-  useEffect(()=>{
-    setText(props.text)
-  },[props.text])
+  useEffect(() => {
+    setText(props.text);
+  }, [props.text]);
   return (
     <React.Fragment>
       <input
