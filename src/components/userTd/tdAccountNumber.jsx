@@ -204,7 +204,8 @@ export const TdAccountNumber = (props) => {
         setClassTD("odersTd");
       }
     }
-    let check = appList.find((app) => app.orderId == props.elem._id);
+    let id = props.elem ? props.elem._id : null;
+    let check = appList.find((app) => app.orderId == id);
     console.log(check);
     if (check) {
       setIsAppExist(true);
