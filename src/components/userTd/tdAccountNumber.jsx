@@ -204,15 +204,27 @@ export const TdAccountNumber = (props) => {
         setClassTD("odersTd");
       }
     }
-    let id = props.elem ? props.elem._id : null;
-    let check = appList.find((app) => app.orderId == id);
-    console.log(check);
-    if (check) {
-      setIsAppExist(true);
-    } else {
-      setIsAppExist(false);
-    }
+    // let id = props.elem ? props.elem._id : null;
+    // let check = appList.find((app) => app.orderId == id);
+    // console.log(check);
+    // if (check) {
+    //   setIsAppExist(true);
+    // } else {
+    //   setIsAppExist(false);
+    // }
   }, [props.currentTR]);
+  useEffect(() => {
+    if (showContextMenu) {
+      let id = props.elem ? props.elem._id : null;
+      let check = appList.find((app) => app.orderId == id);
+      console.log(check);
+      if (check) {
+        setIsAppExist(true);
+      } else {
+        setIsAppExist(false);
+      }
+    }
+  }, [showContextMenu]);
   useEffect(() => {
     const onKeypress = (e) => {
       if (e.code == "Escape") {
