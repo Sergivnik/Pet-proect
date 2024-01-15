@@ -42,22 +42,37 @@ export const AppFormExtra = (props) => {
   const handleSave = () => {
     console.log(props.id, year, customer);
     let htmlDoc = document.querySelector(".applicationForm");
-    if (props.isLogistApp) {
-      if (nameBtn == "Сохранить") {
-        dispatch(saveReportPdf(htmlDoc.innerHTML));
-        setIspressedSave(true);
-      }
-      if (nameBtn == "Печать") {
-        dispatch(getReportPdf());
+    if (props.orderId == undefined) {
+      if (props.isLogistApp) {
+        if (nameBtn == "Сохранить") {
+          dispatch(saveReportPdf(htmlDoc.innerHTML));
+          setIspressedSave(true);
+        }
+        if (nameBtn == "Печать") {
+          dispatch(getReportPdf());
+        }
+      } else {
+        dispatch(
+          createApp(
+            htmlDoc.innerHTML,
+            props.id,
+            year,
+            customer,
+            `${props.id} от ${dateLocal(appEditData.appDate)}`
+          )
+        );
       }
     } else {
+      const orderDate = new Date(props.order.date);
+      const year = orderDate.getFullYear();
+      const customer = findValueBy_Id(props.order.idCustomer, clientList).value;
       dispatch(
         createApp(
           htmlDoc.innerHTML,
-          props.id,
+          props.orderId,
           year,
           customer,
-          `${props.id} от ${dateLocal(appEditData.appDate)}`
+          `${props.orderId} от ${dateLocal(appEditData.appDate)}`
         )
       );
     }

@@ -7,12 +7,16 @@ import { FormAddEmailData } from "../userTrNew/fornAddEmailData.jsx";
 import { UserWindow } from "../userWindow/userWindow.jsx";
 import { AppFormExtra } from "../documents/appFormExtra.jsx";
 import { DocForm } from "../documents/docForm.jsx";
+import { CreateAppForm } from "../customerPart/cusstomerApp/createAppForm.tsx";
 
 export const TdAccountNumber = (props) => {
   const orderList = useSelector((state) => state.oderReducer.odersList);
+  const appList = useSelector((state) => state.customerReducer.customerOrders);
+
   const order = props.elem
     ? orderList.find((elem) => elem._id == props.elem._id)
     : null;
+
   const dispatch = useDispatch();
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
@@ -21,6 +25,7 @@ export const TdAccountNumber = (props) => {
   const [showInputFile, setShowInputFile] = useState(false);
   const [showEmailData, setShowEmailData] = useState(false);
   const [showAppForm, setShowAppForm] = useState(false);
+  const [showCreateAppForm, setShowCreateAppForm] = useState(false);
   const [currentTD, setCurrentTD] = useState(null);
   const [showContextEmail, setShowContextEmail] = useState(true);
   const [typeDoc, setTypeDoc] = useState(null);
@@ -28,6 +33,7 @@ export const TdAccountNumber = (props) => {
   const [top, setTop] = useState(0);
   const [classTD, setClassTD] = useState("odersTd");
   const [divBottomCoord, setDivBottomCoord] = useState(null);
+  const [isAppExist, setIsAppExist] = useState(false);
   const [showDocForm, setShowDocForm] = useState(false);
   const [printObj, setPrintObj] = useState({ number: null, odersListId: [] });
 
@@ -99,12 +105,20 @@ export const TdAccountNumber = (props) => {
       dispatch(getPdf(currentId, "app"));
       setShowContextMenu(false);
     } else {
+      // надо будет убрать потом
       let elem = e.currentTarget;
       if (elem) console.log(elem, elem.getBoundingClientRect());
       setTop(Math.round(elem.getBoundingClientRect().y - 200));
       setShowAppForm(true);
       setShowContextMenu(false);
     }
+  };
+  const handleClikCreateApp = (e) => {
+    let elem = e.currentTarget;
+    if (elem) console.log(elem, elem.getBoundingClientRect());
+    setTop(Math.round(elem.getBoundingClientRect().y - 100));
+    setShowContextMenu(false);
+    setShowCreateAppForm(true);
   };
   const handleCreateBill = () => {
     let i = orderList.length - 1;
@@ -141,6 +155,7 @@ export const TdAccountNumber = (props) => {
 
   const handleClickUserWindowClose = () => {
     setShowAppForm(false);
+    setShowCreateAppForm(false);
   };
 
   useEffect(() => {
@@ -189,6 +204,13 @@ export const TdAccountNumber = (props) => {
         setClassTD("odersTd");
       }
     }
+    let check = appList.find((app) => app.orderId == props.elem._id);
+    console.log(check);
+    if (check) {
+      setIsAppExist(true);
+    } else {
+      setIsAppExist(false);
+    }
   }, [props.currentTR]);
   useEffect(() => {
     const onKeypress = (e) => {
@@ -205,13 +227,14 @@ export const TdAccountNumber = (props) => {
     };
   }, [showEdit]);
   useEffect(() => {
-    if (order) {
-      if (order.applicationNumber) {
-        setAppBtn("Печать заявки");
-      } else {
-        setAppBtn("Создать заявку");
-      }
-    }
+    setAppBtn("Печать заявки");
+    // if (order) {
+    //   if (order.applicationNumber) {
+    //     setAppBtn("Печать заявки");
+    //   } else {
+    //     setAppBtn("Создать заявку");
+    //   }
+    // }
   }, [orderList]);
 
   return (
@@ -238,6 +261,9 @@ export const TdAccountNumber = (props) => {
           <p className="contextmenu" onClick={handleClikPrintApp}>
             {appBtn}
           </p>
+          <p className="contextmenu" onClick={handleClikCreateApp}>
+            {isAppExist ? "Изменить заявку" : "Создать заявку"}
+          </p>
           <p className="contextmenu" onClick={handleClickPrintTTN}>
             Печать ТТН
           </p>
@@ -261,7 +287,7 @@ export const TdAccountNumber = (props) => {
             className="contextmenu"
             onClick={(e) => handleClickAddDoc(e, "app")}
           >
-            Добавить Заявку
+            Добавить Заявку pdf
           </p>
           <hr className="contextMenuHr" />
           {showContextEmail && (
@@ -310,6 +336,19 @@ export const TdAccountNumber = (props) => {
           handleClickClose={handleClickCloseDoc}
           getNewNumber={getNewNumber}
         />
+      )}
+      {showCreateAppForm && (
+        <UserWindow
+          header="Создание заявки"
+          width={1200}
+          height={700}
+          left="-70vw"
+          top={`-${top}px`}
+          handleClickWindowClose={handleClickUserWindowClose}
+          windowId="createApplication"
+        >
+          <CreateAppForm order={order} />
+        </UserWindow>
       )}
     </td>
   );

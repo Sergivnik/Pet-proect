@@ -75,7 +75,7 @@ export const CustomerCreateApp = (props) => {
     }
   }, [props.dataCustomer]);
   useEffect(() => {
-    if (props.id) {
+    if (props.id && !props.order) {
       let appOrder = customerOrders.find((order) => order._id == props.id);
       setAppOrder(appOrder);
       setDataApp({
@@ -126,6 +126,34 @@ export const CustomerCreateApp = (props) => {
       });
     }
   }, [props.id]);
+  useEffect(() => {
+    if (props.order) {
+      let id = customerOrders[customerOrders.length - 1]._id;
+      let dataApp = {
+        dateOfApp: props.order.date,
+        idLoadingPoint: props.order.idLoadingPoint,
+        idUnloadingPoint: props.order.idUnloadingPoint,
+        loadingInfo: props.order.loadingInfo,
+        unloadingInfo: props.order.unloadingInfo,
+        dateOfLoading: [],
+        dateOfUnloading: [],
+        loadingStoreId: [],
+        unloadingStoreId: [],
+        customerPrice: props.order.customerPrice,
+        orderId: props.order._id,
+        customerId: props.order.idCustomer,
+        idManager: props.order.idManager,
+        applicationNumber: id,
+        idDriver: props.order.idDriver,
+        idTrackDriver: props.order.idTrackDriver,
+        idTrack: props.order.idTrack,
+        loadingText: [],
+        unloadingText: [],
+      };
+      setDataApp(dataApp);
+      setAppOrder(dataApp);
+    }
+  }, [props.order]);
   useEffect(() => {
     let arr = [];
     customerclients.forEach((customer) => {
@@ -302,7 +330,11 @@ export const CustomerCreateApp = (props) => {
     } else {
       dispatch(addCustomerApp(dataApp));
     }
-    props.closeWindow();
+    if (props.order) {
+      props.saveApp();
+    } else {
+      props.closeWindow();
+    }
   };
   return (
     <div className="contentDiv">

@@ -30,8 +30,20 @@ export const AppCustomerDriverPart = (props) => {
   const [manager, setManager] = useState(null);
 
   useEffect(() => {
-    if (props.id) {
-      let app = appList.find((app) => app._id == props.id);
+    if (props.id || props.order) {
+      let app;
+      if (props.id) {
+        app = appList.find((app) => app._id == props.id);
+      }
+      if (props.order) {
+        app = {
+          idDriver: props.order.idDriver,
+          idTrackDriver: props.order.idTrackDriver,
+          idTrack: props.order.idTrack,
+          customerId: props.order.idCustomer,
+          idManager: props.order.idManager,
+        };
+      }
       if (app.idDriver) {
         let driver = driverList.find((driver) => driver._id == app.idDriver);
         setDriver(driver);
@@ -64,7 +76,7 @@ export const AppCustomerDriverPart = (props) => {
         setShowInputManager(false);
       }
     }
-  }, [props.id]);
+  }, [props.id, props.order]);
   const setValue = (data) => {
     if (data.field == "driver") {
       let driver = driverList.find((driver) => driver._id == data._id);

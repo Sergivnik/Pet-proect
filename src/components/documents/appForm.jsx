@@ -113,6 +113,7 @@ export const AppForm = (props) => {
     let obj = { ...editData };
     obj.customerId = client._id;
     obj.managerId = order.idManager;
+    obj.goodsWeight = order.weight ? order.weight : 20;
     order.idLoadingPoint.forEach((idCity, index) => {
       const point = citiesList.find((elem) => elem._id == idCity).value;
       const storeId = order.loadingStoreId ? order.loadingStoreId[index] : null;
@@ -121,7 +122,7 @@ export const AppForm = (props) => {
       if (storeId == null) {
         if (order.loadingText) {
           if (order.loadingText[index] != "") {
-            addInfo = order.loadingText[index];
+            addInfo = order.loadingText[index] ? order.loadingText[index] : "";
             let text = order.loadingInfo[index] ? order.loadingInfo[index] : "";
             if (text) addInfo = addInfo + ", " + text;
           } else {
@@ -154,7 +155,9 @@ export const AppForm = (props) => {
       if (storeId == null) {
         if (order.unloadingText) {
           if (order.unloadingText[index] != "") {
-            addInfo = order.unloadingText[index];
+            addInfo = order.unloadingText[index]
+              ? order.unloadingText[index]
+              : "";
             let text = order.unloadingInfo[index]
               ? order.unloadingInfo[index]
               : "";
@@ -473,7 +476,6 @@ export const AppForm = (props) => {
               text={editData.goodsWeight}
               getText={getEditText}
             />
-            {/* <span>{editData.goodsWeight}</span> */}
           </div>
         </div>
       </div>
