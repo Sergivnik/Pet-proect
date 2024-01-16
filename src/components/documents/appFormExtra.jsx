@@ -72,7 +72,7 @@ export const AppFormExtra = (props) => {
           props.orderId,
           year,
           customer,
-          `${props.orderId} от ${dateLocal(appEditData.appDate)}`
+          `${props.id} от ${dateLocal(appEditData.appDate)}`
         )
       );
     }

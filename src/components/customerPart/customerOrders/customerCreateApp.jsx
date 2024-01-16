@@ -340,7 +340,7 @@ export const CustomerCreateApp = (props) => {
     <div className="contentDiv">
       <h2 className="createAppH3">
         {`Договор-заявка на превозку груза ${
-          appOrder.orderId ? `№ ${appOrder.orderId}` : ``
+          appOrder._id ? `№ ${appOrder._id}` : ``
         } от `}
         <SpanWithDate
           date={dataApp.dateOfApp}
