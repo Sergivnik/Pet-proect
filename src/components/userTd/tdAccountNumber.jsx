@@ -241,13 +241,6 @@ export const TdAccountNumber = (props) => {
   }, [showEdit]);
   useEffect(() => {
     setAppBtn("Печать заявки");
-    // if (order) {
-    //   if (order.applicationNumber) {
-    //     setAppBtn("Печать заявки");
-    //   } else {
-    //     setAppBtn("Создать заявку");
-    //   }
-    // }
   }, [orderList]);
 
   return (
@@ -265,20 +258,36 @@ export const TdAccountNumber = (props) => {
       )}
       {showContextMenu ? (
         <div tabIndex="0" className="divContext">
+        {props.accountNumber == null || props.accountNumber == "" ? (
+          <p className="contextmenu" onClick={handleCreateBill}>
+            Создать счет
+          </p>
+        ) : (
+          <p className="contextmenu" onClick={handleChangeBill}>
+            Изменить счет
+          </p>
+        )}
           <p className="contextmenu" onClick={handleClickPrint}>
-            Печать
+            Печать счета
           </p>
           <p className="contextmenu" onClick={handleClickPrintWithoutStamp}>
             Печать без штампа
           </p>
-          <p className="contextmenu" onClick={handleClikPrintApp}>
-            {appBtn}
+          <p className="contextmenu" onClick={handleDeleteBill}>
+            Удалить счет
           </p>
+          <hr className="contextMenuHr" />
           <p className="contextmenu" onClick={handleClikCreateApp}>
             {isAppExist ? "Изменить заявку" : "Создать заявку"}
           </p>
-          <p className="contextmenu" onClick={handleClickPrintTTN}>
-            Печать ТТН
+          <p className="contextmenu" onClick={handleClikPrintApp}>
+            {appBtn}{/*Печать заявки*/}
+          </p>
+          <p
+            className="contextmenu"
+            onClick={(e) => handleClickAddDoc(e, "app")}
+          >
+            Добавить Заявку pdf
           </p>
           <hr className="contextMenuHr" />
           <p
@@ -287,20 +296,8 @@ export const TdAccountNumber = (props) => {
           >
             Добавить ТТН
           </p>
-          {props.accountNumber == null || props.accountNumber == "" ? (
-            <p className="contextmenu" onClick={handleCreateBill}>
-              Создать счет
-            </p>
-          ) : (
-            <p className="contextmenu" onClick={handleChangeBill}>
-              Изменить счет
-            </p>
-          )}
-          <p
-            className="contextmenu"
-            onClick={(e) => handleClickAddDoc(e, "app")}
-          >
-            Добавить Заявку pdf
+          <p className="contextmenu" onClick={handleClickPrintTTN}>
+            Печать ТТН
           </p>
           <hr className="contextMenuHr" />
           {showContextEmail && (
@@ -308,10 +305,6 @@ export const TdAccountNumber = (props) => {
               Отправить Email
             </p>
           )}
-          <hr className="contextMenuHr" />
-          <p className="contextmenu" onClick={handleDeleteBill}>
-            Удалить счет
-          </p>
         </div>
       ) : null}
       {showInputFile ? (
