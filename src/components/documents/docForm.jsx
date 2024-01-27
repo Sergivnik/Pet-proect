@@ -46,6 +46,7 @@ export const DocForm = (props) => {
     contract: false,
     aplication: false,
     trackTrailer: false,
+    dateOfLoad: false,
     reason: false,
     wayBillNumber: "",
   });
@@ -201,6 +202,9 @@ export const DocForm = (props) => {
         objApp.date = !objApp.date;
         setAppData(objApp);
         break;
+      case "dateFromApp":
+        obj.dateOfLoad = !obj.dateOfLoad;
+        break;
       case "reason":
         obj.reason = !obj.reason;
         setAppData(objApp);
@@ -283,6 +287,13 @@ export const DocForm = (props) => {
           <input
             type="checkbox"
             name="trackTrailer"
+            checked={addData.waytrackTrailerBill}
+            onChange={handleClickCheckBox}
+          />
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;Дата погр.</span>
+          <input
+            type="checkbox"
+            name="dateFromApp"
             checked={addData.waytrackTrailerBill}
             onChange={handleClickCheckBox}
           />

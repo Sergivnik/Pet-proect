@@ -13,26 +13,52 @@ export const TrEditable = (props) => {
   const driver = useSelector((state) => state.oderReducer.trackdrivers);
   const track = useSelector((state) => state.oderReducer.tracklist);
   const customerContract = findValueBy_Id(elem.idCustomer, clientList).contract;
+  const customerOrders = useSelector(
+    (state) => state.customerReducer.customerOrders
+  );
 
   const [showInputRoute, setshowInputRoute] = useState(false);
   const [showInputNumber, setShowInputNumber] = useState(false);
+  const [routeText, setRouteText] = useState("");
 
-  let route = elem.idLoadingPoint.concat(elem.idUnloadingPoint);
-  let routeText = "";
-  route.forEach((element) => {
-    let city = findValueBy_Id(element, citiesList).value;
-    routeText = routeText + " - " + city;
-  });
-  routeText = routeText.slice(2);
+  useEffect(() => {
+    let application = {};
+    if (props.addData.dateOfLoad) {
+      application = customerOrders.find((app) => app.orderId == elem._id);
+    }
+    let route = elem.idLoadingPoint.concat(elem.idUnloadingPoint);
+    let numberOfLoading = elem.idLoadingPoint.length;
+    let routeText = "";
+    route.forEach((element, index) => {
+      let city = findValueBy_Id(element, citiesList).value;
+      routeText = routeText + " - " + city;
+      if (index < numberOfLoading && props.addData.dateOfLoad && application) {
+        let date = new Date(application.dateOfLoading[index]);
+        routeText = routeText + " погрузка " + dateLocal(date);
+      }
+      console.log(index, numberOfLoading, application);
+    });
+    routeText = routeText.slice(2);
+    setRouteText(routeText);
+  }, [props.addData]);
+
   let driverText = findValueBy_Id(elem.idTrackDriver, driver).name;
   if (driverText == undefined) driverText = "";
   const trackObj = findValueBy_Id(elem.idTrack, track);
+
   const [strOder, setStrOder] = useState({
     strRoute: `Перевозка по маршруту ${routeText} водитель ${driverText} ${
       trackObj.model ? " а/м " + trackObj.model : ""
     } ${trackObj.value ? trackObj.value : ""} `,
     numberOfShipments: 1,
   });
+  useEffect(() => {
+    let str = { ...strOder };
+    str.strRoute = `Перевозка по маршруту ${routeText} водитель ${driverText} ${
+      trackObj.model ? " а/м " + trackObj.model : ""
+    } ${trackObj.value ? trackObj.value : ""} `;
+    setStrOder(str);
+  }, [routeText]);
 
   const handleDblClick = (e) => {
     console.log(e.currentTarget.cellIndex);
