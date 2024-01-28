@@ -27,16 +27,24 @@ export const InvoiceForm = (props) => {
   const [showInput, setShowInput] = useState(false);
 
   const customer = findValueBy_Id(oders[0].idCustomer, clientList);
-  let sumOders = oders.reduce(
-    (sum, elem) => sum + Number(elem.customerPrice),
-    0
-  );
-  if (sumOders - Math.floor(sumOders) == 0) {
-    sumOders = sumOders + ".00";
-  } else {
-    sumOders = Math.floor(sumOders * 100) / 100;
-  }
-  const [sumOrders, setSumOrder] = useState(sumOders);
+  useEffect(() => {
+    let sumOders = oders.reduce((sum, elem, index) => {
+      if (props.strObj[index]) {
+        sum = sum + Number(props.strObj[index].sum);
+      } else {
+        sum = sum + Number(elem.customerPrice);
+      }
+      return sum;
+    }, 0);
+    if (sumOders - Math.floor(sumOders) == 0) {
+      sumOders = sumOders + ".00";
+    } else {
+      sumOders = Math.floor(sumOders * 100) / 100;
+    }
+    setSumOrder(sumOders);
+  }, [props]);
+
+  const [sumOrders, setSumOrder] = useState(null);
 
   const handleDblClick = () => {
     setShowInput(true);
@@ -317,7 +325,7 @@ export const InvoiceForm = (props) => {
             {oders.map((elem, index) => {
               return (
                 <TrEditable
-                  key={`str${elem._id}`}
+                  key={`strBill${elem._id}${index}`}
                   elem={elem}
                   index={index}
                   getStrText={props.getStrText}
@@ -375,7 +383,7 @@ export const InvoiceForm = (props) => {
             </tr>
             <tr style={{ borderBottom: "2px solid black" }}>
               <td style={{ width: "80%", fontWeight: "700" }}>
-                {"(" + sumInWords(sumOders) + " )"}
+                {"(" + sumInWords(sumOrders) + " )"}
               </td>
             </tr>
           </tbody>

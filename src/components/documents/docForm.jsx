@@ -172,6 +172,11 @@ export const DocForm = (props) => {
   };
   const handleClickBtnAdd = () => {
     setShowAddStr(!showAddStr);
+    if (showAddStr) {
+      let orderListId = props.dataDoc.odersListId;
+      let lastId = orderListId[orderListId.length - 1];
+      props.dataDoc.odersListId.push(lastId);
+    }
   };
   const getAddStr = (obj) => {
     setAddStrObj(obj);
@@ -339,7 +344,7 @@ export const DocForm = (props) => {
             <div
               id={`Tab${elem}`}
               className={divStyleFn(`Tab${elem}`)}
-              key={elem}
+              key={`${elem}${index}`}
               onClick={(e) => {
                 handleClickTab(index + 1, e, "application");
               }}

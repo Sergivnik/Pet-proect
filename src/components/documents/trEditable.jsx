@@ -19,6 +19,7 @@ export const TrEditable = (props) => {
 
   const [showInputRoute, setshowInputRoute] = useState(false);
   const [showInputNumber, setShowInputNumber] = useState(false);
+  const [showInputSum, setShowInputSum] = useState(false);
   const [routeText, setRouteText] = useState("");
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export const TrEditable = (props) => {
       trackObj.model ? " а/м " + trackObj.model : ""
     } ${trackObj.value ? trackObj.value : ""} `,
     numberOfShipments: 1,
+    sum: elem.customerPrice,
   });
   useEffect(() => {
     let str = { ...strOder };
@@ -62,6 +64,7 @@ export const TrEditable = (props) => {
 
   const handleDblClick = (e) => {
     console.log(e.currentTarget.cellIndex);
+    e.stopPropagation();
     if (e.currentTarget.cellIndex == 1) {
       setshowInputRoute(true);
       setShowInputNumber(false);
@@ -75,12 +78,14 @@ export const TrEditable = (props) => {
     let obj = { ...strOder };
     if (showInputRoute) obj.strRoute = e.currentTarget.value;
     if (showInputNumber) obj.numberOfShipments = Number(e.currentTarget.value);
+    if (showInputSum) obj.sum = Number(e.currentTarget.value);
     setStrOder(obj);
   };
   const handleEnter = (e) => {
     if (e.keyCode == 13) {
       setshowInputRoute(false);
       setShowInputNumber(false);
+      setShowInputSum(false);
       props.getStrText(strOder, index);
     }
   };
@@ -111,6 +116,10 @@ export const TrEditable = (props) => {
     }`;
     setStrOder(obj);
   }, [props.addData]);
+
+  const handleDblClickPrice = () => {
+    setShowInputSum(true);
+  };
 
   return (
     <tr style={{ textAlign: "center", fontSize: "10", lineHeight: 1 }}>
@@ -146,9 +155,24 @@ export const TrEditable = (props) => {
       </td>
       <td style={{ border: "1px solid black" }}>шт</td>
       <td style={{ border: "1px solid black" }}>
-        {Number(elem.customerPrice) / strOder.numberOfShipments}
+        {Number(strOder.sum) / strOder.numberOfShipments}
       </td>
-      <td style={{ border: "1px solid black" }}>{elem.customerPrice}</td>
+      <td
+        style={{ border: "1px solid black" }}
+        onDoubleClick={handleDblClickPrice}
+      >
+        {showInputSum ? (
+          <input
+            type="number"
+            className="billsFormInvoiceInput"
+            value={strOder.sum}
+            onChange={handleChange}
+            onKeyDown={handleEnter}
+          />
+        ) : (
+          Number(strOder.sum).toFixed(2)
+        )}
+      </td>
     </tr>
   );
 };

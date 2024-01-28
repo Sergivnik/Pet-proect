@@ -26,11 +26,7 @@ export const ActForm = (props) => {
   const [showInput, setShowInput] = useState(false);
 
   const customer = findValueBy_Id(oders[0].idCustomer, clientList);
-  const sumOders = oders.reduce(
-    (sum, elem) => sum + Number(elem.customerPrice),
-    0
-  );
-  const [sumOrders, setSumOrder] = useState(sumOders);
+  const [sumOrders, setSumOrder] = useState(null);
   const handleDblClick = () => {
     setShowInput(true);
   };
@@ -40,6 +36,23 @@ export const ActForm = (props) => {
   const handleEnter = (e) => {
     if (e.keyCode == 13) setShowInput(false);
   };
+  useEffect(() => {
+    let sumOders = oders.reduce((sum, elem, index) => {
+      if (props.strObj[index]) {
+        sum = sum + Number(props.strObj[index].sum);
+      } else {
+        sum = sum + Number(elem.customerPrice);
+      }
+      return sum;
+    }, 0);
+    if (sumOders - Math.floor(sumOders) == 0) {
+      sumOders = sumOders + ".00";
+    } else {
+      sumOders = Math.floor(sumOders * 100) / 100;
+    }
+    setSumOrder(sumOders);
+  }, [props]);
+
   useEffect(() => {
     if (props.addStrObj != null) {
       setSumOrder(
@@ -205,7 +218,7 @@ export const ActForm = (props) => {
             {oders.map((elem, index) => {
               return (
                 <TrEditable
-                  key={`str${elem._id}`}
+                  key={`strAct${elem._id}${index}`}
                   elem={elem}
                   index={index}
                   getStrText={props.getStrText}
