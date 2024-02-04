@@ -41,7 +41,6 @@ export const ContractorsPayments = () => {
   const handleClickFilter = () => {};
 
   const handleClickAdd = () => {
-    console.log(contractorsList);
     setShowAddForm(true);
   };
   const handleClickCross = () => {
