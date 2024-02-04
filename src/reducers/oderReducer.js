@@ -925,6 +925,12 @@ export const oderReducer = (store = initialStore, action) => {
           arr[index] = action.newData;
           return { ...store, [action.editTable]: arr };
         }
+        case "contractors": {
+          let arr = [...store.contractorsList];
+          let index = arr.findIndex((elem) => elem._id == action.newData._id);
+          arr[index] = action.newData;
+          return { ...store, contractorsList: arr };
+        }
         default:
           break;
       }
@@ -971,6 +977,12 @@ export const oderReducer = (store = initialStore, action) => {
           action.data._id = action.dataServer.insertId;
           arr.push(action.data);
           return { ...store, [action.editTable]: arr };
+        }
+        case "contractors": {
+          let arr = [...store.contractorsList];
+          action.data._id = action.dataServer.insertId;
+          arr.push(action.data);
+          return { ...store, contractorsList: arr };
         }
         default:
           break;
@@ -1027,6 +1039,13 @@ export const oderReducer = (store = initialStore, action) => {
           );
           arrStories.splice(indexStore, 1);
           return { ...store, storelist: arrStories };
+        case "contractors":
+          let [...arrContractors] = store.contractorsList;
+          let indexContractor = arrContractors.findIndex(
+            (elem) => elem._id == action.id
+          );
+          arrContractors.splice(indexContractor, 1);
+          return { ...store, contractorsList: arrContractors };
         default:
           break;
       }

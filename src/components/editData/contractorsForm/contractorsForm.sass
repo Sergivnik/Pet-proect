@@ -1,0 +1,43 @@
+$headerHeight: 50px
+
+.contractorWrapper
+  width: 100%
+  height: 100%
+  position: relative
+.contractorHeader
+  width: 100%
+  height: $headerHeight
+.contractorHeaderH2
+  text-align: center
+  margin: 0
+.contractorFilter
+  width: 100%
+  display: flex
+  justify-content: space-around
+.contractorMain
+  width: calc( 100% - 10px )
+  margin: 0 5px
+  height: calc(100% - #{$headerHeight})
+  overflow-y: auto
+.contractorTable
+  width: 100%
+  border: 1px solid #000
+  border-collapse: collapse
+.contractorThead
+  position: sticky
+  top: 0
+  z-index: 10
+  border: 1px solid #000
+  background-color: #decf7f
+  text-align: center
+.contractorTD
+  border: 1px solid #000
+.contractorActiveTr
+  background-color: #d4a338
+.contractorInputTd
+  width: 100%
+  height: 100%
+  border: none
+  padding: 0
+.contractorAddTr
+  color: grey

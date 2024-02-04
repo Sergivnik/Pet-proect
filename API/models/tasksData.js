@@ -209,6 +209,25 @@ let TasksDada = {
           callback({ error: err });
         }
         break;
+      case "contractors":
+        try {
+          let [data] = await db.query(
+            `SELECT * FROM contractorspayments WHERE idContractor=${id}`
+          );
+          check = data.length;
+          if (check == 0) {
+            await db.query(`DELETE FROM contractors WHERE _id=${id}`);
+            callback("success!");
+          } else {
+            callback({
+              error: "Данного контрагента нельхя удалить",
+              NoErr: "userErr1",
+            });
+          }
+        } catch (err) {
+          console.log(err);
+          callback({ error: err });
+        }
     }
     db.end();
   },

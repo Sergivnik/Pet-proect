@@ -190,7 +190,7 @@ export const PointsTable = () => {
   }, [currentStore]);
   return (
     <>
-      <h2 className="pointsH2">ТАблица пунктов погрузки/выгрузки</h2>
+      <h2 className="pointsH2">Таблица пунктов погрузки/выгрузки</h2>
       <div className="driverFilter">
         <div className="pointChoise">
           <ChoiseList

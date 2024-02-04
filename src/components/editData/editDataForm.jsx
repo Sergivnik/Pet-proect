@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { DriverTable } from "./driverTable.jsx";
 import { PointsTable } from "./pointsTable.jsx";
 import { TrackDriverTable } from "./trackDriverTable.jsx";
 import { TrackTable } from "./trackTable.jsx";
 import { CustomerTable } from "./customerTable.jsx";
+import { ContractorsForm} from "./contractorsForm/contractorForm.tsx"
 
 import "./editData.sass";
-import { CustomerManagerTable } from "./customerManagerTable.jsx";
 
 export const EditDataForm = (props) => {
   const errMessage = useSelector((state) => state.oderReducer.message);
@@ -33,9 +33,9 @@ export const EditDataForm = (props) => {
       case "oders":
         setEditTable(<CustomerTable />);
         break;
-      // case "clientmanager":
-      //   setEditTable(<CustomerManagerTable />);
-      //   break;
+      case "contractors":
+        setEditTable(<ContractorsForm/>);
+        break;
     }
   };
   useEffect(() => {
@@ -55,20 +55,6 @@ export const EditDataForm = (props) => {
         >
           Перевозчики
         </button>
-        {/* <button
-          name="trackdrivers"
-          className="EDFMenuBtn"
-          onClick={handleClickBtnMenu}
-        >
-          Водители
-        </button>
-        <button
-          name="tracklist"
-          className="EDFMenuBtn"
-          onClick={handleClickBtnMenu}
-        >
-          Автомобиль
-        </button> */}
         <button
           name="cities"
           className="EDFMenuBtn"
@@ -83,15 +69,14 @@ export const EditDataForm = (props) => {
         >
           Заказчик
         </button>
-        {/* <button
-          name="clientmanager"
+        <button
+          name="contractors"
           className="EDFMenuBtn"
           onClick={handleClickBtnMenu}
         >
-          Менеджер
-        </button> */}
+          Контрагенты
+        </button>
       </div>
-      {/* {showErrDiv && <div>{errMessage.error}</div>} */}
       <div className="EDFTableDiv">{editTable}</div>
     </div>
   );
