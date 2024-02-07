@@ -35,6 +35,7 @@ export const CustomerTable = () => {
   const [reset, setReset] = useState(false);
   const [showAddPdfFile, setShowAddPdfFile] = useState(false);
   const [currentTD, setCurrentTD] = useState(null);
+  const [isNewCustomer, setIsNewCustomer] = useState(false);
 
   const setValue = (data) => {
     let arr = clientListFull.filter((elem) => elem._id == data._id);
@@ -70,7 +71,15 @@ export const CustomerTable = () => {
   const handleAddCustomer = (data) => {
     dispatch(addData(data, "oders"));
     setShowAddTr(false);
+    setIsNewCustomer(true);
   };
+  useEffect(() => {
+    if (isNewCustomer) {
+      let newCustomer = clientListFull[clientListFull.length - 1];
+      setValue({ _id: newCustomer._id, value: newCustomer.value });
+      setIsNewCustomer(false);
+    }
+  }, [clientListFull]);
   const handleClickClear = () => {
     setChosenId(null);
     setReset(true);
@@ -133,7 +142,7 @@ export const CustomerTable = () => {
       }
     }
     //setCurrentCustomer(null);
-  }, [clientListFull]);
+  }, [clientListFull, chosenId]);
   useEffect(() => {
     setReset(false);
   }, [reset]);
