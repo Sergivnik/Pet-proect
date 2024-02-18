@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import "./contractorForm.sass";
 import { dateLocal } from "../myLib/myLib";
 import { delDataContractorPayment } from "../../actions/contractorActions";
+import { getPdf } from "../../actions/documentAction";
 
 export const ContractorPaymentTr = (props) => {
   const dispatch = useDispatch();
   const [styleTr, setStyleTr] = useState(null);
+  const [showContextMenu, setShowContextMenu] = useState(false);
 
   const contractorsList = useSelector(
     (state) => state.oderReducer.contractorsList
@@ -43,8 +45,33 @@ export const ContractorPaymentTr = (props) => {
   const handleClickDelete = () => {
     dispatch(delDataContractorPayment(elem.id));
   };
+  const handleLeftClcik = (e) => {
+    e.preventDefault();
+    setStyleTr("driverActiveTr");
+    props.getCurrentId(elem.id);
+    setShowContextMenu(true);
+  };
+  const handleClickCreateDoc = () => {
+    props.handleAddDoc(elem.id);
+    setShowContextMenu(false);
+  };
+  const handleClickAddDoc = () => {};
+  const handleClickPrintDoc = () => {
+    dispatch(getPdf(elem.id, "contractor"));
+    setShowContextMenu(false);
+  };
+  const handleClickDeleteDoc = () => {};
+  useEffect(() => {
+    if (props.currentId != props.paymentData.id) {
+      setShowContextMenu(false);
+    }
+  }, [props.currentId]);
   return (
-    <tr className={styleTr} onClick={handleClick}>
+    <tr
+      className={styleTr}
+      onClick={handleClick}
+      onContextMenu={handleLeftClcik}
+    >
       <td className="contrPayBodyTd">{dateLocal(elem.date)}</td>
       <td className="contrPayBodyTd">{findValueById(elem.idContractor)}</td>
       <td className="contrPayBodyTd">{elem.sum}</td>
@@ -63,6 +90,22 @@ export const ContractorPaymentTr = (props) => {
                 <path d="M-191-172.1h-18c-2.4,0-4.5-2-4.7-4.4l-2.8-36l3-0.2l2.8,36c0.1,0.9,0.9,1.6,1.7,1.6h18     c0.9,0,1.7-0.8,1.7-1.6l2.8-36l3,0.2l-2.8,36C-186.5-174-188.6-172.1-191-172.1" />
               </g>
             </svg>
+          </div>
+        )}
+        {showContextMenu && (
+          <div className="divContextMenu">
+            <p className="pContextMenu" onClick={handleClickCreateDoc}>
+              Создать документ
+            </p>
+            <p className="pContextMenu" onClick={handleClickAddDoc}>
+              Добавить документ
+            </p>
+            <p className="pContextMenu" onClick={handleClickPrintDoc}>
+              Печать документ
+            </p>
+            <p className="pContextMenu" onClick={handleClickDeleteDoc}>
+              Удалить документ
+            </p>
           </div>
         )}
       </td>

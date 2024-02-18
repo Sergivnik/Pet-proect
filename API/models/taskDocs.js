@@ -65,11 +65,16 @@ var TaskDocs = {
       callBack({ error: err });
     }
   },
-  getDataFromTableByIdAsyhc: async (id,table)=>{
+  getDataFromTableByIdAsyhc: async (id, table) => {
     const db = mysql.createPool(options.sql).promise();
     let dataFromTable = {};
+    let data;
     try {
-      const [data] = await db.query(`SELECT * FROM ${table} WHERE _id=${id}`);
+      if (table == "contractorspayments") {
+        [data] = await db.query(`SELECT * FROM ${table} WHERE id=${id}`);
+      } else {
+        [data] = await db.query(`SELECT * FROM ${table} WHERE _id=${id}`);
+      }
       dataFromTable = data[0];
       return dataFromTable;
     } catch (err) {
@@ -77,7 +82,7 @@ var TaskDocs = {
     } finally {
       db.end();
     }
-  }
+  },
 };
 
 module.exports = TaskDocs;

@@ -125,6 +125,26 @@ module.exports.taskCreatePdfDocNew = async (req, res) => {
       fileName
     );
   }
+  if (typeDoc == "contractor") {
+    let data = await tasksDoc.getDataFromTableByIdAsyhc(
+      id,
+      "contractorspayments"
+    );
+    console.log(data);
+    let idContractor = data.idContractor;
+    let contractorData = await tasksDoc.getDataFromTableByIdAsyhc(
+      idContractor,
+      "contractors"
+    );
+    let contractor = contractorData.value;
+    let date = new Date(data.date);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let strDate = `${year}-${month}-${day}`;
+    fileName = `check ${strDate}`;
+    filePath = path.join(__dirname, `../contractors/${contractor}`, fileName);
+  }
 
   try {
     const directoryExists = await existsAsync(path.dirname(filePath));

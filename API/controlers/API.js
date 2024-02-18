@@ -1,4 +1,5 @@
 var tasks = require("../models/tasks.js");
+var tasksDoc = require("../models/taskDocs.js");
 var tasksPayments = require("../models/tasksPayments.js");
 var tasksDebt = require("../models/tasksDriverDebts.js");
 var taskPaymentsDriver = require("../models/taskPaymentsDriver.js");
@@ -96,11 +97,36 @@ module.exports.taskGetReport = (req, res) => {
   });
 };
 
-module.exports.taskGetPdf = (req, res) => {
+module.exports.taskGetPdf = async (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   const path = require("path");
   console.log(req.params);
+  if (req.params.typeDoc == "contractor") {
+    try {
+      let data = await tasksDoc.getDataFromTableByIdAsyhc(
+        req.params.id,
+        "contractorspayments"
+      );
+      console.log(data);
+      let idContractor = data.idContractor;
+      let contractorData = await tasksDoc.getDataFromTableByIdAsyhc(
+        idContractor,
+        "contractors"
+      );
+      let contractor = contractorData.value;
+      let date = new Date(data.date);
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      let strDate = `${year}-${month}-${day}`;
+      fileName = `check ${strDate}`;
+      filePath = path.join(__dirname, `../contractors/${contractor}`, fileName);
+      res.sendFile(`${filePath}`);
+    } catch {
+      res.status(500);
+    }
+  }
   if (req.params.typeDoc == "ownerDoc") {
     let pathBills = path.join(__dirname, "..", "docs");
     tasks.getDataFromTableById(req.params.id, "drivers", (data) => {
@@ -117,7 +143,8 @@ module.exports.taskGetPdf = (req, res) => {
   if (
     req.params.typeDoc != "driver" &&
     req.params.typeDoc != "track" &&
-    req.params.typeDoc != "ownerDoc"
+    req.params.typeDoc != "ownerDoc" &&
+    req.params.typeDoc != "contractor"
   ) {
     tasks.getDataById(req.params.id, "oderslist", (data) => {
       if (data.error) {

@@ -7,6 +7,7 @@ import {
 import { ContractorPaymentTr } from "./contractorPaymentTr.jsx";
 import { ContractorAddForm } from "./contractorPaymentAddForm.jsx";
 import "./contractorForm.sass";
+import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 
 export const ContractorsPayments = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,8 @@ export const ContractorsPayments = () => {
   const [contractorsPayments, setContractorsPayments] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [currentId, setCurrentId] = useState(null);
+  const [showAddDoc, setShowAddDoc] = useState(false);
+  const [currentTD, setCurrentTD] = useState(null);
 
   useEffect(() => {
     dispatch(getDataContractors());
@@ -49,6 +52,14 @@ export const ContractorsPayments = () => {
   const handleClickAddPayment = (paymentsData) => {
     setShowAddForm(false);
     dispatch(addDataContractorPayment(paymentsData));
+  };
+  const handleAddDoc = () => {
+    let currentElement = document.querySelector(".contrPayMainDiv");
+    setCurrentTD(currentElement);
+    setShowAddDoc(true);
+  };
+  const handleClickClose = () => {
+    setShowAddDoc(false);
   };
 
   return (
@@ -159,6 +170,7 @@ export const ContractorsPayments = () => {
                   getCurrentId={(id) => {
                     setCurrentId(id);
                   }}
+                  handleAddDoc={handleAddDoc}
                 />
               );
             })}
@@ -171,6 +183,14 @@ export const ContractorsPayments = () => {
           clickCross={handleClickCross}
           contractorsList={contractorsList}
           handleClickAdd={handleClickAddPayment}
+        />
+      )}
+      {showAddDoc && (
+        <FormAddDoc
+          TD={currentTD}
+          currentId={currentId}
+          typeDoc="contractor"
+          handleClickClose={handleClickClose}
         />
       )}
     </div>
