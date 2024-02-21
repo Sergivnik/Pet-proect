@@ -49,6 +49,7 @@ export const DocForm = (props) => {
     dateOfLoad: false,
     reason: false,
     wayBillNumber: "",
+    reasonValue: "ИГК 00000000727736233463",
   });
   const [appData, setAppData] = useState({ stamp: true, date: false });
   const [showWayBill, setShowWayBill] = useState(false);
@@ -228,6 +229,11 @@ export const DocForm = (props) => {
   const getEditData = (editData) => {
     setAppEditData(editData);
   };
+  const editDataReason = (text, name) => {
+    let obj = { ...addData };
+    obj[name] = text;
+    setAddData(obj);
+  };
 
   return (
     <div className="docFormMainDiv">
@@ -375,6 +381,7 @@ export const DocForm = (props) => {
               getAddStr={getAddStr}
               addStrObj={addStrObj}
               addData={addData}
+              editDataReason={editDataReason}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -386,6 +393,7 @@ export const DocForm = (props) => {
               getAddStr={getAddStr}
               addStrObj={addStrObj}
               addData={addData}
+              editDataReason={editDataReason}
             />
           </div>
         )}
@@ -402,6 +410,7 @@ export const DocForm = (props) => {
               getAddStr={getAddStr}
               addStrObj={addStrObj}
               addData={addData}
+              editDataReason={editDataReason}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -413,6 +422,7 @@ export const DocForm = (props) => {
               getAddStr={getAddStr}
               addStrObj={addStrObj}
               addData={addData}
+              editDataReason={editDataReason}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -424,6 +434,7 @@ export const DocForm = (props) => {
               getAddStr={getAddStr}
               addStrObj={addStrObj}
               addData={addData}
+              editDataReason={editDataReason}
             />
           </div>
         )}

@@ -4,6 +4,7 @@ import { dateLocal, findValueBy_Id, sumInWords } from "../myLib/myLib.js";
 import { TrEditable } from "./trEditable.jsx";
 import { DOMENNAME } from "../../middlewares/initialState.js";
 import { AddTr } from "./addTr.jsx";
+import { SpanWithText } from "../myLib/mySpan/spanWithText.jsx";
 
 import "./billsForm.sass";
 
@@ -61,6 +62,9 @@ export const InvoiceForm = (props) => {
       let newNumber = strInvoiceNumber.slice(start, end);
       props.getNewNumber(newNumber);
     }
+  };
+  const getEditText = (text, name) => {
+    props.editDataReason(text, name);
   };
   useEffect(() => {
     if (props.addStrObj != null) {
@@ -283,7 +287,11 @@ export const InvoiceForm = (props) => {
                   width: "86%",
                 }}
               >
-                {"ИГК 00000000727736233463"}
+                <SpanWithText
+                  name="reasonValue"
+                  text={props.addData.reasonValue}
+                  getText={getEditText}
+                />
               </div>
             </div>
           )}
