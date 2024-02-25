@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { ContractorPaymentTr } from "./contractorPaymentTr.jsx";
+import { ContractorAddForm } from "./contractorPaymentAddForm.jsx";
+import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
+import { ContractorPaymentsThead } from "./contractorPaymentsThead.tsx";
 import {
   getDataContractors,
   addDataContractorPayment,
 } from "../../actions/contractorActions.js";
-import { ContractorPaymentTr } from "./contractorPaymentTr.jsx";
-import { ContractorAddForm } from "./contractorPaymentAddForm.jsx";
 import "./contractorForm.sass";
-import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 
 export const ContractorsPayments = () => {
   const dispatch = useDispatch();
@@ -66,100 +67,7 @@ export const ContractorsPayments = () => {
     <div className="contrPayMainDiv">
       <div className="contrPayTableDiv">
         <table className="contrPayMainTable">
-          <thead className="contrPayMainHeader">
-            <tr className="contrPayMainHeaderTr">
-              <td className="contrPayMainHeaderTd">
-                <span>Дата</span>
-                <button
-                  className="contrPayHeaderFilter"
-                  onClick={handleClickFilter}
-                >
-                  <svg width="100%" height="20">
-                    <polygon
-                      points="5 5, 25 5, 15 15, 5 5 "
-                      fill={
-                        /* filterList.date.length > 0 */ false
-                          ? "blue"
-                          : "black"
-                      }
-                    />
-                  </svg>
-                </button>
-              </td>
-              <td className="contrPayMainHeaderTd">
-                <span>Контрагент</span>
-                <button
-                  className="contrPayHeaderFilter"
-                  onClick={handleClickFilter}
-                >
-                  <svg width="100%" height="20">
-                    <polygon
-                      points="5 5, 25 5, 15 15, 5 5 "
-                      fill={
-                        /* filterList.date.length > 0 */ false
-                          ? "blue"
-                          : "black"
-                      }
-                    />
-                  </svg>
-                </button>
-              </td>
-              <td className="contrPayMainHeaderTd">
-                <span>Сумма</span>
-                <button
-                  className="contrPayHeaderFilter"
-                  onClick={handleClickFilter}
-                >
-                  <svg width="100%" height="20">
-                    <polygon
-                      points="5 5, 25 5, 15 15, 5 5 "
-                      fill={
-                        /* filterList.date.length > 0 */ false
-                          ? "blue"
-                          : "black"
-                      }
-                    />
-                  </svg>
-                </button>
-              </td>
-              <td className="contrPayMainHeaderTd">
-                <span>Категория</span>
-                <button
-                  className="contrPayHeaderFilter"
-                  onClick={handleClickFilter}
-                >
-                  <svg width="100%" height="20">
-                    <polygon
-                      points="5 5, 25 5, 15 15, 5 5 "
-                      fill={
-                        /* filterList.date.length > 0 */ false
-                          ? "blue"
-                          : "black"
-                      }
-                    />
-                  </svg>
-                </button>
-              </td>
-              <td className="contrPayMainHeaderTd">
-                <span>Примечание</span>
-                <button
-                  className="contrPayHeaderFilter"
-                  onClick={handleClickFilter}
-                >
-                  <svg width="100%" height="20">
-                    <polygon
-                      points="5 5, 25 5, 15 15, 5 5 "
-                      fill={
-                        /* filterList.date.length > 0 */ false
-                          ? "blue"
-                          : "black"
-                      }
-                    />
-                  </svg>
-                </button>
-              </td>
-            </tr>
-          </thead>
+          <ContractorPaymentsThead />
           <tbody>
             {contractorsPayments.map((elem) => {
               return (
