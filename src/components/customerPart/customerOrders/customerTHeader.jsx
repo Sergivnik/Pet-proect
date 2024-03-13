@@ -14,11 +14,11 @@ export const CustomerTheader = (props) => {
     (state) => state.customerReducer.customerclients
   );
 
-  const cloneFilter = (objFikter) => {
+  const cloneFilter = (objFilter) => {
     let newObjFilter = {};
-    for (let key in objFikter) {
+    for (let key in objFilter) {
       newObjFilter[key] = [];
-      objFikter[key].forEach((obj) => {
+      objFilter[key].forEach((obj) => {
         newObjFilter[key].push({ ...obj });
       });
     }

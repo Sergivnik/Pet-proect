@@ -62,12 +62,15 @@ export const ContractorsPayments = () => {
   const handleClickClose = () => {
     setShowAddDoc(false);
   };
+  const getFiltredList = (list) => {
+    setContractorsPayments(list);
+  };
 
   return (
     <div className="contrPayMainDiv">
       <div className="contrPayTableDiv">
         <table className="contrPayMainTable">
-          <ContractorPaymentsThead />
+          <ContractorPaymentsThead getFiltredList={getFiltredList} />
           <tbody>
             {contractorsPayments.map((elem) => {
               return (

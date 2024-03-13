@@ -38,6 +38,7 @@ export const FilterTdList = (props) => {
     } else {
       setClassFilterTdDiv("filterTdDiv");
     }
+    if (props.handlePushFilter) props.handlePushFilter(props.name);
     setShowList(!showList);
   };
   const handleClickCheck = (e) => {
