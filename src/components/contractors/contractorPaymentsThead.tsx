@@ -123,11 +123,11 @@ export const ContractorPaymentsThead = (props: any) => {
         return false;
       }
 
-      const contractorId = payment.idContractor;
+      const contractorId = payment.idContractor ? payment.idContractor : 0;
       const contractorFilters = filterData.contractorList
         .filter((filter) => filter.checked)
         .map((filter) => filter.id);
-      if (contractorId != null && !contractorFilters.includes(contractorId)) {
+      if (!contractorFilters.includes(contractorId)) {
         return false;
       }
 
@@ -178,7 +178,7 @@ export const ContractorPaymentsThead = (props: any) => {
   };
   const handlePushFilter = (name: string) => {
     let obj: FilterData = cloneFilter(filterData);
-    obj[name].forEach((elem) => (elem.checked = true));
+    obj[name].forEach((elem: ElemFilter) => (elem.checked = true));
     let filteredList = filterDataPayment(obj);
     let uniqueArrDate: Date[] = [];
     let uniqueArrContractor: number[] = [];
