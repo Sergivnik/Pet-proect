@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 import "./editData.sass";
 
 export const CustomerAddDiv = (props) => {
+  const orderList = useSelector((state) => state.oderReducer.clientList);
   const fielsList = [
     "value",
     "TIN",
@@ -167,7 +169,20 @@ export const CustomerAddDiv = (props) => {
   const handleClickSave = () => {
     if (!customerData.active) customerData.active = 1;
     if (customerData.value) {
-      props.handleAddCustomer(customerData);
+      if (checkUniqueTIN(customerData["TIN"])) {
+        props.handleAddCustomer(customerData);
+      } else {
+        alert("Введен не уникальный ИНН");
+      }
+    }
+  };
+
+  const checkUniqueTIN = (TIN) => {
+    let result = orderList.find((order) => order.TIN == TIN);
+    if (result == undefined) {
+      return true;
+    } else {
+      return false;
     }
   };
 
