@@ -42,7 +42,11 @@ export const DriverPaymentTr = (props) => {
   };
   return (
     <React.Fragment>
-      <tr className={classNameTr} onClick={handleClickTr}>
+      <tr
+        className={classNameTr}
+        onClick={handleClickTr}
+        style={{ color: elem.colorTR }}
+      >
         <td className="driverDebtMainTr">{dateLocal(elem.date)}</td>
         <td className="driverDebtMainTr">
           {getDriverValueById(elem.idDriver)}
