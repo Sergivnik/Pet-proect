@@ -51,6 +51,7 @@ export const CreateOderNew = (props) => {
   const [showTrackInput, setShowTrackInput] = useState(true);
   const [showDriverPrice, setShowDriverPrice] = useState(true);
   const [checkBox, setCheckBox] = useState(false);
+  const [checkPayment, setCheckPayment] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
   const [btnName, setBtnName] = useState("Добавить");
   const [showAddFields, setShowAddFields] = useState(false);
@@ -122,6 +123,9 @@ export const CreateOderNew = (props) => {
           obj.price = addInfo.sum;
           obj.interest = addInfo.interest;
         }
+      }
+      if (obj.colorTR == "Orange") {
+        setCheckPayment(true);
       }
       setOdersData(obj);
       if (props.clickSave) setBtnName("Сохранить");
@@ -363,6 +367,17 @@ export const CreateOderNew = (props) => {
     } else {
       obj.colorTR = "Black";
       setCheckBox(false);
+    }
+    setOdersData(obj);
+  };
+  const handleCheckPayment = (e) => {
+    let { ...obj } = odersData;
+    if (e.currentTarget.checked) {
+      obj.colorTR = "Orange";
+      setCheckPayment(true);
+    } else {
+      obj.colorTR = "Black";
+      setCheckPayment(false);
     }
     setOdersData(obj);
   };
@@ -687,6 +702,14 @@ export const CreateOderNew = (props) => {
             </div>
           </div>
         )}
+        <div className="footerCheckBox">
+          Не включать в оплату{" "}
+          <input
+            type="checkbox"
+            onChange={handleCheckPayment}
+            checked={checkPayment}
+          />
+        </div>
         <div className="footerCheckBox">
           Выделить цветом{" "}
           <input type="checkbox" onChange={handleCheck} checked={checkBox} />

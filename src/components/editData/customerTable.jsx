@@ -315,6 +315,7 @@ export const CustomerTable = () => {
                   <td className="customerManagerTdHeader">ФИО</td>
                   <td className="customerManagerTdHeader">Телефон</td>
                   <td className="customerManagerTdHeader">e-mail</td>
+                  <td className="customerManagerTdHeader">Доп. телефон</td>
                   <td className="customerManagerTdHeader">Клиент</td>
                 </tr>
               </thead>

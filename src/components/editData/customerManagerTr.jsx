@@ -39,6 +39,9 @@ export const CustomerManagerTr = (props) => {
       case 3:
         setValueInput(elem.email);
         break;
+      case 4:
+        setValueInput(elem.addPhone);
+        break;
       default:
         break;
     }
@@ -70,6 +73,9 @@ export const CustomerManagerTr = (props) => {
         case 3:
           obj.email = e.currentTarget.value;
           break;
+        case 4:
+          obj.addPhone = e.currentTarget.value;
+          break;
         default:
           break;
       }
@@ -98,7 +104,7 @@ export const CustomerManagerTr = (props) => {
       setColNumber(null);
       setStyleTr(null);
       setStileTd("customerManagerTd");
-    }else{
+    } else {
       setStyleTr("customerActiveTr");
     }
   }, [props.currentId]);
@@ -173,6 +179,19 @@ export const CustomerManagerTr = (props) => {
       </td>
       <td className={styleTd} onDoubleClick={handleDBLclick}>
         {colNumber == 4 ? (
+          <input
+            type="text"
+            className="customerTrInput"
+            onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
+          />
+        ) : (
+          elem.addPhone
+        )}
+      </td>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
+        {colNumber == 5 ? (
           <div className="trackDriverChoise">
             <ChoiseList
               name="customer"

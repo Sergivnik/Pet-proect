@@ -17,7 +17,9 @@ export const DriverPaymentForm = () => {
   }, []);
   const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const driversList = useSelector((state) => state.oderReducer.driverlist);
-  const driverDebtList = useSelector((state) => state.oderReducer.driverDebtList);
+  const driverDebtList = useSelector(
+    (state) => state.oderReducer.driverDebtList
+  );
   const trackDriverList = useSelector(
     (state) => state.oderReducer.trackdrivers
   );
@@ -46,7 +48,9 @@ export const DriverPaymentForm = () => {
   const [trakDriverSum, setTrackDriverSum] = useState([]);
 
   useEffect(() => {
-    let arr = odersList.filter((elem) => elem.driverPayment != "Ок");
+    let arr = odersList.filter(
+      (elem) => elem.driverPayment != "Ок" && elem.colorTR != "Orange"
+    );
     setOdersWithoutPayment(arr);
     setFilteredOdersList(arr);
     let arrDriver = [];
