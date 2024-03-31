@@ -46,6 +46,13 @@ export const ContractorPaymentsThead = (props: any) => {
     categoryList: [],
     addInfoList: [],
   });
+  const [filterDataFull, setFilterDataFull] = useState<FilterData>({
+    dateList: [],
+    contractorList: [],
+    sumList: [],
+    categoryList: [],
+    addInfoList: [],
+  });
   useEffect(() => {
     let obj: FilterData = { ...filterData };
     let uniqueArrDate: Date[] = [];
@@ -107,6 +114,7 @@ export const ContractorPaymentsThead = (props: any) => {
       obj.addInfoList.push({ id: index, value: text, checked: true });
     });
     setFilterData(obj);
+    setFilterDataFull(obj);
   }, []);
   const filterDataPayment = (filterData: FilterData) => {
     const filteredList = contractorsPayments.filter((payment) => {
@@ -161,9 +169,18 @@ export const ContractorPaymentsThead = (props: any) => {
   };
 
   const getFilteredList = (name: string, list: ElemFilter[]) => {
-    let obj = cloneFilter(filterData);
-    obj[name] = list;
-    setFilterData(obj);
+    let obj = cloneFilter(filterDataFull);
+    let objShort = cloneFilter(filterDataFull);
+    console.log(list);
+    list.forEach((elem: ElemFilter) => {
+      let index = obj[name].findIndex(
+        (filterElem: ElemFilter) => filterElem.value == elem.value
+      );
+      obj[name][index].checked = elem.checked;
+    });
+    setFilterDataFull(obj);
+    objShort[name] = list;
+    setFilterData(objShort);
     props.getFiltredList(filterDataPayment(obj));
   };
   const cloneFilter = (objFilter: FilterData) => {
@@ -177,7 +194,7 @@ export const ContractorPaymentsThead = (props: any) => {
     return newObjFilter;
   };
   const handlePushFilter = (name: string) => {
-    let obj: FilterData = cloneFilter(filterData);
+    let obj: FilterData = cloneFilter(filterDataFull);
     obj[name].forEach((elem: ElemFilter) => (elem.checked = true));
     let filteredList = filterDataPayment(obj);
     let uniqueArrDate: Date[] = [];
@@ -197,7 +214,7 @@ export const ContractorPaymentsThead = (props: any) => {
       if (!uniqueArrDate.includes(elem.date)) {
         uniqueArrDate.push(elem.date);
         let dateStr: string = getDateStr(elem.date);
-        let checked: boolean = filterData.dateList.find(
+        let checked: boolean = filterDataFull.dateList.find(
           (date: ElemFilter) => (date.value = dateStr)
         ).checked;
         newObj.dateList.push({ id: index, value: dateStr, checked: checked });
@@ -206,7 +223,7 @@ export const ContractorPaymentsThead = (props: any) => {
       if (!uniqueArrContractor.includes(elem.idContractor)) {
         uniqueArrContractor.push(elem.idContractor);
         let contractorFilter: ElemFilter;
-        contractorFilter = filterData.contractorList.find(
+        contractorFilter = filterDataFull.contractorList.find(
           (filterElem: ElemFilter) =>
             elem.idContractor
               ? filterElem.id == elem.idContractor
@@ -217,7 +234,14 @@ export const ContractorPaymentsThead = (props: any) => {
       if (!uniqueArrSum.includes(elem.sum)) {
         uniqueArrSum.push(elem.sum);
       }
-      newObj.categoryList = filterData.categoryList;
+      if (!uniqueArrCategory.includes(elem.category)) {
+        uniqueArrCategory.push(elem.category);
+        let categoryFilter: ElemFilter;
+        categoryFilter = filterDataFull.categoryList.find(
+          (filterElem: ElemFilter) => elem.category == filterElem.id
+        );
+        newObj.categoryList.push(categoryFilter);
+      }
       if (!uniqueArrAddInfo.includes(elem.addInfo)) {
         uniqueArrAddInfo.push(elem.addInfo);
       }
@@ -228,14 +252,14 @@ export const ContractorPaymentsThead = (props: any) => {
       if (Number(a) > Number(b)) return 1;
     });
     arr.forEach((sum) => {
-      let sumFilter: ElemFilter = filterData.sumList.find(
+      let sumFilter: ElemFilter = filterDataFull.sumList.find(
         (filterElem: ElemFilter) => filterElem.value == sum.toString()
       );
       newObj.sumList.push(sumFilter);
     });
     uniqueArrAddInfo = uniqueArrAddInfo.sort();
     uniqueArrAddInfo.forEach((category) => {
-      let addInfoFilter: ElemFilter = filterData.addInfoList.find(
+      let addInfoFilter: ElemFilter = filterDataFull.addInfoList.find(
         (filterElem: ElemFilter) => filterElem.value == category
       );
       newObj.addInfoList.push(addInfoFilter);
