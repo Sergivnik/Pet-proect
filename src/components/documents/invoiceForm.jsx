@@ -315,7 +315,7 @@ export const InvoiceForm = (props) => {
             >
               <td style={{ border: "1px solid black", width: "5.7%" }}>№</td>
               <td style={{ border: "1px solid black", width: "51.3%" }}>
-                Наимениование работы (услуги)
+                Наименование работы (услуги)
               </td>
               <td style={{ border: "1px solid black", width: "9.7%" }}>
                 Кол-во
