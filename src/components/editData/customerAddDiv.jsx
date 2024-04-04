@@ -172,7 +172,8 @@ export const CustomerAddDiv = (props) => {
       if (checkUniqueTIN(customerData["TIN"])) {
         props.handleAddCustomer(customerData);
       } else {
-        alert("Введен не уникальный ИНН");
+        let conf = confirm("Введен не уникальный ИНН. Добавить?");
+        if (conf) props.handleAddCustomer(customerData);
       }
     }
   };
