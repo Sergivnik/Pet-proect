@@ -116,6 +116,7 @@ export const ContractorPaymentsThead = (props: any) => {
     setFilterData(obj);
     setFilterDataFull(obj);
   }, []);
+
   const filterDataPayment = (filterData: FilterData) => {
     const filteredList = contractorsPayments.filter((payment) => {
       const dateObject = new Date(payment.date);
@@ -169,14 +170,14 @@ export const ContractorPaymentsThead = (props: any) => {
   };
 
   const getFilteredList = (name: string, list: ElemFilter[]) => {
+    console.log("list:", list, "filterDataFull:", filterDataFull);
     let obj = cloneFilter(filterDataFull);
     let objShort = cloneFilter(filterDataFull);
-    console.log(list);
     list.forEach((elem: ElemFilter) => {
       let index = obj[name].findIndex(
         (filterElem: ElemFilter) => filterElem.value == elem.value
       );
-      obj[name][index].checked = elem.checked;
+      if (index != -1) obj[name][index].checked = elem.checked;
     });
     setFilterDataFull(obj);
     objShort[name] = list;
@@ -194,6 +195,7 @@ export const ContractorPaymentsThead = (props: any) => {
     return newObjFilter;
   };
   const handlePushFilter = (name: string) => {
+    console.log(name);
     let obj: FilterData = cloneFilter(filterDataFull);
     obj[name].forEach((elem: ElemFilter) => (elem.checked = true));
     let filteredList = filterDataPayment(obj);
@@ -211,16 +213,19 @@ export const ContractorPaymentsThead = (props: any) => {
       addInfoList: [],
     };
     filteredList.forEach((elem: ContractorPayment) => {
-      if (!uniqueArrDate.includes(elem.date)) {
+      if (!uniqueArrDate.includes(elem.date) && name == "dateList") {
         uniqueArrDate.push(elem.date);
         let dateStr: string = getDateStr(elem.date);
         let checked: boolean = filterDataFull.dateList.find(
-          (date: ElemFilter) => (date.value = dateStr)
+          (date: ElemFilter) => (date.value == dateStr)
         ).checked;
         newObj.dateList.push({ id: index, value: dateStr, checked: checked });
         index++;
       }
-      if (!uniqueArrContractor.includes(elem.idContractor)) {
+      if (
+        !uniqueArrContractor.includes(elem.idContractor) &&
+        name == "contractorList"
+      ) {
         uniqueArrContractor.push(elem.idContractor);
         let contractorFilter: ElemFilter;
         contractorFilter = filterDataFull.contractorList.find(
@@ -231,10 +236,13 @@ export const ContractorPaymentsThead = (props: any) => {
         );
         newObj.contractorList.push(contractorFilter);
       }
-      if (!uniqueArrSum.includes(elem.sum)) {
+      if (!uniqueArrSum.includes(elem.sum) && name == "sumList") {
         uniqueArrSum.push(elem.sum);
       }
-      if (!uniqueArrCategory.includes(elem.category)) {
+      if (
+        !uniqueArrCategory.includes(elem.category) &&
+        name == "categoryList"
+      ) {
         uniqueArrCategory.push(elem.category);
         let categoryFilter: ElemFilter;
         categoryFilter = filterDataFull.categoryList.find(
@@ -242,7 +250,7 @@ export const ContractorPaymentsThead = (props: any) => {
         );
         newObj.categoryList.push(categoryFilter);
       }
-      if (!uniqueArrAddInfo.includes(elem.addInfo)) {
+      if (!uniqueArrAddInfo.includes(elem.addInfo) && name == "addInfoList") {
         uniqueArrAddInfo.push(elem.addInfo);
       }
     });
