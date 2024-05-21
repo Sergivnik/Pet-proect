@@ -40,7 +40,7 @@ export const ActForm = (props) => {
   const getEditText = (text, name) => {
     props.editDataReason(text, name);
   };
-  
+
   useEffect(() => {
     let sumOders = oders.reduce((sum, elem, index) => {
       if (props.strObj[index]) {
@@ -349,6 +349,22 @@ export const ActForm = (props) => {
             />
           )}
         </div>
+        {props.address && (
+          <div
+            style={{
+              height: "500px",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#d7d7d7",
+            }}
+          >
+            Просьба отправить этот экземпляр акта с подписью и печатью по
+            адресу: <br />
+            347924, г.Таганрог, ул. Москатова 31/2 офис 34
+          </div>
+        )}
       </div>
     </div>
   );

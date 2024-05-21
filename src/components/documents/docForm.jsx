@@ -423,6 +423,7 @@ export const DocForm = (props) => {
               addStrObj={addStrObj}
               addData={addData}
               editDataReason={editDataReason}
+              address={false}
             />
             <ActForm
               dataDoc={props.dataDoc}
@@ -435,6 +436,7 @@ export const DocForm = (props) => {
               addStrObj={addStrObj}
               addData={addData}
               editDataReason={editDataReason}
+              address={true}
             />
           </div>
         )}
