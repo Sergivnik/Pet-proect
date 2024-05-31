@@ -28,6 +28,13 @@ export const TdWithText = (props) => {
       div.style.width = parent.clientWidth + "px";
     }
   }, [showInput]);
+  useEffect(() => {
+    if (text == null) {
+      setFieldValue(undefined);
+    } else {
+      setFieldValue(text);
+    }
+  }, [props.text]);
   return (
     <td className="myTd" onDoubleClick={handleDblClick}>
       {showInput ? (

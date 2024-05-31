@@ -10,10 +10,11 @@ import { TrackAddTr } from "./trackAddTr.jsx";
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 import { addData } from "../../actions/editDataAction.js";
 import { dateLocal, dateLocalZone } from "../myLib/myLib.js";
-import axios from "axios";
-import "./editData.sass";
 import { DOMENNAME } from "../../middlewares/initialState.js";
 import { FormAddEmailData } from "../userTrNew/fornAddEmailData.jsx";
+import { DriverAccountTr } from "./driverAccountTr.tsx";
+import axios from "axios";
+import "./editData.sass";
 
 export const DriverTable = (props) => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ export const DriverTable = (props) => {
   const [text, setText] = useState("");
 
   useEffect(() => {
+    console.log("here");
     if (chosenId != null) {
       setDriversList(driversListFull.filter((elem) => elem._id == chosenId));
     } else {
@@ -315,6 +317,25 @@ export const DriverTable = (props) => {
             {showAddTr && <DriverAddTr handleAddDriver={handleAddDriver} />}
           </tbody>
         </table>
+        {driversList.length == 1 && (
+          <table className="driverTbl">
+            <thead>
+              <tr>
+                <td className="driverTdHeader">КПП</td>
+                <td className="driverTdHeader">ОГРНИП</td>
+                <td className="driverTdHeader">р/сч</td>
+                <td className="driverTdHeader">кор/сч</td>
+                <td className="driverTdHeader">БИК</td>
+                <td className="driverTdHeader">ФИО директора в род. падеже</td>
+                <td className="driverTdHeader">Банк</td>
+                <td className="driverTdHeader">Адрес банка</td>
+              </tr>
+            </thead>
+            <tbody>
+              <DriverAccountTr driver={driversList[0]} />
+            </tbody>
+          </table>
+        )}
         {showInfo && (
           <div className="driverInfoWraper">
             <header className="driverInfoHeader">

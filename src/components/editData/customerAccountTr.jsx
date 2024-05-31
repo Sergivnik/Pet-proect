@@ -39,9 +39,7 @@ export const CustomerAccountTr = (props) => {
   }, [props.customer]);
 
   useEffect(() => {
-    const data = {
-      query: customerData.TIN,
-    };
+    const data = { query: customerData.TIN };
     if (
       customerData.TIN != null &&
       (customerData.address == null ||

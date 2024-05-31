@@ -12,7 +12,7 @@ export const DriverTableTR = (props) => {
   const [colNumber, setColNumber] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
   const [styleTr, setStyleTr] = useState("driverNotActiveTr");
-  const [valueInput, setValueInput] = useState(null);
+  const [valueInput, setValueInput] = useState(undefined);
   const [isContext, setIsContext] = useState(false);
 
   const handleDBLclick = (e) => {
@@ -20,25 +20,27 @@ export const DriverTableTR = (props) => {
     setColNumber(column);
     switch (column) {
       case 0:
-        setValueInput(elem.value);
+        setValueInput(elem.value != null ? elem.value : undefined);
         break;
       case 1:
-        setValueInput(elem.phone);
+        setValueInput(elem.phone != null ? elem.phone : undefined);
         break;
       case 2:
-        setValueInput(elem.companyName);
+        setValueInput(elem.companyName != null ? elem.companyName : undefined);
         break;
       case 3:
-        setValueInput(elem.TIN);
+        setValueInput(elem.TIN != null ? elem.TIN : undefined);
         break;
       case 4:
-        setValueInput(elem.address);
+        setValueInput(elem.address != null ? elem.address : undefined);
         break;
       case 5:
-        setValueInput(elem.currentAccount);
+        setValueInput(
+          elem.currentAccount != null ? elem.currentAccount : undefined
+        );
         break;
       case 6:
-        setValueInput(elem.contract);
+        setValueInput(elem.contract != null ? elem.contract : undefined);
         break;
       default:
         break;
