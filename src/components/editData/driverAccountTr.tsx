@@ -46,6 +46,7 @@ export const DriverAccountTr = ({ driver }: Props) => {
 
   const [driverData, setDriverData] = useState<Driver>(driver);
   const [requestTIN, setRequestTIN] = useState([]);
+  const [requestRCBIC, setRequestRCBIC] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
@@ -79,6 +80,54 @@ export const DriverAccountTr = ({ driver }: Props) => {
     }
   }, [driverData.TIN]);
 
+  useEffect(() => {
+    console.log("hi");
+    const data = {
+      query: driverData.RCBIC,
+    };
+    if (
+      driverData.RCBIC != null &&
+      (driverData.CorAcc == null ||
+        driverData.bankName == null ||
+        driverData.bankAddress == null ||
+        driverData.CorAcc == "" ||
+        driverData.bankName == "" ||
+        driverData.bankAddress == "")
+    )
+      axios
+        .post(urlRCBIC, data, config)
+        .then((response) => {
+          console.log(response.data.suggestions);
+          setRequestRCBIC(response.data.suggestions);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+  }, [driverData.RCBIC]);
+
+  useEffect(() => {
+    if (requestRCBIC.length) {
+      let newData = { ...driverData };
+      if (driverData.CorAcc == null || driverData.CorAcc == "") {
+        newData.CorAcc = requestRCBIC[0].data.correspondent_account
+          ? requestRCBIC[0].data.correspondent_account
+          : "нет данных";
+      }
+      if (driverData.bankName == null || driverData.bankName == "") {
+        newData.bankName = requestRCBIC[0].value
+          ? requestRCBIC[0].value
+          : "нет данных";
+      }
+      if (driverData.bankAddress == null || driverData.bankAddress == "") {
+        newData.bankAddress = requestRCBIC[0].data.address.value
+          ? requestRCBIC[0].data.address.value
+          : "нет данных";
+      }
+      setDriverData(newData);
+      dispatch(editData(newData, "drivers"));
+    }
+  }, [requestRCBIC]);
+
   const handleClickSuggestion = (index) => {
     console.log(index);
     let newData: Driver = { ...driverData };
@@ -111,7 +160,19 @@ export const DriverAccountTr = ({ driver }: Props) => {
     setShowSuggestions(false);
     dispatch(editData(newData, "drivers"));
   };
-  const getNewData = () => {};
+  const getNewData = (newValue: string, name: string, driver: Driver) => {
+    console.log(newValue, name, driver);
+    let newData = { ...driver };
+    newData[name] = newValue;
+    if (name == "RCBIC") {
+      newData.Acc = null;
+      newData.CorAcc = null;
+      newData.bankName = null;
+      newData.bankAddress = null;
+    }
+    setDriverData(newData)
+    dispatch(editData(newData, "drivers"));
+  };
 
   return (
     <React.Fragment>
@@ -124,43 +185,43 @@ export const DriverAccountTr = ({ driver }: Props) => {
         />
         <TdWithText
           text={driverData.OGRN}
-          name="KPP"
+          name="OGRN"
           getData={getNewData}
           elem={driverData}
         />
         <TdWithText
           text={driverData.Acc}
-          name="KPP"
+          name="Acc"
           getData={getNewData}
           elem={driverData}
         />
         <TdWithText
           text={driverData.CorAcc}
-          name="KPP"
+          name="CorAcc"
           getData={getNewData}
           elem={driverData}
         />
         <TdWithText
           text={driverData.RCBIC}
-          name="KPP"
+          name="RCBIC"
           getData={getNewData}
           elem={driverData}
         />
         <TdWithText
           text={driverData.bossName}
-          name="KPP"
+          name="bossName"
           getData={getNewData}
           elem={driverData}
         />
         <TdWithText
           text={driverData.bankName}
-          name="KPP"
+          name="bankName"
           getData={getNewData}
           elem={driverData}
         />
         <TdWithText
           text={driverData.bankAddress}
-          name="KPP"
+          name="bankAddress"
           getData={getNewData}
           elem={driverData}
         />

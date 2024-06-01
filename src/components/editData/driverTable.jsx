@@ -46,6 +46,7 @@ export const DriverTable = (props) => {
   const [embedURL, setEmbedURL] = useState("");
   const [showEmail, setShowEmail] = useState(false);
   const [text, setText] = useState("");
+  const [newDriver, setNewDriver] = useState(undefined);
 
   useEffect(() => {
     console.log("here");
@@ -88,6 +89,17 @@ export const DriverTable = (props) => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, []);
+  useEffect(() => {
+    if (newDriver) {
+      let arr = driversListFull.filter((elem) => elem.value == newDriver.value);
+      if (arr.length == 1) {
+        setDriversList(arr);
+        setChosenId(arr[0]._id);
+        setShowInfo(true);
+        setNewDriver(undefined);
+      }
+    }
+  }, [driversListFull]);
 
   const handleChangeBox = (e) => {
     if (e.currentTarget.checked) {
@@ -118,6 +130,7 @@ export const DriverTable = (props) => {
     setShowAddTr(true);
   };
   const handleAddDriver = (data) => {
+    setNewDriver(data);
     dispatch(addData(data, "drivers"));
     setShowAddTr(false);
   };
