@@ -65,7 +65,7 @@ var TaskDocs = {
       callBack({ error: err });
     }
   },
-  createDriverContract: async (customer, html, css, callBack) => {
+  createDriverContract: async (driver, html, css, callBack) => {
     try {
       const cssFilePath = path.join(__dirname, "temp.css");
       await writeFileAsync(cssFilePath, css, "utf8");
@@ -88,12 +88,12 @@ var TaskDocs = {
 
       await browser.close();
 
-      const exists = fs.existsSync(`./API/contracts/${customer.value}`);
+      const exists = fs.existsSync(`./API/docs/${driver.value}`);
       if (!exists) {
-        fs.mkdirSync(`./API/contracts/${customer.value}`, { recursive: true });
+        fs.mkdirSync(`./API/docs/${driver.value}`, { recursive: true });
       }
 
-      const pdfFilePath = `./API/docs/${customer.value}/docOwner.pdf`;
+      const pdfFilePath = `./API/docs/${driver.value}/docOwner.pdf`;
       await writeFileAsync(pdfFilePath, pdfBuffer);
       await unlinkAsync(cssFilePath);
 
