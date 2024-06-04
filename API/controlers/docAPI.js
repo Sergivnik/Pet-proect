@@ -36,6 +36,16 @@ module.exports.taskCreateContract = (req, res) => {
     (data) => callBack(data, res)
   );
 };
+module.exports.taskCreateDriverContract = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log("hi", req.sessionID, req.body);
+  tasksDoc.createDriverContract(
+    req.body.driver,
+    req.body.html,
+    req.body.css,
+    (data) => callBack(data, res)
+  );
+};
 module.exports.taskGetPdfContract = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");

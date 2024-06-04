@@ -47,7 +47,7 @@ export const ContractForm = (props) => {
     console.log(status);
   }, [status]);
 
-  const cangeDate = () => {
+  const changeDate = () => {
     setIsEditDate(true);
   };
   const handleChangeDate = (e) => {
@@ -89,7 +89,7 @@ export const ContractForm = (props) => {
                   value={date}
                 />
               ) : (
-                <span onDoubleClick={cangeDate}>{dateLocal(date)}</span>
+                <span onDoubleClick={changeDate}>{dateLocal(date)}</span>
               )}
             </div>
           </header>

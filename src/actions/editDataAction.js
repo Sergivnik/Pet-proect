@@ -10,6 +10,9 @@ export const DEL_DATA_FAILURE = "DEL_DATA_FAILURE";
 export const ADD_CONTRACT_REQUEST = "ADD_CONTRACT_REQUEST";
 export const ADD_CONTRACT_FAILURE = "ADD_CONTRACT_FAILURE";
 export const ADD_CONTRACT_SUCCESS = "ADD_CONTRACT_SUCCESS";
+export const ADD_DRIVER_CONTRACT_REQUEST = "ADD_DRIVER_CONTRACT_REQUEST";
+export const ADD_DRIVER_CONTRACT_FAILURE = "ADD_DRIVER_CONTRACT_FAILURE";
+export const ADD_DRIVER_CONTRACT_SUCCESS = "ADD_DRIVER_CONTRACT_SUCCESS";
 
 export const editDataSuccess = (dataServer, newData, editTable) => ({
   type: EDIT_DATA_SUCCESS,
@@ -120,4 +123,34 @@ export const addContractSuccess = () => ({
 });
 export const addContractFailure = () => ({
   type: ADD_CONTRACT_FAILURE,
+});
+
+export const addDriverContract = (driver, html, css) => {
+  return (dispatch) => {
+    dispatch(addContractRequest());
+    axios
+      .create({ withCredentials: true })
+      .post(URL + "/addDriverContract", {
+        driver: driver,
+        html: html,
+        css: css,
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(addDriverContractSuccess());
+      })
+      .catch((e) => {
+        console.log(e);
+        dispatch(addDriverContractFailure());
+      });
+  };
+};
+export const addDriverContractRequest = () => ({
+  type: ADD_DRIVER_CONTRACT_REQUEST,
+});
+export const addDriverContractSuccess = () => ({
+  type: ADD_DRIVER_CONTRACT_SUCCESS,
+});
+export const addDriverContractFailure = () => ({
+  type: ADD_DRIVER_CONTRACT_FAILURE,
 });

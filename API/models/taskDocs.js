@@ -65,6 +65,43 @@ var TaskDocs = {
       callBack({ error: err });
     }
   },
+  createDriverContract: async (customer, html, css, callBack) => {
+    try {
+      const cssFilePath = path.join(__dirname, "temp.css");
+      await writeFileAsync(cssFilePath, css, "utf8");
+
+      const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
+      const page = await browser.newPage();
+      await page.setContent(html);
+      await page.addStyleTag({ path: cssFilePath });
+
+      const pdfBuffer = await page.pdf({
+        format: "A4",
+        margin: {
+          top: "5mm",
+          bottom: "5mm",
+          left: "10mm",
+          right: "0mm",
+        },
+        printBackground: true,
+      });
+
+      await browser.close();
+
+      const exists = fs.existsSync(`./API/contracts/${customer.value}`);
+      if (!exists) {
+        fs.mkdirSync(`./API/contracts/${customer.value}`, { recursive: true });
+      }
+
+      const pdfFilePath = `./API/docs/${customer.value}/docOwner.pdf`;
+      await writeFileAsync(pdfFilePath, pdfBuffer);
+      await unlinkAsync(cssFilePath);
+
+      callBack("success!");
+    } catch (err) {
+      callBack({ error: err });
+    }
+  },
   getDataFromTableByIdAsyhc: async (id, table) => {
     const db = mysql.createPool(options.sql).promise();
     let dataFromTable = {};
@@ -84,5 +121,6 @@ var TaskDocs = {
     }
   },
 };
+
 
 module.exports = TaskDocs;

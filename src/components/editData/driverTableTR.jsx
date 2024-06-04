@@ -110,12 +110,12 @@ export const DriverTableTR = (props) => {
     props.getCurrentId(elem._id);
     setStyleTr("driverActiveTr");
   };
-  const handleClickCreateDoc = () => {
+  const handleClickaAddPdfDoc = () => {
     props.openFormAddDoc(props.elem._id);
     setIsContext(false);
   };
-  const handleClickAddDoc = () => {
-    //props.openFormAddDoc();
+  const handleClickCreateDoc = () => {
+    props.openFormCreatContract(props.elem._id);
     setIsContext(false);
   };
   const handleClickPrintDoc = () => {
@@ -291,11 +291,11 @@ export const DriverTableTR = (props) => {
         )}
         {isContext && (
           <div className="divContextMenu">
-            <p className="pContextMenu" onClick={handleClickCreateDoc}>
-              Создать документ
+            <p className="pContextMenu" onClick={handleClickaAddPdfDoc}>
+              Добавить договор pdf
             </p>
-            <p className="pContextMenu" onClick={handleClickAddDoc}>
-              Добавить документ
+            <p className="pContextMenu" onClick={handleClickCreateDoc}>
+              Создать договор
             </p>
             <p className="pContextMenu" onClick={handleClickPrintDoc}>
               Печать документ

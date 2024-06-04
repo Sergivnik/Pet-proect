@@ -50,6 +50,7 @@ router.post("/createDoc", API.taskCreateDoc);
 router.post("/createDocWithoutStamp", API.taskCreateDocWithoutStamp);
 router.post("/createApp", API.taskCreateApp);
 router.post("/addContract", docAPI.taskCreateContract);
+router.post("/addDriverContract", docAPI.taskCreateDriverContract);
 // router.post(
 //   "/addSomePdfDoc/:id/:typeDoc",
 //   upload.single("fileData"),

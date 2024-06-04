@@ -54,6 +54,9 @@ import {
   ADD_CONTRACT_REQUEST,
   ADD_CONTRACT_FAILURE,
   ADD_CONTRACT_SUCCESS,
+  ADD_DRIVER_CONTRACT_REQUEST,
+  ADD_DRIVER_CONTRACT_FAILURE,
+  ADD_DRIVER_CONTRACT_SUCCESS,
 } from "../actions/editDataAction.js";
 import {
   CREATE_NEW_INVOICE_SUCCESS,
@@ -1217,6 +1220,15 @@ export const oderReducer = (store = initialStore, action) => {
       return { ...store, request: { status: "FAILURE", error: "error" } };
     }
     case ADD_CONTRACT_SUCCESS: {
+      return { ...store, request: {} };
+    }
+    case ADD_DRIVER_CONTRACT_REQUEST: {
+      return { ...store, request: { status: "REQUEST" } };
+    }
+    case ADD_DRIVER_CONTRACT_FAILURE: {
+      return { ...store, request: { status: "FAILURE", error: "error" } };
+    }
+    case ADD_DRIVER_CONTRACT_SUCCESS: {
       return { ...store, request: {} };
     }
 

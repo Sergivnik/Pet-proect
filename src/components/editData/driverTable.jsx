@@ -13,8 +13,10 @@ import { dateLocal, dateLocalZone } from "../myLib/myLib.js";
 import { DOMENNAME } from "../../middlewares/initialState.js";
 import { FormAddEmailData } from "../userTrNew/fornAddEmailData.jsx";
 import { DriverAccountTr } from "./driverAccountTr.tsx";
+import { UserWindow } from "../userWindow/userWindow.jsx";
 import axios from "axios";
 import "./editData.sass";
+import { DriverContractForm } from "./contractForm/driverContractForm.jsx";
 
 export const DriverTable = (props) => {
   const dispatch = useDispatch();
@@ -47,6 +49,8 @@ export const DriverTable = (props) => {
   const [showEmail, setShowEmail] = useState(false);
   const [text, setText] = useState("");
   const [newDriver, setNewDriver] = useState(undefined);
+  const [showFormCreateDoc, setShowFormCreateDoc] = useState(false);
+  const [currentDriver, setCurrentDriver] = useState(undefined);
 
   useEffect(() => {
     console.log("here");
@@ -256,6 +260,7 @@ export const DriverTable = (props) => {
   const handleClickClose = () => {
     setShowInputFile(false);
     setShowEmail(false);
+    setShowFormCreateDoc(false);
   };
   const handleClickEmail = () => {
     let currentElement = document.querySelector(".EDFmainForm");
@@ -268,6 +273,11 @@ export const DriverTable = (props) => {
     setActiveMarker("owner");
     setCurrentOwnerId(id);
     setShowInputFile(true);
+  };
+  const openFormCreatContract = (id) => {
+    let driver = driversListFull.find((driver) => driver._id == id);
+    setCurrentDriver(driver);
+    setShowFormCreateDoc(true);
   };
 
   return (
@@ -324,6 +334,7 @@ export const DriverTable = (props) => {
                   getCurrentId={getCurrentId}
                   currentId={currentId}
                   openFormAddDoc={openFormAddDoc}
+                  openFormCreatContract={openFormCreatContract}
                 />
               );
             })}
@@ -331,7 +342,7 @@ export const DriverTable = (props) => {
           </tbody>
         </table>
         {driversList.length == 1 && (
-          <table className="driverTbl">
+          <table className="driverTbl zindex2">
             <thead>
               <tr>
                 <td className="driverTdHeader">КПП</td>
@@ -486,6 +497,16 @@ export const DriverTable = (props) => {
           text={text}
           handleClickClose={handleClickClose}
         />
+      )}
+      {showFormCreateDoc && (
+        <UserWindow
+          header={`Создание нового договора ${currentDriver.companyName}`}
+          width={800}
+          handleClickWindowClose={handleClickClose}
+          windowId="contractDriverAddWindow"
+        >
+          <DriverContractForm driver={currentDriver} />
+        </UserWindow>
       )}
     </>
   );
