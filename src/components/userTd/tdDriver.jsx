@@ -55,6 +55,12 @@ export const TdDriver = (props) => {
       setCurrentElement(null);
     }
   };
+  const handleClickCtrl = (e) => {
+    console.log(e.code);
+    if (e.ctrlKey) {
+      props.handleClickCtrl(props.idDriver, "driver");
+    }
+  };
   useEffect(() => {
     if (currentElement) currentElement.firstChild.firstChild.focus();
   }, [currentElement]);
@@ -71,6 +77,7 @@ export const TdDriver = (props) => {
       onMouseLeave={handleMouseLeave}
       onDoubleClick={handleDBLClick}
       onKeyDown={handleESC}
+      onClick={handleClickCtrl}
     >
       {showEdit ? (
         <div className="divChoise">

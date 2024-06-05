@@ -104,8 +104,10 @@ export const Oders = () => {
     accountList: [],
   });
   const [showLast, setShowLast] = useState(true);
-
   const [sumAccount, setSumAccount] = useState(0);
+  const [editTable, setEditTable] = useState(null);
+  const [idEdit, setIdEdit] = useState(null);
+
   useEffect(() => {
     console.log(requestStatus);
   }, [requestStatus]);
@@ -144,6 +146,8 @@ export const Oders = () => {
         setShowDelete(false);
         setShowEdit(false);
         setTrId(null);
+        setEditTable(null);
+        setIdEdit(null);
         if (showWindow === true) {
           //setShowWindow(false);
           dispatch(filterData(filterList));
@@ -412,6 +416,8 @@ export const Oders = () => {
   };
   const handleClickEditWindowClose = () => {
     setShowEditDataWindow(false);
+    setEditTable(null);
+    setIdEdit(null);
   };
   const handleClicAppkWindowClose = () => {
     setShowAppWindow(false);
@@ -450,6 +456,12 @@ export const Oders = () => {
   };
   const handleClickTaskWindowClose = () => {
     setShowTasks(false);
+  };
+  const handleClickCtrl = (id, name) => {
+    console.log(id, name);
+    setShowEditDataWindow(true);
+    setEditTable(name);
+    setIdEdit(id);
   };
   return (
     <React.Fragment>
@@ -497,7 +509,7 @@ export const Oders = () => {
           top="12%"
           left="12%"
         >
-          <EditDataForm />
+          <EditDataForm editTable={editTable} id={idEdit} />
         </UserWindow>
       )}
       {showAppWindow && (
@@ -572,6 +584,7 @@ export const Oders = () => {
                   trId={trId}
                   getCurrentTR={getCurrentTR}
                   handleClickGenerate={handleClickGenerate}
+                  handleClickCtrl={handleClickCtrl}
                 />
               );
             })}

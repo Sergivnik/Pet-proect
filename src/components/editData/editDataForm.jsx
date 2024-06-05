@@ -5,7 +5,7 @@ import { PointsTable } from "./pointsTable.jsx";
 import { TrackDriverTable } from "./trackDriverTable.jsx";
 import { TrackTable } from "./trackTable.jsx";
 import { CustomerTable } from "./customerTable.jsx";
-import { ContractorsForm} from "./contractorsForm/contractorForm.tsx"
+import { ContractorsForm } from "./contractorsForm/contractorForm.tsx";
 
 import "./editData.sass";
 
@@ -34,7 +34,7 @@ export const EditDataForm = (props) => {
         setEditTable(<CustomerTable />);
         break;
       case "contractors":
-        setEditTable(<ContractorsForm/>);
+        setEditTable(<ContractorsForm />);
         break;
     }
   };
@@ -45,6 +45,15 @@ export const EditDataForm = (props) => {
       setShowErrDiv(false);
     }
   }, [errMessage]);
+  useEffect(() => {
+    console.log(props.editTable, props.id);
+    if (props.editTable != null && props.id != null) {
+      if (props.editTable == "customer")
+        setEditTable(<CustomerTable id={props.id} />);
+      if (props.editTable == "driver")
+        setEditTable(<DriverTable id={props.id} />);
+    }
+  }, [props]);
   return (
     <div className="EDFmainForm">
       <div className="EDFMenuDiv">

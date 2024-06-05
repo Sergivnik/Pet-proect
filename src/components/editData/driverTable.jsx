@@ -18,7 +18,7 @@ import axios from "axios";
 import "./editData.sass";
 import { DriverContractForm } from "./contractForm/driverContractForm.jsx";
 
-export const DriverTable = (props) => {
+export const DriverTable = ({ id }) => {
   const dispatch = useDispatch();
   const driversListFull = useSelector((state) => state.oderReducer.driverlist);
   const trackdriversFull = useSelector(
@@ -104,6 +104,14 @@ export const DriverTable = (props) => {
       }
     }
   }, [driversListFull]);
+  useEffect(() => {
+    let arr = driversListFull.filter((elem) => elem._id == id);
+    setDriversList(arr);
+    setChosenId(id);
+    setShowInfo(true);
+    setTrackDrivers(trackdriversFull.filter((elem) => elem.idOwner == id));
+    setTrackList(tracklistFull.filter((elem) => elem.idOwner == id));
+  }, [id]);
 
   const handleChangeBox = (e) => {
     if (e.currentTarget.checked) {

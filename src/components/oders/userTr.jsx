@@ -37,6 +37,9 @@ export const UserTr = (props) => {
   const setFontColor = () => {
     return { color: props.elem.colorTR };
   };
+  const handleClickCtrl = (id, name) => {
+    props.handleClickCtrl(id, name);
+  };
   useEffect(() => {
     const onKeypress = (e) => {
       if (e.code == "Escape") {
@@ -70,6 +73,7 @@ export const UserTr = (props) => {
             idDriver={props.elem.idDriver}
             idTrackDriver={props.elem.idTrackDriver}
             currentTR={props.trId}
+            handleClickCtrl={handleClickCtrl}
             edit={true}
           />
           <TdCustomer
@@ -77,6 +81,7 @@ export const UserTr = (props) => {
             idManager={props.elem.idManager}
             applycation={props.elem.applicationNumber}
             currentTR={props.trId}
+            handleClickCtrl={handleClickCtrl}
             edit={true}
           />
           <TdLoadingPoint

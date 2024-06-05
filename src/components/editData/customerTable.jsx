@@ -14,7 +14,7 @@ import { ContractForm } from "./contractForm/contractForm.jsx";
 import "./editData.sass";
 import { FormAddDoc } from "../userTrNew/formAddDoc.jsx";
 
-export const CustomerTable = () => {
+export const CustomerTable = ({ id }) => {
   const dispatch = useDispatch();
   const clientListFull = useSelector((state) => state.oderReducer.clientList);
   const clientManagerFull = useSelector(
@@ -170,6 +170,15 @@ export const CustomerTable = () => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, [showInput]);
+  useEffect(() => {
+    let arr = clientListFull.filter((elem) => elem._id == id);
+    let arrManager = clientManagerFull.filter((elem) => elem.odersId == id);
+    setCustomerList(arr);
+    setChosenId(id);
+    setShowManagerTable(true);
+    setClientManager(arrManager);
+    setCurrentCustomer(arr[0]);
+  }, [id]);
 
   return (
     <React.Fragment>

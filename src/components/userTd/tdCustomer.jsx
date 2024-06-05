@@ -59,10 +59,15 @@ export const TdCustomer = (props) => {
       setCurrentElement(null);
     }
   };
-
   const preventDefaultDBL = (e) => {
     console.log(e);
     e.preventDefault();
+  };
+  const handleClickCtrl = (e) => {
+    console.log(e.code);
+    if (e.ctrlKey) {
+      props.handleClickCtrl(props.idCustomer, "customer");
+    }
   };
 
   useEffect(() => {
@@ -82,6 +87,7 @@ export const TdCustomer = (props) => {
       onDoubleClick={handleDBLClick}
       onMouseDown={preventDefaultDBL}
       onKeyDown={handleESC}
+      onClick={handleClickCtrl}
     >
       {showEdit ? (
         <div className="divChoise">
