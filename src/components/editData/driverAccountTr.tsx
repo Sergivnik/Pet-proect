@@ -147,8 +147,8 @@ export const DriverAccountTr = ({ driver }: Props) => {
         : "нет данных";
     }
     if (driverData.bossName == null || driverData.bossName == "") {
-      newData.bossName = requestTIN[index].data.management
-        ? requestTIN[index].data.management.name
+      newData.bossName = requestTIN[index].data.name.full
+        ? requestTIN[index].data.name.full
         : "нет данных";
     }
     if (driverData.address == null || driverData.address == "") {

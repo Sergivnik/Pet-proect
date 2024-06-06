@@ -358,7 +358,7 @@ export const DriverTable = ({ id }) => {
                 <td className="driverTdHeader">р/сч</td>
                 <td className="driverTdHeader">кор/сч</td>
                 <td className="driverTdHeader">БИК</td>
-                <td className="driverTdHeader">ФИО директора в род. падеже</td>
+                <td className="driverTdHeader">ФИО директора</td>
                 <td className="driverTdHeader">Банк</td>
                 <td className="driverTdHeader">Адрес банка</td>
               </tr>
