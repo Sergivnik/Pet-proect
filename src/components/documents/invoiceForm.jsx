@@ -12,9 +12,15 @@ export const InvoiceForm = (props) => {
   const odersList = useSelector((state) => state.oderReducer.originOdersList);
   const clientList = useSelector((state) => state.oderReducer.clientList);
 
-  const oders = props.dataDoc.odersListId.map((id) =>
+  let oders = props.dataDoc.odersListId.map((id) =>
     odersList.find((elem) => elem._id == id)
   );
+  if (oders[0] == undefined) {
+    const odersList = useSelector((state) => state.oderReducer.odersList);
+    oders = props.dataDoc.odersListId.map((id) =>
+      odersList.find((elem) => elem._id == id)
+    );
+  }
   const dateOfInvoice = oders.reduce((maxDate, elem) => {
     if (maxDate < new Date(elem.date)) {
       maxDate = elem.date;
