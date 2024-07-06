@@ -28,6 +28,7 @@ export const ContractorsPayments = () => {
     dispatch(getDataContractors());
   }, [dispatch]);
   useEffect(() => {
+    console.log(contractorsPaymentsFull);
     let length = contractorsPaymentsFull.length;
     if (length > 500) {
       setContractorsPayments(

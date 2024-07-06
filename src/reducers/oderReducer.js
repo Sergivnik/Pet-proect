@@ -934,6 +934,12 @@ export const oderReducer = (store = initialStore, action) => {
           arr[index] = action.newData;
           return { ...store, contractorsList: arr };
         }
+        case "contractorspayments":{
+          let arr = [...store.contractorsPayments];
+          let index = arr.findIndex((elem) => elem.id == action.newData.id);
+          arr[index] = action.newData;
+          return { ...store, contractorsPayments: arr };
+        }
         default:
           break;
       }

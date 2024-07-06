@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./contractorForm.sass";
-import { dateLocal } from "../myLib/myLib";
+import { dateLocal, formatDate } from "../myLib/myLib.js";
 import { delDataContractorPayment } from "../../actions/contractorActions";
 import { getPdf } from "../../actions/documentAction";
 import { TdWithList } from "../myLib/myTd/tdWithList.jsx";
+import { TdWithText } from "../myLib/myTd/tdWithText.jsx";
 import { editData } from "../../actions/editDataAction.js";
 
 export const ContractorPaymentTr = (props) => {
@@ -66,7 +67,18 @@ export const ContractorPaymentTr = (props) => {
   const callBack = (data) => {
     console.log(elem, data);
     let newData = { ...elem };
+    let textDate = formatDate(elem.date);
+    newData.date = textDate;
     newData[data.name] = data.id;
+    console.log(newData);
+    dispatch(editData(newData, "contractorspayments"));
+  };
+  const getNewData = (newValue, name) => {
+    console.log(newValue, name);
+    let newData = { ...elem };
+    let textDate = formatDate(elem.date);
+    newData.date = textDate;
+    newData[name] = newValue;
     console.log(newData);
     dispatch(editData(newData, "contractorspayments"));
   };
@@ -83,7 +95,8 @@ export const ContractorPaymentTr = (props) => {
     >
       <td className="contrPayBodyTd">{dateLocal(elem.date)}</td>
       <td className="contrPayBodyTd">{findValueById(elem.idContractor)}</td>
-      <td className="contrPayBodyTd">{elem.sum}</td>
+      <TdWithText text={elem.sum} name="sum" getData={getNewData} elem={elem} />
+      {/* <td className="contrPayBodyTd">{elem.sum}</td> */}
       <TdWithList
         name="category"
         list={[
@@ -97,7 +110,6 @@ export const ContractorPaymentTr = (props) => {
         callBack={callBack}
         showChoise={false}
       />
-      {/* <td className="contrPayBodyTd">{elem.category}</td> */}
       <td className="contrPayBodyTd">
         {elem.addInfo}
         {styleTr == "driverActiveTr" && (
