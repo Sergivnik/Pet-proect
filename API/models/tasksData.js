@@ -5,11 +5,19 @@ let TasksDada = {
   editData: async function (newData, callback) {
     console.log(newData);
     const db = mysql.createPool(options.sql).promise();
+    if ("_id" in newData.newData) console.log("_id");
+    if ("id" in newData.newData) console.log("id");
     try {
+      if ("_id" in newData.newData)
       await db.query(`UPDATE ${newData.editTable} SET ? WHERE _id=?`, [
         newData.newData,
         newData.newData._id,
       ]);
+      if ("id" in newData.newData)
+        await db.query(`UPDATE ${newData.editTable} SET ? WHERE id=?`, [
+          newData.newData,
+          newData.newData.id,
+        ]);
       callback("success!");
     } catch (err) {
       console.log(err);

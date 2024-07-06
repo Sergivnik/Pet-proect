@@ -4,6 +4,8 @@ import "./contractorForm.sass";
 import { dateLocal } from "../myLib/myLib";
 import { delDataContractorPayment } from "../../actions/contractorActions";
 import { getPdf } from "../../actions/documentAction";
+import { TdWithList } from "../myLib/myTd/tdWithList.jsx";
+import { editData } from "../../actions/editDataAction.js";
 
 export const ContractorPaymentTr = (props) => {
   const dispatch = useDispatch();
@@ -61,6 +63,13 @@ export const ContractorPaymentTr = (props) => {
     setShowContextMenu(false);
   };
   const handleClickDeleteDoc = () => {};
+  const callBack = (data) => {
+    console.log(elem, data);
+    let newData = { ...elem };
+    newData[data.name] = data.id;
+    console.log(newData);
+    dispatch(editData(newData, "contractorspayments"));
+  };
   useEffect(() => {
     if (props.currentId != props.paymentData.id) {
       setShowContextMenu(false);
@@ -75,7 +84,20 @@ export const ContractorPaymentTr = (props) => {
       <td className="contrPayBodyTd">{dateLocal(elem.date)}</td>
       <td className="contrPayBodyTd">{findValueById(elem.idContractor)}</td>
       <td className="contrPayBodyTd">{elem.sum}</td>
-      <td className="contrPayBodyTd">{elem.category}</td>
+      <TdWithList
+        name="category"
+        list={[
+          { _id: 1, value: "Да" },
+          { _id: 2, value: "нет" },
+          { _id: 3, value: "прочее" },
+        ]}
+        id={elem.category}
+        filedId="_id"
+        field="value"
+        callBack={callBack}
+        showChoise={false}
+      />
+      {/* <td className="contrPayBodyTd">{elem.category}</td> */}
       <td className="contrPayBodyTd">
         {elem.addInfo}
         {styleTr == "driverActiveTr" && (

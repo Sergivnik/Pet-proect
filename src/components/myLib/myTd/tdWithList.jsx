@@ -20,6 +20,7 @@ export const TdWithList = (props) => {
   }, [id]);
 
   const setValue = (data) => {
+    console.log(data);
     data.name = data.field;
     data.id = data._id;
     props.callBack(data);
@@ -27,6 +28,7 @@ export const TdWithList = (props) => {
   };
   const handleDblClick = () => {
     setShowList(true);
+    console.log("hi");
   };
   return (
     <td className="myTd" onDoubleClick={handleDblClick}>
