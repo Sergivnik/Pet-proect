@@ -354,3 +354,10 @@ export const sumInWords = (sum) => {
   }
   return str;
 };
+export const formatDate = (date) => {
+  let dateTime = new Date(date);
+  const year = dateTime.getFullYear();
+  const month = String(dateTime.getMonth() + 1).padStart(2, "0"); // месяцы начинаются с 0
+  const day = String(dateTime.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
