@@ -16,9 +16,25 @@ export const TdWithText = (props) => {
     setShowInput(true);
   };
   const handleEnter = (e) => {
+    console.log("hi");
     if (e.key == "Enter") {
       props.getData(fieldValue, name, elem);
       setShowInput(false);
+    }
+  };
+  const formatBigNumber = (number) => {
+    // Проверяем, что значение не null и является строкой
+    if (number === null || typeof number !== "string") {
+      return null;
+    }
+
+    // Проверяем, содержит ли число 20 или более знаков (включая точку и дробную часть)
+    if (number.length >= 16) {
+      return number;
+    } else {
+      // Преобразуем строку в число и используем toLocaleString для форматирования
+      let numberValue = Number(number);
+      return numberValue.toLocaleString();
     }
   };
   useEffect(() => {
@@ -50,7 +66,7 @@ export const TdWithText = (props) => {
       ) : isNaN(Number(fieldValue)) ? (
         fieldValue
       ) : (
-        Number(fieldValue).toLocaleString()
+        formatBigNumber(fieldValue)
       )}
     </td>
   );
