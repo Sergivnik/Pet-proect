@@ -303,6 +303,9 @@ export const Oders = () => {
     let currentElem;
     if (trId != null) {
       currentElem = oders.find((elem) => elem._id == trId);
+      currentElem.document = "Нет";
+      currentElem.customerPayment = "Нет";
+      currentElem.driverPayment = "Нет";
     }
     setShowCreateOder(!showCreateOder);
     setWindowWidth(1400);
