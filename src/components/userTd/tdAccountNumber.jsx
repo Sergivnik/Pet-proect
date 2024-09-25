@@ -74,20 +74,30 @@ export const TdAccountNumber = (props) => {
     setShowContextMenu(false);
   };
   const handleClickPrintTTN = () => {
-    let a = dispatch(getPdf(currentId, "ttn"));
-    console.log(a);
-    setShowContextMenu(false);
+    if (props.elem.accountNumber !== null && props.elem.document == "Ок") {
+      let a = dispatch(getPdf(currentId, "ttn"));
+      console.log(a);
+      setShowContextMenu(false);
+    }else{
+      setShowContextMenu(false);
+      alert("Нет привязанных ТТН")
+    }
   };
   const handleClickPrintWithoutStamp = () => {
     dispatch(getWithoutStampPdf(currentId));
     setShowContextMenu(false);
   };
   const handleClickAddDoc = (e, typeDoc) => {
-    let TD = e.currentTarget.parentElement.parentElement;
-    setCurrentTD(TD);
-    setShowInputFile(true);
-    setShowContextMenu(false);
-    setTypeDoc(typeDoc);
+    if (props.elem.accountNumber !== null || typeDoc !== "ttn") {
+      const TD = e.currentTarget.parentElement.parentElement;
+      setCurrentTD(TD);
+      setShowInputFile(true);
+      setShowContextMenu(false);
+      setTypeDoc(typeDoc);
+    } else {
+      setShowContextMenu(false);
+      alert("Не гоже привязывать ТТН без счета!");
+    }
   };
   const handleClickSendDoc = (e) => {
     let TD = e.currentTarget.parentElement.parentElement;
@@ -204,14 +214,6 @@ export const TdAccountNumber = (props) => {
         setClassTD("odersTd");
       }
     }
-    // let id = props.elem ? props.elem._id : null;
-    // let check = appList.find((app) => app.orderId == id);
-    // console.log(check);
-    // if (check) {
-    //   setIsAppExist(true);
-    // } else {
-    //   setIsAppExist(false);
-    // }
   }, [props.currentTR]);
   useEffect(() => {
     if (showContextMenu) {
@@ -258,15 +260,15 @@ export const TdAccountNumber = (props) => {
       )}
       {showContextMenu ? (
         <div tabIndex="0" className="divContext">
-        {props.accountNumber == null || props.accountNumber == "" ? (
-          <p className="contextmenu" onClick={handleCreateBill}>
-            Создать счет
-          </p>
-        ) : (
-          <p className="contextmenu" onClick={handleChangeBill}>
-            Изменить счет
-          </p>
-        )}
+          {props.accountNumber == null || props.accountNumber == "" ? (
+            <p className="contextmenu" onClick={handleCreateBill}>
+              Создать счет
+            </p>
+          ) : (
+            <p className="contextmenu" onClick={handleChangeBill}>
+              Изменить счет
+            </p>
+          )}
           <p className="contextmenu" onClick={handleClickPrint}>
             Печать счета
           </p>
@@ -281,7 +283,8 @@ export const TdAccountNumber = (props) => {
             {isAppExist ? "Изменить заявку" : "Создать заявку"}
           </p>
           <p className="contextmenu" onClick={handleClikPrintApp}>
-            {appBtn}{/*Печать заявки*/}
+            {appBtn}
+            {/*Печать заявки*/}
           </p>
           <p
             className="contextmenu"
@@ -291,12 +294,23 @@ export const TdAccountNumber = (props) => {
           </p>
           <hr className="contextMenuHr" />
           <p
-            className="contextmenu"
+            className={
+              props.elem.accountNumber != null
+                ? "contextmenu"
+                : "contextmenu greyFont"
+            }
             onClick={(e) => handleClickAddDoc(e, "ttn")}
           >
             Добавить ТТН
           </p>
-          <p className="contextmenu" onClick={handleClickPrintTTN}>
+          <p
+            className={
+              props.elem.accountNumber != null
+                ? "contextmenu"
+                : "contextmenu greyFont"
+            }
+            onClick={handleClickPrintTTN}
+          >
             Печать ТТН
           </p>
           <hr className="contextMenuHr" />
