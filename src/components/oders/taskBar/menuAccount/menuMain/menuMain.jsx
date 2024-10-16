@@ -45,6 +45,13 @@ export const MenuMain = (props) => {
               Оплата переозчикам
             </button>
             <button
+              name="driverPayments"
+              className="odersDropMenuBtn"
+              onClick={handleClickBtnMenu}
+            >
+              Платежи переозчикам
+            </button>
+            <button
               name="otherPay"
               className="odersDropMenuBtn"
               onClick={handleClickBtnMenu}
