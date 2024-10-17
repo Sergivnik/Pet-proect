@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { ChoiseList } from "../choiseList/choiseList.jsx";
 import { DriverPaymentDebtTr } from "./driverPaymentDebtTr.jsx";
 import { DriverPaymentTr } from "./driverPaymentTr.jsx";
+import { ObjIncludesId } from "../myLib/myLib.js";
 import {
   getDataDriverDebt,
   makePaymentDriver,
 } from "../../actions/driverActions.js";
 import "./driverForms.sass";
-import { ObjIncludesId } from "../myLib/myLib.js";
 
 export const DriverPaymentForm = () => {
   const dispatch = useDispatch();

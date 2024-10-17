@@ -19,6 +19,10 @@ export const EDIT_DATA_DRIVER_DEBT_FAILURE =
   "DATA::EDIT_DATA_DRIVER_DEBT_FAILURE";
 export const MAKE_PAYMENT_DRIVER_SUCCESS = "DATA::MAKE_PAYMENT_DRIVER_SUCCESS";
 export const MAKE_PAYMENT_DRIVER_FAILURE = "DATA::MAKE_PAYMENT_DRIVER_FAILURE";
+export const GET_DRIVER_PAYMENTS = "GET_DRIVER_PAYMENTS";
+export const GET_DRIVER_PAYMENTS_REQUEST = "GET_DRIVER_PAYMENTS_REQUEST";
+export const GET_DRIVER_PAYMENTS_SUCCESS = "GET_DRIVER_PAYMENTS_SUCCESS";
+export const GET_DRIVER_PAYMENTS_FAILURE = "GET_DRIVER_PAYMENTS_FAILURE";
 
 export const getDataDriverDebtSuccess = (dataServer) => ({
   type: GET_DATA_DRIVER_DEBT_SUCCESS,
@@ -161,4 +165,28 @@ export const makePaymentDriverSuccess = (
 export const makePaymentDriverFailure = (message) => ({
   type: MAKE_PAYMENT_DRIVER_FAILURE,
   message,
+});
+export const getDataDriverPayments = () => {
+  return (dispatch) => {
+    dispatch(getDataDriverDebtRequest());
+    axios
+      .get(URL + "/getDriverPayments")
+      .then((res) => {
+        return dispatch(getDriverPaymentsSuccess(res.data));
+      })
+      .catch((e) => {
+        console.log(e.message);
+        return dispatch(getDriverPaymentsFailure());
+      });
+  };
+};
+export const getDataDriverDebtRequest = () => ({
+  type: GET_DRIVER_PAYMENTS_REQUEST,
+});
+export const getDriverPaymentsSuccess = (dataServer) => ({
+  type: GET_DRIVER_PAYMENTS_SUCCESS,
+  dataServer,
+});
+export const getDriverPaymentsFailure = () => ({
+  type: GET_DRIVER_PAYMENTS_FAILURE,
 });
