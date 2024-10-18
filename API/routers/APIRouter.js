@@ -7,6 +7,7 @@ const tasksAPI = require("../controlers/tasksAPI.js");
 const docAPI = require("../controlers/docAPI.js");
 const cardAPI = require("../controlers/cardAPI.js");
 const postAPI = require("../controlers/postAPI.js");
+const driverAPI = require("../controlers/driverAPI.js");
 
 const multer = require("multer");
 // const storage = multer.diskStorage({
@@ -37,6 +38,7 @@ router.get("/getNewTasks", tasksAPI.tasksGetNew);
 router.get("/getDataTasks", tasksAPI.tasksGetData);
 router.get("/getApps", customerAPI.taskGetApps);
 router.get("/getLogTxt", tasksAPI.sendLog);
+router.get("/getDriverPayments", driverAPI.getDriverPayments);
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
 });
@@ -56,7 +58,11 @@ router.post("/addDriverContract", docAPI.taskCreateDriverContract);
 //   upload.single("fileData"),
 //   API.taskAddSomePdfDoc
 // );
-router.post("/addSomePdfDocNew", upload.single('file'), docAPI.taskCreatePdfDocNew);
+router.post(
+  "/addSomePdfDocNew",
+  upload.single("file"),
+  docAPI.taskCreatePdfDocNew
+);
 router.post("/getReportData", API.taskGetReport);
 router.post("/saveReportPdf", API.taskSaveReport);
 router.post("/editYearConst", API.taskEditYearConst);

@@ -1,7 +1,7 @@
 const mysql = require("mysql2");
 const options = require("./config.js");
 
-let TascsCard = {
+let TasksCard = {
   makeCardPayment: async (data, callBack) => {
     console.log(data);
     let sumOfDriverDebts = 0;
@@ -96,8 +96,8 @@ let TascsCard = {
     } finally {
       connection.release();
     }
-db.end();
+    db.end();
   },
 };
 
-module.exports = TascsCard;
+module.exports = TasksCard;
