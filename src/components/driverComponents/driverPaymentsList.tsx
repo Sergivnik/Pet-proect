@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getDataDriverPayments } from "../../actions/driverActions.js";
+import { Driver } from "../editData/driverAccountTr.js";
+import { findValueBy_Id } from "../myLib/myLib.js";
 import "./driverForms.sass";
 
 export interface DriverPayment {
@@ -30,11 +32,17 @@ export interface DriverDebtInfo {
 export type driverDebtStatus = "Ок" | "частично" | "нет";
 
 export const DriverPaymentsList = () => {
+  const [statusRequest, setStatusRequest] = useState<string | null>(null);
+  const [paymentList, setPaymentList] = useState<DriverPayment[] | null>(null);
+
   const driverPaymentList: DriverPayment[] = useSelector(
     (state: any) => state.driverReducer.driverpayment
   );
   const status: string = useSelector(
     (state: any) => state.driverReducer.status
+  );
+  const driverList: Driver[] = useSelector(
+    (state: any) => state.oderReducer.driverlist
   );
   const dispatch = useDispatch();
   useEffect(() => {
@@ -43,8 +51,14 @@ export const DriverPaymentsList = () => {
   useEffect(() => {
     setStatusRequest(status);
   }, [status]);
+  useEffect(() => {
+    setPaymentList(driverPaymentList);
+  }, [driverPaymentList]);
+  useEffect(() => {
+    let div = document.getElementsByClassName("driverPaymentsListMainDiv")[0];
+    div.scrollTop = div.scrollHeight;
+  }, [paymentList]);
 
-  const [statusRequest, setStatusRequest] = useState<string | null>(null);
   return (
     <div className="driverPaymentsListMainDiv">
       {statusRequest != null && (
@@ -63,6 +77,17 @@ export const DriverPaymentsList = () => {
           <tr>
             <td>Lorem ipsum</td>
           </tr>
+          {paymentList != null &&
+            paymentList.map((payment: DriverPayment) => {
+              return (
+                <tr key={`keyDriverPayment${payment.id}`}>
+                  <td>{new Date(payment.date).toLocaleDateString()}</td>
+                  <td>{findValueBy_Id(payment.idDriver, driverList).value}</td>
+                  <td>{payment.sumOfPayment}</td>
+                  <td>{payment.sumOfDebts}</td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

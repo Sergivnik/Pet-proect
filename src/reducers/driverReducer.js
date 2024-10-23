@@ -15,7 +15,7 @@ export const driverReducer = (store = driverStore, action) => {
     case GET_DRIVER_PAYMENTS_SUCCESS: {
       return {
         ...store,
-        driverpayment: action.dataServer.driverpayment,
+        driverpayment: action.dataServer,
         status: null,
       };
     }
