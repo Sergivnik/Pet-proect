@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getDataDriverPayments } from "../../actions/driverActions.js";
 import { Driver } from "../editData/driverAccountTr.js";
-import { findValueBy_Id } from "../myLib/myLib.js";
+import { DriverPaymentListTr } from "./driverPaymentListTr.tsx";
 import "./driverForms.sass";
 
 export interface DriverPayment {
@@ -74,19 +74,9 @@ export const DriverPaymentsList = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Lorem ipsum</td>
-          </tr>
           {paymentList != null &&
             paymentList.map((payment: DriverPayment) => {
-              return (
-                <tr key={`keyDriverPayment${payment.id}`}>
-                  <td>{new Date(payment.date).toLocaleDateString()}</td>
-                  <td>{findValueBy_Id(payment.idDriver, driverList).value}</td>
-                  <td>{payment.sumOfPayment}</td>
-                  <td>{payment.sumOfDebts}</td>
-                </tr>
-              );
+              return <DriverPaymentListTr payment={payment} />;
             })}
         </tbody>
       </table>
