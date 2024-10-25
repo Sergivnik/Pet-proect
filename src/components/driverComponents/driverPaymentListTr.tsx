@@ -22,7 +22,6 @@ export const DriverPaymentListTr = (props: any) => {
   return (
     <React.Fragment>
       <tr
-        key={`keyDriverPayment${payment.id}`}
         onClick={() => handleClickTr(payment)}
       >
         <td className="driverPaymentTd">
@@ -35,22 +34,38 @@ export const DriverPaymentListTr = (props: any) => {
         <td className="driverPaymentTd">{payment.sumOfDebts}</td>
       </tr>
       {showOrderList && (
-        <table>
-          <thead>
-            <tr>
-              <td>Заказы</td>
-            </tr>
-          </thead>
-        </table>
+        <tr>
+          <td colSpan={4}>
+            <table className="driverOrdersLitTable">
+              <thead className="driverPaymentsListMainTableThead">
+                <tr>
+                  <td>Дата</td>
+                  <td>Водитель</td>
+                  <td>Погрузка</td>
+                  <td>Выгрузка</td>
+                  <td>Цена</td>
+                  <td>Номер счета</td>
+                </tr>
+              </thead>
+            </table>
+          </td>
+        </tr>
       )}
       {showDebtList && (
-        <table>
-          <thead>
-            <tr>
-              <td>Долги</td>
-            </tr>
-          </thead>
-        </table>
+        <tr>
+          <td colSpan={4}>
+            <table className="driverDebtsListTable">
+              <thead className="driverPaymentsListMainTableThead">
+                <tr>
+                  <td>Дата</td>
+                  <td>Категория</td>
+                  <td>Суммк</td>
+                  <td>Примечание</td>
+                </tr>
+              </thead>
+            </table>
+          </td>
+        </tr>
       )}
     </React.Fragment>
   );

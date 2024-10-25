@@ -64,7 +64,7 @@ export const DriverPaymentsList = () => {
       {statusRequest != null && (
         <div className="statusRequestDiv">{statusRequest}</div>
       )}
-      <table className="driverPaymentsLitMainTable">
+      <table className="driverPaymentsListMainTable">
         <thead className="driverPaymentsListMainTableThead">
           <tr>
             <td>Дата</td>
@@ -76,7 +76,12 @@ export const DriverPaymentsList = () => {
         <tbody>
           {paymentList != null &&
             paymentList.map((payment: DriverPayment) => {
-              return <DriverPaymentListTr payment={payment} />;
+              return (
+                <DriverPaymentListTr
+                  key={`keyDriverPayment${payment.id}`}
+                  payment={payment}
+                />
+              );
             })}
         </tbody>
       </table>
