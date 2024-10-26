@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DriverPayment } from "./driverPaymentsList";
+import { DriverPayment, Point, TrackDriver } from "./driverPaymentsList";
 import { Driver } from "../editData/driverAccountTr";
 import { findValueBy_Id } from "../myLib/myLib.js";
 import "./driverForms.sass";
+import { Order } from "../postForm/postForm.js";
 
 export const DriverPaymentListTr = (props: any) => {
   const [showOrderList, setShowOrderList] = useState<boolean>(false);
   const [showDebtList, setShowDebtList] = useState<boolean>(false);
-  let payment = props.payment;
+  let payment: DriverPayment = props.payment;
+  let orderList: number[] = payment.listOfOders;
 
   const driverList: Driver[] = useSelector(
     (state: any) => state.oderReducer.driverlist
+  );
+  const orderFullList: Order[] = useSelector(
+    (state: any) => state.oderReducer.originOdersList
+  );
+  const trackDriverList: TrackDriver[] = useSelector(
+    (state: any) => state.oderReducer.trackdrivers
+  );
+  const pointList: Point[] = useSelector(
+    (state: any) => state.oderReducer.citieslist
   );
 
   const handleClickTr = (payment: DriverPayment) => {
@@ -21,9 +32,7 @@ export const DriverPaymentListTr = (props: any) => {
   };
   return (
     <React.Fragment>
-      <tr
-        onClick={() => handleClickTr(payment)}
-      >
+      <tr onClick={() => handleClickTr(payment)}>
         <td className="driverPaymentTd">
           {new Date(payment.date).toLocaleDateString()}
         </td>
@@ -47,6 +56,41 @@ export const DriverPaymentListTr = (props: any) => {
                   <td>Номер счета</td>
                 </tr>
               </thead>
+              <tbody>
+                {orderList.map((orderId: number) => {
+                  let order: Order = findValueBy_Id(orderId, orderFullList);
+                  let trackdriver: TrackDriver = findValueBy_Id(
+                    order.idTrackDriver,
+                    trackDriverList
+                  );
+                  let pointLoadList: string[] = order.idLoadingPoint.map(
+                    (idPoint: number) => {
+                      return findValueBy_Id(idPoint, pointList).value;
+                    }
+                  );
+                  let pointUnloadList: string[] = order.idUnloadingPoint.map(
+                    (idPoint: number) => {
+                      return findValueBy_Id(idPoint, pointList).value;
+                    }
+                  );
+                  return (
+                    <tr key={`payment${payment.id}-order${orderId}`}>
+                      <td className="driverPaymentTd">
+                        {new Date(order.date).toLocaleDateString()}
+                      </td>
+                      <td className="driverPaymentTd">{trackdriver.value}</td>
+                      <td className="driverPaymentTd">
+                        {pointLoadList.join(" - ")}
+                      </td>
+                      <td className="driverPaymentTd">
+                        {pointUnloadList.join(" - ")}
+                      </td>
+                      <td className="driverPaymentTd">{order.driverPrice}</td>
+                      <td className="driverPaymentTd">{order.accountNumber}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </table>
           </td>
         </tr>

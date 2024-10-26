@@ -29,6 +29,25 @@ export interface DriverDebtInfo {
   id: number;
   sum: number;
 }
+export interface TrackDriver {
+  _id: number;
+  name: string;
+  shortName: string;
+  passportNumber: string;
+  department: string;
+  dateOfIssue: string;
+  driverLicense: string;
+  phoneNumber: string;
+  value: string;
+  idOwner: number;
+  idTrack: number;
+  fired: boolean;
+}
+export interface Point {
+  _id: number;
+  value: string;
+  region: string;
+}
 export type driverDebtStatus = "Ок" | "частично" | "нет";
 
 export const DriverPaymentsList = () => {
