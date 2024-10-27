@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DriverPayment, Point, TrackDriver } from "./driverPaymentsList";
+import {
+  DriverDebt,
+  DriverDebtInfo,
+  DriverPayment,
+  Point,
+  TrackDriver,
+} from "./driverPaymentsList";
 import { Driver } from "../editData/driverAccountTr";
-import { findValueBy_Id } from "../myLib/myLib.js";
+import { findValueBy_Id, findValueById } from "../myLib/myLib.js";
 import "./driverForms.sass";
 import { Order } from "../postForm/postForm.js";
 
 export const DriverPaymentListTr = (props: any) => {
   const [showOrderList, setShowOrderList] = useState<boolean>(false);
   const [showDebtList, setShowDebtList] = useState<boolean>(false);
+  const [classNameTr, setClassNameTr] = useState<string>("");
   let payment: DriverPayment = props.payment;
   let orderList: number[] = payment.listOfOders;
+  let debtList: DriverDebtInfo[] = payment.listOfDebts;
 
   const driverList: Driver[] = useSelector(
     (state: any) => state.oderReducer.driverlist
@@ -24,15 +32,23 @@ export const DriverPaymentListTr = (props: any) => {
   const pointList: Point[] = useSelector(
     (state: any) => state.oderReducer.citieslist
   );
+  const driverDebtList: DriverDebt[] = useSelector(
+    (state: any) => state.oderReducer.driverDebtList
+  );
 
   const handleClickTr = (payment: DriverPayment) => {
     console.log(payment);
+    if (classNameTr == "") {
+      setClassNameTr("blueTr");
+    } else {
+      setClassNameTr("");
+    }
     if (payment.listOfOders.length > 0) setShowOrderList(!showOrderList);
     if (payment.listOfDebts.length > 0) setShowDebtList(!showDebtList);
   };
   return (
     <React.Fragment>
-      <tr onClick={() => handleClickTr(payment)}>
+      <tr onClick={() => handleClickTr(payment)} className={classNameTr}>
         <td className="driverPaymentTd">
           {new Date(payment.date).toLocaleDateString()}
         </td>
@@ -104,9 +120,29 @@ export const DriverPaymentListTr = (props: any) => {
                   <td>Дата</td>
                   <td>Категория</td>
                   <td>Суммк</td>
+                  <td>Оплачено</td>
                   <td>Примечание</td>
                 </tr>
               </thead>
+              <tbody>
+                {debtList.map((debtInfo) => {
+                  let debt: DriverDebt = findValueById(
+                    debtInfo.id,
+                    driverDebtList
+                  );
+                  return (
+                    <tr key={`payment${payment.id}-debt${debt.id}`}>
+                      <td className="driverPaymentTd">
+                        {new Date(debt.date).toLocaleDateString()}
+                      </td>
+                      <td className="driverPaymentTd">{debt.category}</td>
+                      <td className="driverPaymentTd">{debt.sumOfDebt}</td>
+                      <td className="driverPaymentTd">{debtInfo.sum}</td>
+                      <td className="driverPaymentTd">{debt.addInfo}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </table>
           </td>
         </tr>
