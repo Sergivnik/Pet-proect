@@ -96,5 +96,6 @@ router.delete("/deleteContractorPayment/:id", API.deleteContractorPayment);
 router.delete("/deleteAddData/:id", API.deleteAddData);
 router.delete("/deleteCustomerApp/:id", customerAPI.taskDelCustomerApp);
 router.delete("/delTask/:id", tasksAPI.taskDelData);
+router.delete("/delDriverPayment/:id", driverAPI.delDriverPayment);
 
 module.exports = router;

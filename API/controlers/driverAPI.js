@@ -15,3 +15,7 @@ module.exports.getDriverPayments = (req, res) => {
   console.log(req.sessionID, req.session.userId);
   tasks.getDriverPayments((data) => callBack(data, res));
 };
+module.exports.delDriverPayment = (req, res) => {
+  res.set("Access-Control-Allow-Credentials", "true");
+  console.log(req.params.id, req.session.userId, "delDriverPayment");
+};
