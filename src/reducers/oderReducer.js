@@ -1318,6 +1318,7 @@ export const oderReducer = (store = initialStore, action) => {
       const arrOriginOders = [...store.originOdersList];
       const arrOders = [...store.odersList];
       const arrDebts = [...store.driverDebtList];
+      let expenses = Number(store.expenses);
 
       let index = arrPayments.findIndex((payment) => payment.id == action.id);
       let payment = arrPayments[index];
@@ -1330,7 +1331,7 @@ export const oderReducer = (store = initialStore, action) => {
         arrOders[index].driverPayment = "нет";
       });
       listOfDebtsInfo.forEach((debtInfo) => {
-        let index = arrDebts.findIndex((debt) => debt.Id == debtInfo.id);
+        let index = arrDebts.findIndex((debt) => debt.id == debtInfo.id);
         if (arrDebts[index].sumOfDebt == debtInfo.sum) {
           arrDebts[index].debtClosed = "нет";
           arrDebts[index].paidPartOfDebt = null;
@@ -1346,12 +1347,15 @@ export const oderReducer = (store = initialStore, action) => {
         }
       });
       arrPayments.splice(index, 1);
+      expenses =
+        expenses - Number(payment.sumOfPayment) + Number(payment.sumOfDebts);
       return {
         ...store,
         driverpayments: arrPayments,
         originOdersList: arrOriginOders,
         odersList: arrOders,
         driverDebtList: arrDebts,
+        expenses: expenses,
       };
     }
 
