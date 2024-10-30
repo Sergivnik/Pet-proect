@@ -35,6 +35,7 @@ import {
   EDIT_DATA_DRIVER_DEBT_SUCCESS,
   MAKE_PAYMENT_DRIVER_SUCCESS,
   MAKE_PAYMENT_DRIVER_FAILURE,
+  DEL_DRIVER_PAYMENT_SUCCESS_ORDER,
 } from "../actions/driverActions.js";
 import {
   GET_DATA_CONTRACTORS_SUCCESS,
@@ -934,7 +935,7 @@ export const oderReducer = (store = initialStore, action) => {
           arr[index] = action.newData;
           return { ...store, contractorsList: arr };
         }
-        case "contractorspayments":{
+        case "contractorspayments": {
           let arr = [...store.contractorsPayments];
           let index = arr.findIndex((elem) => elem.id == action.newData.id);
           arr[index] = action.newData;
@@ -1309,6 +1310,49 @@ export const oderReducer = (store = initialStore, action) => {
     case ADD_POST_TRACK_FAILURE: {
       alert(action.data.error);
       return { ...store, request: {} };
+    }
+    case DEL_DRIVER_PAYMENT_SUCCESS_ORDER: {
+      console.log("hi1");
+
+      const arrPayments = [...store.driverpayments];
+      const arrOriginOders = [...store.originOdersList];
+      const arrOders = [...store.odersList];
+      const arrDebts = [...store.driverDebtList];
+
+      let index = arrPayments.findIndex((payment) => payment.id == action.id);
+      let payment = arrPayments[index];
+      let listOfOders = payment.listOfOders;
+      let listOfDebtsInfo = payment.listOfDebts;
+      listOfOders.forEach((orderId) => {
+        let index = arrOriginOders.findIndex((order) => order._id == orderId);
+        arrOriginOders[index].driverPayment = "нет";
+        index = arrOders.findIndex((order) => order._id == orderId);
+        arrOders[index].driverPayment = "нет";
+      });
+      listOfDebtsInfo.forEach((debtInfo) => {
+        let index = arrDebts.findIndex((debt) => debt.Id == debtInfo.id);
+        if (arrDebts[index].sumOfDebt == debtInfo.sum) {
+          arrDebts[index].debtClosed = "нет";
+          arrDebts[index].paidPartOfDebt = null;
+        } else {
+          let paidPartOfDebt = arrDebts[index].paidPartOfDebt - debtInfo.sum;
+          if (paidPartOfDebt == 0) {
+            arrDebts[index].debtClosed = "нет";
+            arrDebts[index].paidPartOfDebt = null;
+          } else {
+            arrDebts[index].debtClosed = "частично";
+            arrDebts[index].paidPartOfDebt = paidPartOfDebt;
+          }
+        }
+      });
+      arrPayments.splice(index, 1);
+      return {
+        ...store,
+        driverpayments: arrPayments,
+        originOdersList: arrOriginOders,
+        odersList: arrOders,
+        driverDebtList: arrDebts,
+      };
     }
 
     default:

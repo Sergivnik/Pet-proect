@@ -23,7 +23,10 @@ export const GET_DRIVER_PAYMENTS_REQUEST = "GET_DRIVER_PAYMENTS_REQUEST";
 export const GET_DRIVER_PAYMENTS_SUCCESS = "GET_DRIVER_PAYMENTS_SUCCESS";
 export const GET_DRIVER_PAYMENTS_FAILURE = "GET_DRIVER_PAYMENTS_FAILURE";
 export const DEL_DRIVER_PAYMENT_REQUEST = "DEL_DRIVER_PAYMENT_REQUEST";
-export const DEL_DRIVER_PAYMENT_SUCCESS = "DEL_DRIVER_PAYMENT_SUCCESS";
+export const DEL_DRIVER_PAYMENT_SUCCESS_ORDER =
+  "DEL_DRIVER_PAYMENT_SUCCESS_ORDER";
+export const DEL_DRIVER_PAYMENT_SUCCESS_DRIVER =
+  "DEL_DRIVER_PAYMENT_SUCCESS_DRIVER";
 export const DEL_DRIVER_PAYMENT_FAILURE = "DEL_DRIVER_PAYMENT_FAILURE";
 
 export const getDataDriverDebtSuccess = (dataServer) => ({
@@ -198,7 +201,8 @@ export const delDriverPayment = (id) => {
     axios
       .delete(URL + "/delDriverPayment/" + id)
       .then((res) => {
-        return dispatch(delDriverPaymentSuccess(id));
+        dispatch(delDriverPaymentSuccessOrder(id));
+        dispatch(delDriverPaymentSuccessDriver(id));
       })
       .catch((e) => {
         console.log(e.message);
@@ -209,10 +213,14 @@ export const delDriverPayment = (id) => {
 export const delDriverPaymentRequest = () => ({
   type: DEL_DRIVER_PAYMENT_REQUEST,
 });
-export const delDriverPaymentSuccess = (id) => ({
-  type: DEL_DRIVER_PAYMENT_SUCCESS,
+export const delDriverPaymentSuccessOrder = (id) => ({
+  type: DEL_DRIVER_PAYMENT_SUCCESS_ORDER,
   id,
 });
-export const delDriverPaymentFailure=()=>({
-  type: DEL_DRIVER_PAYMENT_FAILURE
-})
+export const delDriverPaymentSuccessDriver = (id) => ({
+  type: DEL_DRIVER_PAYMENT_SUCCESS_DRIVER,
+  id,
+});
+export const delDriverPaymentFailure = () => ({
+  type: DEL_DRIVER_PAYMENT_FAILURE,
+});
