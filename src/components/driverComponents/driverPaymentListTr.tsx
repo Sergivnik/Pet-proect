@@ -145,7 +145,9 @@ export const DriverPaymentListTr = (props: any) => {
                   } else {
                     return (
                       <tr key={`payment${payment.id}-order${orderId}`}>
-                        нет заказа
+                        <td className="driverPaymentTd" colSpan={6}>
+                          Заказ не найден или удален
+                        </td>
                       </tr>
                     );
                   }
@@ -170,21 +172,32 @@ export const DriverPaymentListTr = (props: any) => {
               </thead>
               <tbody>
                 {debtList.map((debtInfo) => {
-                  let debt: DriverDebt = findValueById(
-                    debtInfo.id,
-                    driverDebtList
-                  );
-                  return (
-                    <tr key={`payment${payment.id}-debt${debt.id}`}>
-                      <td className="driverPaymentTd">
-                        {new Date(debt.date).toLocaleDateString()}
-                      </td>
-                      <td className="driverPaymentTd">{debt.category}</td>
-                      <td className="driverPaymentTd">{debt.sumOfDebt}</td>
-                      <td className="driverPaymentTd">{debtInfo.sum}</td>
-                      <td className="driverPaymentTd">{debt.addInfo}</td>
-                    </tr>
-                  );
+                  let debt: DriverDebt | null =
+                    findValueById(debtInfo.id, driverDebtList) || null;
+                  if (debt != null) {
+                    return (
+                      <tr key={`payment${payment.id}-debt${debt.id}`}>
+                        <td className="driverPaymentTd">
+                          {new Date(debt.date).toLocaleDateString()}
+                        </td>
+                        <td className="driverPaymentTd">{debt.category}</td>
+                        <td className="driverPaymentTd">{debt.sumOfDebt}</td>
+                        <td className="driverPaymentTd">{debtInfo.sum}</td>
+                        <td className="driverPaymentTd">{debt.addInfo}</td>
+                      </tr>
+                    );
+                  } else {
+                    return (
+                      <tr key={`payment${payment.id}-debt${debtInfo.id}`}>
+                        <td className="driverPaymentTd" colSpan={3}>
+                          Долг не найден или удален
+                        </td>
+                        <td className="driverPaymentTd" colSpan={2}>
+                          {debtInfo.sum}
+                        </td>
+                      </tr>
+                    );
+                  }
                 })}
               </tbody>
             </table>

@@ -1,6 +1,6 @@
 const mysql = require("mysql2");
 const options = require("./config.js");
-const { getDriverPayments } = require("../controlers/driverAPI.js");
+//const { getDriverPayments } = require("../controlers/driverAPI.js");
 
 let TasksDriver = {
   getDriverPayments: async (callBack) => {
