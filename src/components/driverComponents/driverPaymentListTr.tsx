@@ -106,37 +106,49 @@ export const DriverPaymentListTr = (props: any) => {
               </thead>
               <tbody>
                 {orderList.map((orderId: number) => {
-                  let order: Order = findValueBy_Id(orderId, orderFullList);
-                  let trackdriver: TrackDriver = findValueBy_Id(
-                    order.idTrackDriver,
-                    trackDriverList
-                  );
-                  let pointLoadList: string[] = order.idLoadingPoint.map(
-                    (idPoint: number) => {
-                      return findValueBy_Id(idPoint, pointList).value;
-                    }
-                  );
-                  let pointUnloadList: string[] = order.idUnloadingPoint.map(
-                    (idPoint: number) => {
-                      return findValueBy_Id(idPoint, pointList).value;
-                    }
-                  );
-                  return (
-                    <tr key={`payment${payment.id}-order${orderId}`}>
-                      <td className="driverPaymentTd">
-                        {new Date(order.date).toLocaleDateString()}
-                      </td>
-                      <td className="driverPaymentTd">{trackdriver.value}</td>
-                      <td className="driverPaymentTd">
-                        {pointLoadList.join(" - ")}
-                      </td>
-                      <td className="driverPaymentTd">
-                        {pointUnloadList.join(" - ")}
-                      </td>
-                      <td className="driverPaymentTd">{order.driverPrice}</td>
-                      <td className="driverPaymentTd">{order.accountNumber}</td>
-                    </tr>
-                  );
+                  let order: Order | null =
+                    findValueBy_Id(orderId, orderFullList) || null;
+                  console.log(order);
+                  if (order != null) {
+                    let trackdriver: TrackDriver = findValueBy_Id(
+                      order.idTrackDriver,
+                      trackDriverList
+                    );
+                    let pointLoadList: string[] = order.idLoadingPoint.map(
+                      (idPoint: number) => {
+                        return findValueBy_Id(idPoint, pointList).value;
+                      }
+                    );
+                    let pointUnloadList: string[] = order.idUnloadingPoint.map(
+                      (idPoint: number) => {
+                        return findValueBy_Id(idPoint, pointList).value;
+                      }
+                    );
+                    return (
+                      <tr key={`payment${payment.id}-order${orderId}`}>
+                        <td className="driverPaymentTd">
+                          {new Date(order.date).toLocaleDateString()}
+                        </td>
+                        <td className="driverPaymentTd">{trackdriver.value}</td>
+                        <td className="driverPaymentTd">
+                          {pointLoadList.join(" - ")}
+                        </td>
+                        <td className="driverPaymentTd">
+                          {pointUnloadList.join(" - ")}
+                        </td>
+                        <td className="driverPaymentTd">{order.driverPrice}</td>
+                        <td className="driverPaymentTd">
+                          {order.accountNumber}
+                        </td>
+                      </tr>
+                    );
+                  } else {
+                    return (
+                      <tr key={`payment${payment.id}-order${orderId}`}>
+                        нет заказа
+                      </tr>
+                    );
+                  }
                 })}
               </tbody>
             </table>
