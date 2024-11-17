@@ -86,7 +86,11 @@ module.exports.taskCreatePdfDocNew = async (req, res) => {
     let accountNumber = data.accountNumber;
     data = await tasksDoc.getDataFromTableByIdAsyhc(customerId, "oders");
     let customerName = data.value;
-    fileName = `ttn${Number(accountNumber)}.pdf`;
+    if (!isNaN(Number(accountNumber))) {
+      fileName = `ttn${Number(accountNumber)}.pdf`;
+    } else {
+      fileName = `ttn${accountNumber}.pdf`;
+    }
     filePath = path.join(
       __dirname,
       `../Bills/${year}/${customerName}`,
