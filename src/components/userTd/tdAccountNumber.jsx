@@ -38,6 +38,7 @@ export const TdAccountNumber = (props) => {
   const [printObj, setPrintObj] = useState({ number: null, odersListId: [] });
 
   const handleDBLClick = (e) => {
+    console.log("hi");
     let element = e.currentTarget;
     if (e.target.tagName != "TD") return false;
     if (props.edit) {
@@ -78,9 +79,9 @@ export const TdAccountNumber = (props) => {
       let a = dispatch(getPdf(currentId, "ttn"));
       console.log(a);
       setShowContextMenu(false);
-    }else{
+    } else {
       setShowContextMenu(false);
-      alert("Нет привязанных ТТН")
+      alert("Нет привязанных ТТН");
     }
   };
   const handleClickPrintWithoutStamp = () => {
@@ -253,7 +254,7 @@ export const TdAccountNumber = (props) => {
     >
       {showEdit ? (
         <div className="divChoise">
-          <input name="accountNumber" type="number" onKeyDown={handleEnter} />
+          <input name="accountNumber" type="text" onKeyDown={handleEnter} />
         </div>
       ) : (
         props.accountNumber
