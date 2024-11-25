@@ -13,7 +13,8 @@ import "./createOder.sass";
 
 export const CreateOderNew = (props) => {
   const driverlist = useSelector((state) => state.oderReducer.driverlist);
-  const oderslist = useSelector((state) => state.oderReducer.clientList);
+  const clientList = useSelector((state) => state.oderReducer.clientList);
+  const orderList = useSelector((state) => state.oderReducer.originOdersList);
   const clientManagerFull = useSelector(
     (state) => state.oderReducer.clientmanager
   );
@@ -55,6 +56,7 @@ export const CreateOderNew = (props) => {
   const [showBtn, setShowBtn] = useState(false);
   const [btnName, setBtnName] = useState("Добавить");
   const [showAddFields, setShowAddFields] = useState(false);
+  const [debtOfCustomer, setDebtOfCustomer] = useState(null);
 
   useEffect(() => {
     if (props.clickSave) setMainDivStyle("crOderMainDiv");
@@ -71,7 +73,7 @@ export const CreateOderNew = (props) => {
       }
       if (obj.idCustomer != null) {
         setShowClientInput(false);
-        obj.valueCustomer = oderslist.find(
+        obj.valueCustomer = clientList.find(
           (elem) => elem._id == obj.idCustomer
         ).value;
       }
@@ -145,6 +147,20 @@ export const CreateOderNew = (props) => {
         odersData.idUnloadingPoint.length > 0
     );
   }, [odersData]);
+  useEffect(() => {
+    if (odersData.idCustomer) {
+      let sumOfDebt = 0;
+      orderList.forEach((order) => {
+        if (
+          order.idCustomer == odersData.idCustomer &&
+          order.customerPayment != "Ок"
+        ) {
+          sumOfDebt = sumOfDebt + Number(order.customerPrice);
+        }
+      });
+      setDebtOfCustomer(sumOfDebt);
+    }
+  }, [odersData.idCustomer]);
 
   useEffect(() => {
     const secretKey = (e) => {
@@ -475,7 +491,7 @@ export const CreateOderNew = (props) => {
                 <div className="containerChoise">
                   <ChoiseList
                     name="client"
-                    arrlist={oderslist}
+                    arrlist={clientList}
                     setValue={setValue}
                   />
                 </div>
@@ -702,23 +718,30 @@ export const CreateOderNew = (props) => {
             </div>
           </div>
         )}
-        <div className="footerCheckBox">
-          Не включать в оплату{" "}
-          <input
-            type="checkbox"
-            onChange={handleCheckPayment}
-            checked={checkPayment}
-          />
+        <div className="rightPathWrap">
+          <div className="infoBlock">
+            {debtOfCustomer
+              ? `Долг клиента составляет ${debtOfCustomer} руб`
+              : null}
+          </div>
+          <div className="footerCheckBox">
+            Не включать в оплату{" "}
+            <input
+              type="checkbox"
+              onChange={handleCheckPayment}
+              checked={checkPayment}
+            />
+          </div>
+          <div className="footerCheckBox">
+            Выделить цветом{" "}
+            <input type="checkbox" onChange={handleCheck} checked={checkBox} />
+          </div>
+          {showBtn && (
+            <button className="crOdBtn" onClick={handleClick}>
+              {btnName}
+            </button>
+          )}
         </div>
-        <div className="footerCheckBox">
-          Выделить цветом{" "}
-          <input type="checkbox" onChange={handleCheck} checked={checkBox} />
-        </div>
-        {showBtn && (
-          <button className="crOdBtn" onClick={handleClick}>
-            {btnName}
-          </button>
-        )}
       </div>
     </div>
   );
