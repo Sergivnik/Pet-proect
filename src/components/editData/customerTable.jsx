@@ -219,6 +219,7 @@ export const CustomerTable = ({ id }) => {
               <td className="customerTdHeader">Телефон</td>
               <td className="customerTdHeader">Договор</td>
               <td className="customerTdHeader">Активный</td>
+              <td className="customerTdHeader">Лимит</td>
             </tr>
           </thead>
           <tbody className="customerTbody">

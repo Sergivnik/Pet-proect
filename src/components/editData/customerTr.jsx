@@ -49,6 +49,9 @@ export const CustomerTr = (props) => {
       case 7:
         setValue(elem.contract);
         break;
+      case 9:
+        setValue(elem.limit);
+        break;
       default:
         break;
     }
@@ -95,9 +98,13 @@ export const CustomerTr = (props) => {
         case 7:
           obj.contract = e.currentTarget.value;
           break;
+        case 9:
+          obj.limit = e.currentTarget.value;
+          break;
         default:
           break;
       }
+      console.log(obj);
       dispatch(editData(obj, "oders"));
       setColNumber(null);
     }
@@ -317,6 +324,19 @@ export const CustomerTr = (props) => {
               </g>
             </svg>
           </div>
+        )}
+      </td>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
+        {colNumber == 9 ? (
+          <input
+            type="text"
+            className="customerTrInput"
+            onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={value}
+          />
+        ) : (
+          elem.limit
         )}
       </td>
     </tr>

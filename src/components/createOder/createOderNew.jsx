@@ -57,6 +57,7 @@ export const CreateOderNew = (props) => {
   const [btnName, setBtnName] = useState("Добавить");
   const [showAddFields, setShowAddFields] = useState(false);
   const [debtOfCustomer, setDebtOfCustomer] = useState(null);
+  const [limit, setLimit] = useState(null);
 
   useEffect(() => {
     if (props.clickSave) setMainDivStyle("crOderMainDiv");
@@ -159,6 +160,10 @@ export const CreateOderNew = (props) => {
         }
       });
       setDebtOfCustomer(sumOfDebt);
+      let customerLimit = clientList.find(
+        (elem) => elem._id == odersData.idCustomer
+      ).limit;
+      setLimit(customerLimit);
     }
   }, [odersData.idCustomer]);
 
@@ -719,7 +724,13 @@ export const CreateOderNew = (props) => {
           </div>
         )}
         <div className="rightPathWrap">
-          <div className="infoBlock">
+          <div
+            className={
+              debtOfCustomer < limit || limit == null
+                ? "infoBlock"
+                : "infoBlock red"
+            }
+          >
             {debtOfCustomer
               ? `Долг клиента составляет ${debtOfCustomer} руб`
               : null}
