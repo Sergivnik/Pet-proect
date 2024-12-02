@@ -116,11 +116,13 @@ export const SpecialTable = () => {
     arr.sort((a, b) => {
       let aOrder = ordersList.find((elem) => elem._id == a.orderId);
       let bOrder = ordersList.find((elem) => elem._id == b.orderId);
-      if (aOrder.accountNumber == null && bOrder != null) return 1;
-      if (aOrder.accountNumber != null && bOrder == null) return -1;
-      if (aOrder.accountNumber > bOrder.accountNumber) return 1;
-      if (aOrder.accountNumber == bOrder.accountNumber) return 0;
-      if (aOrder.accountNumber < bOrder.accountNumber) return -1;
+      if (aOrder || bOrder) {
+        if (aOrder.accountNumber == null && bOrder != null) return 1;
+        if (aOrder.accountNumber != null && bOrder == null) return -1;
+        if (aOrder.accountNumber > bOrder.accountNumber) return 1;
+        if (aOrder.accountNumber == bOrder.accountNumber) return 0;
+        if (aOrder.accountNumber < bOrder.accountNumber) return -1;
+      }
     });
     setTableDataOrigin(arr);
 
@@ -165,11 +167,13 @@ export const SpecialTable = () => {
     arr.sort((a, b) => {
       let aOrder = ordersList.find((elem) => elem._id == a.orderId);
       let bOrder = ordersList.find((elem) => elem._id == b.orderId);
-      if (aOrder.accountNumber == null && bOrder != null) return 1;
-      if (aOrder.accountNumber != null && bOrder == null) return -1;
-      if (aOrder.accountNumber > bOrder.accountNumber) return 1;
-      if (aOrder.accountNumber == bOrder.accountNumber) return 0;
-      if (aOrder.accountNumber < bOrder.accountNumber) return -1;
+      if (aOrder || bOrder) {
+        if (aOrder.accountNumber == null && bOrder != null) return 1;
+        if (aOrder.accountNumber != null && bOrder == null) return -1;
+        if (aOrder.accountNumber > bOrder.accountNumber) return 1;
+        if (aOrder.accountNumber == bOrder.accountNumber) return 0;
+        if (aOrder.accountNumber < bOrder.accountNumber) return -1;
+      }
     });
     setTableDataOrigin(arr);
   }, [addTable]);
@@ -177,10 +181,11 @@ export const SpecialTable = () => {
   useEffect(() => {
     let sum = 0;
     tableData.forEach((elem) => {
-      let price = ordersList.find(
-        (order) => order._id == elem.orderId
-      ).customerPrice;
-      sum = sum + ((price - elem.sum) * (100 - elem.interest)) / 100;
+      let order = ordersList.find((order) => order._id == elem.orderId);
+      if (order) {
+        let price = order.customerPrice;
+        sum = sum + ((price - elem.sum) * (100 - elem.interest)) / 100;
+      }
     });
     setSum(sum);
   }, [tableData]);
