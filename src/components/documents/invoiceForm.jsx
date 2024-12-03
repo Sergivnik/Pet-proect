@@ -15,10 +15,10 @@ export const InvoiceForm = (props) => {
   let oders = props.dataDoc.odersListId.map((id) =>
     odersList.find((elem) => elem._id == id)
   );
+  const odersList1 = useSelector((state) => state.oderReducer.odersList);
   if (oders[0] == undefined) {
-    const odersList = useSelector((state) => state.oderReducer.odersList);
     oders = props.dataDoc.odersListId.map((id) =>
-      odersList.find((elem) => elem._id == id)
+      odersList1.find((elem) => elem._id == id)
     );
   }
   const dateOfInvoice = oders.reduce((maxDate, elem) => {
