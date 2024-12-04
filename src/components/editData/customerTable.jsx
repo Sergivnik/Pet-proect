@@ -20,6 +20,7 @@ export const CustomerTable = ({ id }) => {
   const clientManagerFull = useSelector(
     (state) => state.oderReducer.clientmanager
   );
+  const orderList = useSelector((state) => state.oderReducer.originOdersList);
 
   const [customerList, setCustomerList] = useState(clientListFull);
   const [currentCustomer, setCurrentCustomer] = useState(null);
@@ -36,6 +37,8 @@ export const CustomerTable = ({ id }) => {
   const [showAddPdfFile, setShowAddPdfFile] = useState(false);
   const [currentTD, setCurrentTD] = useState(null);
   const [isNewCustomer, setIsNewCustomer] = useState(false);
+  const [debtOfCustomer, setDebtOfCustomer] = useState(null);
+  const [limit, setLimit] = useState(null);
 
   const setValue = (data) => {
     let arr = clientListFull.filter((elem) => elem._id == data._id);
@@ -179,6 +182,21 @@ export const CustomerTable = ({ id }) => {
     setClientManager(arrManager);
     setCurrentCustomer(arr[0]);
   }, [id]);
+  useEffect(() => {
+    if (currentCustomer != null) {
+      let sumOfDebt = 0;
+      orderList.forEach((order) => {
+        if (
+          order.idCustomer == currentCustomer._id &&
+          order.customerPayment != "Ок"
+        ) {
+          sumOfDebt = sumOfDebt + Number(order.customerPrice);
+        }
+      });
+      setDebtOfCustomer(sumOfDebt);
+      setLimit(currentCustomer.limit);
+    }
+  }, [currentCustomer]);
 
   return (
     <React.Fragment>
@@ -318,6 +336,15 @@ export const CustomerTable = ({ id }) => {
                 Добавить Сотрудника
               </button>
             </header>
+            <div
+              className={
+                debtOfCustomer < limit || limit == null
+                  ? "divDebtOfCustomer"
+                  : "divDebtOfCustomer red"
+              }
+            >
+              {`Долг клиента равен ${debtOfCustomer} руб`}
+            </div>
             <table className="managerTbl">
               <thead>
                 <tr>

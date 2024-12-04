@@ -116,7 +116,7 @@ export const SpecialTable = () => {
     arr.sort((a, b) => {
       let aOrder = ordersList.find((elem) => elem._id == a.orderId);
       let bOrder = ordersList.find((elem) => elem._id == b.orderId);
-      if (aOrder || bOrder) {
+      if (aOrder && bOrder) {
         if (aOrder.accountNumber == null && bOrder != null) return 1;
         if (aOrder.accountNumber != null && bOrder == null) return -1;
         if (aOrder.accountNumber > bOrder.accountNumber) return 1;
