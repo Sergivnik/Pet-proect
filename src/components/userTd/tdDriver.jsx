@@ -9,67 +9,83 @@ export const TdDriver = (props) => {
   const trackDriverList = useSelector(
     (state) => state.oderReducer.trackdrivers
   );
+
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
-
-  let mouseOut = true;
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
   const getValue = (id, arrObj) => {
     if (id) {
-      let value = arrObj.find((elem) => elem._id == id);
-      return value.value;
+      const value = arrObj.find((elem) => elem._id === id);
+      return value ? value.value : null;
     }
+    return null;
   };
+
   const handleMouseOver = () => {
-    mouseOut = false;
-    setTimeout(() => {
-      if (!mouseOut) if (props.idTrackDriver) setShowDetails(true);
-    }, 500);
+    setIsMouseOver(true); // Установить состояние "мышь наведена"
   };
+
   const handleMouseLeave = () => {
-    mouseOut = true;
-    setShowDetails(false);
+    setIsMouseOver(false); // Убрать состояние "мышь наведена"
+    setShowDetails(false); // Скрыть тултип
   };
+
+  useEffect(() => {
+    // Отображение тултипа через 500ms после наведения мыши
+    if (isMouseOver) {
+      const timer = setTimeout(() => {
+        if (props.idTrackDriver) setShowDetails(true);
+      }, 500);
+      return () => clearTimeout(timer); // Очистка таймера при уходе мыши
+    }
+  }, [isMouseOver, props.idTrackDriver]);
+
   const handleDBLClick = (e) => {
-    let element = e.currentTarget;
     if (props.edit) {
       setShowEdit(true);
-      e.currentTarget.parentElement.style.backgroundColor = "#fff";
       setCurrentId(e.currentTarget.parentElement.id);
-      setCurrentElement(element);
+      setCurrentElement(e.currentTarget);
     }
   };
+
   const setValue = (data) => {
-    console.log(currentId, "driver", data._id);
     dispatch(editOder(currentId, "driver", data._id));
     setShowEdit(false);
     setCurrentId(null);
     setCurrentElement(null);
   };
+
   const handleESC = (e) => {
-    if (e.code == "Escape") {
+    if (e.code === "Escape") {
       setShowEdit(false);
       setCurrentId(null);
       setCurrentElement(null);
     }
   };
+
   const handleClickCtrl = (e) => {
-    console.log(e.code);
     if (e.ctrlKey) {
       props.handleClickCtrl(props.idDriver, "driver");
     }
   };
+
   useEffect(() => {
-    if (currentElement) currentElement.firstChild.firstChild.focus();
+    if (currentElement) {
+      const input = currentElement.querySelector("input");
+      if (input) input.focus();
+    }
   }, [currentElement]);
+
   useEffect(() => {
-    if (props.currentTR != currentId) {
+    if (props.currentTR !== currentId) {
       setShowEdit(false);
       setCurrentId(null);
     }
-  }, [props.currentTR]);
+  }, [props.currentTR, currentId]);
+
   return (
     <td
       className="userTd"

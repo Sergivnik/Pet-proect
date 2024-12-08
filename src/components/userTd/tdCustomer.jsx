@@ -8,77 +8,90 @@ export const TdCustomer = (props) => {
   const dispatch = useDispatch();
   const clientList = useSelector((state) => state.oderReducer.clientList);
   const clientmanager = useSelector((state) => state.oderReducer.clientmanager);
+
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
-
-  let mouseOut = true;
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
   const getValue = (id, arrObj) => {
     if (id) {
-      let value = arrObj.find((elem) => elem._id == id);
-      return value;
+      const value = arrObj.find((elem) => elem._id === id);
+      return value || null;
     }
+    return null;
   };
+
   const handleMouseOver = () => {
-    mouseOut = false;
-    setTimeout(() => {
-      if (!mouseOut) {
+    setIsMouseOver(true); // Устанавливаем состояние наведения мыши
+  };
+
+  const handleMouseLeave = () => {
+    setIsMouseOver(false); // Сбрасываем состояние наведения мыши
+    setShowDetails(false); // Скрываем тултип
+  };
+
+  useEffect(() => {
+    // Появление тултипа через 500ms после наведения мыши
+    if (isMouseOver) {
+      const timer = setTimeout(() => {
         if (props.idManager || props.applycation) {
           setShowDetails(true);
         }
-      }
-    }, 500);
-  };
-  const handleMouseLeave = () => {
-    mouseOut = true;
-    setShowDetails(false);
-  };
+      }, 500);
+      return () => clearTimeout(timer); // Очистка таймера при уходе мыши
+    }
+  }, [isMouseOver, props.idManager, props.applycation]);
+
   const handleDBLClick = (e) => {
     e.preventDefault();
-    let element = e.currentTarget;
     if (props.edit) {
       setShowEdit(true);
-      e.currentTarget.parentElement.style.backgroundColor = "#fff";
       setCurrentId(e.currentTarget.parentElement.id);
-      setCurrentElement(element);
+      setCurrentElement(e.currentTarget);
     }
   };
+
   const setValue = (data) => {
-    console.log(currentId, "oders", data._id);
     dispatch(editOder(currentId, "oders", data._id));
     setShowEdit(false);
     setCurrentId(null);
     setCurrentElement(null);
   };
+
   const handleESC = (e) => {
-    if (e.code == "Escape") {
+    if (e.code === "Escape") {
       setShowEdit(false);
       setCurrentId(null);
       setCurrentElement(null);
     }
   };
+
   const preventDefaultDBL = (e) => {
-    console.log(e);
     e.preventDefault();
   };
+
   const handleClickCtrl = (e) => {
-    console.log(e.code);
     if (e.ctrlKey) {
       props.handleClickCtrl(props.idCustomer, "customer");
     }
   };
 
   useEffect(() => {
-    if (currentElement) currentElement.firstChild.firstChild.focus();
+    if (currentElement) {
+      const input = currentElement.querySelector("input");
+      if (input) input.focus();
+    }
   }, [currentElement]);
+
   useEffect(() => {
-    if (props.currentTR != currentId) {
+    if (props.currentTR !== currentId) {
       setShowEdit(false);
       setCurrentId(null);
     }
-  }, [props.currentTR]);
+  }, [props.currentTR, currentId]);
+
   return (
     <td
       className="userTd"
@@ -94,22 +107,22 @@ export const TdCustomer = (props) => {
           <ChoiseList name="oders" arrlist={clientList} setValue={setValue} />
         </div>
       ) : props.idCustomer ? (
-        getValue(props.idCustomer, clientList).value
+        getValue(props.idCustomer, clientList)?.value
       ) : null}
       {showDetails && (
         <div className="oderTdTooltip">
           <p className="userPTooltip">
             {props.idManager
-              ? getValue(props.idManager, clientmanager).value
+              ? getValue(props.idManager, clientmanager)?.value
               : null}
           </p>
           <p className="userPTooltip">
             {props.idManager
-              ? getValue(props.idManager, clientmanager).phone
+              ? getValue(props.idManager, clientmanager)?.phone
               : null}
           </p>
           <p className="userPTooltip">
-            {props.applycation && "Заявка № " + props.applycation}
+            {props.applycation && `Заявка № ${props.applycation}`}
           </p>
         </div>
       )}

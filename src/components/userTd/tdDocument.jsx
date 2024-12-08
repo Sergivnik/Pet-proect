@@ -20,17 +20,13 @@ export const TdDocument = (props) => {
     { _id: 4, value: "Сдал" },
   ]);
   const [classTd, setClassTd] = useState("userTd");
-
-  let mouseOut = true;
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
   const handleMouseOver = () => {
-    mouseOut = false;
-    setTimeout(() => {
-      if (!mouseOut) if (props.dateOfSubmission) setShowDetails(true);
-    }, 500);
+    setIsMouseOver(true);
   };
   const handleMouseLeave = () => {
-    mouseOut = true;
+    setIsMouseOver(false);
     setShowDetails(false);
   };
   const handleDBLClick = (e) => {
@@ -112,6 +108,14 @@ export const TdDocument = (props) => {
       }
     }
   }, [props]);
+  useEffect(() => {
+    if (isMouseOver) {
+      const timer = setTimeout(() => {
+        if (props.dateOfSubmission) setShowDetails(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isMouseOver, props.dateOfSubmission]);
 
   return (
     <td

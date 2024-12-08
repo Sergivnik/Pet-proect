@@ -17,17 +17,13 @@ export const TdCustomerPayment = (props) => {
   const [currentElement, setCurrentElement] = useState(null);
   const [getSum, setGetSum] = useState(false);
   const [getDate, setGetDate] = useState(false);
-
-  let mouseOut = true;
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
   const handleMouseOver = () => {
-    mouseOut = false;
-    setTimeout(() => {
-      if (!mouseOut) if (props.dateOfPromise) setShowDetails(true);
-    }, 500);
+    setIsMouseOver(true);
   };
   const handleMouseLeave = () => {
-    mouseOut = true;
+    setIsMouseOver(false);
     setShowDetails(false);
   };
   const handleDBLClick = (e) => {
@@ -98,6 +94,14 @@ export const TdCustomerPayment = (props) => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, [showEdit]);
+  useEffect(() => {
+    if (isMouseOver) {
+      const timer = setTimeout(() => {
+        if (props.dateOfPromise) setShowDetails(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isMouseOver, props.dateOfPromise]);
 
   return (
     <td

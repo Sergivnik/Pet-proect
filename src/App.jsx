@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Clock } from "./components/myLib/clock/clock.jsx";
 import { DOMENNAME } from "./middlewares/initialState";
@@ -15,18 +15,20 @@ export const App = () => {
     "Мы доставим ваш груз туда,\n куда вам нужно, без проблем.",
     "Ваш груз в надежных руках\n – доверьтесь профессионалам.",
   ];
-  const [backgroundImage, setBackgroundImage] = useState();
-  const [counter, setCounter] = useState(null);
+
+  const [backgroundImage, setBackgroundImage] = useState("");
+  const [counter, setCounter] = useState(0);
   const [preloadImages, setPreloadImages] = useState([]);
   const [currentSlogan, setCurrentSlogan] = useState(slogans[0]);
   const [displayText, setDisplayText] = useState(false);
 
-  let divStyle = {
-    backgroundImage: backgroundImage,
+  const divStyle = useMemo(() => ({
+    backgroundImage,
     height: "calc(100vh - 16px)",
     backgroundSize: "cover",
     backgroundPosition: "center",
-  };
+  }), [backgroundImage]);
+
   useEffect(() => {
     const images = [
       `${DOMENNAME}/img/trackPhone.png`,
@@ -34,57 +36,34 @@ export const App = () => {
       `${DOMENNAME}/img/trackPhone3.png`,
       `${DOMENNAME}/img/trackPhone5.png`,
     ];
-    const preload = [];
-    images.forEach((image) => {
+    const preload = images.map((src) => {
       const img = new Image();
-      img.src = image;
-      preload.push(img);
+      img.src = src;
+      return img;
     });
     setPreloadImages(preload);
-    setCounter(0);
   }, []);
+
   useEffect(() => {
-    switch (counter) {
-      case 0:
-        setBackgroundImage(`url(${preloadImages[1].src}`);
-        setCurrentSlogan(slogans[0]);
-        setDisplayText(true);
-        break;
-      case 1:
-        setBackgroundImage(`url(${preloadImages[0].src}`);
-        setCurrentSlogan(slogans[1]);
-        setDisplayText(true);
-        break;
-      case 2:
-        setBackgroundImage(`url(${preloadImages[2].src}`);
-        setCurrentSlogan(slogans[2]);
-        setDisplayText(true);
-        break;
-      case 3:
-        setBackgroundImage(`url(${preloadImages[3].src}`);
-        setCurrentSlogan(slogans[3]);
-        setDisplayText(true);
-        break;
-      default:
-        break;
-    }
-    setTimeout(() => {
-      if (counter < 3) {
-        setCounter(counter + 1);
-      } else {
-        setCounter(0);
-      }
+    if (preloadImages.length === 0) return;
+
+    const updateBackground = () => {
+      setBackgroundImage(`url(${preloadImages[counter]?.src || ""})`);
+      setCurrentSlogan(slogans[counter]);
+      setDisplayText(true);
+
       setTimeout(() => {
         setDisplayText(false);
       }, 8250);
-    }, 10000);
-    divStyle = {
-      backgroundImage: backgroundImage,
-      height: "calc(100vh - 16px)",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
+
+      setTimeout(() => {
+        setCounter((prevCounter) => (prevCounter < 3 ? prevCounter + 1 : 0));
+      }, 10000);
     };
-  }, [counter]);
+
+    updateBackground();
+  }, [counter, preloadImages]);
+
   return (
     <div className="appRootDiv" style={divStyle}>
       <header className="appRootHeader">
@@ -108,19 +87,14 @@ export const App = () => {
         <h1>{currentSlogan}</h1>
       </div>
       <div className="appClockContainer">
-        <Clock size={175} color={`#0000ff`} />
+        <Clock size={175} color="#0000ff" />
       </div>
       <div>
-        <MyComponent text="Type Script is working!!!" />
+        <MyComponent text="TypeScript is working!!!" />
       </div>
       <div className="appCanvasContainer">
         <Canvas>
-          <PerspectiveCamera
-            makeDefault
-            position={[0, 3, 20]}
-            near={30}
-            far={45}
-          />
+          <PerspectiveCamera makeDefault position={[0, 3, 20]} near={30} far={45} />
           <directionalLight color="white" position={[0, 0, 55]} />
           <Text3DComponent text={currentSlogan} />
         </Canvas>

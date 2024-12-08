@@ -10,19 +10,13 @@ export const TdDriverPayment = (props) => {
   const [currentId, setCurrentId] = useState(null);
   const [currentElement, setCurrentElement] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
-
-  let mouseOut = true;
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
   const handleMouseOver = () => {
-    mouseOut = false;
-    setTimeout(() => {
-      if (!mouseOut) {
-        if (props.dateOfPayment) setShowDetails(true);
-      }
-    }, 500);
+    setIsMouseOver(true);
   };
   const handleMouseLeave = () => {
-    mouseOut = true;
+    setIsMouseOver(false);
     setShowDetails(false);
   };
   const handleDBLClick = (e) => {
@@ -64,6 +58,14 @@ export const TdDriverPayment = (props) => {
       document.removeEventListener("keydown", onKeypress);
     };
   }, [showEdit]);
+  useEffect(() => {
+    if (isMouseOver) {
+      const timer = setTimeout(() => {
+        if (props.dateOfPayment) setShowDetails(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isMouseOver, props.dateOfPayment]);
 
   return (
     <td
