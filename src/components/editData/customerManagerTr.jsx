@@ -20,7 +20,7 @@ export const CustomerManagerTr = (props) => {
 
   const handleClickTr = (e) => {
     props.getCurrentId(elem._id);
-    setStyleTr("customerActiveTr");
+    setStyleTr(elem.fired ? "customerActiveTr redFont" : "customerActiveTr");
     setStileTd("customerManagerTd tdZ10");
   };
   const handleDBLclick = (e) => {
@@ -42,6 +42,8 @@ export const CustomerManagerTr = (props) => {
       case 4:
         setValueInput(elem.addPhone);
         break;
+      case 5:
+        setValueInput(elem.fired ? "Уволен" : "");
       default:
         break;
     }
@@ -76,6 +78,17 @@ export const CustomerManagerTr = (props) => {
         case 4:
           obj.addPhone = e.currentTarget.value;
           break;
+        case 6:
+          if (
+            e.currentTarget.value == "Уволен" ||
+            e.currentTarget.value == "уволен" ||
+            e.currentTarget.value == "уволена" ||
+            e.currentTarget.value == "Уволена"
+          ) {
+            obj.fired = true;
+          } else {
+            obj.fired = false;
+          }
         default:
           break;
       }
@@ -102,12 +115,12 @@ export const CustomerManagerTr = (props) => {
   useEffect(() => {
     if (props.currentId != elem._id) {
       setColNumber(null);
-      setStyleTr(null);
+      setStyleTr(elem.fired ? "redFont" : null);
       setStileTd("customerManagerTd");
     } else {
-      setStyleTr("customerActiveTr");
+      setStyleTr(elem.fired ? "customerActiveTr redFont" : "customerActiveTr");
     }
-  }, [props.currentId]);
+  }, [props.currentId, props.elem.fired]);
   useEffect(() => {
     if (currentElement) currentElement.firstChild.focus();
   }, [currentElement]);
@@ -202,7 +215,7 @@ export const CustomerManagerTr = (props) => {
         ) : (
           findValueBy_Id(elem.odersId, clientListFull).value
         )}
-        {styleTr != null && (
+        {styleTr != null && styleTr != "redFont" && (
           <div className="customerPaymentTrClose" onClick={handleClickDelete}>
             <svg width="20px" height="20px" viewBox="0 0 60 60">
               <g transform="translate(232.000000, 228.000000)">
@@ -215,6 +228,21 @@ export const CustomerManagerTr = (props) => {
               </g>
             </svg>
           </div>
+        )}
+      </td>
+      <td className={styleTd} onDoubleClick={handleDBLclick}>
+        {colNumber == 6 ? (
+          <input
+            type="text"
+            className="customerTrInput"
+            onKeyDown={handleEnter}
+            onChange={handleChange}
+            value={valueInput}
+          />
+        ) : elem.fired ? (
+          "Уволен"
+        ) : (
+          ""
         )}
       </td>
     </tr>

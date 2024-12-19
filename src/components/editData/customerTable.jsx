@@ -354,6 +354,7 @@ export const CustomerTable = ({ id }) => {
                   <td className="customerManagerTdHeader">e-mail</td>
                   <td className="customerManagerTdHeader">Доп. телефон</td>
                   <td className="customerManagerTdHeader">Клиент</td>
+                  <td className="customerManagerTdHeader">Уволен</td>
                 </tr>
               </thead>
               <tbody className="customerManagerTbody">
