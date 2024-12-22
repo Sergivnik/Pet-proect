@@ -6,6 +6,7 @@ import "./choiseList.sass";
 // field1 - field of object from first list wich use for search
 // field2 - field of object from second list wich use for search
 // field3 - another field of object from first list wich use for search
+// field4 - another field of object from second list wich use for search
 // fieldSearch - field of object from second list wich use as result of searching
 // setValue - function where get result of searching as object {_id:id}
 // reset - clear the field of searching
@@ -31,6 +32,7 @@ export const ChoiseTwoList = (props) => {
         arr.push({
           keyId: `arr2-${elem._id}`,
           value: elem[props.field2],
+          value2: elem[props.field4],
           id: elem[props.fieldSearch],
         });
       });

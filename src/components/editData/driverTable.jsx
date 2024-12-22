@@ -299,6 +299,8 @@ export const DriverTable = ({ id }) => {
             arr2={trackdriversFull}
             field1="value"
             field2="shortName"
+            field3="phone"
+            field4="phoneNumber"
             fieldSearch="idOwner"
             setValue={setValue}
             reset={reset}
