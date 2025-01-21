@@ -25,6 +25,7 @@ export const AppForm = (props) => {
   const driverList = useSelector((state) => state.oderReducer.driverlist);
   const appList = useSelector((state) => state.customerReducer.customerOrders);
 
+  console.log(props.isLogistApp);
   const order = props.isLogistApp
     ? appList.find((app) => app._id == props.dataDoc.odersListId[props.id - 1])
     : odersList.find(
@@ -550,14 +551,16 @@ export const AppForm = (props) => {
             <SpanWithText
               name="customerPrice"
               text={
-                props.driverApp ? editData.driverPrice : editData.customerPrice
+                //props.driverApp ? editData.driverPrice : editData.customerPrice
+                editData.customerPrice
               }
               getText={getEditText}
             />
           </div>
           <span style={{ width: "80%" }}>
             {sumInWords(
-              props.driverApp ? editData.driverPrice : editData.customerPrice
+              //props.driverApp ? editData.driverPrice : editData.customerPrice
+              editData.customerPrice
             )}
           </span>
         </div>
