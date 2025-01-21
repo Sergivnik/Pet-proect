@@ -1301,6 +1301,11 @@ export const oderReducer = (store = initialStore, action) => {
       listOfOders.forEach((id) => {
         let index = newOrderList.findIndex((order) => order._id == id);
         newOrderList[index].postTracker = action.data.postTrackNumber;
+        if (
+          newOrderList[index].customerPayment != "Ок" &&
+          newOrderList[index].customerPayment != "Частично оплачен"
+        )
+          newOrderList[index].customerPayment = "Почта";
       });
       return { ...store, odersList: newOrderList, request: {} };
     }
