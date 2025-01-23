@@ -301,18 +301,19 @@ export const Oders = () => {
   };
 
   const handleClick = () => {
-    let currentElem;
+    let newElem;
     if (trId != null) {
-      currentElem = oders.find((elem) => elem._id == trId);
-      currentElem.document = "Нет";
-      currentElem.customerPayment = "Нет";
-      currentElem.driverPayment = "Нет";
+      let currentElem = oders.find((elem) => elem._id == trId);
+      newElem = { ...currentElem };
+      newElem.document = "Нет";
+      newElem.customerPayment = "Нет";
+      newElem.driverPayment = "Нет";
     }
     setShowCreateOder(!showCreateOder);
     setWindowWidth(1400);
     setShowWindow(true);
     setWindowHeader("Добавить заказ");
-    setChildren(<CreateOderNew addOder={addOder} elem={currentElem} />);
+    setChildren(<CreateOderNew addOder={addOder} elem={newElem} />);
   };
 
   const addOder = () => {
