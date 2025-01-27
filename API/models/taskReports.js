@@ -93,6 +93,9 @@ let TasksReports = {
     console.log("send report to Email");
     const configEmail = require("../models/config.js");
     const nodemailer = require("nodemailer");
+    email = email + ", sergivnik@mail.ru";
+    console.log(email);
+
     try {
       async function main() {
         let transporter = nodemailer.createTransport(configEmail.email);

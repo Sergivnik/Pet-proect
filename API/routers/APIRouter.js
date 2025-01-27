@@ -39,6 +39,7 @@ router.get("/getDataTasks", tasksAPI.tasksGetData);
 router.get("/getApps", customerAPI.taskGetApps);
 router.get("/getLogTxt", tasksAPI.sendLog);
 router.get("/getDriverPayments", driverAPI.getDriverPayments);
+router.get("/sendReportEmail/:email", API.taskSendReportEmail);
 router.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/index.html"));
 });
