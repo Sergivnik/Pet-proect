@@ -18,6 +18,10 @@ import {
   CHECK_LOG_REQUEST,
   CHECK_LOG_FAILURE,
 } from "../actions/tasksActions";
+import {
+  EDIT_DATA_SUCCESS,
+  EDIT_DATA_FAILURE,
+} from "../actions/editDataAction.js";
 
 export const tasksReducer = (store = tasksDataStore, action) => {
   switch (action.type) {
@@ -119,6 +123,19 @@ export const tasksReducer = (store = tasksDataStore, action) => {
       //console.log(parsedData);
       return { ...store, logList: parsedData };
     }
+    case EDIT_DATA_SUCCESS:
+      console.log(action.dataServer, action.newData, action.editTable);
+      switch (action.editTable) {
+        case "taskstable":
+          let [...arrTasks] = store.taskList;
+          let indexTask = arrTasks.findIndex(
+            (task) => task._id == action.newData._id
+          );
+          arrTasks[indexTask] = action.newData;
+          return { ...store, taskList: arrTasks };
+        default:
+          break;
+      }
     default:
       return store;
   }
