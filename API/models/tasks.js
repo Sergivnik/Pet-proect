@@ -625,6 +625,16 @@ var Tasks = {
 
   makePaymentCustomer: async function (data, callback) {
     console.log(data);
+    const now = new Date();
+
+    // Приводим к формату YYYY-MM-DD HH:MM:SS
+    const formattedNow = now
+      .toLocaleString("sv-SE", {
+        timeZone: "Europe/Moscow",
+      })
+      .replace("T", " ");
+    console.log(now);
+
     let sumChosenOders = data.arr.reduce(
       (sum, item) => sum + item.customerPrice,
       0
@@ -680,7 +690,7 @@ var Tasks = {
         console.log(dataelem[i]._id, data.arr[index]);
         if (dataelem[i].customerPrice == data.arr[index].customerPrice) {
           await db.query(
-            `UPDATE oderslist SET customerPayment="Ок" WHERE _id=${data.arr[index].id}`
+            `UPDATE oderslist SET customerPayment="Ок", dateOfPromise="${formattedNow}" WHERE _id=${data.arr[index].id}`
           );
         } else {
           if (
