@@ -39,6 +39,10 @@ export const CustomerTable = ({ id }) => {
   const [isNewCustomer, setIsNewCustomer] = useState(false);
   const [debtOfCustomer, setDebtOfCustomer] = useState(null);
   const [limit, setLimit] = useState(null);
+  const [turnover, setTurnover] = useState(0);
+  const [numberOfOrders, setNumberOfOrders] = useState(0);
+  const [averagePaymentTerm, setAveragePaymentTerm] = useState(0);
+  const [maxPaymentTerm, setMaxPaymentTerm] = useState(0);
 
   const setValue = (data) => {
     let arr = clientListFull.filter((elem) => elem._id == data._id);
@@ -185,6 +189,12 @@ export const CustomerTable = ({ id }) => {
   useEffect(() => {
     if (currentCustomer != null) {
       let sumOfDebt = 0;
+      let turnover = 0;
+      let now = new Date();
+      let yearAgo = new Date(now.setFullYear(now.getFullYear() - 1));
+      let numberOfOrders = 0;
+      let averagePaymentTerm = 0;
+      let maxPaymentTerm = 0;
       orderList.forEach((order) => {
         if (
           order.idCustomer == currentCustomer._id &&
@@ -192,7 +202,31 @@ export const CustomerTable = ({ id }) => {
         ) {
           sumOfDebt = sumOfDebt + Number(order.customerPrice);
         }
+
+        if (
+          order.idCustomer == currentCustomer._id &&
+          new Date(order.date) > yearAgo
+        ) {
+          turnover = turnover + Number(order.customerPrice);
+          numberOfOrders = numberOfOrders + 1;
+          if (order.customerPayment == "Ок" && order.dateOfPromise != null) {
+            const date1 = new Date(order.date); // Первая дата
+            const date2 = new Date(order.dateOfSubmission); // Вторая дата
+
+            // Разница в миллисекундах
+            let diffInMs = date2 - date1;
+            if (diffInMs < 0) diffInMs = 0;
+            // Переводим миллисекунды в дни
+            const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+            averagePaymentTerm = averagePaymentTerm + diffInDays;
+            if (diffInDays > maxPaymentTerm) maxPaymentTerm = diffInDays;
+          }
+        }
       });
+      setTurnover(turnover);
+      setNumberOfOrders(numberOfOrders);
+      setAveragePaymentTerm(Math.ceil(averagePaymentTerm / numberOfOrders));
+      setMaxPaymentTerm(maxPaymentTerm);
       setDebtOfCustomer(sumOfDebt);
       setLimit(currentCustomer.limit);
     }
@@ -344,6 +378,18 @@ export const CustomerTable = ({ id }) => {
               }
             >
               {`Долг клиента равен ${debtOfCustomer} руб`}
+              <div className="divInfoOfCustomer">
+                <div className="divInfoData">Оборот {turnover} руб</div>
+                <div className="divInfoData">
+                  Срок оплаты средний {averagePaymentTerm} дн
+                </div>
+                <div className="divInfoData">
+                  Срок оплаты иакс {maxPaymentTerm} дн
+                </div>
+                <div className="divInfoData">
+                  Кол-во заказов {numberOfOrders}{" "}
+                </div>
+              </div>
             </div>
             <table className="managerTbl">
               <thead>
