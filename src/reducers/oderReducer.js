@@ -1297,17 +1297,38 @@ export const oderReducer = (store = initialStore, action) => {
     }
     case ADD_POST_TRACK_SUCCESS: {
       let listOfOders = action.data.orderList;
-      let newOrderList = [...store.originOdersList];
+      let newOrderList = [...store.odersList];
+      let newOriginOrderLis = [...store.originOdersList];
+      console.log("hi");
+
       listOfOders.forEach((id) => {
         let index = newOrderList.findIndex((order) => order._id == id);
-        newOrderList[index].postTracker = action.data.postTrackNumber;
-        if (
-          newOrderList[index].customerPayment != "Ок" &&
-          newOrderList[index].customerPayment != "Частично оплачен"
-        )
-          newOrderList[index].customerPayment = "Почта";
+        if (index != -1) {
+          newOrderList[index].postTracker = action.data.postTrackNumber;
+          if (
+            newOrderList[index].customerPayment != "Ок" &&
+            newOrderList[index].customerPayment != "Частично оплачен"
+          )
+            newOrderList[index].customerPayment = "Почта";
+        }
+        let indexOrigin = newOriginOrderLis.findIndex(
+          (order) => order._id == id
+        );
+        if (indexOrigin != -1) {
+          newOriginOrderLis[indexOrigin].postTracker = action.data.postTrackNumber;
+          if (
+            newOriginOrderLis[indexOrigin].customerPayment != "Ок" &&
+            newOriginOrderLis[indexOrigin].customerPayment != "Частично оплачен"
+          )
+            newOriginOrderLis[indexOrigin].customerPayment = "Почта";
+        }
       });
-      return { ...store, odersList: newOrderList, request: {} };
+      return {
+        ...store,
+        odersList: newOrderList,
+        originOdersList: newOriginOrderLis,
+        request: {},
+      };
     }
     case ADD_POST_TRACK_REQUEST: {
       return { ...store, request: { status: "REQUEST" } };
