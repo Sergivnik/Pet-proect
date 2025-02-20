@@ -249,9 +249,9 @@ module.exports.taskAdd = (req, res) => {
 
   tasks.add(req.body.body, (data) => {
     if (data.error) {
-      res.status(500);
-      res.json({ message: data.error });
+      res.status(500).json({ message: data.error });
     } else {
+      req.app.get("io").emit("orderAdded", data);
       res.json(data);
     }
   });

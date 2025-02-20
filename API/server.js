@@ -11,9 +11,11 @@ const server = http.createServer(app); // Создаём HTTP сервер
 const io = socketIo(server, {
   cors: {
     origin: "http://localhost:8080", // Разрешённый клиентский домен
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   },
 });
+
+app.set("io", io);
 
 // Подключение клиентов к WebSocket
 io.on("connection", (socket) => {
@@ -32,7 +34,10 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // Разрешаемые методы
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+  ); // Разрешаемые методы
 
   // Обрабатываем preflight-запрос (OPTIONS)
   if (req.method === "OPTIONS") {
