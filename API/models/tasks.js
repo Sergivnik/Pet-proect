@@ -433,6 +433,7 @@ var Tasks = {
       applicationNumber: data.applicationNumber,
       colorTR: data.colorTR,
     };
+    let dataOrder = data;
     let addData = {
       customerId: data.idCustomer,
       sum: data.price,
@@ -448,7 +449,7 @@ var Tasks = {
       if (oder.colorTR == "hotpink") {
         await db.query(`INSERT INTO addtable SET ?`, addData);
       }
-      callback(data);
+      callback(data, dataOrder);
     } catch (err) {
       callback({ error: err });
     }

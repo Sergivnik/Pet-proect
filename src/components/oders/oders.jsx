@@ -33,25 +33,9 @@ import { PostForm } from "../postForm/postForm.tsx";
 import { DriverPaymentsList } from "../driverComponents/driverPaymentsList.tsx";
 import "./oders.sass";
 
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:80"); // Подключаемся к WebSocket-серверу
-
 export const Oders = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Подписка на событие "orderAdded"
-    socket.on("orderAdded", (data) => {
-      console.log("Новый заказ:", data);
-      alert(`Новый заказ добавлен: ${JSON.stringify(data)}`);
-    });
-
-    return () => {
-      socket.off("orderAdded"); // Отписываемся при размонтировании
-    };
-  }, []);
-  
   useEffect(() => {
     dispatch(getApps());
     dispatch(getNewTasks());
@@ -158,6 +142,8 @@ export const Oders = () => {
   }, [tasksNumber]);
   useEffect(() => {
     const onKeypress = (e) => {
+      console.log(e);
+
       if (e.code == "Escape") {
         if (currentTR) currentTR.style.backgroundColor = "#FFF";
         setShowDelete(false);

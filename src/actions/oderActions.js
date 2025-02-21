@@ -21,6 +21,8 @@ export const ADD_ORDER_APP_SUCCESS = "ADD_ORDER_APP_SUCCESS";
 export const ADD_ORDER_APP_FAILURE = "ADD_ORDER_APP_FAILURE";
 
 export const addOder = (data) => {
+  console.log(data);
+
   return (dispatch) =>
     axios
       .post(URL + "/addOder", {
@@ -28,7 +30,7 @@ export const addOder = (data) => {
         body: JSON.stringify(data),
       })
       .then((res) => {
-        return dispatch(addOderSuccess(res.data, data));
+        //return dispatch(addOderSuccess(res.data, data));
       })
       .catch((e) => {
         console.log(e.message);

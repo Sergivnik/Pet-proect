@@ -247,11 +247,12 @@ module.exports.taskAdd = (req, res) => {
   res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
 
-  tasks.add(req.body.body, (data) => {
+  tasks.add(req.body.body, (data, dataOrder) => {
     if (data.error) {
       res.status(500).json({ message: data.error });
     } else {
-      req.app.get("io").emit("orderAdded", data);
+      let dataIo = { data: data, dataOrder: dataOrder };
+      req.app.get("io").emit("orderAdded", dataIo);
       res.json(data);
     }
   });
