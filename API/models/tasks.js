@@ -777,6 +777,7 @@ var Tasks = {
       await db.query(`DELETE FROM oderslist WHERE _id=${id}`);
       if (data[0].colorTR == "hotpink")
         await db.query(`DELETE FROM addtable WHERE orderId=${id}`);
+      callback("Success!");
     } catch (err) {
       callback({ error: err });
     }

@@ -2,7 +2,7 @@ import update from "react-addons-update";
 import { initialStore } from "./dataStore.js";
 import {
   ADD_ODER_SUCCESS,
-  DEL_ODER,
+  DEL_ODER_SUCCESS,
   EDIT_ODER_SUCCESS,
   EDIT_ODER_FAILURE,
   EDIT_ODER_NEW_SUCCESS,
@@ -366,7 +366,7 @@ export const oderReducer = (store = initialStore, action) => {
     case SET_PROXY: {
       return store;
     }
-    case DEL_ODER: {
+    case DEL_ODER_SUCCESS: {
       let arrAddTable = [...store.addtable];
       let color = store.odersList.find((item) => item._id == action.id).colorTR;
       if (color == "hotpink") {

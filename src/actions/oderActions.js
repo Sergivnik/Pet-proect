@@ -4,6 +4,7 @@ export const ADD_ODER = "ADD_ODER";
 export const ADD_ODER_SUCCESS = "ADD_ODER_SUCCESS";
 export const ADD_ODER_FAILURE = "ADD_ODER_FAILURE";
 export const DEL_ODER = "DEL_ODER";
+export const DEL_ODER_SUCCESS = "DEL_ODER_SUCCESS";
 export const EDIT_ODER_SUCCESS = "EDIT_ODER_SUCCESS";
 export const EDIT_ODER_FAILURE = "EDIT_ODER_FAILURE";
 export const EDIT_ODER_NEW = "EDIT_ODER_NEW";
@@ -110,8 +111,19 @@ export const setProxy = (id) => ({
   id,
 });
 
-export const delOder = (id) => ({
-  type: DEL_ODER,
+export const delOder = (id) => {
+  return (dispatch) =>
+    axios
+      .delete(URL + "/" + id)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+};
+export const delOderSuccess = (id) => ({
+  type: DEL_ODER_SUCCESS,
   id,
 });
 

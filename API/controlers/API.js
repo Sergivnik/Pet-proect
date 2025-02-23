@@ -393,6 +393,8 @@ module.exports.taskDel = (req, res) => {
       res.status(500);
       res.json({ message: data.error });
     } else {
+      console.log("Сервер отправляет событие orderDeleted с ID:", req.params.id);
+      req.app.get("io").emit("orderDeleted", req.params.id);
       res.json(data);
     }
   });
