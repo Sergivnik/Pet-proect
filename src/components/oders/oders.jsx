@@ -145,7 +145,7 @@ export const Oders = () => {
       console.log(e);
 
       if (e.code == "Escape") {
-        if (currentTR) currentTR.style.backgroundColor = "#FFF";
+        if (currentTR) currentTR.style.backgroundColor = "";
         setShowDelete(false);
         setShowEdit(false);
         setTrId(null);
@@ -333,7 +333,7 @@ export const Oders = () => {
   const handleClickTR = (e, elem) => {
     setCurrentElem(elem);
     let curTR = e.currentTarget;
-    if (currentTR) currentTR.style.backgroundColor = "#FFF";
+    if (currentTR) currentTR.style.backgroundColor = "";
     setCurrentTR(curTR);
     if (e.target.tagName == "TD") {
       setTrId(e.currentTarget.id);
