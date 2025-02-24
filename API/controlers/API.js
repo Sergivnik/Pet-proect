@@ -293,6 +293,8 @@ module.exports.taskEdit = (req, res) => {
     if (data.error) {
       res.json(data);
     } else {
+      let dataIo = { data: data, dataOrder: req.body.body };
+      req.app.get("io").emit("orderChanged", dataIo);
       res.json(data);
     }
   });
@@ -393,7 +395,10 @@ module.exports.taskDel = (req, res) => {
       res.status(500);
       res.json({ message: data.error });
     } else {
-      console.log("Сервер отправляет событие orderDeleted с ID:", req.params.id);
+      console.log(
+        "Сервер отправляет событие orderDeleted с ID:",
+        req.params.id
+      );
       req.app.get("io").emit("orderDeleted", req.params.id);
       res.json(data);
     }
