@@ -145,14 +145,7 @@ export const makePaymentCustomer = (
         },
       })
       .then((res) => {
-        return dispatch(
-          makePaymentCustomerSuccess(
-            res.data,
-            sumCustomerPayment,
-            extraPayments,
-            arr
-          )
-        );
+        console.log(res.data);
       })
       .catch((e) => {
         console.log(e.response.data);
@@ -208,7 +201,7 @@ export const addOrderApp = (data, appId) => {
         appId: appId,
       })
       .then((res) => {
-        return dispatch(addOrderAppSuccess(res.data, data, appId));
+        // return dispatch(addOrderAppSuccess(res.data, data, appId));
       })
       .catch((e) => {
         console.log(e.message);
@@ -216,7 +209,7 @@ export const addOrderApp = (data, appId) => {
       });
   };
 };
-const addOrderAppSuccess = (dataServer, data, appId) => ({
+export const addOrderAppSuccess = (dataServer, data, appId) => ({
   type: ADD_ORDER_APP_SUCCESS,
   dataServer,
   data,

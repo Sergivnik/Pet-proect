@@ -5,6 +5,8 @@ import {
   editOrderFailure,
   editOrderSuccess,
   editOderNewSuccess,
+  makePaymentCustomerSuccess,
+  addOrderAppSuccess,
 } from "../actions/oderActions";
 import { DOMENNAME } from "./initialState";
 
@@ -44,6 +46,25 @@ export const socketMiddleware = (store) => (next) => (action) => {
     socket.on("orderChangedNew", (data) => {
       console.log("Изменен заказ через WebSocket New:", data);
       store.dispatch(editOderNewSuccess(data));
+    });
+  }
+  if (!socket.hasListeners("madePaymentCustomer")) {
+    socket.on("madePaymentCustomer", (data) => {
+      console.log("Проведена оплата заказов через WebSocket New:", data);
+      store.dispatch(
+        makePaymentCustomerSuccess(
+          data.data,
+          data.dataIo.sumCustomerPayment,
+          data.dataIo.extraPayments,
+          data.dataIo.arr
+        )
+      );
+    });
+  }
+  if (!socket.hasListeners("madeOrderFromApp")) {
+    socket.on("madeOrderFromApp", (data) => {
+      console.log("Создан заказ из заявки через WebSocket New:", data);
+      store.dispatch(addOrderAppSuccess(data.data, data.dataIo, data.appId));
     });
   }
 

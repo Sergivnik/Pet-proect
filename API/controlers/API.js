@@ -266,6 +266,12 @@ module.exports.taskAddOrderApp = (req, res) => {
       res.status(500);
       res.json({ message: data.error });
     } else {
+      let dataIo = {
+        data: data,
+        dataIo: JSON.parse(req.body.body),
+        appId: req.body.appId,
+      };
+      req.app.get("io").emit("madeOrderFromApp", dataIo);
       res.json(data);
     }
   });
@@ -356,6 +362,8 @@ module.exports.makePaymentCustomer = (req, res) => {
       res.status(500);
       res.json({ message: data.error.message });
     } else {
+      let dataIo = { data: data, dataIo: req.body.body };
+      req.app.get("io").emit("madePaymentCustomer", dataIo);
       res.json(data);
     }
   });
