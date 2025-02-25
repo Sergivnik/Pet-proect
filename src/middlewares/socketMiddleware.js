@@ -4,6 +4,7 @@ import {
   delOderSuccess,
   editOrderFailure,
   editOrderSuccess,
+  editOderNewSuccess,
 } from "../actions/oderActions";
 import { DOMENNAME } from "./initialState";
 
@@ -37,6 +38,12 @@ export const socketMiddleware = (store) => (next) => (action) => {
           )
         );
       }
+    });
+  }
+  if (!socket.hasListeners("orderChangedNew")) {
+    socket.on("orderChangedNew", (data) => {
+      console.log("Изменен заказ через WebSocket New:", data);
+      store.dispatch(editOderNewSuccess(data));
     });
   }
 

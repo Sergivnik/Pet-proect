@@ -327,6 +327,7 @@ module.exports.taskEditNew = (req, res) => {
       res.status(500);
       res.json({ message: data.error });
     } else {
+      req.app.get("io").emit("orderChangedNew", req.body.body);
       res.json(data);
     }
   });

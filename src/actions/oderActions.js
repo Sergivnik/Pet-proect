@@ -72,7 +72,7 @@ export const editOder = (id, field, newValue) => {
       .then((res) => {
         if (res.data.error) {
           return dispatch(editOrderFailure(res.data));
-        } 
+        }
       })
       .catch((res) => {
         console.log(res);
@@ -90,7 +90,7 @@ export const editOderNew = (data) => {
         body: data,
       })
       .then((res) => {
-        return dispatch(editOderNewSuccess(data));
+        console.log(res.data);
       })
       .catch((e) => {
         console.log(e.message);
