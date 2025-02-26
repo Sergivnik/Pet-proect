@@ -177,7 +177,7 @@ export const delPrintedMark = (id) => {
       .create({ withCredentials: true })
       .patch(URL + "/delPrintedMark/" + id)
       .then((res) => {
-        return dispatch(delPrintedMarkSuccess(id));
+        console.log(res.data);
       })
       .catch((e) => {
         console.log(e);

@@ -316,6 +316,7 @@ module.exports.taskDelPrintedMark = (req, res) => {
         res.status(500);
         res.json({ message: data.error });
       } else {
+        req.app.get("io").emit("DeletedPrintedMark", req.params.id);
         res.json(data);
       }
     });

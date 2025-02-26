@@ -7,6 +7,7 @@ import {
   editOderNewSuccess,
   makePaymentCustomerSuccess,
   addOrderAppSuccess,
+  delPrintedMarkSuccess,
 } from "../actions/oderActions";
 import { DOMENNAME } from "./initialState";
 
@@ -65,6 +66,12 @@ export const socketMiddleware = (store) => (next) => (action) => {
     socket.on("madeOrderFromApp", (data) => {
       console.log("Создан заказ из заявки через WebSocket New:", data);
       store.dispatch(addOrderAppSuccess(data.data, data.dataIo, data.appId));
+    });
+  }
+  if (!socket.hasListeners("DeletedPrintedMark")) {
+    socket.on("DeletedPrintedMark", (data) => {
+      console.log("Удалена метка печати счета через WebSocket New:", data);
+      store.dispatch(delPrintedMarkSuccess(data));
     });
   }
 
