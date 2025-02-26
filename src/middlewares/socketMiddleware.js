@@ -9,6 +9,7 @@ import {
   addOrderAppSuccess,
   delPrintedMarkSuccess,
 } from "../actions/oderActions";
+import { createNewInvoiceSuccess } from "../actions/documentAction";
 import { DOMENNAME } from "./initialState";
 
 const socket = io(DOMENNAME);
@@ -72,6 +73,12 @@ export const socketMiddleware = (store) => (next) => (action) => {
     socket.on("DeletedPrintedMark", (data) => {
       console.log("Удалена метка печати счета через WebSocket New:", data);
       store.dispatch(delPrintedMarkSuccess(data));
+    });
+  }
+  if (!socket.hasListeners("createdDoc")) {
+    socket.on("createdDoc", (data) => {
+      console.log("создан pdf документ через WebSocket New:", data);
+      store.dispatch(createNewInvoiceSuccess(data.invoiceNumber,data.arrOrderId));
     });
   }
 

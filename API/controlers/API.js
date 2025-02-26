@@ -605,6 +605,11 @@ module.exports.taskCreateDoc = (req, res) => {
           res.status(500);
           res.json({ message: data.error });
         } else {
+          let dataIo = {
+            invoiceNumber: req.body.body.invoiceNumber,
+            arrOrderId: req.body.body.arrOrderId,
+          };
+          req.app.get("io").emit("createdDoc", dataIo);
           res.json(data);
         }
       }

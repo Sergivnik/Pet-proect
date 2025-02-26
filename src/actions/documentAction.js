@@ -125,7 +125,7 @@ export const createNewInvoice = (
         },
       })
       .then((res) => {
-        return dispatch(createNewInvoiceSuccess(invoiceNumber, arrOrderId));
+        //return dispatch(createNewInvoiceSuccess(invoiceNumber, arrOrderId));
       })
       .catch((e) => {
         console.log(e.message);
