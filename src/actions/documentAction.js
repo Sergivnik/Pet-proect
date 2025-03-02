@@ -183,7 +183,7 @@ export const sendEmail = (id, email, text, app) => {
       })
       .then((res) => {
         console.log(res.data);
-        return dispatch(sendEmailSuccess(id));
+        //return dispatch(sendEmailSuccess(id));
       })
       .catch((e) => {
         console.log(e.message);
@@ -249,7 +249,8 @@ export const createApp = (docHtml, id, year, customer, appNumber) => {
         },
       })
       .then((res) => {
-        return dispatch(createAppSuccess(id, appNumber));
+        console.log(res.data);
+        //return dispatch(createAppSuccess(id, appNumber));
       })
       .catch((res) => {
         return dispatch(createAppFailure());

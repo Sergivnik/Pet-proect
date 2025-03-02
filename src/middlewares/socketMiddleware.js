@@ -9,8 +9,13 @@ import {
   addOrderAppSuccess,
   delPrintedMarkSuccess,
 } from "../actions/oderActions";
-import { createNewInvoiceSuccess } from "../actions/documentAction";
+import {
+  createNewInvoiceSuccess,
+  sendEmailSuccess,
+  createAppSuccess,
+} from "../actions/documentAction";
 import { DOMENNAME } from "./initialState";
+import { makePaymentDriverSuccess } from "../actions/driverActions";
 
 const socket = io(DOMENNAME);
 
@@ -78,7 +83,28 @@ export const socketMiddleware = (store) => (next) => (action) => {
   if (!socket.hasListeners("createdDoc")) {
     socket.on("createdDoc", (data) => {
       console.log("создан pdf документ через WebSocket New:", data);
-      store.dispatch(createNewInvoiceSuccess(data.invoiceNumber,data.arrOrderId));
+      store.dispatch(
+        createNewInvoiceSuccess(data.invoiceNumber, data.arrOrderId)
+      );
+    });
+  }
+  if (!socket.hasListeners("createdApp")) {
+    socket.on("createdApp", (data) => {
+      console.log("Отправлен pdf документ по Email через WebSocket New:", data);
+      store.dispatch(createAppSuccess(data.id, data.appNumber));
+    });
+  }
+  if (!socket.hasListeners("madePaymentDriver")) {
+    socket.on("madePaymentDriver", (data) => {
+      console.log("Отправлен платеж водителю через WebSocket New:", data);
+      store.dispatch(
+        makePaymentDriverSuccess(
+          data.data,
+          data.dataIo.chosenOders,
+          data.dataIo.chosenDebts,
+          data.dataIo.currentDriverSumOfOders
+        )
+      );
     });
   }
 

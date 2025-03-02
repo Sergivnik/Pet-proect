@@ -142,14 +142,15 @@ export const makePaymentDriver = (
         },
       })
       .then((res) => {
-        return dispatch(
-          makePaymentDriverSuccess(
-            res.data,
-            chosenOders,
-            chosenDebts,
-            currentDriverSumOfOders
-          )
-        );
+        console.log(res.data);
+        // return dispatch(
+        //   makePaymentDriverSuccess(
+        //     res.data,
+        //     chosenOders,
+        //     chosenDebts,
+        //     currentDriverSumOfOders
+        //   )
+        // );
       })
       .catch((e) => {
         return dispatch(makePaymentDriverFailure(e.response.data));

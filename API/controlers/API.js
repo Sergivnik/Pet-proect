@@ -478,6 +478,17 @@ module.exports.makePaymentDriver = (req, res) => {
       res.status(500);
       res.json({ message: data.error.message });
     } else {
+      let dataIo = {
+        dada: data,
+        dataIo: {
+          id: req.body.body.id,
+          chosenOders: req.body.body.chosenOders,
+          chosenDebts: req.body.body.chosenDebts,
+          currentDriverSumOfOders: req.body.body.currentDriverSumOfOders,
+        },
+      };
+      console.log(dataIo);
+      req.app.get("io").emit("madePaymentDriver", dataIo);
       res.json(data);
     }
   });
@@ -748,6 +759,11 @@ module.exports.taskCreateApp = (req, res) => {
           format: "a4",
         });
         await browser.close();
+        let dataIo = {
+          id: req.body.body.id,
+          appNumber: req.body.body.appNumber,
+        };
+        req.app.get("io").emit("createdApp", dataIo);
         res.json("success!");
       })();
     }
@@ -1068,6 +1084,7 @@ module.exports.taskSendEmail = (req, res) => {
                   res.status(500);
                   res.json({ message: data.error });
                 } else {
+                  req.app.get("io").emit("sendedEmail", req.body.id);
                   res.json(data);
                 }
               }
